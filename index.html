@@ -7,28 +7,13 @@
 <meta name="description" content="2026-10-16 宜大×東華教師工作坊：跟 AI 助手一起把評量、回饋、教學調整留下證據。入口頁：行前準備、講義、工作台、投影片。">
 <link rel="stylesheet" href="assets/site.css">
 <style>
-/* 入口頁專用版式；顏色一律用 site.css 的代幣 */
+/* 入口頁專用版式；顏色一律用 site.css 的代幣。沒有卡片：去處是一行連結，做法是幾段文字。 */
 .lead{font-size:1.08rem;margin:.6em 0 1.2em}
-.dest{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin:.6em 0 1.6em}
-a.dest-card{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow)}
-a.dest-card:hover{border-color:var(--teal)}
-a.dest-card:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
-a.dest-card .t{font-weight:800;font-size:1.12rem;color:var(--teal-deep)}
-a.dest-card .d{font-size:.93rem;margin-top:4px;color:var(--ink-soft);flex:1}
-a.dest-card .when{align-self:flex-start;margin-top:10px}
-.rulebox{text-align:center;padding:18px 20px}
-.rulebox .rule{font-size:clamp(1.25rem,3vw,1.7rem);font-weight:900;margin:.2em 0 .35em;color:var(--ink)}
-.rulebox p{margin:0}
-.routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:.6em 0}
-.routes .card{margin:0;border-left:5px solid var(--teal)}
-.routes .card.escape{border-left-color:var(--gold)}
-.routes .badge-big{font-size:1.35rem;margin-right:.3em;vertical-align:-2px}
-.routes .sub{font-size:.85rem;color:var(--ink-soft);font-weight:700;margin:.7em 0 .1em;letter-spacing:.03em}
-.routes ul{margin:.2em 0 .4em}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:.6em 0}
-.cards .card{margin:0;padding:12px 16px}
-.cards .card strong{color:var(--teal-deep)}
-.cards .card span{font-size:.9rem;color:var(--ink-soft)}
+.dests{list-style:none;padding:0;margin:.4em 0 1.2em}
+.dests li{margin:.6em 0}
+.dests a{font-weight:800;font-size:1.05em}
+.rule{font-size:clamp(1.2rem,3vw,1.55rem);font-weight:900;margin:.3em 0 .4em;color:var(--ink)}
+.how p{margin:.5em 0 .9em}
 td.time{white-space:nowrap;font-family:var(--mono);font-size:.9em}
 td.time .mins{display:block;font-family:var(--sans);color:var(--ink-soft);font-size:.85em}
 .sitelink{word-break:break-all}
@@ -57,43 +42,37 @@ td.time .mins{display:block;font-family:var(--sans);color:var(--ink-soft);font-s
 
 <main>
 
-<p class="lead">教學實踐研究最難拿出來的一段，是「我根據證據調整了教學」。這場兩小時，你帶一門課、一個評量任務來，跟 AI 助手一起做四件事：把課程資料夾變成會記住每次修改的紀錄、把評分規準（Rubric）從第 1 版改到第 2 版、抽查 AI 對學習證據的分析、填一頁可以直接長成計畫書的設計。指令全部交給 AI 代打，你負責看它的計畫、看前後對照、點頭。</p>
+<p class="lead">教學實踐研究最難拿出來的一段，是「我根據證據調整了教學」。這場兩小時，你帶一門課、一個評量任務來，跟 AI 助手（agent）一起做四件事：把課程資料夾變成會記住每次修改的紀錄、把評分規準（Rubric）從第 1 版改到第 2 版、抽查 AI 對學習證據的分析、填一頁可以直接長成計畫書的設計。指令全部交給 AI 代打，你只看它的計畫、看它改完的前後對照、然後點頭。行前把 AI 助手裝好，當天每一步它代打；真的裝不起來，提早 20 分鐘到會議室一起裝。</p>
 
 <section id="go" aria-labelledby="go-h">
-<h2 id="go-h"><span class="sec-num">壹</span>四個去處</h2>
-<div class="dest">
-  <a class="dest-card" href="start.html"><span class="t">🧭 行前準備</span><span class="d">10/6 寄給你的那一頁：完整版十項（主線）與最低門檻（逃生門：三樣東西，加上你那一句課名與任務），每項有完成判準、卡住怎麼問 AI。請留兩個晚上，別排在前一天。</span><span class="badge gold when">10/14 前做完</span></a>
-  <a class="dest-card" href="material.html"><span class="t">📘 講義</span><span class="d">四塊逐步：每一步寫「你說什麼、AI 會做什麼、你一定要自己看的」。提示詞卡、領域範例、資料倫理、課後手冊、三條誠實限制。課後卡住回來查。</span><span class="badge when">課前翻、課後查</span></a>
-  <a class="dest-card" href="studio.html"><span class="t">🧰 證據工作台</span><span class="d">當天全程開著：「Rubric 工作台」並列看兩版差在哪、「證據儀表板」抽 3 筆回查、「一頁設計」匯出 Markdown。純網頁、離線能開、不連任何 AI。</span><span class="badge when">當天全程開</span></a>
-  <a class="dest-card" href="slides/index.html"><span class="t">🖥 投影片</span><span class="d">講師投影用；每頁一個想法、八張自繪圖。課後想回想當天講了什麼，從這裡翻最快。</span><span class="badge when">講師用、課後翻</span></a>
-</div>
-<p class="note">網址：<a class="sitelink" href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a>｜上一場「跟 AI 一起用 Git」的教材在 <a href="https://cwstedctw.github.io/git-ai-workshop/">cwstedctw.github.io/git-ai-workshop/</a>，這一場的 Git 底層就是從那裡來的。</p>
+<h2 id="go-h"><span class="sec-num">壹</span>四個頁面</h2>
+<ul class="dests">
+  <li><a href="start.html">行前準備</a>——10/6 寄給你的那一頁：十項清單，每項有完成判準、卡住怎麼問 AI。請留兩個晚上、別排在前一天，10/14 前做完。</li>
+  <li><a href="material.html">講義</a>——四塊逐步，每一步寫「你說什麼、AI 會做什麼、你一定要自己看的」；提示詞、領域範例、資料倫理、課後手冊、三條誠實限制。課前翻一遍，課後卡住回來查。</li>
+  <li><a href="studio.html">證據工作台</a>——當天全程開著：「Rubric 工作台」並列看兩版差在哪、「證據儀表板」抽 3 筆回查、「一頁設計」匯出 Markdown。純網頁、離線能開、不連任何 AI。</li>
+  <li><a href="slides/index.html">投影片</a>——講師投影用，每頁一個想法、圖都自繪。課後想回想當天講了什麼，從這裡翻最快。</li>
+</ul>
+<p>網址：<a class="sitelink" href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a>。上一場「跟 AI 一起用 Git」的教材在 <a href="https://cwstedctw.github.io/git-ai-workshop/">cwstedctw.github.io/git-ai-workshop/</a>，這一場的 Git 底層就是從那裡來的。</p>
 </section>
 
 <section id="rule" aria-labelledby="rule-h">
-<h2 id="rule-h"><span class="sec-num">貳</span>全場只有一條硬規矩</h2>
-<div class="human rulebox">
-  <p class="rule" id="ruleText">挑一句不同意的、改掉、寫下為什麼。</p>
-  <p id="aiRule">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</p>
-</div>
-<p>講義首屏、投影片、每一張提示詞卡都寫同一句。AI 起草得很快，但它寫的第一版一定有你不同意的句子——那一句，就是你今天帶回去的第一筆「調整紀錄」。</p>
+<h2 id="rule-h"><span class="sec-num">貳</span>全場只要記一句話</h2>
+<p class="rule" id="ruleText">挑一句不同意的、改掉、寫下為什麼。</p>
+<p id="aiRule">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</p>
+<p>講義首屏、投影片、每一段提示詞都寫同一句。AI 起草得很快，但它寫的第一版一定有你不同意的句子——那一句，就是你今天帶回去的第一筆「調整紀錄」。</p>
 </section>
 
-<section id="redlines-sec" aria-labelledby="redlines-h">
-<h2 id="redlines-h"><span class="sec-num">參</span>開場就講的三句紅線</h2>
-<div id="redlines"></div>
-</section>
-
-<section id="routes-sec" aria-labelledby="routes-h">
-<h2 id="routes-h"><span class="sec-num">肆</span>兩條路線：主線與逃生門</h2>
-<p>這門課以 AI 助手（agent）為底：每一步你只說一句話，建資料夾、存版本、看前後對照、分析資料都由它在你電腦上代打。行前準備沒做完也不會被擋在外面——瀏覽器路線是逃生門，四塊一樣做得完。</p>
-<div class="routes" id="routes"></div>
-<h3>進場桌牌三種，自己拿一張、不點名</h3>
-<div class="cards" id="tableCards"></div>
+<section id="how" class="how" aria-labelledby="how-h">
+<h2 id="how-h"><span class="sec-num">參</span>今天怎麼做</h2>
+<p id="firstThing"></p>
+<p id="routeText"></p>
+<p id="routeNeeds"></p>
+<p id="routeHow"></p>
+<p>行前真的裝不起來（或筆電是學校統一控管）：10/16 提早 20 分鐘（14:40）到會議室，講師現場陪你裝好；也可以先寄信給講師遠端看。進場不點名；還沒裝好的人坐講師這一側，提早到的現場先裝。</p>
 </section>
 
 <section id="agenda-sec" aria-labelledby="agenda-h">
-<h2 id="agenda-h"><span class="sec-num">伍</span>兩小時怎麼走</h2>
+<h2 id="agenda-h"><span class="sec-num">肆</span>兩小時怎麼走</h2>
 <div class="table-wrap">
 <table>
   <caption class="note" style="caption-side:bottom;text-align:left;padding-top:8px">四塊全部老師自己動手，講師先做一遍、大家跟著做；合計 <span id="agendaTotal">120</span> 分鐘。細節在<a href="material.html">講義</a>。</caption>
@@ -103,7 +82,7 @@ td.time .mins{display:block;font-family:var(--sans);color:var(--ink-soft);font-s
 </div>
 </section>
 
-<noscript><p class="warn" id="nodata-noscript">這一頁的紅線、路線、議程是從 <code>workflow-data.js</code> 即時產生的，需要開啟 JavaScript；或直接看<a href="material.html">講義</a>。</p></noscript>
+<noscript><p class="warn" id="nodata-noscript">這一頁的「今天怎麼做」與議程是從 <code>workflow-data.js</code> 即時產生的，需要開啟 JavaScript；或直接看<a href="material.html">講義</a>。</p></noscript>
 <p class="warn" id="nodata" hidden>資料源 <code>workflow-data.js</code> 沒載進來（用檔案雙擊開通常沒問題；如果你是從別的位置開這一頁，請回到站台網址）。</p>
 
 </main>
@@ -145,8 +124,7 @@ td.time .mins{display:block;font-family:var(--sans);color:var(--ink-soft);font-s
 
   /* 清單類內容全部從資料源渲染 */
   var FLOW = window.WORKSHOP_FLOW;
-  if(!FLOW || !FLOW.redlines || !FLOW.routes || !FLOW.agenda || !FLOW.tableCards){ $('nodata').hidden = false; return; }
-  var list = function(arr){ return '<ul>' + arr.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>'; };
+  if(!FLOW || !FLOW.redlines || !FLOW.routes || !FLOW.agenda){ $('nodata').hidden = false; return; }
 
   /* 頁首：題目、副標、主辦、日期、時間、地點、講師一律以資料源為準。
      靜態文字只是備援（沒 JS 時顯示、validate-workshop.mjs 靜態掃描要看得到原文）；
@@ -165,22 +143,14 @@ td.time .mins{display:block;font-family:var(--sans);color:var(--ink-soft);font-s
   $('ruleText').textContent = FLOW.meta.rule;
   $('aiRule').textContent = FLOW.meta.aiRule;
 
-  $('redlines').innerHTML = FLOW.redlines.map(function(r){
-    return '<div class="redline"><h3><span class="sec-num">' + esc(r.id) + '</span>' + esc(r.title) + '</h3><p style="margin:0">' + esc(r.text) + '</p></div>';
-  }).join('');
+  /* 開場先講的那一件事：資料源只剩一句，就渲染成一段文字（不印標籤、不做卡片） */
+  $('firstThing').innerHTML = '<strong>先講一件事：</strong>' + FLOW.redlines.map(function(r){ return esc(r.text); }).join(' ');
 
-  $('routes').innerHTML = FLOW.routes.map(function(r){
-    return '<div class="card' + (r.id === 'browser' ? ' escape' : '') + '">'
-      + '<h3><span class="badge-big" aria-hidden="true">' + esc(r.badge) + '</span>' + esc(r.label) + '</h3>'
-      + '<p>' + esc(r.promise) + '</p>'
-      + '<p class="sub">你要先有</p>' + list(r.needs)
-      + '<p class="sub">當天怎麼走</p>' + list(r.how)
-      + '</div>';
-  }).join('');
-
-  $('tableCards').innerHTML = FLOW.tableCards.map(function(t){
-    return '<div class="card"><strong>' + esc(t.label) + '</strong><br><span>' + esc(t.note) + '</span></div>';
-  }).join('');
+  /* 當天的做法：同樣是一段一段的文字。needs／how 用頓號與分號串成句子 */
+  var r = FLOW.routes[0];
+  $('routeText').innerHTML = '<strong>' + esc(r.label) + '。</strong>' + esc(r.promise);
+  $('routeNeeds').innerHTML = '<strong>你要先有：</strong>' + esc((r.needs || []).join('、')) + '。';
+  $('routeHow').innerHTML = '<strong>當天怎麼走：</strong>' + esc((r.how || []).join('；')) + '。';
 
   $('agendaBody').innerHTML = FLOW.agenda.map(function(a){
     return '<tr>'

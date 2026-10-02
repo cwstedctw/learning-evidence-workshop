@@ -1,6 +1,6 @@
 /* slides/deck.css — 10/16 工作坊投影片的版式與設計代幣
    畫布 1280×720；色票沿用 assets/site.css（同一個團隊的教材，老師看到會認得）。
-   深淺頁交錯：淺底講內容、深底放一句話（紅線、硬規矩、三句結論、收尾）。
+   深淺頁交錯：淺底講內容、深底放一句話（開場、三句結論、收尾）。
    閘門：skills/course-intro/check_deck_pages.py（.slide 深淺 class、footer-org、class="seal"）
         與 check_overflow.py（1280×720 內不溢出、不壓頁尾）。
    字型用系統字（Noto Sans TC → PingFang → 微軟正黑體），離線、投影機、GitHub Pages 都一樣，不靠外部字型。 */
@@ -37,7 +37,7 @@ html,body{background:#333}
   --teal:#3aa6a1; --teal-deep:#7fd0cb; --teal-soft:rgba(58,166,161,.18);
   --gold-soft:rgba(217,164,65,.16); --gold-deep:#F0C96A;
   --bad:#ff967a; --bad-soft:rgba(255,150,122,.14); --good:#7fd0a0; --good-soft:rgba(127,208,160,.14);
-  --shadow:none;
+  --shadow:none; --on-teal:#0b1a19;
 }
 .arc{position:absolute; border:1.5px solid rgba(217,164,65,.16); border-radius:50%; pointer-events:none}
 
@@ -60,7 +60,7 @@ html,body{background:#333}
 .bar{flex:0 0 auto; display:flex; align-items:center; gap:14px; margin-top:12px;
   padding:10px 18px; border-radius:12px; background:var(--teal-soft); font-size:19px; font-weight:700; line-height:1.45}
 .bar>span{flex:1 1 auto; min-width:0}
-.bar .tag{flex:0 0 auto; padding:3px 12px; border-radius:8px; background:var(--teal); color:#fff; font-size:16px; font-weight:800; letter-spacing:.08em}
+.bar .tag{flex:0 0 auto; padding:3px 12px; border-radius:8px; background:var(--teal); color:var(--on-teal,#fff); font-size:16px; font-weight:800; letter-spacing:.08em}
 .bar.gold{background:var(--gold-soft)}
 .bar.gold .tag{background:var(--gold); color:#2E2106}
 .slide--dark .bar{border:1px solid rgba(217,164,65,.38)}
@@ -108,14 +108,14 @@ html,body{background:#333}
 .steps li{display:flex; gap:16px; align-items:flex-start; font-size:20px; line-height:1.5}
 .steps--lg{gap:18px}
 .steps--lg li{font-size:22px}
-.steps .n{flex:0 0 38px; height:38px; border-radius:50%; background:var(--teal); color:#fff; font-weight:900; font-size:19px;
+.steps .n{flex:0 0 38px; height:38px; border-radius:50%; background:var(--teal); color:var(--on-teal,#fff); font-weight:900; font-size:19px;
   display:flex; align-items:center; justify-content:center; margin-top:1px}
 .steps .body{flex:1 1 auto; min-width:0}
 .steps .say{font-weight:700}
 .steps .name{font-weight:900; color:var(--teal-deep)}
 .steps .ai{display:inline-block; font-size:15px; color:var(--mist); margin-left:8px; font-weight:500}
 .steps .human{font-size:18px; color:var(--ink); margin-top:2px}
-.steps .human::before{content:"👁 "; }
+.steps .human::before{content:"你看："; font-weight:900; color:var(--teal-deep)}   /* 2026-10-02：表情符號圖示改文字 */
 
 /* 工作台按鈕／分頁名稱：讓老師一眼對上工作台上的字 */
 .ui{display:inline-block; padding:0 8px; margin:0 1px; border:1.5px solid var(--teal); border-radius:7px; line-height:1.45;
@@ -144,7 +144,7 @@ html,body{background:#333}
 .map .r{padding:10px 16px; background:var(--teal-soft); border-radius:12px; font-weight:800; color:var(--teal-deep)}
 .map .ar{text-align:center; color:var(--gold); font-weight:900; font-size:26px}
 
-/* 三件事（今天的做法） */
+/* 你說 → AI 做 → 你看（今天的做法） */
 .three{display:grid; grid-template-columns:1fr 44px 1fr 44px 1fr; align-items:stretch; gap:0}
 .three .ar{display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:30px; font-weight:900}
 .three .card .n{font-size:32px}
@@ -162,6 +162,9 @@ svg text{font-family:var(--zh); fill:var(--ink)}
 .f-mist{fill:var(--mist)} .f-ink{fill:var(--ink)} .f-card{fill:var(--card)} .f-cream{fill:var(--cream)} .f-white{fill:#fff} .f-none{fill:none}
 .s-teal{stroke:var(--teal)} .s-gold{stroke:var(--gold)} .s-bad{stroke:var(--bad)} .s-good{stroke:var(--good)}
 .s-line{stroke:var(--line)} .s-mist{stroke:var(--mist)} .s-ink{stroke:var(--ink)}
-.t-xs{font-size:12px} .t-sm{font-size:14px} .t-md{font-size:16px} .t-lg{font-size:19px} .t-xl{font-size:22px}
+/* 設計審查 2026-10-02：圖內最小字 15px 起跳（教室後排看得到） */
+.t-xs{font-size:15px} .t-sm{font-size:17px} .t-md{font-size:19px} .t-lg{font-size:21px} .t-xl{font-size:23px}
+.far{stroke:var(--bad); stroke-width:2.5}   /* 落差圖「離 0 遠」：保留系列色、加紅框（跟工作台一樣） */
+.f-none{fill:none}
 .t-b{font-weight:800} .t-c{text-anchor:middle} .t-e{text-anchor:end} .t-mono{font-family:var(--mono)}
 .dash{stroke-dasharray:6 6}

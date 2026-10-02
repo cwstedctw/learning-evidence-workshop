@@ -12,7 +12,7 @@
      check_deck_pages.py 是靜態掃，會把 <title> 與 .seal 算進去，這裡給真實數字。
   4. 每頁的英文詞（去掉 kicker／footer／seal）去重後 ≤ 8。
   5. SVG 裡每個 <text> 的框要在它的 <svg> 框裡（外層 svg 預設會把超出的字剪掉，check_overflow 量不到）。
-  6. 靜態掃：占位符、禁用詞、硬規矩句、8 個 data-figure、工作台按鈕名稱只用清單裡的字。
+  6. 靜態掃：占位符、禁用詞、全場那一句（meta.rule）、6 個 data-figure、工作台按鈕名稱只用清單裡的字。
   7. 播放殼 index.html：#5 開到 05.html、→ 到 06、Home／End、計數器。
 全部過才印 PASS；任何一項不過 exit 1。截圖（每頁一張）放 --shots 指定的資料夾，預設不截。
 """
@@ -27,7 +27,7 @@ ROOT = HERE.parents[1]
 SLIDES = ROOT / 'slides'
 
 RULE = '挑一句不同意的、改掉、寫下為什麼。'
-FIGURES = ['F-agenda', 'F-routes', 'F-redlines', 'F-timeline', 'F-rubric-diff', 'F-gap', 'F-check', 'F-onepage']
+FIGURES = ['F-agenda', 'F-timeline', 'F-rubric-diff', 'F-gap', 'F-check', 'F-onepage']   # 跟 workflow-data.js 的 figures 同一份（簡化版 6 張）
 PLACEHOLDERS = ['【待補】', '【TODO】', 'TODO', 'lorem', 'XXX']
 FORBIDDEN = ['软件', '视频', '激活', '信息', '数据库', '默认', '屏幕', '哈希', '質量', '優化', '用戶', '網絡', '鼠標', '硬件',
              '服務器', '程序', '視頻', '軟件', '通過', '搞', '默認', '數據庫', '激活']
@@ -71,6 +71,12 @@ JS_METRICS = r"""
         svgIssues.push({what: t.textContent.trim().slice(0, 30), rect: [r.left, r.top, r.right, r.bottom].map(Math.round), svg: [sr.left, sr.top, sr.right, sr.bottom].map(Math.round)});
     });
   });
+  const tb = [...document.querySelectorAll('svg text')].map(t => ({s: t.textContent.trim(), r: t.getBoundingClientRect()})).filter(b => b.r.width > 0 && b.s);
+  for (let i = 0; i < tb.length; i++) for (let j = i + 1; j < tb.length; j++) {
+    const a = tb[i].r, b = tb[j].r;
+    const ox = Math.min(a.right, b.right) - Math.max(a.left, b.left), oy = Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top);
+    if (ox > 4 && oy > 4) svgIssues.push({what: 'overlap: ' + tb[i].s.slice(0, 20) + ' × ' + tb[j].s.slice(0, 20), rect: [Math.round(ox), Math.round(oy)]});
+  }
   return {html, svg: svgc, words: [...words], svgIssues, rendered: document.documentElement.getAttribute('data-rendered')};
 }
 """
@@ -104,7 +110,7 @@ def static_checks(files):
         if '<!DOCTYPE html>' not in src or 'lang="zh-Hant-TW"' not in src or '<title>' not in src or 'name="viewport"' not in src:
             problems.append(f'{f.name}: 缺 DOCTYPE／lang／title／viewport')
     if RULE not in all_src:
-        problems.append(f'硬規矩句未原文出現：{RULE}')
+        problems.append(f'全場那一句未原文出現：{RULE}')
     missing = [x for x in FIGURES if x not in figs]
     if missing:
         problems.append(f'缺 data-figure：{missing}')
@@ -154,8 +160,8 @@ def main():
             diffs = [(k, s1, s2) for (i, k, s1), (j, kk, s2) in zip(snap_live, snap_static) if s1 != s2]
             if len(snap_live) != len(snap_static):
                 diffs.append(('count', len(snap_live), len(snap_static)))
-            # 英文詞：代號（S01、DEMO-S01）與路線的 A／B 圓標不算技術名詞
-            words = sorted({w for w in met['words'] if not re.fullmatch(r'(DEMO-)?S\d+|[AB]', w)})
+            # 英文詞：代號（S01、DEMO-S01）不算技術名詞
+            words = sorted({w for w in met['words'] if not re.fullmatch(r'(DEMO-)?S\d+', w)})
             errors[:] = first_errors
             rec = {'page': f.name, 'cjk_html': met['html'], 'cjk_svg': met['svg'], 'english': words,
                    'rendered': met['rendered'], 'errors': list(errors), 'fills': len(snap_live), 'diffs': diffs, 'svgIssues': met['svgIssues']}
@@ -198,7 +204,7 @@ def main():
             page.screenshot(path=str(shots / 'index.png'))
         player = {'hash5': src, 'counter': cnt, 'right': src2, 'hash_after_right': hash2, 'end': src3, 'home': src4, 'click': src5, 'scale': scale, 'errors': list(errors)}
         report['player'] = player
-        if not (src == '05.html' and cnt == '5 / 20' and src2 == '06.html' and hash2 == '#6' and src3 == '20.html' and src4 == '01.html' and src5 == '02.html'):
+        if not (src == '05.html' and cnt == '5 / 16' and src2 == '06.html' and hash2 == '#6' and src3 == '16.html' and src4 == '01.html' and src5 == '02.html'):
             problems.append(f'播放殼行為不對：{player}')
         if errors:
             problems.append(f'index.html: {errors}')

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>投影片｜從學習證據到教學改進</title>
-<meta name="description" content="2026-10-16 教師工作坊投影片播放殼：iframe 載 01–20 頁、等比縮放、鍵盤翻頁、#n 直達。">
+<meta name="description" content="2026-10-16 教師工作坊投影片播放殼：iframe 載 01–16 頁、等比縮放、鍵盤翻頁、#n 直達。">
 <style>
 :root{--bg:#0a1414;--panel:#0B2B2B;--fg:#E6F2F2;--dim:#9FBDBC;--gold:#D9A441;--teal:#3aa6a1;--line:rgba(230,242,242,.14)}
 *{box-sizing:border-box}
@@ -47,7 +47,7 @@ body{display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
   <a href="../index.html">入口</a><a href="../material.html">講義</a><a href="../studio.html">工作台</a>
   <button type="button" id="prev" aria-label="上一頁">◀</button>
   <button type="button" id="next" aria-label="下一頁">▶</button>
-  <button type="button" id="fs" aria-label="全螢幕（F）">⛶ 全螢幕</button>
+  <button type="button" id="fs" aria-label="全螢幕（F）">全螢幕</button>
   <button type="button" id="helpBtn" aria-label="操作說明（?）">?</button>
 </header>
 <main class="stage" id="stage">
@@ -59,14 +59,14 @@ body{display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
   </div>
   <iframe class="pre" id="pre" title="預先載入下一頁" tabindex="-1" aria-hidden="true"></iframe>
   <div class="hint" id="hint">← → 翻頁・F 全螢幕・? 說明</div>
-  <div class="counter" id="counter" aria-live="polite">1 / 20</div>
+  <div class="counter" id="counter" aria-live="polite">1 / 16</div>
 </main>
 <div class="help" id="help" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
   <div class="box">
     <h2 id="helpTitle">怎麼翻頁</h2>
     <div><kbd>→</kbd> <kbd>空白鍵</kbd> <kbd>PageDown</kbd> 下一頁；<kbd>←</kbd> <kbd>PageUp</kbd> 上一頁；<kbd>Home</kbd>／<kbd>End</kbd> 第一頁／最後一頁。</div>
     <div>點畫面右邊 ¾ 下一頁、左邊 ¼ 上一頁；手機左右滑也可以。<kbd>F</kbd> 全螢幕；網址加 <kbd>#7</kbd> 直接開第 7 頁。</div>
-    <div>每一頁也可以單獨開（<code>01.html</code>…<code>20.html</code>，1280×720）；列印時請一頁一頁開。</div>
+    <div>每一頁也可以單獨開（<code>01.html</code>…<code>16.html</code>，1280×720）；列印時請一頁一頁開。</div>
     <div class="foot">
       © 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。<br>
       工具費用與方案會變動，開始前請以各官方頁面現況為準。
@@ -77,7 +77,7 @@ body{display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
 <script>
 (function(){
   'use strict';
-  var TOTAL = 20;
+  var TOTAL = 16;
   var view = document.getElementById('view'), pre = document.getElementById('pre');
   var counter = document.getElementById('counter'), fit = document.getElementById('fit'), frame = document.getElementById('frame');
   var stage = document.getElementById('stage'), help = document.getElementById('help');

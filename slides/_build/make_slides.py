@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""make_slides.py — 從 workflow-data.js（唯一資料源）烤出 slides/01.html … 20.html。
+"""make_slides.py — 從 workflow-data.js（唯一資料源）烤出 slides/01.html … 16.html。
 
 用法（在 repo 任何位置都可以）：
     python slides/_build/make_slides.py
 
 做法：
   1. 用 node 把 ../../workflow-data.js 在 vm 裡跑一次、吐 JSON（_build/dump_flow.js）。
-  2. 每頁的清單類內容（紅線、路線、桌牌、議程、步驟、一頁設計欄位、課後要點）都從資料填；
+  2. 每頁的清單類內容（開場那一句、議程、步驟、一頁設計欄位、課後要點）都從資料填；
      散文（副標、底部一行）才是這支腳本自己寫的，不得跟資料矛盾。
   3. 填字的規則（data-fill／data-list／data-pairs／data-sum、折行、工作台按鈕框）跟 slides/deck.js 一模一樣，
      所以沒有 JS 也看得到同樣的字；有 JS 時 deck.js 會從資料源再填一次，兩邊必須相同
@@ -16,7 +16,7 @@
      「離 0 遠」的門檻（FAR_GAP）跟工作台 studio.html 的判準同一個數字，改要一起改。
 
 閘門（做完一定跑）：
-    python <wailan_agent>/skills/course-intro/check_deck_pages.py slides --expect 20 --dark 3,11,15,20 --max-cjk 80
+    python <wailan_agent>/skills/course-intro/check_deck_pages.py slides --expect 16 --dark 2,11,16 --max-cjk 80
     python <wailan_agent>/skills/course-intro/check_overflow.py slides --out slides/_qa/overflow.json
 """
 import json
@@ -33,13 +33,13 @@ SAMPLE = ROOT / 'data' / 'sample-analysis.json'
 
 FOOTER = '從學習證據到教學改進｜2026-10-16'
 SEAL = 'AI 協作團隊'
-DARK_PAGES = {3, 11, 15, 20}
-# 三方落差圖「離 0 遠」的門檻（絕對值 ≥ 這個數就標紅）。工作台 studio.html 的 `var FAR = 4`（圖例、長條、排序表共用）
+DARK_PAGES = {2, 11, 16}   # 開場那一句、三句結論、收尾（2026-10-02 簡化：20 → 16 頁）
+# 落差圖「離 0 遠」的門檻（絕對值 ≥ 這個數就標紅）。工作台 studio.html 的 `var FAR = 4`（圖例、長條、排序表共用）
 # 跟這裡必須同一個數字，不然老師兩邊對照會以為自己看錯；資料源目前沒有這個欄位（可考慮加 meta.farGap 讓兩邊都讀它），
 # 在那之前改門檻要兩邊一起改。
 FAR_GAP = 4   # 預設值；load_flow() 之後改讀資料源 meta.farGap（工作台 studio.html 讀同一個欄位）
 
-# 工作台的分頁與按鈕名稱（講義、投影片、工作台三方一字不差）——跟 deck.js 的 UI 陣列同一份
+# 工作台的分頁與按鈕名稱（講義、投影片、工作台三處一字不差）——跟 deck.js 的 UI 陣列同一份
 UI = ['Rubric 工作台', '證據儀表板', '一頁設計',
       '複製', '看範例輸出', '比較兩版', '匯出這一輪', '抽 3 筆回查', '匯出抽查紀錄', '帶入示範課', '匯出 Markdown', '講師模式', '清除暫存',
       '為什麼改', '三句結論']
@@ -277,36 +277,6 @@ def arrow_h(x1, x2, y, cls='f-gold', stroke='s-gold'):
             f'<polygon points="{x2 - 12},{y - 8} {x2},{y} {x2 - 12},{y + 8}" class="{cls}"/>')
 
 
-def fig_redlines():
-    parts = []
-    for i in range(3):
-        x0 = i * (340 + 34)
-        parts.append(f'<rect x="{x0}" y="8" width="340" height="206" rx="16" class="f-card s-bad" stroke-width="2.5"/>')
-        parts.append(fill('text', f'redlines.{i}.id', 't-xs t-b f-mist', attrs=f'x="{x0 + 22}" y="34"'))
-        parts.append(fill('text', f'redlines.{i}.title', 't-xl t-b f-bad', attrs=f'x="{x0 + 22}" y="66"'))
-        parts.append(fill('text', f'redlines.{i}.text', 't-md', attrs=f'x="{x0 + 22}" y="106"', wrap_=17))
-        parts.append(f'<rect x="{x0 + 165}" y="214" width="10" height="56" class="f-mist" opacity=".55"/>')
-        parts.append(f'<ellipse cx="{x0 + 170}" cy="274" rx="42" ry="7" class="f-mist" opacity=".3"/>')
-    return svg(1088, 290, ''.join(parts))
-
-
-def fig_routes():
-    parts = []
-    for i, (y, fillc, strokec, badgec) in enumerate([(0, 'f-teal-soft', 's-teal', 'f-teal'), (204, 'f-gold-soft', 's-gold', 'f-gold')]):
-        parts.append(f'<rect x="0" y="{y}" width="1088" height="186" rx="18" class="{fillc} {strokec}" stroke-width="2"/>')
-        parts.append(f'<circle cx="48" cy="{y + 46}" r="24" class="{badgec}"/>')
-        parts.append(f'<text x="48" y="{y + 54}" class="t-xl t-b f-white t-c">{"A" if i == 0 else "B"}</text>')
-        parts.append(fill('text', f'routes.{i}.label', 't-xl t-b', attrs=f'x="90" y="{y + 40}"'))
-        parts.append(fill('text', f'routes.{i}.promise', 't-sm f-mist', attrs=f'x="90" y="{y + 70}"', wrap_=68))
-        for k in range(4):
-            bx = 90 + k * 248
-            parts.append(f'<rect x="{bx}" y="{y + 92}" width="232" height="80" rx="10" class="f-card s-line" stroke-width="1.5"/>')
-            parts.append(f'<circle cx="{bx + 18}" cy="{y + 110}" r="11" class="{badgec}"/>')
-            parts.append(f'<text x="{bx + 18}" y="{y + 115}" class="t-xs t-b f-white t-c">{k + 1}</text>')
-            parts.append(fill('text', f'routes.{i}.how.{k}', 't-sm', attrs=f'x="{bx + 36}" y="{y + 115}"', wrap_=13))
-    return svg(1088, 390, ''.join(parts))
-
-
 def fig_agenda():
     ag = FLOW['agenda']
     total = sum(a['minutes'] for a in ag)
@@ -322,17 +292,20 @@ def fig_agenda():
             hands += a['minutes']
         parts.append(f'<rect x="{x:.1f}" y="{y}" width="{w - 3:.1f}" height="{h}" rx="8" class="{"f-teal" if hand else "f-teal-soft"}"/>')
         parts.append(f'<line x1="{x:.1f}" y1="36" x2="{x:.1f}" y2="{y}" class="s-line" stroke-width="1.5"/>')
-        parts.append(fill('text', f'agenda.{i}.start', 't-xs f-mist', attrs=f'x="{x + 2:.1f}" y="30"'))
+        # 最後一段太窄時，開始時間往上一行，免得跟右端的結束時間互疊（字級升到 15px 後會撞）
+        parts.append(fill('text', f'agenda.{i}.start', 't-xs f-mist', attrs=f'x="{x + 2:.1f}" y="34"'))
         if hand:
             parts.append(fill('text', f'agenda.{i}.title', 't-sm f-white', attrs=f'x="{x + 12:.1f}" y="{y + 24}" opacity=".85"', sep='・', part=0))
             parts.append(fill('text', f'agenda.{i}.title', 't-lg t-b f-white', attrs=f'x="{x + 12:.1f}" y="{y + 52}"', sep='・', part=1))
             parts.append(f'<text x="{x + 12:.1f}" y="158" class="t-sm t-b f-gold-deep">帶走</text>')
-            parts.append(fill('text', f'agenda.{i}.takeaway', 't-md', attrs=f'x="{x + 12:.1f}" y="184"', wrap_=int((w - 24) / 16)))
+            parts.append(fill('text', f'agenda.{i}.takeaway', 't-md', attrs=f'x="{x + 12:.1f}" y="184"', wrap_=max(6, int((w - 24) / 20))))
         else:
             parts.append(fill('text', f'agenda.{i}.title', 't-lg t-b t-c', attrs=f'x="{x + (w - 3) / 2:.1f}" y="{y + 43}"'))
         x += w
     parts.append(f'<line x1="1088" y1="36" x2="1088" y2="{y}" class="s-line" stroke-width="1.5"/>')
-    parts.append(fill('text', f'agenda.{len(ag) - 1}.end', 't-xs f-mist t-e', attrs='x="1088" y="30"'))
+    # 最後一段太窄（收尾 8 分鐘）時，結束時間放到長條下方右端，免得跟最後一段的開始時間互疊
+    end_y = 150 if ag[-1]['minutes'] * per < 100 else 34
+    parts.append(fill('text', f'agenda.{len(ag) - 1}.end', 't-xs f-mist t-e', attrs=f'x="1088" y="{end_y}"'))
     # 圖例與合計（合計用 data-sum 綁資料源，deck.js 執行期會再加一次；格子寬度仍是建置時算的，議程改了還是要重 build 才會重排）
     parts.append('<rect x="0" y="262" width="18" height="18" rx="4" class="f-teal"/><text x="26" y="276" class="t-sm">動手</text>')
     parts.append('<rect x="88" y="262" width="18" height="18" rx="4" class="f-teal-soft"/><text x="114" y="276" class="t-sm">講／對談</text>')
@@ -424,7 +397,7 @@ def fig_gap():
         for j, (key, base) in enumerate([('self_minus_teacher', 'f-teal'), ('peer_minus_teacher', 'f-gold')]):
             v = g[key]
             bx = gx + 5 + j * 17
-            cls = 'f-bad' if abs(v) >= FAR_GAP else base
+            cls = base + (' far' if abs(v) >= FAR_GAP else '')   # 保留系列色、加紅框（設計審查：紅色吃掉系列色就分不出自評／互評）
             if v == 0:
                 parts.append(f'<rect x="{bx:.1f}" y="{zero - 1}" width="15" height="2" class="{cls}"/>')
             elif v > 0:
@@ -436,7 +409,7 @@ def fig_gap():
         parts.append(f'<text x="{gx + gw / 2:.1f}" y="250" class="t-xs t-c{" t-b f-bad" if flag else " f-mist"}">{esc(code)}</text>')
     parts.append('<rect x="60" y="8" width="14" height="14" rx="3" class="f-teal"/><text x="80" y="20" class="t-xs">自評 − 教師</text>')
     parts.append('<rect x="172" y="8" width="14" height="14" rx="3" class="f-gold"/><text x="192" y="20" class="t-xs">互評 − 教師</text>')
-    parts.append(f'<rect x="284" y="8" width="14" height="14" rx="3" class="f-bad"/><text x="304" y="20" class="t-xs">差 {FAR_GAP} 分以上</text>')
+    parts.append(f'<rect x="284" y="8" width="14" height="14" rx="3" class="f-none far"/><text x="304" y="20" class="t-xs">差 {FAR_GAP} 分以上</text>')
     parts.append('<text x="1068" y="20" class="t-xs f-mist t-e">課堂專題簡報・24 筆合成示範資料（代號 DEMO-S01…）；紅字代號＝答案卡有話要說</text>')
     return svg(1088, 262, ''.join(parts))
 
@@ -452,7 +425,7 @@ def fig_check():
     def label(k, path, rx):
         return fill('text', path, 't-md t-b t-c', attrs=f'x="{cxs[k]}" y="{ly}"', rx=rx)
 
-    def cap(k, path, rx=None, wrap_=12):
+    def cap(k, path, rx=None, wrap_=10):
         return fill('text', path, 't-sm f-mist t-c', attrs=f'x="{cxs[k]}" y="158"', rx=rx, wrap_=wrap_)
 
     def prose_label(k, text):
@@ -467,7 +440,7 @@ def fig_check():
         ('你', label(1, f'{S}.2.say', '「(.+?)」'), 'f-gold-soft s-gold', prose_cap(1, '在工作台「證據儀表板」按，可以重抽')),
         ('你', label(2, f'{S}.2.human', '寫「(.+?)」'), 'f-gold-soft s-gold', prose_cap(2, '讀原始反思、看三個分數再判斷')),
         ('你', label(3, f'{S}.3.say', '「(.+?)」'), 'f-gold-soft s-gold', prose_cap(3, '證據是…／下次要改…／再蒐集…')),
-        ('AI 助手', prose_label(4, '存一版'), 'f-teal-soft s-teal', cap(4, f'{S}.4.say', rx='版本說明寫[：「](.+?)」', wrap_=13)),
+        ('AI 助手', prose_label(4, '存一版'), 'f-teal-soft s-teal', cap(4, f'{S}.4.say', rx='版本說明寫[：「](.+?)」', wrap_=10)),
     ]
     parts = []
     for k, (role, lab, cls, capt) in enumerate(boxes):
@@ -506,8 +479,8 @@ def fig_records():
             out.append(f'<text x="{x + 18}" y="{y + 52 + i * 22}" class="t-sm{" t-b" if i == 0 else " f-mist"}">{esc(ln)}</text>')
         return ''.join(out)
 
-    parts.append(box(0, 16, 380, 92, 'f-card s-line', '本機路線', ['版本清單（git log）', '每一筆：時間、說明、前後對照']))
-    parts.append(box(0, 140, 380, 92, 'f-card s-line', '瀏覽器路線', ['匯出 Markdown → GitHub 網頁版上傳', '每一筆：時間、說明（Commit history）'], 'f-gold-deep'))
+    parts.append(box(0, 16, 380, 92, 'f-card s-line', '工作坊當天（AI 助手存的）', ['版本清單（git log）', '每一筆：時間、說明、前後對照']))
+    parts.append(box(0, 140, 380, 92, 'f-card s-line', '課後用 GitHub 網頁版上傳', ['匯出 Markdown → 網頁上傳', '每一筆：時間、說明（Commit history）'], 'f-gold-deep'))
     parts.append('<path d="M380,62 C430,62 430,124 480,124" class="f-none s-gold" stroke-width="3"/>')
     parts.append('<path d="M380,186 C430,186 430,124 480,124" class="f-none s-gold" stroke-width="3"/>')
     parts.append('<polygon points="478,116 492,124 478,132" class="f-gold"/>')
@@ -517,7 +490,7 @@ def fig_records():
     return svg(1088, 248, ''.join(parts))
 
 
-# ───────────────────────── 20 頁 ─────────────────────────
+# ───────────────────────── 16 頁（2026-10-02 簡化：拿掉自己發明的名詞標籤，內容全留） ─────────────────────────
 def p01():
     m = FLOW['meta']
     body = f'''<div class="inner">
@@ -540,107 +513,84 @@ def p02():
 <div class="card"><div class="n">2</div><div class="p">版本紀錄本來就在做這件事：改了哪裡、什麼時候、怎麼想，全在。</div></div>
 <div class="card accent"><div class="n">3</div><div class="p">今天的目標：{fill('b', 'meta.tagline')}</div></div>
 </div>
-</div>'''
+</div>
+{bar(fill('span', 'redlines.0.text'), '先講一件事', gold=True)}'''
     return page(2, '開場 · WHY', '研究最難拿出來的一段', body)
 
 
 def p03():
-    body = f'''<div class="vis">{fig_redlines()}</div>
-{bar('三句都在講義首屏；回去做自己的課，也是這三句。', '提醒', gold=True)}'''
-    return page(3, '開場 · RED LINES', '紅線三句', body, figure='F-redlines')
-
-
-def p04():
-    body = f'''<div class="vis">
+    # 行前裝好／裝不起來怎麼辦，併成副標一句（資料源 routes[0]：label 與 rescue 的白話版，不另立節名）
+    body = f'''<div class="subtitle">行前把 AI 助手裝好，當天每一步它代打；真的裝不起來，提早 20 分鐘到會議室一起裝。</div>
+<div class="vis">
 <div class="three">
 <div class="card"><div class="n">① 你說</div><div class="p">每一步只說一句話，不背指令。</div></div>
 <div class="ar">→</div>
-<div class="card"><div class="n">② AI agent 做</div><div class="p">建資料夾、存版本、列前後對照、做分析。</div></div>
+<div class="card"><div class="n">② AI 助手做</div><div class="p">建資料夾、存版本、列前後對照、做分析。</div></div>
 <div class="ar">→</div>
-<div class="card accent"><div class="n">③ 你看三件事</div><div class="p">計畫對不對、對照多不多，對了才點頭。</div></div>
+<div class="card accent"><div class="n">③ 你看</div><div class="p">只看它的計畫、看它改完的前後對照、然後點頭。</div></div>
 </div>
 </div>
-{bar(fill('span', 'meta.aiRule'), '底線')}'''
-    return page(4, '開場 · HOW', '今天的做法：你說、AI agent 做、你看三件事', body)
+{bar(fill('span', 'meta.aiRule'), '原則')}'''
+    return page(3, '開場 · HOW', '今天的做法：你說一句、AI 助手做、你看過才點頭', body)
+
+
+def p04():
+    body = f'''<div class="vis">{fig_agenda()}</div>
+{bar('四塊全部自己動手；講師先做一遍，大家跟著做。', '節奏')}'''
+    return page(4, '開場 · AGENDA', '兩小時、四塊、每塊帶走一樣東西', body, figure='F-agenda')
 
 
 def p05():
-    body = f'''<div class="subtitle">行前頁做完的人走主線；沒裝好的人走逃生門，一樣做得完四塊。</div>
-<div class="vis">{fig_routes()}</div>'''
-    return page(5, '開場 · ROUTES', '兩條路線：主線與逃生門', body, figure='F-routes')
-
-
-def p06():
-    tpl = '<div class="card"><div class="n">{{id}}</div><div class="h">{{label}}</div><div class="p">{{note}}</div></div>'
-    body = f'''<div class="subtitle">不點名，拿一張放桌上就好。</div>
-<div class="vis">{render_list('tableCards', tpl, tag='div', cls='cols cols-3')}</div>'''
-    return page(6, '開場 · TABLE CARDS', '進場先拿一張桌牌', body)
-
-
-def p07():
-    body = f'''<div class="vis">{fig_agenda()}</div>
-{bar('四塊全部自己動手；講師先做一遍，大家跟著做。', '節奏')}'''
-    return page(7, '開場 · AGENDA', '兩小時、四塊、每塊帶走一樣東西', body, figure='F-agenda')
-
-
-def p08():
     body = f'''<div class="subtitle">版本控制工具（Git）幫一個資料夾記住每一次修改：一門課一個資料夾，每改一次存一版、寫一句為什麼改。</div>
 <div class="vis">{fig_timeline()}</div>
 {bar('你不必背指令：交給 AI 助手代打，你看計畫、看前後對照、點頭。', '分工')}'''
-    return page(8, '第一塊 · BLOCK 1', f'第一塊・{fill("span", "blocks.0.title")}', body, figure='F-timeline')
+    return page(5, '第一塊 · BLOCK 1', f'第一塊・{fill("span", "blocks.0.title")}', body, figure='F-timeline')
 
 
-def p09():
+def p06():
     items = []
     for k in range(4):
         items.append(f'<li><span class="n">{k + 1}</span><div class="body"><div class="say"><span class="name">AI 做：</span>{fill("span", f"blocks.0.steps.{k}.ai")}</div>'
                      f'{fill("div", f"blocks.0.steps.{k}.human", cls="human")}</div></li>')
     body = f'''<div class="subtitle">AI 說做完，不等於做完——每一步都有你一定要自己看的。</div>
 <div class="vis vis--top"><ol class="steps">{''.join(items)}</ol></div>'''
-    return page(9, '第一塊 · FOUR STEPS', '四步、每步一句話；你說的那句在講義第參章', body)
+    return page(6, '第一塊 · FOUR STEPS', '四步、每步一句話；你說的那句在講義第參章', body)
 
 
-def p10():
+def p07():
+    # 全場那一句（meta.rule）併進這頁的 bar：粗體、不另立一頁、不貼標籤
     body = f'''<div class="subtitle">評分規準表（Rubric）不是一次寫對的，是被學生的表現磨出來的。</div>
 <div class="vis">{fig_rubric_diff()}</div>
-{bar('AI 起草的第一版一定有你不同意的句子——那一句，就是今天的第一筆調整紀錄。', '重點', gold=True)}'''
-    return page(10, '第二塊 · BLOCK 2', f'第二塊・{fill("span", "blocks.1.title")}', body, figure='F-rubric-diff')
+{bar(f'{fill("b", "meta.rule")}<br>AI 起草的第一版一定有你不同意的句子，那一句就是今天的第一筆調整紀錄。', '重點', gold=True)}'''
+    return page(7, '第二塊 · BLOCK 2', f'第二塊・{fill("span", "blocks.1.title")}', body, figure='F-rubric-diff')
 
 
-def p11():
-    body = f'''<div class="vis center">
-<div class="statement">{fill('span', 'meta.aiRule')}</div>
-<div class="note" style="margin-top:28px;font-size:19px">講義首屏、工作台、每張提示詞卡，寫的都是這一句。</div>
-</div>'''
-    return page(11, '全場只有一條硬規矩 · THE ONE RULE', fill('span', 'meta.rule'), body, title_cls='title title--big')
-
-
-def p12():
+def p08():
     tpl = '<li><span class="n">{{@n}}</span><div class="body"><div class="say">{{say|ui}}</div></div></li>'
     body = f'''<div class="vis vis--top">{render_list('blocks.1.steps', tpl, cls='steps steps--lg')}</div>'''
-    return page(12, '第二塊 · STEPS', '起草 → 不同意 → 審查者 → 第 2 版 → 存一版', body)
+    return page(8, '第二塊 · STEPS', '起草 → 不同意 → 審查者 → 第 2 版 → 存一版', body)
 
 
-def p13():
-    body = f'''<div class="subtitle">三方評分的落差，本身就是教學訊號。</div>
+def p09():
+    body = f'''<div class="subtitle">自評、互評、老師評分三種分數的落差，本身就是教學訊號。</div>
 <div class="vis">{fig_gap()}
 <div class="cols cols-2" style="gap:14px">
 <div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">自評遠高於教師分 → 學生多半不知道標準在哪。</div></div>
 <div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">互評極低、另兩方一致 → 回查互評表，不是扣分。</div></div>
 </div></div>
 {bar('AI 很會找落差，但它會錯——而且錯得很有說服力。', '提醒', gold=True)}'''
-    return page(13, '第三塊 · BLOCK 3', f'第三塊・{fill("span", "blocks.2.title")}', body, figure='F-gap')
+    return page(9, '第三塊 · BLOCK 3', f'第三塊・{fill("span", "blocks.2.title")}', body, figure='F-gap')
 
 
-def p14():
+def p10():
     body = f'''<div class="subtitle">研究裡站得住的，是「AI 分析＋人工抽查」一起呈現。</div>
 <div class="vis">{fig_check()}
 <div class="note">按<span class="ui">匯出抽查紀錄</span>——這份就是「分析信度」那一段的素材。</div></div>
 {bar('沒人抽到那筆分錯的？講師最後會點出來。重點不是抓到，是你知道「要抽」。', '提醒', gold=True)}'''
-    return page(14, '第三塊 · CHECK', 'AI 分析＋人工抽查，一起呈現才站得住', body, figure='F-check')
+    return page(10, '第三塊 · CHECK', 'AI 分析＋人工抽查，一起呈現才站得住', body, figure='F-check')
 
 
-def p15():
+def p11():
     say = 'blocks.2.steps.3.say'
     body = f'''<div class="vis center">
 <div class="lines">
@@ -650,10 +600,10 @@ def p15():
 </div>
 <div class="big-sub">{fill('span', 'blocks.2.steps.3.human')}</div>
 </div>'''
-    return page(15, '第三塊 · THREE SENTENCES', '三句結論', body)
+    return page(11, '第三塊 · THREE SENTENCES', '三句結論', body)
 
 
-def p16():
+def p12():
     body = f'''<div class="vis"><div class="side">{fig_onepage()}
 <div>
 <p class="lead">前三塊是零件，這一塊把零件裝回你自己的課。</p>
@@ -661,37 +611,37 @@ def p16():
 <p class="lead" style="margin-top:18px">起手式：按<span class="ui">帶入示範課</span>讓每一欄都有字，再改掉至少兩格。</p>
 <p class="lead" style="margin-top:18px">必改：<b>「評量任務與 Rubric」「回饋與調整」</b>。</p>
 </div></div></div>'''
-    return page(16, '第四塊 · BLOCK 4', '第四塊・帶著自己的課，一頁設計', body, figure='F-onepage')
+    return page(12, '第四塊 · BLOCK 4', '第四塊・帶著自己的課，一頁設計', body, figure='F-onepage')
 
 
-def p17():
+def p13():
     tpl = '<li><span class="n">{{@n}}</span><div class="body"><div class="say">{{say|ui}}</div></div></li>'
     body = f'''<div class="vis vis--top">{render_list('blocks.3.steps', tpl, cls='steps steps--lg')}</div>'''
-    return page(17, '第四塊 · STEPS', '起手式：帶入示範課，再改兩格', body)
+    return page(13, '第四塊 · STEPS', '起手式：帶入示範課，再改兩格', body)
 
 
-def p18():
+def p14():
     body = f'''<div class="vis">{fig_records()}
 <div class="cols cols-2" style="gap:14px">
 <div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">兩邊到最後長一樣：一條「什麼時候、改了什麼、為什麼」的時間線。</div></div>
 <div class="card accent" style="padding:12px 18px"><div class="p" style="margin-top:0">寫計畫書時，把這條時間線整理成一張表，就是研究歷程資料。</div></div>
 </div></div>'''
-    return page(18, '收尾 · AFTER', fill('span', 'afterCourse.0.title'), body)
+    return page(14, '收尾 · AFTER', fill('span', 'afterCourse.0.title'), body)
 
 
-def p19():
+def p15():
     body = f'''<div class="vis">{render_pairs('afterCourse.3.text')}</div>'''
-    return page(19, '收尾 · TO THE PROPOSAL', fill('span', 'afterCourse.3.title'), body)
+    return page(15, '收尾 · TO THE PROPOSAL', fill('span', 'afterCourse.3.title'), body)
 
 
-def p20():
+def p16():
     body = f'''<div class="vis center">
 <div class="url">{fill('span', 'meta.siteUrl')}</div>
 </div>'''
-    return page(20, '收尾 · NEXT MONDAY', '週一把這句存進資料夾。', body, title_cls='title title--big')
+    return page(16, '收尾 · NEXT MONDAY', '週一把這句存進資料夾。', body, title_cls='title title--big')
 
 
-PAGES = [p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20]
+PAGES = [p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14, p15, p16]
 
 
 def main():

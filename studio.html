@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>證據工作台｜從學習證據到教學改進</title>
-<meta name="description" content="10/16 工作坊的互動工作台：Rubric 兩版並列比較、三方評分落差儀表板與抽查紀錄、一頁「評量—回饋—教學調整—研究」設計。純前端、不連 AI、示範資料內嵌，離線也能開。">
+<meta name="description" content="10/16 工作坊的互動工作台：Rubric 兩版並列比較、自評／互評／教師三種分數的落差儀表板與抽查紀錄、一頁「評量—回饋—教學調整—研究」設計。純前端、不連 AI、示範資料內嵌，離線也能開。">
 <link rel="stylesheet" href="assets/site.css">
 <style>
   /* 工作台專用版式；顏色一律用 site.css 的代幣 */
@@ -84,7 +84,7 @@
   <div class="inner">
     <p class="eyebrow" id="heroEyebrow">從學習證據到教學改進｜AI 協作促進學習評量與教學實踐研究工作坊</p>
     <h1>證據工作台</h1>
-    <p class="sub">三個分頁對應今天的第二、三、四塊：Rubric 兩版並列、三方評分落差與抽查、一頁設計。純前端、不連任何 AI、示範資料已內嵌——整個教材資料夾下載後離線也能開，雙擊檔案也能用。</p>
+    <p class="sub">今天第二、三、四塊都在這裡動手：並列看 Rubric 兩版、看三種分數的落差並抽查、填一頁設計——不連任何 AI、示範資料已內嵌，整個教材資料夾下載後雙擊檔案、離線也能開。</p>
     <p class="meta" id="heroMeta">2026-10-16（五）15:00–17:00</p>
   </div>
 </header>
@@ -103,9 +103,9 @@
 </nav>
 
 <main>
-  <div class="human rulebox" id="ruleBox"><strong>全場只有一條硬規矩：</strong><span id="ruleText">挑一句不同意的、改掉、寫下為什麼。</span></div>
+  <div class="human rulebox" id="ruleBox"><strong id="ruleText">挑一句不同意的、改掉、寫下為什麼。</strong></div>
   <p class="intro" id="aiRuleText">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。這個工作台也一樣：它不會替你判斷，只把東西並列給你看。</p>
-  <div class="warn" id="noData" hidden role="alert">找不到 <code>workflow-data.js</code>。請把 <code>studio.html</code> 放回原本的資料夾再開一次；提示詞卡與一頁設計的欄位都要靠它。</div>
+  <div class="warn" id="noData" hidden role="alert">找不到 <code>workflow-data.js</code>。請把 <code>studio.html</code> 放回原本的資料夾再開一次；提示詞與一頁設計的欄位都要靠它。</div>
 
   <div class="tabs" role="tablist" aria-label="工作台分頁">
     <button type="button" role="tab" id="tab-rubric" data-tab="rubric" aria-controls="panel-rubric" aria-selected="true" aria-label="分頁：Rubric 工作台（第二塊）">Rubric 工作台</button>
@@ -119,7 +119,7 @@
     <p class="intro">第二塊用。左欄貼 AI 起草的第 1 版，挑一句不同意的改掉、寫下為什麼；請 AI 扮嚴格審查者挑毛病之後，把你改好的第 2 版貼右欄，按「比較兩版」看每一處差異——每一處都應該是你決定的。</p>
     <div id="stepsB2"></div>
 
-    <h3>提示詞卡</h3>
+    <h3>提示詞</h3>
     <p class="hint">整段複製，貼給你的 AI 助手或任何 AI 聊天網頁。括號【】裡的字換成你自己的課。</p>
     <div id="promptCards"></div>
 
@@ -162,7 +162,7 @@
     </div>
     <p class="status" id="dsSummary"></p>
 
-    <h3>三方落差圖</h3>
+    <h3>落差圖：自評減教師分、互評減教師分</h3>
     <div class="legend"><span><i class="l-self"></i>自評 − 教師</span><span><i class="l-peer"></i>互評 − 教師</span><span><i class="l-far"></i><span id="farLegend">離 0 遠（差 4 分以上）</span></span></div>
     <div class="chart-wrap" id="chartWrap" role="img" aria-label="每位代號兩根長條：自評減教師分、互評減教師分"></div>
 
@@ -462,14 +462,14 @@ var isTab = function(n){ return tabs.some(function(b){ return b.dataset.tab === 
 window.addEventListener('hashchange', function(){ var h = location.hash.replace('#',''); if(isTab(h)) showTab(h); });
 
 /* ── 四塊步驟（跟講義同一份資料） ── */
-/* 步驟裡點名的提示詞卡：P1／P2 就在這頁，其餘（P3、P4、P6）在講義——都做成連結，老師才找得到要貼的字 */
+/* 步驟裡點名的提示詞：P1／P2 就在這頁，其餘（P3、P4、P6）在講義——都做成連結，老師才找得到要貼的字 */
 var LOCAL_PROMPTS = {};
 if(FLOW && FLOW.prompts){ FLOW.prompts.forEach(function(p){ if(p.block === 'B2') LOCAL_PROMPTS[p.id] = true; }); }
 function linkPrompts(s){
   return esc(s).replace(/\bP([1-6])\b/g, function(m, n){
     var id = 'P' + n;
     if(LOCAL_PROMPTS[id]) return '<a href="#prompt-' + id + '">' + id + '</a>';
-    return '<a href="material.html#prompt-' + id + '" title="這張卡在講義裡">' + id + '</a>（在講義）';
+    return '<a href="material.html#prompt-' + id + '" title="這一段提示詞在講義裡">' + id + '</a>（在講義）';
   });
 }
 function renderSteps(blockId, hostId){
@@ -563,17 +563,17 @@ var PROMPT_TEXT = {};
 
 function renderPrompts(){
   var host = $('promptCards');
-  if(!FLOW){ host.innerHTML = '<div class="warn">提示詞卡要靠 workflow-data.js 才顯示得出來。</div>'; return; }
+  if(!FLOW){ host.innerHTML = '<div class="warn">提示詞要靠 workflow-data.js 才顯示得出來。</div>'; return; }
   var html = '';
   FLOW.prompts.filter(function(p){ return p.block === 'B2'; }).forEach(function(p){
     PROMPT_TEXT[p.id] = p.text;
-    html += '<div class="prompt" id="prompt-' + esc(p.id) + '"><span class="label">提示詞卡 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
-            '<button type="button" class="btn small copy" data-copy="' + esc(p.id) + '" aria-label="複製提示詞卡 ' + esc(p.id) + '">複製</button>' +
+    html += '<div class="prompt" id="prompt-' + esc(p.id) + '"><span class="label">提示詞 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
+            '<button type="button" class="btn small copy" data-copy="' + esc(p.id) + '" aria-label="複製提示詞 ' + esc(p.id) + '">複製</button>' +
             esc(p.text) +
-            '<span class="rule-foot">硬規矩：' + esc(RULE) + '</span></div>';
+            '<span class="rule-foot">' + esc(RULE) + '</span></div>';
     var s = SAMPLES[p.id];
     if(s){
-      html += '<div class="toolbar"><button type="button" class="btn small secondary" data-sample="' + esc(p.id) + '" aria-expanded="false" aria-controls="sample-' + esc(p.id) + '" aria-label="看提示詞卡 ' + esc(p.id) + ' 的範例輸出">看範例輸出</button></div>' +
+      html += '<div class="toolbar"><button type="button" class="btn small secondary" data-sample="' + esc(p.id) + '" aria-expanded="false" aria-controls="sample-' + esc(p.id) + '" aria-label="看提示詞 ' + esc(p.id) + ' 的範例輸出">看範例輸出</button></div>' +
               '<div class="card sample" id="sample-' + esc(p.id) + '" hidden><h4>' + esc(s.title) + '</h4><pre>' + esc(s.text) + '</pre>';
       if(p.id === 'P2'){
         html += '<pre>' + esc(RUBRIC_V2) + '</pre>';
@@ -663,7 +663,7 @@ $('btnExportRound').addEventListener('click', function(){
   var fence = '```';
   var md = '# Rubric 這一輪的紀錄\n\n' +
     '- 時間：' + stampLong() + '\n' +
-    '- 硬規矩：' + RULE + '\n' +
+    '- ' + RULE + '\n' +
     '- ' + AI_RULE + '\n\n' +
     '## 為什麼改\n\n' + why + '\n\n' +
     '## 第 1 版（v1）\n\n' + $('v1').value.replace(/\r\n?/g,'\n') + '\n\n' +
@@ -672,7 +672,7 @@ $('btnExportRound').addEventListener('click', function(){
     d.map(function(l){ return (l.t === 'del' ? '- ' : l.t === 'add' ? '+ ' : '  ') + l.s; }).join('\n') + '\n' + fence + '\n';
   var fname = 'rubric-round-' + stampFile() + '.md';
   download(fname, md);
-  showMsg('msgRubric', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾再存一版，版本說明寫：' + why + '」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：課後用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
+  showMsg('msgRubric', '已下載 ' + fname + '（在你的「下載」資料夾）。整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾再存一版，版本說明寫：' + why + '」。它若問能不能讀下載資料夾，按允許。課後不開 AI 助手也行：用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
 });
 
 /* ════════════════ ② 證據儀表板 ════════════════ */
@@ -765,7 +765,7 @@ function loadDataset(key){
       var parsed = toRecords(parseCSV(DEMO_CSV[key]));
       current = { key:key, records: parsed.records, analysis: SAMPLE_ANALYSIS[key] || null, label: DS[key].label, skipped: parsed.skipped };
       var a = current.analysis;
-      $('dsSummary').textContent = '示範資料 ' + DS[key].file + '（合成，不是真實學生）：' + current.records.length + ' 筆｜任務：' + (a ? a.task : '') + '｜媒介：' + (a ? a.medium : '') + '｜規準：' + (a ? a.criteria.join('、') : '');
+      $('dsSummary').textContent = '示範資料 ' + DS[key].file + '（合成，不是真實學生）：' + current.records.length + ' 筆｜任務：' + (a ? a.task : '') + '｜證據來自：' + (a ? a.medium : '') + '｜規準：' + (a ? a.criteria.join('、') : '');
     }
   }
   renderChart(); renderGapTable(); renderReflTable(); renderSamples(); renderConclusions(); renderAnswer();
@@ -942,7 +942,7 @@ $('btnExportSampling').addEventListener('click', function(){
     '## 本輪人工抽查一致率（探索性紀錄）\n\n' + agreeN + '／' + ids.length + '（放進計畫書「資料分析」那一段當素材；正式信度要事先訂抽樣比例與複核者、下學期累積）\n';
   var fname = 'sampling-record-' + current.key + '-' + stampFile() + '.md';
   download(fname, md);
-  showMsg('msgEvidence', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾，連同你剛寫的兩個分析檔一起存一版，版本說明寫：第三塊：AI 分析＋人工抽查 3 筆」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：課後用 GitHub 網頁版上傳。', true, true);
+  showMsg('msgEvidence', '已下載 ' + fname + '（在你的「下載」資料夾）。整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾，連同你剛寫的兩個分析檔一起存一版，版本說明寫：第三塊：AI 分析＋人工抽查 3 筆」。它若問能不能讀下載資料夾，按允許。課後不開 AI 助手也行：用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
 });
 
 /* 講師模式：答案卡只在按下時出現，不暫存 */
@@ -996,7 +996,7 @@ function designMarkdown(){
   var md = '# 一頁「評量—回饋—教學調整—研究」設計\n\n' +
     '- 日期：' + today() + '\n' +
     '- 版本：工作坊版 ' + ((FLOW && FLOW.meta && FLOW.meta.date) || '2026-10-16') + '\n' +
-    '- 硬規矩：' + RULE + '\n';
+    '- ' + RULE + '\n';
   if(!FLOW) return md;
   FLOW.designFields.forEach(function(f){
     var v = (state.design.fields[f.id] || '').trim();
@@ -1043,7 +1043,7 @@ $('btnCopyDesign').addEventListener('click', function(){ copyText(designMarkdown
 $('btnExportDesign').addEventListener('click', function(){
   var fname = 'one-page-design-' + stampFile() + '.md';
   download(fname, designMarkdown());
-  showMsg('msgDesign', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾再存一版，版本說明寫：一頁設計 v1：工作坊版」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
+  showMsg('msgDesign', '已下載 ' + fname + '（在你的「下載」資料夾）。整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾再存一版，版本說明寫：一頁設計 v1：工作坊版」。它若問能不能讀下載資料夾，按允許。課後不開 AI 助手也行：用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
 });
 renderDesignFields(); renderPreview();
 

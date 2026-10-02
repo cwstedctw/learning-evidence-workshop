@@ -9,19 +9,19 @@
 <script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
 <style>
 /* ── 講義頁專用版式（顏色一律用 site.css 的代幣）── */
-header.hero .keyline{display:inline-block;margin-top:18px;background:rgba(244,236,216,.14);border:1px solid rgba(244,236,216,.45);border-radius:12px;padding:12px 20px;font-size:1.05rem;color:#fff}
+/* 頁首：比共用版式矮一半（簡化工單 2026-10-02：手機一屏內）——只留題目、一行副標、一行時地、一句要記的話、一行去處 */
+header.hero{padding:20px 20px 16px}
+header.hero h1{font-size:clamp(1.35rem,3.2vw,2rem);margin:0 0 6px}
+header.hero .sub{font-size:1rem;margin:0 0 4px}
+header.hero .meta{font-size:.88rem;line-height:1.55}
+header.hero .keyline{margin:10px 0 0;font-size:1rem;color:#fff;line-height:1.6}
 header.hero .keyline strong{color:#F3E3C3}
-header.hero .links{margin:14px 0 0;font-size:.95rem}
+header.hero .links{margin:8px 0 0;font-size:.9rem;line-height:1.7}
 header.hero .links a{color:#F3E3C3;margin-right:14px;display:inline-block;white-space:nowrap}
 nav.topnav a.home{font-weight:700;color:var(--teal-deep)}
 section{scroll-margin-top:64px}
 h2 .sec-num{font-size:1rem;letter-spacing:.12em;display:block;margin-bottom:2px}
 .lbl{display:block;font-size:.8rem;font-weight:700;color:var(--teal-deep);letter-spacing:.05em;margin:.6em 0 .2em}
-.route h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:1em 0}
-.tcard{background:var(--card);border:2px dashed var(--gold);border-radius:12px;padding:12px 14px}
-.tcard strong{display:block;font-size:1.08rem;margin-bottom:2px}
-.tcard span{font-size:.92rem;color:var(--ink-soft)}
 .block{margin-top:2.2em;padding-top:.5em;border-top:3px solid var(--teal-soft)}
 .block h3{font-size:1.35rem;margin-top:.6em}
 .block .mode{font-size:.9rem;color:var(--ink-soft);margin:-.3em 0 .8em}
@@ -47,8 +47,8 @@ h2 .sec-num{font-size:1rem;letter-spacing:.12em;display:block;margin-bottom:2px}
 .excard blockquote{margin:.6em 0;padding:10px 14px;border-left:4px solid var(--bad);background:var(--bad-soft);border-radius:0 10px 10px 0}
 .excard blockquote.why{border-left-color:var(--good);background:var(--good-soft)}
 .studio-table td:first-child{white-space:nowrap;font-weight:700}
-.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px 18px;margin:1em 0}
-.glossary div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.glossary{margin:1em 0}
+.glossary div{padding:8px 0;border-bottom:1px solid var(--line)}
 .glossary dt{font-weight:700}
 .glossary dd{margin:2px 0 0;font-size:.94rem;color:var(--ink-soft)}
 .plain{list-style:none;padding-left:0}
@@ -75,7 +75,7 @@ figure svg text{font-family:var(--sans)}
 }
 @media (max-width:640px){
   .fig-scroll svg{min-width:600px}
-  header.hero .keyline{font-size:.98rem;padding:10px 14px}
+  header.hero .keyline{font-size:.95rem}
   /* 手機：導覽列單排、可左右滑，不折成三排黏在頂端 */
   nav.topnav .inner{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:4px 10px;padding:8px 12px}
   nav.topnav a,nav.topnav button{white-space:nowrap;flex:0 0 auto}
@@ -86,22 +86,21 @@ figure svg text{font-family:var(--sans)}
 
 <header class="hero">
   <div class="inner">
-    <p class="eyebrow" id="hero-host">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</p>
     <h1 id="hero-title">從學習證據到教學改進</h1>
     <p class="sub"><span id="hero-sub">AI 協作促進學習評量與教學實踐研究工作坊</span>｜<span id="hero-tag">讓每一次教學調整都留下證據</span></p>
     <p class="meta"><span id="hero-date">2026-10-16（五）</span> <span id="hero-time">15:00–17:00</span>｜<span id="hero-venue">國立東華大學 環境學院 3F CIRES 會議室</span>｜講師：<span id="hero-speaker">陳文盛（國立東華大學通識教育中心）</span></p>
-    <div class="keyline">今天全場只有一條硬規矩：<strong id="rule-text">挑一句不同意的、改掉、寫下為什麼。</strong><br><span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></div>
-    <p class="links">📘 這一頁是詳細講義：上課跟著「參」走，課後回來查「柒」。　<a href="index.html">入口</a><a href="start.html">行前準備</a><a href="studio.html">證據工作台</a><a href="slides/index.html">投影片</a></p>
+    <p class="keyline">今天只記一句：<strong id="rule-text">挑一句不同意的、改掉、寫下為什麼。</strong></p>
+    <p class="links">這一頁是講義：上課跟著「參」走，課後查「柒」。　<a href="index.html">入口</a><a href="start.html">行前準備</a><a href="studio.html">證據工作台</a><a href="slides/index.html">投影片</a></p>
   </div>
 </header>
 
 <nav class="topnav" aria-label="講義章節">
   <div class="inner">
-    <a class="home" href="index.html">⌂</a>
+    <a class="home" href="index.html">入口</a>
     <a href="#sec-why">壹 為什麼</a>
     <a href="#sec-how">貳 怎麼做</a>
     <a href="#sec-blocks">參 四塊</a>
-    <a href="#sec-examples">肆 領域卡</a>
+    <a href="#sec-examples">肆 例子</a>
     <a href="#sec-design">伍 一頁設計</a>
     <a href="#sec-ethics">陸 倫理</a>
     <a href="#sec-after">柒 課後</a>
@@ -121,10 +120,10 @@ figure svg text{font-family:var(--sans)}
   <h2><span class="sec-num">壹</span>為什麼是「證據」：研究最難寫的一段</h2>
   <p>寫教學實踐研究計畫，最難拿出來的一段，不是文獻、不是方法，是「我根據證據調整了教學」。學期中你一定改過東西：規準表改了一格、學習單換了一題、回饋從書面改成當面講。可是到了寫計畫書或成果報告那天，能證明「改過」的，常常只剩記憶。</p>
   <p>版本紀錄做的就是這件事：一門課一個資料夾，每改一次就存一個版本，順手寫一句為什麼改。學期末打開，改了哪裡、什麼時候改、當時怎麼想的，全都在。這不是資訊工程的事，是研究方法的一部分：審查委員問「你怎麼知道是這個調整有效」，你拿得出一條時間線，而不是一段回憶。</p>
-  <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背指令，指令交給 AI 助手（AI agent）代打；你負責三件事：看它的計畫、看它改完的前後對照、點頭。這三件事就是「監督」，今天四塊的每一步都會回到這三件事。</p>
+  <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背指令，指令交給 AI 助手（AI agent）代打；你只看它的計畫、看它改完的前後對照、然後點頭。這就是「監督」，今天四塊的每一步都會回到這三件事。</p>
   <div class="card">
     <h3>跟上一場的關係</h3>
-    <p>上一場「跟 AI 一起用 Git」（2026-09-09）教的是方法本身；這一場把方法用在評量上，主線是三件事：留下證據、做出規準、分析與抽查。沒上過也沒關係，今天需要的那幾招都會重做一次。想複習可以回去翻 <a id="prev-link" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener">上一場的教材</a>。</p>
+    <p>上一場「跟 AI 一起用 Git」（2026-09-09）教的是方法本身；這一場把方法用在評量上，做三件事：留下證據、做出規準、分析與抽查。沒上過也沒關係，今天需要的那幾招都會重做一次。想複習可以回去翻 <a id="prev-link" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener">上一場的教材</a>。</p>
   </div>
   <div class="note">今天沒有任何真實學生資料。四塊全部用合成的示範資料（代號 <code>DEMO-S01</code>…），例子一律講「某生」。</div>
 </section>
@@ -133,24 +132,12 @@ figure svg text{font-family:var(--sans)}
 <section id="sec-how">
   <h2><span class="sec-num">貳</span>今天怎麼做</h2>
 
-  <h3>兩條路線</h3>
-  <p>主線是 🅐：AI 助手在你的電腦上代打，你說一句、它做一步、你看一眼。行前頁沒做完的人走 🅑，四塊一樣做得完，只是存版本改用 GitHub 網頁版上傳。</p>
-  <div class="grid2" id="routes" data-render></div>
+  <p id="route-text" data-render></p>
+  <p>先講一件事：<span id="redline-text">今天全程只用示範資料（代號 DEMO-S01…），不帶任何學生資料。回去放自己的資料時：專案設不公開、丟給 AI 前先拿掉姓名學號；AI 分出來的結果，自己抽幾筆回頭看。</span></p>
 
-  <h3>進場桌牌三種（自己拿，不點名）</h3>
-  <div class="tcards" id="tablecards" data-render></div>
+  <p><strong>挑一句不同意的、改掉、寫下為什麼。</strong>這句四塊都用：AI 起草的東西一定有你不同意的句子，那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：<span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></p>
 
-  <h3>紅線三句</h3>
-  <p>開場就講，整場不變。</p>
-  <div class="redline" id="redline-R1"><h3>學生資料不上網</h3><p>今天全程只用示範資料（代號 DEMO-S01…），老師不需要帶任何真實的學生資料來。</p></div>
-  <div class="redline" id="redline-R2"><h3>課後自己的資料放不公開的版本庫（私人 repo）</h3><p>回去放自己課程的資料時，專案一律設成不公開；丟給雲端 AI 之前，先把姓名、學號、能認出人的細節拿掉。</p></div>
-  <div class="redline" id="redline-R3"><h3>AI 的分析要回頭查</h3><p>AI 分完類、找完落差，老師抽幾筆自己讀一次。抽查本身就是研究方法的一部分，審查委員會問。</p></div>
-
-  <h3>一條硬規矩，四塊都用</h3>
-  <div class="human"><strong>挑一句不同意的、改掉、寫下為什麼。</strong><br>AI 起草的東西一定有你不同意的句子，那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</div>
-
-  <h3>你看三件事</h3>
-  <p>AI 助手動手之前、之中、之後，你只需要看三件事。看不到任何一件，就請它重做。</p>
+  <p>AI 助手動手之前、之中、之後，你只看它的計畫、看它改完的前後對照、然後點頭。看不到任何一件，就請它重做。</p>
   <ol>
     <li><strong>計畫</strong>：它要動哪個資料夾、改哪個檔、會不會上傳到任何地方。沒先說計畫就動手的，叫它先說。</li>
     <li><strong>前後對照</strong>：改完以後，哪幾行變了。多出一行你沒要的，就要問。</li>
@@ -163,7 +150,7 @@ figure svg text{font-family:var(--sans)}
     <table class="studio-table">
       <thead><tr><th>分頁</th><th>按鈕</th><th>必填欄</th><th>用在哪一塊</th></tr></thead>
       <tbody>
-        <tr><td>Rubric 工作台</td><td>「複製」（提示詞卡）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td>「為什麼改」</td><td>第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
+        <tr><td>Rubric 工作台</td><td>「複製」（提示詞）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td>「為什麼改」</td><td>第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
         <tr><td>證據儀表板</td><td>「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td>每筆「同意／不同意」與「為什麼」、「三句結論」</td><td>第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
         <tr><td>一頁設計</td><td>「帶入示範課」、「複製」、「匯出 Markdown」</td><td>—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td>第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
         <tr><td>全站</td><td>「清除暫存」</td><td>—</td><td>工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
@@ -175,14 +162,14 @@ figure svg text{font-family:var(--sans)}
 <!-- ═══════════ 參 ═══════════ -->
 <section id="sec-blocks">
   <h2><span class="sec-num">參</span>四塊逐步：你說什麼、AI 會做什麼、你一定要自己看的</h2>
-  <p>每一塊的格式都一樣：講師先做一遍，大家跟著做，每步一句話。左欄是你對 AI 助手說的話，中欄是它會做什麼，右欄（金色）是你一定要自己看的那件事。要 AI 助手動手的步驟，左欄底下多一句「貼給 AI 助手的話」，整句複製貼上就行。走 🅑 路線的人：第一塊看線上練習台（這一塊最後有連結），第二塊起左欄的話才貼到你的 AI 聊天網頁，存版本改用 GitHub 網頁版上傳。</p>
+  <p>每一塊的格式都一樣：講師先做一遍，大家跟著做，每步一句話。左欄是你對 AI 助手說的話，中欄是它會做什麼，右欄（金色）是你一定要自己看的那件事。要 AI 助手動手的步驟，左欄底下多一句「貼給 AI 助手的話」，整句複製貼上就行。還沒裝好 AI 助手的人：先看鄰座或講師機做，每一句都可以複製，自己的資料夾回家補建。</p>
   <div id="blocks" data-render></div>
 </section>
 
 <!-- ═══════════ 肆 ═══════════ -->
 <section id="sec-examples">
-  <h2><span class="sec-num">肆</span>領域卡：主範例與兩組自選</h2>
-  <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的自選卡。三張卡的共同點：改掉的都是形容詞，換上數得出的事；你的課找同一種格子。</p>
+  <h2><span class="sec-num">肆</span>例子：主範例與兩組自選</h2>
+  <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的例子。三個例子的共同點：改掉的都是形容詞，換上數得出的事；你的課找同一種格子。</p>
   <div id="examples" data-render></div>
 </section>
 
@@ -197,7 +184,7 @@ figure svg text{font-family:var(--sans)}
 <!-- ═══════════ 陸 ═══════════ -->
 <section id="sec-ethics">
   <h2><span class="sec-num">陸</span>資料倫理：回去用自己的資料之前</h2>
-  <p>今天全程用合成資料，所以沒有倫理問題。回去換成自己課的資料，紅線第二句就開始生效。下面三件事做完，再開始。</p>
+  <p>今天全程用合成資料，所以沒有倫理問題。回去換成自己課的資料，開頭那句話就開始算數：專案設不公開、丟給 AI 前先拿掉姓名學號。下面三件事做完，再開始。</p>
   <div class="grid2">
     <div class="card">
       <h3>去識別化怎麼做</h3>
@@ -213,7 +200,7 @@ figure svg text{font-family:var(--sans)}
       <h3>私人 repo（不公開的版本庫）</h3>
       <ul>
         <li>請 AI 助手建遠端版本庫時，明講「設成不公開（private）」；建完自己到 GitHub 網頁看一次設定。</li>
-        <li>走瀏覽器路線的人，在 GitHub 網頁建 repo 時勾「Private」，上傳前再看一眼頁面上有沒有鎖頭圖示。</li>
+        <li>課後若改用 GitHub 網頁版上傳，建 repo 時勾「Private」，上傳前再看一眼頁面上有沒有鎖頭圖示。</li>
         <li>共同研究者用「邀請協作者」加進來，不要把 repo 改成公開來共享。</li>
         <li>研究結束要公開教材時，另開一個只有教材、沒有資料的公開 repo。</li>
       </ul>
@@ -221,7 +208,7 @@ figure svg text{font-family:var(--sans)}
   </div>
   <div class="card">
     <h3>給 AI 之前拿掉什麼</h3>
-    <p>給雲端 AI 的，只有<strong>代號、分數、去掉姓名的反思文字</strong>。不給的：姓名、學號、信箱、電話、班級加座號、任何能認出人的細節、影像。平台匯出的檔多半混了姓名與空白列，先在試算表清一遍，再用課後手冊裡的提示詞卡 <a href="#prompt-P5">P5</a> 請 AI 整理成固定欄位；AI 整理完先只看前 5 列確認格式。</p>
+    <p>給雲端 AI 的，只有<strong>代號、分數、去掉姓名的反思文字</strong>。不給的：姓名、學號、信箱、電話、班級加座號、任何能認出人的細節、影像。平台匯出的檔多半混了姓名與空白列，先在試算表清一遍，再用課後手冊裡的提示詞 <a href="#prompt-P5">P5</a> 請 AI 整理成固定欄位；AI 整理完先只看前 5 列確認格式。</p>
     <p class="cite">知情同意與資料保存年限依各校研究倫理規範；一頁設計的「資料倫理」欄請寫你學校的做法。</p>
   </div>
 </section>
@@ -229,40 +216,30 @@ figure svg text{font-family:var(--sans)}
 <!-- ═══════════ 柒 ═══════════ -->
 <section id="sec-after">
   <h2><span class="sec-num">柒</span>課後手冊</h2>
-  <p>工作坊結束之後會用到的事都在這裡。第一節「<span id="ac1-title-ref">兩種紀錄怎麼讀成同一種</span>」先讀，它回答最常被問的一題：我今天走瀏覽器路線，紀錄跟走本機路線的人一樣嗎。</p>
+  <p>工作坊結束之後會用到的事都在這裡。第一節「<span id="ac1-title-ref">兩種紀錄怎麼讀成同一種</span>」先讀，它回答最常被問的一題：課後我若改用 GitHub 網頁版上傳，紀錄跟今天用 AI 助手存的一樣嗎。</p>
   <div id="aftercourse" data-render></div>
 
   <div class="card">
     <h3>抽查紀錄怎麼呈現</h3>
-    <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。表的樣子像這樣（示範資料「課堂專題簡報」）：</p>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>抽到的代號</th><th>AI 的分類</th><th>我的判斷</th><th>為什麼</th></tr></thead>
-        <tbody>
-          <tr><td>DEMO-S03</td><td>把原因歸到外部</td><td>同意</td><td>整句都在講時間不夠，沒有提到自己可以改的事。</td></tr>
-          <tr><td>DEMO-S14</td><td>同儕回饋有幫上忙</td><td>同意</td><td>反思寫出同學的具體建議，而且試過了。互評分數異常低，要回查互評表。</td></tr>
-          <tr><td>DEMO-S08</td><td>把原因歸到外部</td><td>部分不同意</td><td>歸因外部沒錯，但「沒時間練」也指出了自己的準備流程，下次回饋要接這一句。</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p>表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這是「本輪人工抽查一致率（n=3，探索性紀錄）」，還不是正式的信度證據；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
+    <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。例如示範資料裡抽到 DEMO-S03，AI 分成「把原因歸到外部」，你寫「同意：整句都在講時間不夠，沒有提到自己可以改的事」；抽到 DEMO-S08，你寫「部分不同意：歸因外部沒錯，但『沒時間練』也指出了自己的準備流程，下次回饋要接這一句」。表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這還不是正式的信度證據，只是這一輪人工抽查的一致率（3 筆，探索性紀錄）；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
   </div>
 
   <div class="card">
     <h3>信效度怎麼寫</h3>
-    <p>工作坊兩小時做不出信效度，計畫書也不用假裝有。誠實的寫法是「工具發展過程」：Rubric v1 是 AI 起草、v2 是你改了哪幾格與為什麼、v3 是下學期兩位老師同評之後改的。信度的部分，下學期只做一件事就夠：請一位同領域老師用同一份 Rubric 評 10 份作品，先算「同一格打一樣分的比例」，不一致的格子回頭改成 v3。這個比例跟改了哪幾格，寫進計畫書「研究工具信效度」那一節；一頁設計的第九欄就是替這一段先占好位子。</p>
+    <p>工作坊兩小時做不出信效度，計畫書也不用假裝有。誠實的寫法是「工具發展過程」：Rubric v1 是 AI 起草、v2 是你改了哪幾格與為什麼、v3 是下學期兩位老師同評之後改的。信度的部分，下學期只做一件事就夠：請一位同領域老師用同一份 Rubric 評 10 份作品，算「同一格打一樣分的比例」，不一致的格子回頭改成 v3；這個比例跟改了哪幾格，寫進計畫書「研究工具信效度」那一節，一頁設計的第九欄就是替這一段先占好位子。</p>
   </div>
 </section>
 
 <!-- ═══════════ 捌 ═══════════ -->
 <section id="sec-agenda">
   <h2><span class="sec-num">捌</span>兩小時議程</h2>
+  <p class="cite">主辦：<span id="host-line">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</span></p>
   <div class="table-wrap" id="agenda" data-render></div>
 </section>
 
 <!-- ═══════════ 玖 ═══════════ -->
 <section id="sec-glossary">
-  <h2><span class="sec-num">玖</span>名詞表（八個就夠）</h2>
+  <h2><span class="sec-num">玖</span>名詞表</h2>
   <p>今天會反覆聽到的英文詞就這八個。看得懂就好，不用背。</p>
   <dl class="glossary">
     <div><dt>AI agent</dt><dd>AI 助手：裝在你電腦上、能代你打指令與改檔案的 AI 程式。它說「做完了」不等於做完——看它的計畫、看前後對照、點頭。</dd></div>
@@ -375,8 +352,8 @@ figure svg text{font-family:var(--sans)}
 <!-- 16 個數字手打自 data/project-presentation-scores.csv（自評−教師／互評−教師），8 筆＝S01、S03、S07、S11、S14、S18、S22、S24；長條寬度＝|差|×26px。
      make_demo_data.py 重跑或 CSV 改動後，沒有任何腳本會抓到這裡，要人工回查這 16 個數字（validate-workshop.mjs 已有 csvRows 可以接）。 -->
 <svg viewBox="0 0 860 420" width="100%" role="img" aria-labelledby="fg-title">
-  <title id="fg-title">三方評分落差圖：自評減教師分、互評減教師分，離 0 遠的代號浮出來</title>
-  <text x="20" y="26" class="sv-ink sv-b" font-size="16">三方評分落差（示範資料「課堂專題簡報」，取 8 筆）</text>
+  <title id="fg-title">評分落差圖：自評減教師分、互評減教師分，離 0 遠的代號浮出來</title>
+  <text x="20" y="26" class="sv-ink sv-b" font-size="16">自評、互評、教師評分的落差（示範資料「課堂專題簡報」，取 8 筆）</text>
   <rect x="560" y="14" width="14" height="14" rx="3" class="sv-teal"/>
   <text x="580" y="26" class="sv-soft" font-size="13">自評 − 教師</text>
   <rect x="680" y="14" width="14" height="14" rx="3" class="sv-gold"/>
@@ -524,18 +501,16 @@ figure svg text{font-family:var(--sans)}
     return;
   }
 
-  /* ── 貳：路線、桌牌 ── */
-  $('#routes').innerHTML = F.routes.map(function(r){
-    return '<article class="card route"><h3><span class="badge gold">' + esc(r.badge) + '</span>' + esc(r.label) + '</h3>' +
-      '<p>' + esc(r.promise) + '</p>' +
-      '<span class="lbl">需要先有</span><ul>' + r.needs.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' +
-      '<span class="lbl">今天怎麼走</span><ol>' + r.how.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ol></article>';
-  }).join('');
-  $('#tablecards').innerHTML = F.tableCards.map(function(t){
-    return '<div class="tcard"><strong>' + esc(t.label) + '</strong><span>' + esc(t.note) + '</span></div>';
-  }).join('');
+  /* ── 貳：今天怎麼做（從 routes[0] 渲染成一段文字，不做卡片；簡化工單 2026-10-02）──
+     routes[0].rescue 的最後一句還是舊說法（資料源這輪不開放改），所以裝不起來那句用講義自己的話寫，事實（提早 20 分鐘、14:40、可先寄信）照資料源。 */
+  var rt = F.routes[0];
+  $('#route-text').innerHTML = '行前把 AI 助手裝好，當天每一步它代打。' + esc(rt.promise) +
+    '你需要先有：' + rt.needs.map(esc).join('；') + '。' +
+    '今天四塊都這樣走：' + rt.how.map(esc).join('；') + '。' +
+    '真的裝不起來（或筆電是學校統一控管），提早 20 分鐘（14:40）到會議室，講師現場陪你裝好，也可以先寄信給講師遠端看。' +
+    '進場不點名；還沒裝好的人坐講師這一側，提早到的現場先裝。';
 
-  /* ── 參：四塊（步驟、幕後指令、卡住時、提示詞卡、圖）── */
+  /* ── 參：四塊（步驟、幕後指令、卡住時、提示詞、圖）── */
   var figHtml = function(id){
     var t = document.getElementById('tpl-' + id);
     var meta = F.figureById ? F.figureById(id) : null;
@@ -545,15 +520,17 @@ figure svg text{font-family:var(--sans)}
   };
   var promptCard = function(p){
     return '<div class="prompt" id="prompt-' + esc(p.id) + '">' +
-      '<span class="label">提示詞卡 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
-      '<button class="btn small copy" type="button" data-copy-from=".prompt" aria-label="複製提示詞卡 ' + esc(p.id) + '">複製</button>' +
+      '<span class="label">提示詞 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
+      '<button class="btn small copy" type="button" data-copy-from=".prompt" aria-label="複製提示詞 ' + esc(p.id) + '">複製</button>' +
       '<span class="ptext">' + esc(p.text) + '</span>' +
-      '<span class="rule-foot">硬規矩：' + esc(F.meta.rule) + '</span></div>';
+      '<span class="rule-foot">' + esc(F.meta.rule) + '</span></div>';
   };
-  var linkPrompts = function(s){ return esc(s).replace(/提示詞卡 (P\d)/g, function(m, p){ return '提示詞卡 <a href="#prompt-' + p + '">' + p + '</a>'; }); };
+  /* 顯示層把資料源裡的「提示詞卡」統一叫「提示詞」（簡化工單：名稱叫提示詞就好），並把 P1…P6 連到那段提示詞 */
+  var plain = function(s){ return esc(s).replace(/提示詞卡/g, '提示詞'); };
+  var linkPrompts = function(s){ return plain(s).replace(/提示詞 (P\d)/g, function(m, p){ return '提示詞 <a href="#prompt-' + p + '">' + p + '</a>'; }); };
   var dataBase = (F.meta.siteUrl || '').replace(/\/?$/, '/') + 'data/';
   var blockExtras = {
-    B1: '<p class="behind">上面提到的線上練習台在這裡：<a href="' + esc(F.meta.simUrl) + '" target="_blank" rel="noopener">' + esc(F.meta.simUrl) + '</a>（上一場的模擬頁，不用安裝任何東西）。</p>',
+    B1: '',
     B3: '<div class="note">示範資料的網址（請 AI 助手下載這一份）：<br><code>' + esc(dataBase) + 'project-presentation-scores.csv</code><br>' +
         '體育與實驗報告的自選資料在同一層：<code>pe-squat-scores.csv</code>、<code>lab-report-scores.csv</code>；預先跑好的分析是 <code>sample-analysis.json</code>。三份都是合成資料，第一行寫明了。</div>'
   };
@@ -595,18 +572,18 @@ figure svg text{font-family:var(--sans)}
       '<p class="behind">幕後 AI 代打的指令（看得懂就好，不用背）：<code>' + esc(b.behind) + '</code></p>' +
       '<div class="warn"><strong>卡住時：</strong>' + esc(b.rescue) + '</div>' +
       (blockExtras[b.id] && b.id === 'B1' ? blockExtras[b.id] : '') +
-      (prompts ? '<h4>這一塊的提示詞卡</h4>' + prompts : '') +
+      (prompts ? '<h4>這一塊的提示詞</h4>' + prompts : '') +
       figs +
       '</article>';
   }).join('');
 
-  /* ── 肆：領域卡 ── */
+  /* ── 肆：例子（主範例＋兩組自選，三個是不同內容，所以還是三張）── */
   var exList = [F.examples.presentation, F.examples.pe, F.examples.lab].filter(Boolean);
   $('#examples').innerHTML = '<div class="grid2">' + exList.map(function(e){
     return '<article class="card excard"><h3>' + esc(e.label) + '</h3>' +
       '<p><strong>任務：</strong>' + esc(e.task) + '</p>' +
       '<div class="crit">' + e.criteria.map(function(c){ return '<span class="badge">' + esc(c) + '</span>'; }).join('') + '</div>' +
-      '<p><strong>證據媒介：</strong>' + esc(e.medium) + '</p>' +
+      '<p><strong>證據從哪來：</strong>' + esc(e.medium) + '</p>' +
       '<span class="lbl">不同意的那一句（示範）</span><blockquote>' + esc(e.disagreeExample) + '</blockquote>' +
       '<span class="lbl">為什麼改</span><blockquote class="why">' + esc(e.whyChanged) + '</blockquote></article>';
   }).join('') + '</div>';
@@ -621,7 +598,7 @@ figure svg text{font-family:var(--sans)}
   var after = F.afterCourse.slice(0, 4);
   var afterPrompts = F.prompts.filter(function(p){ return p.block === 'after'; }).map(promptCard).join('');
   $('#aftercourse').innerHTML = after.map(function(a){
-    return '<div class="card" id="after-' + esc(a.id) + '"><h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' +
+    return '<div class="card" id="after-' + esc(a.id) + '"><h3>' + esc(a.title) + '</h3><p>' + linkPrompts(a.text) + '</p>' +
       (a.id === 'AC3' ? afterPrompts : '') + '</div>';
   }).join('');
 
@@ -630,7 +607,7 @@ figure svg text{font-family:var(--sans)}
   $('#agenda').innerHTML = '<table><thead><tr><th>時間</th><th>段</th><th>形式</th><th>做什麼</th><th>老師帶走什麼</th></tr></thead><tbody>' +
     F.agenda.map(function(a){
       return '<tr><td style="white-space:nowrap">' + esc(a.start) + '–' + esc(a.end) + '<br><span class="agenda-total">' + a.minutes + ' 分</span></td><td><strong>' + esc(a.title) + '</strong></td><td style="white-space:nowrap">' + esc(a.mode) + '</td><td>' + esc(a.summary) + '</td><td>' + esc(a.takeaway) + '</td></tr>';
-    }).join('') + '</tbody></table><p class="agenda-total">合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉桌牌，鄰座或助教先看。</p>';
+    }).join('') + '</tbody></table><p class="agenda-total">合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉手，鄰座或講師先看。</p>';
 
   /* ── 拾：三條誠實限制（afterCourse 第五節）── */
   var ac5 = F.afterCourse[4];
@@ -641,10 +618,10 @@ figure svg text{font-family:var(--sans)}
   var checks = [
     ['#rule-text', F.meta.rule], ['#airule-text', F.meta.aiRule],
     ['#hero-title', F.meta.title], ['#hero-sub', F.meta.subtitle], ['#hero-tag', F.meta.tagline],
-    ['#hero-date', F.meta.date], ['#hero-time', F.meta.time], ['#hero-venue', F.meta.venue], ['#hero-speaker', F.meta.speaker], ['#hero-host', F.meta.host],
-    ['#ac1-title-ref', F.afterCourse[0].title]
+    ['#hero-date', F.meta.date], ['#hero-time', F.meta.time], ['#hero-venue', F.meta.venue], ['#hero-speaker', F.meta.speaker], ['#host-line', F.meta.host],
+    ['#ac1-title-ref', F.afterCourse[0].title],
+    ['#redline-text', F.redlines[0].text]   // 只剩一句，講義直接寫那句（不渲染 title，標籤不出現）
   ];
-  F.redlines.forEach(function(r){ checks.push(['#redline-' + r.id + ' h3', r.title]); checks.push(['#redline-' + r.id + ' p', r.text]); });
   var bad = 0;
   checks.forEach(function(c){
     var el = $(c[0]); var got = el ? el.textContent.trim() : null;

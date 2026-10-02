@@ -147,31 +147,28 @@ section('資料源：一頁設計 11 欄', () => {
 section('資料源：8 張圖', () => {
   if (!flow) return;
   const g = flow.figures;
-  if (!Array.isArray(g) || g.length !== 8) return fail(`figures 應為 8 張，目前 ${g ? g.length : '沒有'}`);
+  if (!Array.isArray(g) || g.length !== 6) return fail(`figures 應為 6 張（簡化版：議程、時間軸、Rubric 並列、落差、抽查、一頁設計），目前 ${g ? g.length : '沒有'}`);
   const seen = new Set();
   for (const f of g) {
     for (const k of ['id', 'title', 'note']) if (typeof f[k] !== 'string' || !f[k].trim()) fail(`figure ${f.id || '?'} 的 ${k} 是空的`);
     if (!/^F-[a-z-]+$/.test(f.id || '')) fail(`figure id 格式應為 F-xxx：${f.id}`);
     if (seen.has(f.id)) fail(`figure id 重複：${f.id}`); seen.add(f.id);
   }
-  const fr = g.find(f => f.id === 'F-routes');
-  if (fr && /瀏覽器路線[^。]{0,6}主線/.test(fr.note)) warn(`workflow-data.js 的 figures F-routes 的 note 還寫著「瀏覽器路線（主線）」，跟 v2.1（AI agent 路線＝主線、瀏覽器＝逃生門）相反——D 畫圖別照這句畫；請洄瀾改資料源`);
 });
 
 section('資料源：紅線、路線、桌牌、範例、課後手冊', () => {
   if (!flow) return;
   const r = flow.redlines;
-  if (!Array.isArray(r) || r.length !== 3) fail(`redlines 應為 3 句，目前 ${r ? r.length : '沒有'}`);
+  if (!Array.isArray(r) || r.length !== 1) fail(`redlines 簡化版只剩 1 句底線，目前 ${r ? r.length : '沒有'}`);
   else r.forEach(x => { for (const k of ['id', 'title', 'text']) if (typeof x[k] !== 'string' || !x[k].trim()) fail(`紅線 ${x.id || '?'} 的 ${k} 是空的`); });
   const rt = flow.routes;
-  if (!Array.isArray(rt) || rt.map(x => x.id).join(',') !== 'agent,browser') fail('routes 應為 agent（主線）＋browser（逃生門）兩條、順序如此');
+  if (!Array.isArray(rt) || rt.map(x => x.id).join(',') !== 'agent') fail('routes 只能有一條 agent（Ted 2026-10-02：全員用 AI agent、不留瀏覽器路線）');
   else rt.forEach(x => {
-    for (const k of ['badge', 'label', 'promise']) if (typeof x[k] !== 'string' || !x[k].trim()) fail(`路線 ${x.id} 的 ${k} 是空的`);
+    for (const k of ['label', 'promise', 'rescue']) if (typeof x[k] !== 'string' || !x[k].trim()) fail(`路線 ${x.id} 的 ${k} 是空的`);
     for (const k of ['needs', 'how']) if (!Array.isArray(x[k]) || !x[k].length) fail(`路線 ${x.id} 的 ${k} 是空的`);
   });
-  if (rt && rt[0] && !/主線/.test(rt[0].label)) fail('routes[0]（agent）的 label 應標明「主線」');
-  const tc = flow.tableCards;
-  if (!Array.isArray(tc) || tc.length !== 3) fail(`tableCards 應為 3 種，目前 ${tc ? tc.length : '沒有'}`);
+  if (rt && rt[0] && !/AI 助手/.test(rt[0].label)) fail('routes[0] 的 label 應講到「AI 助手」');
+  if (flow.tableCards !== undefined) fail('tableCards 已在簡化版刪除（Ted 2026-10-02：桌牌不要），資料源不該再有這個鍵');
   const ex = flow.examples || {};
   for (const k of ['presentation', 'pe', 'lab']) {
     if (!ex[k]) { fail(`examples 缺 ${k}`); continue; }
@@ -400,14 +397,14 @@ section('index.html 內容', () => {
   const src = pageSrc['index.html'];
   for (const [k, v] of [['meta.title', flow.meta.title], ['meta.tagline', flow.meta.tagline], ['meta.date', flow.meta.date]]) if (!src.includes(v)) fail(`index.html 沒有 ${k} 的原文「${v}」`);
   for (const dest of ['start.html', 'material.html', 'studio.html', 'slides/index.html']) if (!new RegExp(`href="${dest.replace('.', '\\.')}"`).test(src)) fail(`index.html 缺去處連結：${dest}`);
-  for (const key of ['redlines', 'routes', 'agenda', 'tableCards']) if (!hasData(src, key)) fail(`index.html 沒有從資料源渲染 ${key}`);
+  for (const key of ['redlines', 'agenda']) if (!hasData(src, key)) fail(`index.html 沒有從資料源渲染 ${key}`);
   if (!src.includes(flow.meta.siteUrl)) fail('index.html 沒寫站台網址（meta.siteUrl）');
 });
 
 /* ───────── 4. 投影片 ───────── */
 section('投影片', () => {
   if (!slideFiles.length) return;
-  if (slideFiles.length < 18 || slideFiles.length > 22) fail(`slides/ 頁數應在 18–22，目前 ${slideFiles.length}`);
+  if (slideFiles.length < 12 || slideFiles.length > 16) fail(`slides/ 頁數應在 12–16（簡化版 14 頁為準），目前 ${slideFiles.length}`);
   const expected = slideFiles.map((_, i) => String(i + 1).padStart(2, '0') + '.html');
   if (slideFiles.join(',') !== expected.join(',')) fail(`slides/ 頁碼不連續：${slideFiles.join(',')}`);
   const all = {};
