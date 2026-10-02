@@ -1,0 +1,677 @@
+{
+ "project-presentation": {
+  "task": "課堂專題簡報（8 分鐘）",
+  "criteria": [
+   "內容正確",
+   "結構清楚",
+   "表達流暢",
+   "回應提問"
+  ],
+  "medium": "口頭報告＋投影片（教師與同儕現場觀察紀錄）",
+  "categories": {
+   "skill": "具體指出自己的弱點",
+   "external": "把原因歸到外部",
+   "emotion": "情緒或退縮訊號",
+   "peer": "同儕回饋有幫上忙",
+   "ai": "提到 AI 的使用方式",
+   "vague": "空泛、沒有具體內容"
+  },
+  "ai_category": {
+   "DEMO-S01": "peer",
+   "DEMO-S02": "peer",
+   "DEMO-S03": "external",
+   "DEMO-S04": "external",
+   "DEMO-S05": "peer",
+   "DEMO-S06": "skill",
+   "DEMO-S07": "vague",
+   "DEMO-S08": "external",
+   "DEMO-S09": "skill",
+   "DEMO-S10": "skill",
+   "DEMO-S11": "ai",
+   "DEMO-S12": "ai",
+   "DEMO-S13": "ai",
+   "DEMO-S14": "peer",
+   "DEMO-S15": "skill",
+   "DEMO-S16": "external",
+   "DEMO-S17": "vague",
+   "DEMO-S18": "vague",
+   "DEMO-S19": "skill",
+   "DEMO-S20": "skill",
+   "DEMO-S21": "emotion",
+   "DEMO-S22": "emotion",
+   "DEMO-S23": "vague",
+   "DEMO-S24": "external"
+  },
+  "true_category": {
+   "DEMO-S01": "peer",
+   "DEMO-S02": "peer",
+   "DEMO-S03": "external",
+   "DEMO-S04": "external",
+   "DEMO-S05": "peer",
+   "DEMO-S06": "skill",
+   "DEMO-S07": "vague",
+   "DEMO-S08": "external",
+   "DEMO-S09": "skill",
+   "DEMO-S10": "skill",
+   "DEMO-S11": "ai",
+   "DEMO-S12": "ai",
+   "DEMO-S13": "ai",
+   "DEMO-S14": "peer",
+   "DEMO-S15": "skill",
+   "DEMO-S16": "external",
+   "DEMO-S17": "vague",
+   "DEMO-S18": "skill",
+   "DEMO-S19": "skill",
+   "DEMO-S20": "skill",
+   "DEMO-S21": "emotion",
+   "DEMO-S22": "emotion",
+   "DEMO-S23": "vague",
+   "DEMO-S24": "external"
+  },
+  "ai_wrong_on": "DEMO-S18",
+  "gaps": [
+   {
+    "student_id": "DEMO-S01",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S02",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S03",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 6,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S04",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S05",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S06",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S07",
+    "self_minus_teacher": 8,
+    "peer_minus_teacher": 1,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S08",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S09",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S10",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S11",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 0,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S12",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S13",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S14",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -8,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S15",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S16",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S17",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S18",
+    "self_minus_teacher": -7,
+    "peer_minus_teacher": -1,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S19",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S20",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S21",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S22",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S23",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S24",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   }
+  ],
+  "answer_key": {
+   "DEMO-S07": "自評虛高：自評滿分，互評與教師評分都低；反思空泛。",
+   "DEMO-S14": "互評異常偏低：自評與教師評分一致、互評極低——可能是互評者標準或關係問題，要回查互評表。",
+   "DEMO-S22": "分數中等但反思出現挫折與退縮的訊號，需要回饋介入而不是再扣分。",
+   "DEMO-S03": "互評過寬：互評滿分、教師評分偏低；反思把原因推給外部。",
+   "DEMO-S18": "自評偏低：表現好但自評很低，反思具體——適合用回饋拉自信。【AI 分類故意標錯】這筆反思其實具體講出了自己的弱點，預跑的 AI 分析卻把它標成「空泛」。抽查抽到它就會發現；全場沒人抽到，講師最後點出來。",
+   "DEMO-S11": "AI 使用訊號：反思坦承用 AI 整理但沒真的看懂，分數看不出來、文字才看得出來。"
+  }
+ },
+ "pe-squat": {
+  "task": "深蹲動作品質（手機錄影 3 次）",
+  "criteria": [
+   "下蹲深度",
+   "膝蓋對齊",
+   "脊柱中立",
+   "控制與節奏"
+  ],
+  "medium": "手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）",
+  "categories": {
+   "skill": "具體指出自己的弱點",
+   "external": "把原因歸到外部",
+   "emotion": "情緒或退縮訊號",
+   "peer": "同儕回饋有幫上忙",
+   "ai": "提到 AI 的使用方式",
+   "vague": "空泛、沒有具體內容"
+  },
+  "ai_category": {
+   "DEMO-S01": "external",
+   "DEMO-S02": "external",
+   "DEMO-S03": "external",
+   "DEMO-S04": "vague",
+   "DEMO-S05": "peer",
+   "DEMO-S06": "peer",
+   "DEMO-S07": "vague",
+   "DEMO-S08": "external",
+   "DEMO-S09": "ai",
+   "DEMO-S10": "peer",
+   "DEMO-S11": "ai",
+   "DEMO-S12": "skill",
+   "DEMO-S13": "external",
+   "DEMO-S14": "peer",
+   "DEMO-S15": "ai",
+   "DEMO-S16": "skill",
+   "DEMO-S17": "vague",
+   "DEMO-S18": "vague",
+   "DEMO-S19": "skill",
+   "DEMO-S20": "skill",
+   "DEMO-S21": "skill",
+   "DEMO-S22": "emotion",
+   "DEMO-S23": "skill",
+   "DEMO-S24": "emotion"
+  },
+  "true_category": {
+   "DEMO-S01": "external",
+   "DEMO-S02": "external",
+   "DEMO-S03": "external",
+   "DEMO-S04": "vague",
+   "DEMO-S05": "peer",
+   "DEMO-S06": "peer",
+   "DEMO-S07": "vague",
+   "DEMO-S08": "external",
+   "DEMO-S09": "ai",
+   "DEMO-S10": "peer",
+   "DEMO-S11": "ai",
+   "DEMO-S12": "skill",
+   "DEMO-S13": "external",
+   "DEMO-S14": "peer",
+   "DEMO-S15": "ai",
+   "DEMO-S16": "skill",
+   "DEMO-S17": "vague",
+   "DEMO-S18": "skill",
+   "DEMO-S19": "skill",
+   "DEMO-S20": "skill",
+   "DEMO-S21": "skill",
+   "DEMO-S22": "emotion",
+   "DEMO-S23": "skill",
+   "DEMO-S24": "emotion"
+  },
+  "ai_wrong_on": "DEMO-S18",
+  "gaps": [
+   {
+    "student_id": "DEMO-S01",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S02",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S03",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 6,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S04",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S05",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S06",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S07",
+    "self_minus_teacher": 8,
+    "peer_minus_teacher": 1,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S08",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S09",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S10",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S11",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 0,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S12",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S13",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S14",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -8,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S15",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S16",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S17",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S18",
+    "self_minus_teacher": -7,
+    "peer_minus_teacher": -1,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S19",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S20",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S21",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S22",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S23",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S24",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   }
+  ],
+  "answer_key": {
+   "DEMO-S07": "自評虛高：自評滿分、互評與教師評分都低；反思空泛。",
+   "DEMO-S14": "互評異常偏低：自評與教師評分一致、互評極低——回查互評者與拍攝角度。",
+   "DEMO-S22": "分數中等但反思出現「不想再錄」的退縮訊號。",
+   "DEMO-S03": "互評過寬＋歸因外部（手機角度）。",
+   "DEMO-S18": "自評偏低但動作其實不錯，反思具體。【AI 分類故意標錯】這筆反思其實具體講出了自己的弱點，預跑的 AI 分析卻把它標成「空泛」。抽查抽到它就會發現；全場沒人抽到，講師最後點出來。",
+   "DEMO-S11": "AI 給了太多要點、學生記不住——回饋量的問題。"
+  }
+ },
+ "lab-report": {
+  "task": "實驗報告（第 3 次實驗）",
+  "criteria": [
+   "假設與設計",
+   "數據處理",
+   "誤差討論",
+   "結論與反思"
+  ],
+  "medium": "書面報告（文字、表格、圖）",
+  "categories": {
+   "skill": "具體指出自己的弱點",
+   "external": "把原因歸到外部",
+   "emotion": "情緒或退縮訊號",
+   "peer": "同儕回饋有幫上忙",
+   "ai": "提到 AI 的使用方式",
+   "vague": "空泛、沒有具體內容"
+  },
+  "ai_category": {
+   "DEMO-S01": "peer",
+   "DEMO-S02": "external",
+   "DEMO-S03": "skill",
+   "DEMO-S04": "skill",
+   "DEMO-S05": "vague",
+   "DEMO-S06": "skill",
+   "DEMO-S07": "skill",
+   "DEMO-S08": "peer",
+   "DEMO-S09": "skill",
+   "DEMO-S10": "peer",
+   "DEMO-S11": "peer",
+   "DEMO-S12": "skill",
+   "DEMO-S13": "external",
+   "DEMO-S14": "external",
+   "DEMO-S15": "vague",
+   "DEMO-S16": "ai",
+   "DEMO-S17": "external",
+   "DEMO-S18": "emotion",
+   "DEMO-S19": "ai",
+   "DEMO-S20": "emotion",
+   "DEMO-S21": "vague",
+   "DEMO-S22": "vague",
+   "DEMO-S23": "vague",
+   "DEMO-S24": "external"
+  },
+  "true_category": {
+   "DEMO-S01": "peer",
+   "DEMO-S02": "external",
+   "DEMO-S03": "skill",
+   "DEMO-S04": "skill",
+   "DEMO-S05": "vague",
+   "DEMO-S06": "skill",
+   "DEMO-S07": "skill",
+   "DEMO-S08": "peer",
+   "DEMO-S09": "skill",
+   "DEMO-S10": "peer",
+   "DEMO-S11": "peer",
+   "DEMO-S12": "skill",
+   "DEMO-S13": "external",
+   "DEMO-S14": "external",
+   "DEMO-S15": "vague",
+   "DEMO-S16": "ai",
+   "DEMO-S17": "external",
+   "DEMO-S18": "emotion",
+   "DEMO-S19": "ai",
+   "DEMO-S20": "emotion",
+   "DEMO-S21": "vague",
+   "DEMO-S22": "vague",
+   "DEMO-S23": "skill",
+   "DEMO-S24": "external"
+  },
+  "ai_wrong_on": "DEMO-S23",
+  "gaps": [
+   {
+    "student_id": "DEMO-S01",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S02",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 7,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S03",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S04",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S05",
+    "self_minus_teacher": 7,
+    "peer_minus_teacher": 3,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S06",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S07",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S08",
+    "self_minus_teacher": 2,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S09",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S10",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S11",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -8,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S12",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S13",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S14",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S15",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S16",
+    "self_minus_teacher": 1,
+    "peer_minus_teacher": 0,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S17",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S18",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S19",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S20",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 0,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S21",
+    "self_minus_teacher": 0,
+    "peer_minus_teacher": 0,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S22",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": -1,
+    "flag": false
+   },
+   {
+    "student_id": "DEMO-S23",
+    "self_minus_teacher": -8,
+    "peer_minus_teacher": -2,
+    "flag": true
+   },
+   {
+    "student_id": "DEMO-S24",
+    "self_minus_teacher": -1,
+    "peer_minus_teacher": 1,
+    "flag": false
+   }
+  ],
+  "answer_key": {
+   "DEMO-S05": "自評虛高：自評很高、教師評分低，最弱在誤差討論；反思空泛。",
+   "DEMO-S11": "互評異常偏低：自評與教師一致、互評極低。",
+   "DEMO-S20": "分數中等但反思寫到「想放棄這門課」。",
+   "DEMO-S16": "分數不錯，但反思坦承誤差討論是 AI 寫的、自己不懂——分數看不出來、文字才看得出來。",
+   "DEMO-S02": "互評過寬、歸因外部（儀器）。",
+   "DEMO-S23": "自評偏低、表現好、反思具體。【AI 分類故意標錯】這筆反思其實具體講出了自己的弱點，預跑的 AI 分析卻把它標成「空泛」。抽查抽到它就會發現；全場沒人抽到，講師最後點出來。"
+  }
+ }
+}

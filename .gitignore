@@ -1,0 +1,19 @@
+# 作業系統雜物
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 編輯器
+.vscode/
+.idea/
+
+# 萬一有人在這裡跑 node
+node_modules/
+
+# 本機渲染檢查的輸出（Playwright 截圖、報告）
+_qa/
+*.report.json
+
+# 老師自己的真實資料絕不進 repo（教材本身只放合成資料）
+my-course/
+real-data/
