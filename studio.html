@@ -84,7 +84,7 @@
   <div class="inner">
     <p class="eyebrow" id="heroEyebrow">從學習證據到教學改進｜AI 協作促進學習評量與教學實踐研究工作坊</p>
     <h1>證據工作台</h1>
-    <p class="sub">三個分頁對應今天的第二、三、四塊：Rubric 兩版並列、三方評分落差與抽查、一頁設計。純前端、不連任何 AI、示範資料已內嵌——斷線也能開，雙擊檔案也能用。</p>
+    <p class="sub">三個分頁對應今天的第二、三、四塊：Rubric 兩版並列、三方評分落差與抽查、一頁設計。純前端、不連任何 AI、示範資料已內嵌——整個教材資料夾下載後離線也能開，雙擊檔案也能用。</p>
     <p class="meta" id="heroMeta">2026-10-16（五）15:00–17:00</p>
   </div>
 </header>
@@ -638,7 +638,9 @@ function renderDiff(){
   var a = $('v1').value, b = $('v2').value;
   /* 被擋的時候把上一輪的差異清掉，免得把舊結果當成這一次的 */
   if(!a.trim() || !b.trim()){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '左右兩欄都要有內容才能比較。左欄貼第 1 版、右欄貼你改過的第 2 版。'); return null; }
-  if(!$('why').value.trim()){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '「為什麼改」是必填：先寫一句你為什麼改那一格，再比較——差異是用來核對你的決定，不是用來替你決定。'); $('why').focus(); return null; }
+  var whyMissing = !$('why').value.trim();
+  if(whyMissing){ showMsg('msgRubric', '可以先看差異；但「為什麼改」還是空的——看完請回頭寫一句，「匯出這一輪」會要求它。'); }
+  if(false){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '「為什麼改」是必填：先寫一句你為什麼改那一格，再比較——差異是用來核對你的決定，不是用來替你決定。'); $('why').focus(); return null; }
   var d = diffLines(a, b);
   if(!d){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '內容太長（超過 3000 行），請縮到一張規準表的大小再比。'); return null; }
   var st = diffStats(d);
@@ -878,7 +880,7 @@ function renderSamples(){
         '<label><input type="radio" name="agree-' + esc(id) + '" value="no"' + (j.agree === 'no' ? ' checked' : '') + '>不同意</label>' +
       '</div>' +
       '<label class="field" for="why-' + esc(id) + '">為什麼<span class="req">必填</span></label>' +
-      '<textarea id="why-' + esc(id) + '" data-why="' + esc(id) + '" aria-label="' + esc(id) + ' 為什麼同意或不同意">' + esc(j.why || '') + '</textarea>' +
+      '<textarea id="why-' + esc(id) + '" data-why="' + esc(id) + '" placeholder="為什麼？部分不同意也選「不同意」，在這裡寫清楚哪裡不同意" aria-label="' + esc(id) + ' 為什麼同意或不同意">' + esc(j.why || '') + '</textarea>' +
     '</div>';
   });
   host.innerHTML = h;
@@ -937,7 +939,7 @@ $('btnExportSampling').addEventListener('click', function(){
     '- 我看到的證據是：' + p.conclusions[0].trim() + '\n' +
     '- 因此下次要改：' + p.conclusions[1].trim() + '\n' +
     '- 我要再蒐集：' + p.conclusions[2].trim() + '\n\n' +
-    '## 同意率\n\n' + agreeN + '／' + ids.length + '（這個數字放進計畫書「資料分析的信度」那一段）\n';
+    '## 本輪人工抽查一致率（探索性紀錄）\n\n' + agreeN + '／' + ids.length + '（放進計畫書「資料分析」那一段當素材；正式信度要事先訂抽樣比例與複核者、下學期累積）\n';
   var fname = 'sampling-record-' + current.key + '-' + stampFile() + '.md';
   download(fname, md);
   showMsg('msgEvidence', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾，連同你剛寫的兩個分析檔一起存一版，版本說明寫：第三塊：AI 分析＋人工抽查 3 筆」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：課後用 GitHub 網頁版上傳。', true, true);

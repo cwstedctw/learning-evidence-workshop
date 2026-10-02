@@ -17,3 +17,8 @@ _qa/
 # 老師自己的真實資料絕不進 repo（教材本身只放合成資料）
 my-course/
 real-data/
+
+# AI 助手的 skill 安裝（UI UX Pro Max 等），本機用、不進版本庫
+.claude/
+.agents/
+_brief/

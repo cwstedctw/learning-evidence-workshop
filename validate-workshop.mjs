@@ -209,7 +209,8 @@ function listFiles(dir, pred, out = []) {
   if (!fs.existsSync(P(dir))) return out;
   for (const ent of fs.readdirSync(P(dir), { withFileTypes: true })) {
     const rel = dir ? `${dir}/${ent.name}` : ent.name;
-    if (ent.isDirectory()) { if (!/^(\.git|node_modules|_qa|\.github)$/.test(ent.name)) listFiles(rel, pred, out); }
+    // 跳過：版本庫、相依套件、檢查輸出、CI 設定、AI 助手的 skill 安裝（.claude／.agents，本機用、gitignore）、派工暫放（_brief）
+    if (ent.isDirectory()) { if (!/^(\.git|node_modules|_qa|\.github|\.claude|\.agents|_brief)$/.test(ent.name)) listFiles(rel, pred, out); }
     else if (pred(rel)) out.push(rel);
   }
   return out;

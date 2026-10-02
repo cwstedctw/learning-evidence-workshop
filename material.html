@@ -158,13 +158,13 @@ figure svg text{font-family:var(--sans)}
   </ol>
 
   <h3>證據工作台怎麼用</h3>
-  <p>工作台（<a href="studio.html">studio.html</a>）是一個單檔網頁：不連任何 AI、不上傳任何東西，雙擊就能開。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
+  <p>工作台（<a href="studio.html">studio.html</a>）是一個純前端網頁：不連任何 AI、不上傳任何東西；把整個教材資料夾下載下來（或用 git clone），離線也能開——它要跟同一層的 workflow-data.js 放在一起。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
   <div class="table-wrap">
     <table class="studio-table">
       <thead><tr><th>分頁</th><th>按鈕</th><th>必填欄</th><th>用在哪一塊</th></tr></thead>
       <tbody>
         <tr><td>Rubric 工作台</td><td>「複製」（提示詞卡）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td>「為什麼改」</td><td>第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
-        <tr><td>證據儀表板</td><td>「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td>「三句結論」</td><td>第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
+        <tr><td>證據儀表板</td><td>「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td>每筆「同意／不同意」與「為什麼」、「三句結論」</td><td>第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
         <tr><td>一頁設計</td><td>「帶入示範課」、「複製」、「匯出 Markdown」</td><td>—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td>第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
         <tr><td>全站</td><td>「清除暫存」</td><td>—</td><td>工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
       </tbody>
@@ -245,7 +245,7 @@ figure svg text{font-family:var(--sans)}
         </tbody>
       </table>
     </div>
-    <p>表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這就是「分析信度」那一段的素材；下學期每次分析都抽，數字就會累積起來。</p>
+    <p>表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這是「本輪人工抽查一致率（n=3，探索性紀錄）」，還不是正式的信度證據；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
   </div>
 
   <div class="card">
@@ -465,7 +465,7 @@ figure svg text{font-family:var(--sans)}
   <rect x="700" y="72" width="140" height="70" rx="10" class="sv-gsoft" style="stroke:var(--gold);stroke-width:2"/>
   <text x="770" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">存一版</text>
   <text x="770" y="166" text-anchor="middle" class="sv-soft" font-size="12">版本說明寫清楚</text>
-  <text x="20" y="206" class="sv-soft" font-size="13">同意率與不同意的理由，就是計畫書裡「分析信度」那一段的素材。</text>
+  <text x="20" y="206" class="sv-soft" font-size="13">抽查一致率與不同意的理由，是計畫書裡「資料分析」那一段的素材（正式信度要靠下學期累積）。</text>
 </svg>
 </template>
 
@@ -563,8 +563,8 @@ figure svg text{font-family:var(--sans)}
      say 是給老師看的指示，這裡補一句可貼的。匯出檔名照工作台 download() 實際的前綴：rubric-round-／sampling-record-／one-page-design-。
      ⚠️ 這四句理想上該進 workflow-data.js 的 steps（例如加 paste 欄）讓工作台也拿得到；資料源這輪不開放改，先放講義這一層。鍵＝區塊 id-步驟序號。 */
   var pasteSay = {
-    'B2-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 rubric-round-。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫：【把你在工作台「為什麼改」寫的那句貼在這裡】。不要上傳到任何地方。',
-    'B3-1': '請把 ' + dataBase + 'project-presentation-scores.csv 下載到 my-course-evidence 資料夾，下載完告訴我檔案有幾行。接下來我會貼兩段分析要求給你，每段做完把結果各存成一個 .md 檔放進同一個資料夾，檔名取好告訴我。',
+    'B2-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 rubric-round-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，再把那個檔裡「第 2 版」區塊的內容寫進 rubric.md，然後存一版，版本說明寫：【把你在工作台「為什麼改」寫的那句貼在這裡】。不要上傳到任何地方。',
+    'B3-1': '請把 ' + dataBase + 'project-presentation-scores.csv 下載到 my-course-evidence 資料夾，下載完告訴我檔案有幾行。接下來我會貼兩段分析要求給你，第一段的結果存成 gap-analysis.md、第二段存成 reflection-classes.md，都放進同一個資料夾。',
     'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-。請把它從下載資料夾搬進 my-course-evidence，連同你剛才寫的兩個分析檔一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
     'B4-4': '我剛從瀏覽器下載了一個檔，檔名開頭是 one-page-design-。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫「一頁設計 v1：工作坊版」。'
   };
