@@ -59,7 +59,7 @@ button,a,[role=button]{cursor:pointer;touch-action:manipulation}
 .steps4 .pill:hover{background:var(--teal-soft);color:var(--teal-deep)}
 .steps4 .dot{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-weight:900;color:var(--ink-soft);
   transition:background-color var(--dur),border-color var(--dur),color var(--dur),transform var(--dur)}
-.steps4 .lab{font-size:1rem;font-weight:700;line-height:1.2}
+.steps4 .lab{font-size:1rem;font-weight:700;line-height:1.2;word-break:keep-all;text-align:center}   /* 四字標籤只在 <wbr> 處換行（一頁／設計），不會切成「一頁設／計」 */
 .steps4 .pill[aria-current="step"]{color:var(--teal-deep)}
 .steps4 .pill[aria-current="step"] .dot{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-deep);transform:scale(1.08)}
 .steps4 .pill.done{color:var(--good)}
@@ -322,7 +322,7 @@ label.field{margin-top:var(--s2)}
       <li><button class="pill" type="button" data-go="1" aria-label="第 1 關：資料夾"><span class="dot">1</span><span class="lab">資料夾</span></button></li>
       <li><button class="pill" type="button" data-go="2" aria-label="第 2 關：改一句"><span class="dot">2</span><span class="lab">改一句</span></button></li>
       <li><button class="pill" type="button" data-go="3" aria-label="第 3 關：抽三筆"><span class="dot">3</span><span class="lab">抽三筆</span></button></li>
-      <li><button class="pill" type="button" data-go="4" aria-label="第 4 關：一頁設計"><span class="dot">4</span><span class="lab">一頁設計</span></button></li>
+      <li><button class="pill" type="button" data-go="4" aria-label="第 4 關：一頁設計"><span class="dot">4</span><span class="lab">一頁<wbr>設計</span></button></li>
     </ol>
     <div class="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
   </div>
