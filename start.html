@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>行前準備｜從學習證據到教學改進</title>
+<meta name="description" content="2026-10-16 教師工作坊的行前準備頁：完整版十項可勾選清單、最低門檻、逃生門、當天帶什麼。">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 本頁補的版式；顏色一律用 site.css 的代幣 */
+section{scroll-margin-top:64px}
+h2 .sec-num{font-size:.85em}
+.lead{font-size:1.05rem}
+.redlines{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:1em 0}
+.redlines .redline{margin:0}
+.redlines .redline h3{font-size:1.05rem}
+.redlines .redline p{margin:0;font-size:.95rem}
+.routes{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin:1em 0}
+.route{background:var(--card);border:1px solid var(--line);border-left:6px solid var(--teal);border-radius:0 14px 14px 0;padding:16px 18px;box-shadow:var(--shadow)}
+.route.escape{border-left-color:var(--gold)}
+.route h3{margin:0 0 4px;font-size:1.1rem}
+.route .promise{margin:.3em 0 .8em;font-size:.97rem}
+.route h4{margin:.8em 0 .2em;font-size:.92rem;color:var(--ink-soft);font-weight:700}
+.route ul{margin:0;padding-left:1.25em;font-size:.95rem}
+.route .cta{margin-top:12px}
+.os2{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin:.6em 0}
+.os2 .os{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.95rem}
+.os2 .os b{display:block;margin-bottom:2px}
+.progress{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:.6em 0 1em}
+.progress .bar{flex:1 1 160px;height:10px;background:var(--line);border-radius:999px;overflow:hidden;min-width:120px}
+.progress .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .25s}
+.prep{list-style:none;padding:0;margin:0;counter-reset:prep}
+.prep>li{counter-increment:prep;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px 14px;margin:14px 0;box-shadow:var(--shadow)}
+.prep>li.done{border-color:var(--good)}
+.prep .head{display:flex;gap:10px;align-items:flex-start;cursor:pointer;margin:0}
+.prep .head input{margin-top:7px;transform:scale(1.3);flex:0 0 auto}
+.prep .head .num{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.prep>li.done .head .num{background:var(--good)}
+.prep .head .ttl{font-weight:800;font-size:1.08rem;line-height:1.4}
+.prep .head .ttl small{display:block;font-weight:400;font-size:.85rem;color:var(--ink-soft)}
+.prep>li.done .head .ttl{color:var(--ink-soft)}
+.prep .body{margin:8px 0 0 40px}
+.prep .body p{margin:.4em 0 .7em}
+.crit{background:var(--good-soft);border-left:4px solid var(--good);padding:8px 12px;border-radius:0 10px 10px 0;margin:.8em 0;font-size:.95rem}
+.crit strong{color:var(--good)}
+details.ask{margin:.6em 0 0;border:1px dashed var(--line);border-radius:10px;padding:6px 12px}
+details.ask summary{cursor:pointer;font-weight:700;color:var(--teal-deep);font-size:.95rem}
+details.ask .prompt{margin:.6em 0 .4em}
+.prompt{padding-right:84px}
+.prompt .copy{position:absolute;top:8px;right:8px}
+.say{font-size:.8rem;color:var(--teal-deep);font-weight:700;letter-spacing:.05em;margin:.8em 0 .2em}
+.step3{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin:.6em 0}
+.step3 .s{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.95rem}
+.step3 .s b{display:block;color:var(--teal-deep)}
+.step3 .s .code{display:inline-block;font-family:var(--mono);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:0 8px;margin:4px 0}
+.cards3{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:.6em 0}
+.cards3 .c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:.95rem}
+.cards3 .c b{display:block}
+.cards3 .c span{color:var(--ink-soft);font-size:.9rem}
+.linkcards{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin:1.5em 0}
+a.linkcard{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;text-decoration:none;color:var(--ink);box-shadow:var(--shadow)}
+a.linkcard:hover{border-color:var(--teal)}
+a.linkcard b{display:block;color:var(--teal-deep)}
+a.linkcard span{font-size:.9rem}
+.final{list-style:none;padding:0}
+.final li{position:relative;padding-left:1.9em;margin:.5em 0}
+.final li::before{content:"☐";position:absolute;left:0;top:0;color:var(--teal);font-size:1.15em}
+/* 只作用在文字；不能寫成裸 .small，否則會蓋掉 site.css 的 .btn 白字（複製按鈕會變灰字壓青底） */
+p.small,span.small{font-size:.9rem;color:var(--ink-soft)}
+.brk{overflow-wrap:anywhere}
+textarea.oneline{min-height:70px}
+kbd{display:inline-block;background:var(--card);border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px;font-size:.9em}
+@media (max-width:640px){
+  /* 手機上導覽列會折成三行，黏頂會吃掉四分之一螢幕：改成不黏頂、縮間距 */
+  nav.topnav{position:static}
+  nav.topnav .inner{gap:0 10px;font-size:.9rem;padding:6px 16px}
+  nav.topnav a{padding:3px 2px}
+  .prep>li{padding:12px 12px}
+  .prep .body{margin-left:0}
+  .prompt{padding-right:16px;padding-top:40px}
+}
+</style>
+<script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})()</script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <p class="eyebrow">行前準備｜請在 10/14（三）前做完，留兩個晚上</p>
+    <h1 id="heroTitle">從學習證據到教學改進</h1>
+    <p class="sub" id="heroSub">AI 協作促進學習評量與教學實踐研究工作坊</p>
+    <p class="meta" id="heroMeta"></p>
+  </div>
+</header>
+
+<nav class="topnav" aria-label="頁內導覽">
+  <div class="inner">
+    <a href="#redlines">紅線</a>
+    <a href="#who">給誰</a>
+    <a href="#routes">兩條路線</a>
+    <a href="#shot">先學一招</a>
+    <a href="#full">完整版十項</a>
+    <a href="#min">最低門檻</a>
+    <a href="#escape">逃生門</a>
+    <a href="#bring">當天帶什麼</a>
+    <a href="#final">自我檢查</a>
+    <a href="index.html">回入口</a>
+    <span class="spacer"></span>
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級">🔎 投影</button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式">🌗</button>
+  </div>
+</nav>
+
+<main>
+
+<div class="tip">
+  <strong>這一頁是什麼。</strong>10/16 下午的工作坊，四塊內容都是老師自己跟著 AI 助手動手做：建一個會記住每次修改的課程資料夾、改一張評分規準表、抽查一份 AI 分析、填一頁自己的課的設計。
+  要做得順，電腦得先備好。<strong>主線是下面的「完整版十項」</strong>；真的來不及，有「最低門檻」當逃生門（三樣東西，加上你那一句課名與任務），當天一樣四塊做得完。
+  <span class="small">勾選狀態只存在這台電腦的瀏覽器裡，不會傳給任何人。</span>
+</div>
+
+<section id="redlines">
+  <h2><span class="sec-num">〇</span>動手前先講三件事</h2>
+  <p>這三句開場會再講一次，行前先知道，準備起來就不會多做白工——例如，<strong>你不需要為了這場整理任何學生資料</strong>。</p>
+  <div class="redlines" id="redlineCards" data-from="redlines"></div>
+  <noscript><p class="warn">這一段由教材的資料檔即時產生，需要開啟 JavaScript；也可以直接讀<a href="material.html">講義</a>。</p></noscript>
+</section>
+
+<section id="who">
+  <h2><span class="sec-num">壹</span>這場給誰</h2>
+  <p class="lead">給大學老師——手上有一門課、一個會打分數的任務。簡報、實驗報告、動作表現、作品、學習單，都算。</p>
+  <p><strong>不必先會</strong> Git、終端機或任何程式。指令由 AI 助手（agent）在你電腦上代打；你負責三件事：看它的計畫、看它改完的前後對照、點頭。這三件事就是「監督」，也是你在教學實踐研究裡要對審查委員交代的事。</p>
+  <p><strong>要帶的只有一樣：你自己的課。</strong>行前第 10 項會請你寫下一句。像這幾種任務，當天都接得上：</p>
+  <div class="cards3" id="exampleCards" data-from="examples"></div>
+  <p class="small">當天統一用「課堂專題簡報」當主範例跟著做，自己的課放到第四塊再換進去。你的任務跟上面不一樣也沒關係，規則是一樣的。</p>
+</section>
+
+<section id="routes">
+  <h2><span class="sec-num">貳</span>兩條路線：先決定你走哪一條</h2>
+  <p>兩條路線當天做的四塊一樣，差別在「存版本」這件事是 AI 助手在你電腦上做，還是你用網頁上傳。<strong>能留兩個晚上，就走 🅐</strong>——帶走的東西最完整。完整版在家卡死、或筆電是學校統一控管裝不了東西，走 🅑，一樣做得完。</p>
+  <div class="routes" id="routeCards" data-from="routes"></div>
+</section>
+
+<section id="shot">
+  <h2><span class="sec-num">參</span>先學一招：怎麼截圖</h2>
+  <p>下面每一項卡住，都是靠「把畫面拿給 AI 看」解決的。先把這招學起來，後面就不會耗在原地。</p>
+  <div class="os2">
+    <div class="os"><b>🪟 Windows</b>按 <kbd>Win</kbd>＋<kbd>Shift</kbd>＋<kbd>S</kbd>，框選想拍的範圍；回到 AI 的輸入框按 <kbd>Ctrl</kbd>＋<kbd>V</kbd> 貼上。</div>
+    <div class="os"><b>🍎 Mac</b>按 <kbd>Control</kbd>＋<kbd>Command</kbd>＋<kbd>Shift</kbd>＋<kbd>4</kbd>（要加 Control，圖才會進剪貼簿），框選範圍；回到輸入框按 <kbd>Command</kbd>＋<kbd>V</kbd> 貼上。</div>
+  </div>
+  <p>截好圖，配這句一起貼。哪一項卡住就填哪一項，後面每一項的「卡住怎麼問 AI」都是這句的變化。</p>
+  <div class="prompt"><span class="label">通用求救句</span><button class="btn small copy" type="button" aria-label="複製通用求救句">複製</button>我在做 10/16 工作坊的行前準備，第＿＿項「＿＿＿」卡住了，畫面如附圖。請先只看、不要動：告訴我畫面上發生了什麼事、哪裡不對勁；再一步一步帶我做，每次只說一步。如果需要我輸入這台電腦的系統管理員密碼，先停下來告訴我，我自己輸入。</div>
+  <p class="small">還沒裝好 AI 助手之前，這句貼給你慣用的 AI 聊天網頁（ChatGPT、Gemini 都可以）；裝好之後直接問它。</p>
+</section>
+
+<section id="full">
+  <h2><span class="sec-num">肆</span>完整版十項（🅐 主線）</h2>
+  <p>第 1、2 項約半小時；第 3、5、6、8 項要下載安裝，視網速可能一小時以上。<strong>第 6 項只有 Windows 要做</strong>，Mac 直接打勾。每一項都有「完成判準」——打勾前照它看一眼，<strong>把關的人是你自己</strong>。</p>
+  <div class="progress" aria-live="polite">
+    <span>目前完成 <strong id="prepCount">0 / 10</strong></span>
+    <span class="bar" aria-hidden="true"><i id="prepBar"></i></span>
+    <button class="btn secondary small" id="prepClear" type="button" aria-label="清除十項的勾選進度">清除進度</button>
+  </div>
+
+  <ol class="prep" id="prepList">
+
+    <li data-k="p1">
+      <label class="head"><input type="checkbox" aria-label="完成第 1 項 GitHub 帳號"><span class="num">1</span><span class="ttl">GitHub 帳號<small>Windows／Mac 一樣</small></span></label>
+      <div class="body">
+        <p>到 <a href="https://github.com" target="_blank" rel="noopener">github.com</a> 註冊一個帳號，用哪個信箱都可以，記得回信箱按驗證信。已經有帳號的人，確認還登得進去就好。</p>
+        <p class="small">登入後若跳出教育方案之類的大卡片，關掉就好，這場用不到。</p>
+        <div class="crit"><strong>完成判準</strong>：能登入，而且看得到自己的個人頁（網址是 github.com/你的帳號名）。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 1 項求救句">複製</button>我在 GitHub 註冊帳號，卡在＿＿＿（例如：收不到驗證信／畫面要我做一件我看不懂的事），畫面如附圖。請告訴我這一步在做什麼，再一步一步帶我完成。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p2">
+      <label class="head"><input type="checkbox" aria-label="完成第 2 項 兩步驟驗證"><span class="num">2</span><span class="ttl">兩步驟驗證（2FA）<small>GitHub 要求時才做；沒被要求，直接打勾</small></span></label>
+      <div class="body">
+        <p>GitHub 的強制兩步驟驗證只針對被通知的人（2026-10-02 查核，以官方頁現況為準）。登入時如果畫面要你設定，就照它做：手機裝一個驗證 App（例如 Google Authenticator 或 Microsoft Authenticator，任一個都行；別選簡訊），用它掃網頁上的方格圖，把手機跳出的六位數字填回網頁，最後把那一串<strong>備援碼</strong>存好——手機掉了要靠它。</p>
+        <p class="small">沒被要求的人不用特地去開。要開也可以，當天記得帶那支手機。</p>
+        <div class="crit"><strong>完成判準</strong>：GitHub 設定頁的「Password and authentication」顯示兩步驟驗證已啟用；或是你根本沒被要求——兩種都算完成。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 2 項求救句">複製</button>GitHub 要我設定兩步驟驗證，我做到＿＿＿卡住了，畫面如附圖。請一步一步帶我做完，並提醒我備援碼要存在哪裡才安全。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p3">
+      <label class="head"><input type="checkbox" aria-label="完成第 3 項 裝 Antigravity"><span class="num">3</span><span class="ttl">裝 Antigravity，用個人 Gmail 登入<small>這是當天的 AI 助手；備援是 ChatGPT 桌面版裡的 Codex</small></span></label>
+      <div class="body">
+        <p>到 <a href="https://antigravity.google" target="_blank" rel="noopener">antigravity.google</a> 下載。<strong>網址列開頭是 antigravity.google 才是官方的</strong>，別點搜尋結果裡其他長得像的網站。裝好打開，用 Google 帳號登入。</p>
+        <p><strong>帳號要用個人的 Gmail，學校信箱登不進去</strong>（2026-10-02 查核：只開放個人 Google 帳號；台灣在支援地區；免費層有用量上限、每週重設，數字官方會改，以官方頁現況為準）。沒有個人 Gmail 的人先去辦一個，五分鐘。</p>
+        <div class="os2">
+          <div class="os"><b>🪟 Windows</b>下載安裝檔，照畫面裝；若跳出「是否允許」視窗按「是」。</div>
+          <div class="os"><b>🍎 Mac</b>下載後把它拖進「應用程式」；第一次打開若問「確定要開啟嗎」，按開啟。</div>
+        </div>
+        <p><strong>備援</strong>：Antigravity 裝不起來或登不進去，改用 ChatGPT 桌面版裡的 Codex——到 <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a> 找桌面版下載。<strong>裝的要是「ChatGPT」，不是頁尾那個「ChatGPT Classic」</strong>——Classic 是舊版，裡面沒有 Codex。免費版摸得到 Codex，額度官方沒公布（這兩句都 2026-10-02 查核，以官方頁現況為準）。裝好後確認找得到 Codex 這個模式在哪，先不用叫它做事。後面第 4 到 9 項說的「AI 助手」，用 Codex 的人就是對它說同樣的話。</p>
+        <div class="crit"><strong>完成判準</strong>：打得開、登入成功、找得到那個可以打字的輸入框。打開後會是一個像寫程式的視窗，可以打字的地方不只一處——找標著 Agent（或對話）的那個面板，它最下面有一個可以打字的框，後面每一項的話都貼在那裡（⚠️ 面板字樣以你電腦上看到的為準）。找不到就截圖貼給你慣用的 AI 聊天網頁，問「Antigravity 的 agent 輸入框在哪」。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 3 項求救句">複製</button>我在裝 Antigravity（或 ChatGPT 桌面版），卡在＿＿＿（例如：登入被擋／裝好打不開／找不到輸入框／不確定我裝的 ChatGPT 是不是 Classic），畫面如附圖。請告訴我畫面上發生什麼事，再一步一步帶我。我用的是＿＿（Windows／Mac）。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p4">
+      <label class="head"><input type="checkbox" aria-label="完成第 4 項 第一聲招呼"><span class="num">4</span><span class="ttl">跟 AI 助手打第一聲招呼<small>先確認它會回話；後面卡住才分得清是工具壞了還是助手壞了</small></span></label>
+      <div class="body">
+        <p>在第 3 項找到的那個輸入框貼這句，按 Enter：</p>
+        <div class="prompt"><span class="label">貼給 AI 助手</span><button class="btn small copy" type="button" aria-label="複製第 4 項指令">複製</button>你好。請告訴我：你現在看得到哪一個資料夾？如果沒有打開任何資料夾，也直接告訴我。</div>
+        <div class="crit"><strong>完成判準</strong>：它回了一段話——有沒有資料夾都算。親眼看到它會回話，就代表工具會動、登入成功、網路通。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 4 項求救句">複製</button>我貼了一句話給你，但＿＿＿（例如：沒有回應／回了錯誤訊息），畫面如附圖。請告訴我可能是什麼原因，我該先檢查什麼。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p5">
+      <label class="head"><input type="checkbox" aria-label="完成第 5 項 裝 git"><span class="num">5</span><span class="ttl">裝 git<small>交給 AI 助手做，你不用自己去下載</small></span></label>
+      <div class="body">
+        <p>Git 是替一個資料夾記住每一次修改的工具，當天的「存版本」「看前後對照」都靠它。在第 4 項打過招呼的那個輸入框貼這句就好：</p>
+        <div class="prompt"><span class="label">貼給 AI 助手</span><button class="btn small copy" type="button" aria-label="複製第 5 項指令">複製</button>請幫我確認這台電腦有沒有裝 git；沒有的話幫我裝好。過程中要我做什麼，請一步一步告訴我。裝完把版本號印給我看。</div>
+        <div class="os2">
+          <div class="os"><b>🪟 Windows</b>可能跳出「是否允許這個 App 變更裝置」，按「是」。</div>
+          <div class="os"><b>🍎 Mac</b>可能跳出一個要你安裝「命令列開發者工具」的視窗——git 就在裡面，按「安裝」，等幾分鐘。</div>
+        </div>
+        <div class="crit"><strong>完成判準</strong>：它回你一個 git 的版本號。⚠️ 如果它要你輸入這台電腦的<strong>系統管理員密碼</strong>，先停下來——密碼不交給任何 AI，自己輸入，或找人在旁邊陪你。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 5 項求救句">複製</button>你剛剛幫我裝 git，但現在＿＿＿（例如：卡在一個視窗／說裝好了但我沒看到版本號），畫面如附圖。請先不要動，告訴我現在的狀況，再說下一步。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p6">
+      <label class="head"><input type="checkbox" aria-label="完成第 6 項 PowerShell 7"><span class="num">6</span><span class="ttl">裝 PowerShell 7<small>只有 Windows 要做；Mac 直接打勾跳過</small></span></label>
+      <div class="body">
+        <p><strong>為什麼要多這一步</strong>：Windows 內建的舊版 PowerShell 請 AI 建中文檔案時，某些寫法會把檔案存成一種 Git 認不出是文字的格式——之後你的評分規準表改了哪一行，前後對照會<strong>整個看不到</strong>，而且不會跳出任何錯誤訊息。PowerShell 7 沒這個毛病，而且跟舊版並存、不會蓋掉原本的。</p>
+        <div class="prompt"><span class="label">貼給 AI 助手</span><button class="btn small copy" type="button" aria-label="複製第 6 項安裝指令">複製</button>我用的是 Windows。請幫我裝 PowerShell 7，跟內建的舊版並存、不要移除舊的。要我做什麼請一步一步說。裝完告訴我版本號。</div>
+        <p>裝完<strong>一定要再問這句</strong>——最容易被跳過，但不問就等於白裝：</p>
+        <div class="prompt"><span class="label">再貼這句</span><button class="btn small copy" type="button" aria-label="複製第 6 項驗證指令">複製</button>請告訴我你現在執行指令用的 PowerShell 是哪一版，把版本號印給我看。開頭是 7 嗎？</div>
+        <div class="crit"><strong>完成判準</strong>：版本號<strong>開頭是 7</strong>。回你舊版號碼，代表裝好了但 AI 助手還在用舊的那支——貼下面這句叫它改；還是不行，把 Antigravity 整個關掉重開再問一次。仍然不行就先往下做，當天現場可以救。</div>
+        <div class="prompt"><span class="label">回舊版時貼這句</span><button class="btn small copy" type="button" aria-label="複製第 6 項改用新版指令">複製</button>請你之後執行所有指令都改用 pwsh（PowerShell 7），不要用舊的 powershell。改好後再把版本號印一次給我確認。</div>
+        <p class="small">💡 不論哪一版，這句都值得記起來：以後請 AI 建中文檔案時多說一句「<strong>用編輯器建檔，不要用終端機指令直接寫檔</strong>」，檔案就不會壞。🍎 Mac 沒這個問題，直接打勾。</p>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 6 項求救句">複製</button>我在裝 PowerShell 7，現在＿＿＿（例如：安裝被擋／版本號一直是舊的），畫面如附圖。請告訴我狀況，再一步一步帶我。如果是學校控管的電腦裝不了，直接告訴我，我當天現場處理。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p7">
+      <label class="head"><input type="checkbox" aria-label="完成第 7 項 AI 助手授權設定"><span class="num">7</span><span class="ttl">調一下 AI 助手的授權<small>讓它別每件小事都問你，但該問的還是要問</small></span></label>
+      <div class="body">
+        <p>AI 助手每跑一個指令都停下來問「可以嗎」，課堂上會很卡。打開 Antigravity 的設定，找跟「權限」有關的那幾格看一眼。Windows 與 Mac 的畫面不一樣（2026-10-02 查核官方說明；設定畫面的字樣以你電腦上看到的為準）：</p>
+        <div class="os2">
+          <div class="os"><b>🪟 Windows</b>找「終端機指令自動執行」（Terminal command auto execution）那一格，三個選項：課堂建議選 <strong>Always Proceed</strong>，指令不再每條都停下來問，課才跑得順；想每一條指令都過目再跑的謹慎派，選 <strong>Request Review</strong>。另一格「工作資料夾以外的檔案存取」<strong>不要打開</strong>——它要碰別的地方，還是得先問你一聲。</div>
+          <div class="os"><b>🍎 Mac</b>設定 → General → Permission Settings，有一個三選一的「權限預設」：課堂建議選名字就叫 <strong>Default</strong> 的那個，指令在隔離的沙箱裡自動跑、要跑出沙箱才會問你；謹慎派選 <strong>Request Review</strong>，每一條指令都問。</div>
+        </div>
+        <p>⚠️ 哪個系統都一樣：選項說明若寫著「不隔離、不限制、整台電腦都能讀寫」（Mac 上叫 Turbo），<strong>別選那個</strong>——這場要練的正好相反：你是它的指導教授，不是橡皮圖章。</p>
+        <p class="small">用 Codex 當備援的人，這一項先打勾跳過，當天現場一起看。找不到就問它「你的設定裡，終端機指令自動執行或權限預設那一格在哪裡」。</p>
+        <div class="crit"><strong>完成判準</strong>：那幾格你都看過，而且說得出自己選了哪一個——哪些事授權給它、哪些事你要親自把關，是你決定的。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 7 項求救句">複製</button>我要調整你的授權設定，找不到終端機指令自動執行或權限預設那一格，或畫面跟我預期的不一樣，畫面如附圖。請告訴我設定在哪裡、每一格是什麼意思；不要替我改，我自己選。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p8">
+      <label class="head"><input type="checkbox" aria-label="完成第 8 項 GitHub 登入"><span class="num">8</span><span class="ttl">GitHub 登入<small>一樣讓 AI 助手代裝代登；工具名叫 gh</small></span></label>
+      <div class="body">
+        <p>在輸入框貼這句：</p>
+        <div class="prompt"><span class="label">貼給 AI 助手</span><button class="btn small copy" type="button" aria-label="複製第 8 項指令">複製</button>請幫我裝 GitHub 的命令列工具 gh，然後登入我的 GitHub 帳號。請一步一步告訴我要做什麼。</div>
+        <p>接下來會經過三步，都很單純：</p>
+        <div class="step3">
+          <div class="s"><b>① 它給你一組八碼</b>長得像 <span class="code">A1B2-C3D4</span>，先複製起來。</div>
+          <div class="s"><b>② 瀏覽器貼上</b>它會打開 <span class="brk">github.com/login/device</span>（沒自動開就自己輸入這個網址），把八碼貼進去，按 Continue。</div>
+          <div class="s"><b>③ 按綠色的 Authorize</b>可能要輸入 GitHub 密碼與手機上的六位數字。回到 AI 助手，它會說已登入。</div>
+        </div>
+        <p>最後再貼這句，親眼看到你的帳號名才算：</p>
+        <div class="prompt"><span class="label">再貼這句</span><button class="btn small copy" type="button" aria-label="複製第 8 項確認指令">複製</button>請確認 gh 登入好了沒，登入的帳號名是什麼？</div>
+        <div class="crit"><strong>完成判準</strong>：它回報的帳號名就是你的 GitHub 帳號。⚠️ 要你輸入電腦的系統管理員密碼時，先停下來，自己輸入。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 8 項求救句">複製</button>我在用 gh 登入 GitHub，卡在＿＿＿（例如：沒拿到八碼／網頁說代碼無效／按了 Authorize 但這邊沒反應），畫面如附圖。請先只檢查、不要改任何設定，告訴我狀況再說下一步。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p9">
+      <label class="head"><input type="checkbox" aria-label="完成第 9 項 小試身手"><span class="num">9</span><span class="ttl">小試身手：讓它真的動手一次<small>約 5 分鐘；一句話驗掉整條安裝鏈，順便先存一版</small></span></label>
+      <div class="body">
+        <p>前面都裝好了？貼這句：</p>
+        <div class="prompt"><span class="label">貼給 AI 助手</span><button class="btn small copy" type="button" aria-label="複製第 9 項指令">複製</button>請在桌面建一個資料夾 warmup-check，裡面建一個 hello.md，內容寫今天的日期和我的 GitHub 帳號名。然後把這個資料夾交給 Git 存一版，版本說明寫「行前測試」；如果 Git 要名字和信箱，就用我的 GitHub 帳號名和 GitHub 註冊的信箱。做完告訴我：git 的版本、gh 登入的是哪個帳號、存了哪一版。除了這些，只准動這個新資料夾，其他都不要碰。</div>
+        <p>然後<strong>自己去桌面打開 hello.md 看</strong>。裡面真的有日期和你的帳號名，才算數——AI 說做完，不等於做完。這是當天要練的第一件事，行前先體會一次。雙擊時若問你要用哪個程式開，選「記事本」（Mac 選「文字編輯」）。</p>
+        <div class="crit"><strong>完成判準四樣</strong>：① 桌面真的出現 warmup-check，裡面的 hello.md 內容正確；② 它回報了 git 版本；③ 它回報的 gh 帳號就是你的；④ 它回報存了一版，版本說明是「行前測試」。四樣都對，整條安裝鏈是通的——當天第一塊的「存版本」，你已經先做過一次。</div>
+        <p class="small">它停下來問名字和信箱：回它你的 GitHub 帳號名與註冊信箱就好，那只是寫進版本紀錄的署名。</p>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 9 項求救句">複製</button>你說 warmup-check 建好了，但我在桌面＿＿＿（例如：找不到資料夾／hello.md 是空的／帳號名不是我的／沒看到存了一版）。請把你建的檔案完整路徑印出來，說明你實際做了什麼、沒做什麼，然後重做一次。</div>
+        </details>
+      </div>
+    </li>
+
+    <li data-k="p10">
+      <label class="head"><input type="checkbox" aria-label="完成第 10 項 想好一門課一個評量任務"><span class="num">10</span><span class="ttl">想好一門課、一個評量任務，寫下一句<small>當天第四塊要用；最低門檻路線也要做這項</small></span></label>
+      <div class="body">
+        <p>第四塊是把前三塊的零件裝回你自己的課。先想好：哪一門課、哪一個會打分數的任務、學生交出來的是什麼。一句話就好，寫在這裡（只存在你這台電腦的瀏覽器裡）：</p>
+        <label class="field" for="courseLine">我的那一句 <small>例：通識課・8 分鐘個人專題簡報・交投影片並現場報告</small></label>
+        <textarea id="courseLine" class="oneline" placeholder="課名・評量任務・學生交什麼"></textarea>
+        <div class="crit"><strong>完成判準</strong>：一句話說得出課名、任務、學生交什麼。任務還沒有評分規準表也沒關係，當天第二塊就是在做這個。</div>
+        <details class="ask"><summary>卡住怎麼問 AI</summary>
+          <div class="prompt"><button class="btn small copy" type="button" aria-label="複製第 10 項求救句">複製</button>我教的課是＿＿＿，課裡會打分數的活動有＿＿＿、＿＿＿。我要去一場「用學習證據改進教學」的工作坊，要帶一個評量任務去實作。請幫我從上面挑一個最適合先做的，說明理由，並用一句話寫成「課名・評量任務・學生交什麼」。</div>
+        </details>
+      </div>
+    </li>
+  </ol>
+
+  <div class="note"><strong>🏁 十項都打勾＝課前的事全部做完</strong>，可以安心闔上電腦。下面的「最低門檻」是給走 🅑 的人看的；走 🅐 的人還要把下面「資料夾放哪」那一格填好。</div>
+</section>
+
+<section id="min">
+  <h2><span class="sec-num">伍</span>最低門檻（🅑 逃生門）</h2>
+  <p>完整版來不及、或筆電裝不了東西，備好下面四格——三樣東西，加上你那一句課名與任務——當天走瀏覽器路線，四塊一樣做得完，差別只是「存版本」改用 GitHub 網頁版上傳。</p>
+  <div class="progress" aria-live="polite">
+    <span>目前完成 <strong id="minCount">0 / 0</strong></span>
+    <span class="bar" aria-hidden="true"><i id="minBar"></i></span>
+  </div>
+  <ol class="prep" id="minList" data-from="routes.browser.needs"></ol>
+  <noscript><p class="warn">這份清單由教材的資料檔即時產生，需要開啟 JavaScript。</p></noscript>
+</section>
+
+<section id="sync">
+  <h2><span class="sec-num">陸</span>一句話：課程資料夾放在不被 OneDrive／iCloud 同步的位置</h2>
+  <p>走 🅐 的人要記這句。雲端同步會跟版本紀錄打架——檔案被鎖住、出現重複檔、紀錄對不上，而且不會跳出任何錯誤訊息。Windows 的「桌面」「文件」常常就在 OneDrive 裡，Mac 的「桌面」「文件」也可能開了 iCloud 同步。</p>
+  <p>不必自己查，行前問 AI 助手一句、把它回的路徑記在下面就好。資料夾本身<strong>先不要建</strong>：當天第一塊第 1 步會請你把這個路徑貼給 AI 助手，那時候才建。</p>
+  <div class="prompt"><span class="label">貼給 AI 助手</span><button class="btn small copy" type="button" aria-label="複製資料夾位置確認句">複製</button>請幫我確認：這台電腦的桌面與文件資料夾，有沒有被 OneDrive 或 iCloud 同步？如果有，請幫我找一個不會被同步的位置；只把那個位置的完整路徑印給我看，先不要建任何資料夾。</div>
+  <label class="field" for="folderPath">我的課程資料夾要放在 <small>把它印給你的路徑貼進來（只存在你這台電腦的瀏覽器裡）</small></label>
+  <textarea id="folderPath" class="oneline" placeholder="例：C:\courses 或 /Users/你的名字/courses"></textarea>
+  <p class="small">第 9 項的 warmup-check 放桌面沒關係，那只是測試。</p>
+</section>
+
+<section id="escape">
+  <h2><span class="sec-num">柒</span>逃生門：任何一項在家卡死，不用硬撐</h2>
+  <div class="card">
+    <p><strong>一、提早 20 分鐘到教室</strong>（14:40），現場一起弄好，課照上。</p>
+    <p><strong>二、當天走瀏覽器路線</strong>。第一塊會開<a id="simLink" href="https://cwstedctw.github.io/git-ai-workshop/sim.html" target="_blank" rel="noopener">線上練習台</a>看同一件事（一個檔案怎麼被「存成一版」，練習台一步一步帶你看），第二塊起用「證據工作台」做並列、抽查、一頁設計，匯出後用 GitHub 網頁版上傳。</p>
+    <p><strong>三、學校統一控管的筆電裝不了東西</strong>：不用跟它纏鬥，直接備「最低門檻」那幾樣，當天走 🅑。</p>
+    <p class="small" style="margin-bottom:0">三種桌牌進場自己拿、不點名；「今天跟著看」的坐講師這一側，第四塊由講師機幫你存檔。</p>
+  </div>
+</section>
+
+<section id="bring">
+  <h2><span class="sec-num">捌</span>當天帶什麼</h2>
+  <p id="bringWhen" class="lead"></p>
+  <ul>
+    <li><strong>筆電與充電器</strong>。</li>
+    <li><strong>設了兩步驟驗證的那支手機</strong>（有設的人）。</li>
+    <li><strong>第 10 項那一句</strong>：課名・評量任務・學生交什麼。</li>
+    <li><strong>「資料夾放哪」那一格的路徑</strong>（走 🅐 的人；存在這台筆電的瀏覽器裡，開這一頁就看得到）。</li>
+    <li><strong>不用帶任何學生資料</strong>——全程用示範資料，見最上面的紅線。</li>
+  </ul>
+  <p>進場先拿一張桌牌，不點名、自己判斷：</p>
+  <div class="cards3" id="tableCards" data-from="tableCards"></div>
+</section>
+
+<section id="final">
+  <h2><span class="sec-num">玖</span>最終自我檢查</h2>
+  <p>這份是自助式的，不用交回報——<strong>把關的人就是你自己</strong>。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>走 🅐 的人，四件事都成立才算完成</h3>
+      <ul class="final">
+        <li>上面十項全部打勾（第 6 項 Mac 免做）。</li>
+        <li>桌面的 <code>warmup-check/hello.md</code> 真的存在、內容正確，而且存了一版。</li>
+        <li>你說得出 AI 助手回報的 gh 帳號就是你的 GitHub 帳號。</li>
+        <li>「資料夾放哪」那一格（上面「陸」那一段）寫好了路徑。</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>走 🅑 的人，兩件事</h3>
+      <ul class="final">
+        <li>最低門檻那幾項全部打勾。</li>
+        <li>第 10 項那一句寫好了。</li>
+      </ul>
+    </div>
+  </div>
+  <p class="small">哪一項卡住，先截圖貼給 AI 問；真的過不去，當天提早 20 分鐘到。</p>
+</section>
+
+<div class="linkcards">
+  <a class="linkcard" href="index.html"><b>🏠 回入口</b><span>四個去處、議程、兩條路線。</span></a>
+  <a class="linkcard" href="material.html"><b>📘 講義</b><span>當天四塊每一步「你說什麼、AI 會做什麼、你一定要自己看的」。先翻可以，沒翻也不影響上課。</span></a>
+  <a class="linkcard" href="studio.html"><b>🧰 證據工作台</b><span>當天開這頁：Rubric 並列、抽查、一頁設計。用 Chrome 或 Edge 開。</span></a>
+  <a class="linkcard" id="prevLink" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener"><b>🔗 上一場：跟 AI 一起用 Git</b><span>想先摸一次版本紀錄長什麼樣，可以看這場的教材。</span></a>
+</div>
+
+</main>
+
+<footer class="site"><div class="inner">
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+</div></footer>
+
+<script src="workflow-data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var FLOW = window.WORKSHOP_FLOW;
+  var esc = function(s){ return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+  var store = {
+    get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+    del: function(k){ try { localStorage.removeItem(k); } catch(e){} }
+  };
+
+  /* ── 導覽列兩顆按鈕：🌗 主題、🔎 投影 ── */
+  var themeBtn = document.getElementById('themeToggle');
+  themeBtn.addEventListener('click', function(){
+    var cur = document.documentElement.dataset.theme;
+    if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    store.set('lew-theme', next);
+  });
+  var projBtn = document.getElementById('projToggle');
+  var paintProj = function(on){ projBtn.textContent = on ? '🔎 投影中' : '🔎 投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(document.documentElement.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = document.documentElement.classList.toggle('projector');
+    paintProj(on);
+    store.set('lew-proj', on ? '1' : '0');
+  });
+
+  /* ── 複製按鈕：複製所在 .prompt 的正文（不含按鈕與標籤） ── */
+  var promptText = function(box){
+    var clone = box.cloneNode(true);
+    Array.prototype.forEach.call(clone.querySelectorAll('button,.label'), function(n){ n.parentNode.removeChild(n); });
+    return clone.textContent.replace(/^\s+|\s+$/g,'');
+  };
+  var flash = function(btn, msg){
+    var old = btn.textContent; btn.textContent = msg;
+    setTimeout(function(){ btn.textContent = old; }, 1500);
+  };
+  document.addEventListener('click', function(ev){
+    var btn = ev.target.closest && ev.target.closest('button.copy');
+    if(!btn) return;
+    var box = btn.closest('.prompt'); if(!box) return;
+    var text = promptText(box);
+    var fallback = function(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly',''); ta.style.position = 'fixed'; ta.style.top = '-1000px';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+      flash(btn, ok ? '已複製' : '請手動選取');
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ flash(btn, '已複製'); }, fallback);
+    } else { fallback(); }
+  });
+
+  /* ── 勾選清單：狀態存 localStorage（try/catch） ── */
+  var KEY = 'lew-start-v1';
+  var state = {};
+  try { state = JSON.parse(store.get(KEY) || '{}') || {}; } catch(e){ state = {}; }
+  var save = function(){ store.set(KEY, JSON.stringify(state)); };
+  var wireList = function(listId, countId, barId){
+    var list = document.getElementById(listId); if(!list) return;
+    var items = Array.prototype.slice.call(list.querySelectorAll('li[data-k]'));
+    var paint = function(){
+      var done = 0;
+      items.forEach(function(li){
+        var k = li.getAttribute('data-k'), cb = li.querySelector('input[type=checkbox]');
+        var on = !!state[k]; if(cb) cb.checked = on; li.classList.toggle('done', on); if(on) done++;
+      });
+      var c = document.getElementById(countId), b = document.getElementById(barId);
+      if(c) c.textContent = done + ' / ' + items.length;
+      if(b) b.style.width = (items.length ? Math.round(done / items.length * 100) : 0) + '%';
+    };
+    items.forEach(function(li){
+      var cb = li.querySelector('input[type=checkbox]'); if(!cb) return;
+      cb.addEventListener('change', function(){ state[li.getAttribute('data-k')] = cb.checked; save(); paint(); });
+    });
+    paint();
+    return paint;
+  };
+  var paintPrep = wireList('prepList', 'prepCount', 'prepBar');
+  document.getElementById('prepClear').addEventListener('click', function(){
+    Object.keys(state).forEach(function(k){ if(k.charAt(0) === 'p') delete state[k]; });
+    save(); if(paintPrep) paintPrep();
+  });
+
+  /* ── 第 10 項那一句：存本機 ── */
+  var line = document.getElementById('courseLine');
+  line.value = store.get('lew-course-line') || '';
+  line.addEventListener('input', function(){ store.set('lew-course-line', line.value); });
+
+  /* ── 「資料夾放哪」那一格：存本機，當天第一塊第 1 步要貼 ── */
+  var fp = document.getElementById('folderPath');
+  fp.value = store.get('lew-folder-path') || '';
+  fp.addEventListener('input', function(){ store.set('lew-folder-path', fp.value); });
+
+  if(!FLOW) return;
+
+  /* ── 頁首：日期時間地點主辦，從資料源來 ── */
+  var m = FLOW.meta || {};
+  if(m.title) document.getElementById('heroTitle').textContent = m.title;
+  if(m.subtitle) document.getElementById('heroSub').textContent = m.subtitle + (m.tagline ? '｜' + m.tagline : '');
+  document.getElementById('heroMeta').textContent = [m.date, m.time, m.venue].filter(Boolean).join('　') + (m.host ? '｜' + m.host : '');
+  var when = document.getElementById('bringWhen');
+  when.innerHTML = '<strong>' + esc(m.date || '') + ' ' + esc(m.time || '') + '</strong>，' + esc(m.venue || '') + '。';
+  if(m.simUrl) document.getElementById('simLink').href = m.simUrl;
+  if(m.prevWorkshopUrl) document.getElementById('prevLink').href = m.prevWorkshopUrl;
+
+  /* ── 紅線三句 ── */
+  var rl = document.getElementById('redlineCards');
+  rl.innerHTML = (FLOW.redlines || []).map(function(r){
+    return '<div class="redline"><h3>' + esc(r.title) + '</h3><p>' + esc(r.text) + '</p></div>';
+  }).join('');
+
+  /* ── 領域範例（給誰）── */
+  var ex = FLOW.examples || {};
+  document.getElementById('exampleCards').innerHTML = Object.keys(ex).map(function(k){
+    var e = ex[k];
+    return '<div class="c"><b>' + esc(e.label) + '</b><span>' + esc(e.task) + '</span></div>';
+  }).join('');
+
+  /* ── 兩條路線 ── */
+  var routes = FLOW.routes || [];
+  document.getElementById('routeCards').innerHTML = routes.map(function(r){
+    var isAgent = r.id === 'agent';
+    var cta = isAgent
+      ? '<a class="btn small" href="#full">做完整版十項</a>'
+      : '<a class="btn small secondary" href="#min">看最低門檻</a>';
+    return '<div class="route' + (isAgent ? '' : ' escape') + '">'
+      + '<h3>' + esc(r.badge) + ' ' + esc(r.label) + '</h3>'
+      + '<p class="promise">' + esc(r.promise) + '</p>'
+      + '<h4>行前要備好</h4><ul>' + (r.needs || []).map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'
+      + '<h4>當天怎麼做</h4><ul>' + (r.how || []).map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>'
+      + '<div class="cta">' + cta + '</div>'
+      + '</div>';
+  }).join('');
+
+  /* ── 最低門檻清單：從瀏覽器路線的 needs 渲染，判準用關鍵字配對（配不到就只列項目） ── */
+  var browser = routes.filter(function(r){ return r.id === 'browser'; })[0];
+  var crit = [
+    { test: /GitHub/, crit: '能登入，看得到自己的個人頁。做法同完整版第 1 項。', ask: '我在 GitHub 註冊或登入卡住了，畫面如附圖。請告訴我這一步在做什麼，再一步一步帶我完成。' },
+    { test: /Chrome|Edge/, crit: '用它打開<a href="studio.html">證據工作台</a>，三個分頁都點得開。', ask: '我要在這台電腦裝 Chrome 或 Edge，請告訴我官方下載網址長什麼樣、怎麼確認我下載到的是官方的。' },
+    { test: /AI 聊天|ChatGPT|Gemini/, crit: '登入後貼一段字給它，它會回話。當天的提示詞就是貼到這裡。', ask: '我想用一個免費的 AI 聊天網頁，請告訴我 ChatGPT 或 Gemini 的官方網址，以及第一次登入要注意什麼。' },
+    { test: /一門課|評量任務/, crit: '一句話說得出課名、任務、學生交什麼——就是完整版第 10 項，<a href="#full">到那裡寫</a>。', ask: null }
+  ];
+  var minList = document.getElementById('minList');
+  minList.innerHTML = ((browser && browser.needs) || []).map(function(n, i){
+    var c = null;
+    for(var j = 0; j < crit.length; j++){ if(crit[j].test.test(n)){ c = crit[j]; break; } }
+    var html = '<li data-k="m' + (i + 1) + '"><label class="head"><input type="checkbox" aria-label="完成最低門檻第 ' + (i + 1) + ' 項"><span class="num">' + (i + 1) + '</span><span class="ttl">' + esc(n) + '</span></label>';
+    if(c){
+      html += '<div class="body"><div class="crit"><strong>完成判準</strong>：' + c.crit + '</div>';
+      if(c.ask){ html += '<details class="ask"><summary>卡住怎麼問 AI</summary><div class="prompt"><button class="btn small copy" type="button" aria-label="複製求救句">複製</button>' + esc(c.ask) + '</div></details>'; }
+      html += '</div>';
+    }
+    return html + '</li>';
+  }).join('');
+  wireList('minList', 'minCount', 'minBar');
+
+  /* ── 桌牌三種 ── */
+  document.getElementById('tableCards').innerHTML = (FLOW.tableCards || []).map(function(t){
+    return '<div class="c"><b>' + esc(t.label) + '</b><span>' + esc(t.note) + '</span></div>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

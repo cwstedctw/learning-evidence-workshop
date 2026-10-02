@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>證據工作台｜從學習證據到教學改進</title>
+<meta name="description" content="10/16 工作坊的互動工作台：Rubric 兩版並列比較、三方評分落差儀表板與抽查紀錄、一頁「評量—回饋—教學調整—研究」設計。純前端、不連 AI、示範資料內嵌，離線也能開。">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 工作台專用版式；顏色一律用 site.css 的代幣 */
+  .rulebox{font-size:1.12rem}
+  .rulebox strong{color:var(--warn-text)}
+  .intro{color:var(--ink-soft);margin:.2em 0 1em}
+  .hint{color:var(--ink-soft);font-size:.92rem;margin:.1em 0 .5em;font-weight:400}
+  .status{font-size:.88rem;color:var(--ink-soft);margin:.4em 0}
+  .msg{margin:.6em 0}
+  .msg[hidden]{display:none}
+  .prompt .label{padding-right:72px}
+  .prompt .copy{z-index:1}
+  .prompt .rule-foot{display:block;margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:.88rem;color:var(--warn-text);font-weight:700}
+  .steps a{color:var(--teal-deep);text-decoration:underline;text-underline-offset:2px}
+  .sample pre{white-space:pre-wrap;font-family:var(--sans);font-size:.95rem}
+  .sample[hidden]{display:none}
+  .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  .two textarea{min-height:260px;font-family:var(--mono);font-size:.92rem}
+  .req{display:inline-block;background:var(--bad-soft);color:var(--bad);border-radius:6px;padding:0 8px;font-size:.8rem;font-weight:700;margin-left:6px;vertical-align:middle}
+  .diff:empty{display:none}
+  .diff .ln .mk{display:inline-block;width:1.4em;color:var(--ink-soft);user-select:none}
+  .chart-wrap{overflow-x:auto;margin:1em 0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px}
+  .chart-wrap svg{min-width:720px;display:block;width:100%;height:auto}
+  .chart-wrap .axis{stroke:var(--line);stroke-width:1}
+  .chart-wrap .zero{stroke:var(--ink-soft);stroke-width:1.5}
+  .chart-wrap text{fill:var(--ink);font-family:var(--sans);font-size:11px}
+  .chart-wrap text.tick{fill:var(--ink-soft)}
+  .chart-wrap text.far{fill:var(--bad);font-weight:700}
+  .chart-wrap .bar-self{fill:var(--teal)}
+  .chart-wrap .bar-peer{fill:var(--gold)}
+  .chart-wrap .far-bar{stroke:var(--bad);stroke-width:2}
+  .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:var(--ink-soft);margin:.2em 0 .8em}
+  .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
+  .legend .l-self{background:var(--teal)}
+  .legend .l-peer{background:var(--gold)}
+  .legend .l-far{background:transparent;border:2px solid var(--bad)}
+  td.far,th.far{color:var(--bad);font-weight:700}
+  td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+  td.refl{min-width:16em}
+  .sample-card{border:2px solid var(--gold);border-radius:14px;padding:14px 16px;margin:1em 0;background:var(--card)}
+  .sample-card h4{margin:0 0 .4em}
+  .sample-card .scores{font-variant-numeric:tabular-nums}
+  .sample-card .judge{display:flex;flex-wrap:wrap;gap:6px 18px;margin:.4em 0}
+  .sample-card .judge label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+  .sample-card textarea{min-height:72px}
+  .conclusions textarea{min-height:64px}
+  .btn[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+  .answer[hidden]{display:none}
+  .design-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
+  @media (min-width:920px){
+    .design-grid{grid-template-columns:1.1fr .9fr}
+    .design-grid .preview-col{position:sticky;top:60px}
+  }
+  .design-grid textarea{min-height:84px}
+  .design-grid label.field{margin-top:1em}
+  .design-grid .plan{font-size:.78rem;vertical-align:middle;margin-left:4px}
+  .changed{display:inline-block;background:var(--good-soft);color:var(--good);border-radius:6px;padding:0 8px;font-size:.8rem;font-weight:700;margin-left:6px;vertical-align:middle}
+  .changed[hidden]{display:none}
+  .must{display:inline-block;background:var(--gold-soft);color:var(--warn-text);border-radius:6px;padding:0 8px;font-size:.8rem;font-weight:700;margin-left:6px;vertical-align:middle}
+  .md-preview{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;max-height:70vh;overflow:auto;font-size:.95rem}
+  .md-preview h3{font-size:1.1rem;margin:.2em 0 .5em}
+  .md-preview h4{font-size:.98rem;margin:1.1em 0 .25em;color:var(--teal-deep)}
+  .md-preview p{margin:.2em 0 .6em}
+  .md-preview ul{margin:.2em 0 .6em}
+  .md-raw pre{white-space:pre-wrap;font-size:.85rem}
+  .tabs button:focus-visible,.btn:focus-visible,nav.topnav button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+  details.card summary{cursor:pointer;font-weight:700}
+  details.card .steps{margin-top:.8em}
+  .steps .human{margin:.4em 0 0}
+  .danger{margin-top:2.5em}
+</style>
+<script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector')}catch(e){}})();</script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <p class="eyebrow" id="heroEyebrow">從學習證據到教學改進｜AI 協作促進學習評量與教學實踐研究工作坊</p>
+    <h1>證據工作台</h1>
+    <p class="sub">三個分頁對應今天的第二、三、四塊：Rubric 兩版並列、三方評分落差與抽查、一頁設計。純前端、不連任何 AI、示範資料已內嵌——斷線也能開，雙擊檔案也能用。</p>
+    <p class="meta" id="heroMeta">2026-10-16（五）15:00–17:00</p>
+  </div>
+</header>
+
+<nav class="topnav" aria-label="頁內導覽">
+  <div class="inner">
+    <a href="#rubric" data-tab-link="rubric">Rubric 工作台</a>
+    <a href="#evidence" data-tab-link="evidence">證據儀表板</a>
+    <a href="#design" data-tab-link="design">一頁設計</a>
+    <a href="material.html">講義</a>
+    <a href="index.html">回入口</a>
+    <span class="spacer"></span>
+    <button id="projToggle" type="button" aria-pressed="false" aria-label="投影模式：放大字級，上課投影用">🔎 投影</button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式">🌗</button>
+  </div>
+</nav>
+
+<main>
+  <div class="human rulebox" id="ruleBox"><strong>全場只有一條硬規矩：</strong><span id="ruleText">挑一句不同意的、改掉、寫下為什麼。</span></div>
+  <p class="intro" id="aiRuleText">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。這個工作台也一樣：它不會替你判斷，只把東西並列給你看。</p>
+  <div class="warn" id="noData" hidden role="alert">找不到 <code>workflow-data.js</code>。請把 <code>studio.html</code> 放回原本的資料夾再開一次；提示詞卡與一頁設計的欄位都要靠它。</div>
+
+  <div class="tabs" role="tablist" aria-label="工作台分頁">
+    <button type="button" role="tab" id="tab-rubric" data-tab="rubric" aria-controls="panel-rubric" aria-selected="true" aria-label="分頁：Rubric 工作台（第二塊）">Rubric 工作台</button>
+    <button type="button" role="tab" id="tab-evidence" data-tab="evidence" aria-controls="panel-evidence" aria-selected="false" tabindex="-1" aria-label="分頁：證據儀表板（第三塊）">證據儀表板</button>
+    <button type="button" role="tab" id="tab-design" data-tab="design" aria-controls="panel-design" aria-selected="false" tabindex="-1" aria-label="分頁：一頁設計（第四塊）">一頁設計</button>
+  </div>
+
+  <!-- ① Rubric 工作台 -->
+  <section class="tabpanel" id="panel-rubric" role="tabpanel" aria-labelledby="tab-rubric">
+    <h2><span class="sec-num">①</span>Rubric 工作台</h2>
+    <p class="intro">第二塊用。左欄貼 AI 起草的第 1 版，挑一句不同意的改掉、寫下為什麼；請 AI 扮嚴格審查者挑毛病之後，把你改好的第 2 版貼右欄，按「比較兩版」看每一處差異——每一處都應該是你決定的。</p>
+    <div id="stepsB2"></div>
+
+    <h3>提示詞卡</h3>
+    <p class="hint">整段複製，貼給你的 AI 助手或任何 AI 聊天網頁。括號【】裡的字換成你自己的課。</p>
+    <div id="promptCards"></div>
+
+    <h3>兩版並列</h3>
+    <p class="hint">一格寫一行（例如「- 4：……」），比較的時候才看得出改了哪一格。</p>
+    <div class="two">
+      <div>
+        <label class="field" for="v1">第 1 版（v1）<small>——AI 起草的那版，原樣貼</small></label>
+        <textarea id="v1" spellcheck="false" aria-label="第 1 版 Rubric 內容"></textarea>
+      </div>
+      <div>
+        <label class="field" for="v2">第 2 版（v2）<small>——你改過的版本</small></label>
+        <textarea id="v2" spellcheck="false" aria-label="第 2 版 Rubric 內容"></textarea>
+      </div>
+    </div>
+    <label class="field" for="why">為什麼改<span class="req">必填</span><small>——一句話，講得出「下次學生會怎麼不一樣」</small></label>
+    <textarea id="why" rows="2" style="min-height:64px" aria-label="為什麼改（必填）" placeholder="例如：要兩個老師打一樣的分，格子裡得是數得出的事。"></textarea>
+    <div class="toolbar">
+      <button type="button" class="btn" id="btnCompare" aria-label="比較兩版：逐行列出第 1 版與第 2 版的差異">比較兩版</button>
+      <button type="button" class="btn secondary" id="btnExportRound" aria-label="匯出這一輪：下載含兩版、差異與為什麼改的 Markdown 檔">匯出這一輪</button>
+    </div>
+    <div class="warn msg" id="msgRubric" hidden role="alert"></div>
+    <div class="diff" id="diffOut" aria-live="polite" aria-label="兩版逐行差異"></div>
+  </section>
+
+  <!-- ② 證據儀表板 -->
+  <section class="tabpanel" id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence" hidden>
+    <h2><span class="sec-num">②</span>證據儀表板</h2>
+    <p class="intro">第三塊用。這裡放的是<strong>預先跑好</strong>的分析（三份示範資料各一份），拿來跟你自己請 AI 跑出來的對照；不一樣的地方就是「要人看」的地方。然後抽 3 筆回查、寫三句結論、匯出紀錄。</p>
+    <div id="stepsB3"></div>
+
+    <label class="field" for="dataset">資料集</label>
+    <select id="dataset" aria-label="選擇資料集"></select>
+    <p class="hint">抽到的三筆、你的判斷、三句結論是<strong>一份資料集記一份</strong>：切換下拉會換成另一份的，切回來就在，不會不見。</p>
+    <div id="pasteBox" hidden>
+      <p class="hint">貼上去識別化後的 CSV（第一列是欄位名，至少要有 <code>student_id</code>、<code>self_score</code>、<code>peer_score</code>、<code>teacher_score</code>、<code>reflection_text</code>；可選 <code>teacher_weakest_criterion</code>）。以 <code>#</code> 開頭的列會略過。<strong>貼上的 CSV、你對它的抽查判斷、三句結論，都只留在記憶體裡、不暫存，關掉分頁就沒了</strong>——做完記得按「匯出抽查紀錄」；貼之前請先確認裡面沒有姓名、學號。</p>
+      <textarea id="pasteCsv" spellcheck="false" aria-label="貼上去識別化 CSV" placeholder="student_id,self_score,peer_score,teacher_score,teacher_weakest_criterion,reflection_text"></textarea>
+      <div class="toolbar"><button type="button" class="btn" id="btnLoadPaste" aria-label="讀取貼上的 CSV">讀取</button></div>
+      <div class="warn msg" id="msgPaste" hidden role="alert"></div>
+    </div>
+    <p class="status" id="dsSummary"></p>
+
+    <h3>三方落差圖</h3>
+    <div class="legend"><span><i class="l-self"></i>自評 − 教師</span><span><i class="l-peer"></i>互評 − 教師</span><span><i class="l-far"></i><span id="farLegend">離 0 遠（差 4 分以上）</span></span></div>
+    <div class="chart-wrap" id="chartWrap" role="img" aria-label="每位代號兩根長條：自評減教師分、互評減教師分"></div>
+
+    <h3>落差排序表</h3>
+    <p class="hint">依「離 0 最遠的那一方」由大到小排。自評明顯高於教師分，常是學生不知道標準在哪；互評極低但其他兩方一致，要回查互評表而不是看學生。</p>
+    <div class="table-wrap" id="gapTable"></div>
+
+    <h3>反思與 AI 分類</h3>
+    <p class="hint">分類是預先跑好的；貼上自己的資料時顯示「—」，請對照你的 AI 助手寫的那個檔。</p>
+    <div class="table-wrap" id="reflTable"></div>
+
+    <h3>抽查</h3>
+    <div class="toolbar">
+      <button type="button" class="btn" id="btnDraw" aria-label="抽 3 筆回查：隨機抽三個代號，可以重抽">抽 3 筆回查</button>
+      <span class="status" id="drawNote"></span>
+    </div>
+    <div id="samples"></div>
+
+    <div class="conclusions">
+      <h3>三句結論<span class="req">三格必填</span></h3>
+      <label class="field" for="c1">我看到的證據是…</label>
+      <textarea id="c1" aria-label="三句結論之一：我看到的證據是"></textarea>
+      <label class="field" for="c2">因此下次要改…</label>
+      <textarea id="c2" aria-label="三句結論之二：因此下次要改"></textarea>
+      <label class="field" for="c3">我要再蒐集…來判斷有沒有效</label>
+      <textarea id="c3" aria-label="三句結論之三：我要再蒐集什麼來判斷有沒有效"></textarea>
+      <p class="hint">三句都要是具體的動作，不是「加強引導」這種話。</p>
+    </div>
+    <div class="toolbar">
+      <button type="button" class="btn" id="btnExportSampling" aria-label="匯出抽查紀錄：下載含三筆判斷與三句結論的 Markdown 檔">匯出抽查紀錄</button>
+      <button type="button" class="btn secondary" id="btnInstructor" aria-pressed="false" aria-label="講師模式：顯示答案卡與故意分錯的那一筆">講師模式</button>
+    </div>
+    <div class="warn msg" id="msgEvidence" hidden role="alert"></div>
+    <div class="card answer" id="answerCard" hidden></div>
+  </section>
+
+  <!-- ③ 一頁設計 -->
+  <section class="tabpanel" id="panel-design" role="tabpanel" aria-labelledby="tab-design" hidden>
+    <h2><span class="sec-num">③</span>一頁設計</h2>
+    <p class="intro">第四塊用。十一欄的標籤直接用教學實踐研究計畫書的詞，填完就是計畫書的骨架。起手式：先按「帶入示範課」讓每一欄都有字，再改掉至少兩格——「評量任務與 Rubric」「回饋與調整」一定要換成你的課。</p>
+    <div id="stepsB4"></div>
+    <div class="toolbar">
+      <button type="button" class="btn" id="btnDemo" aria-label="帶入示範課：把課堂專題簡報的示範內容填進十一欄">帶入示範課</button>
+      <span class="status" id="changedNote"></span>
+    </div>
+    <div class="design-grid">
+      <div id="designFields"></div>
+      <div class="preview-col">
+        <h3>即時預覽</h3>
+        <div class="toolbar">
+          <button type="button" class="btn small" id="btnCopyDesign" aria-label="複製一頁設計的 Markdown">複製</button>
+          <button type="button" class="btn small secondary" id="btnExportDesign" aria-label="匯出 Markdown：下載一頁設計">匯出 Markdown</button>
+        </div>
+        <div class="msg" id="msgDesign" hidden role="status"></div>
+        <div class="md-preview" id="mdPreview" aria-live="polite"></div>
+        <details class="md-raw"><summary>看原始 Markdown</summary><pre id="mdRaw"></pre></details>
+      </div>
+    </div>
+  </section>
+
+  <div class="danger">
+    <p class="status" id="saveNote" aria-live="polite">你打的字會自動留在這台瀏覽器的暫存裡（貼上的資料和你對它的抽查判斷除外）。</p>
+    <button type="button" class="btn secondary small" id="btnClear" aria-label="清除暫存：刪掉這台瀏覽器裡工作台的所有暫存">清除暫存</button>
+  </div>
+</main>
+
+<footer class="site"><div class="inner">
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+</div></footer>
+
+<script src="workflow-data.js"></script>
+<script>
+/* ── 內嵌示範資料：由 data/ 三份 CSV 與 sample-analysis.json 原樣灌入（不用 fetch，雙擊也能開）。
+   資料改了就重灌；灌入腳本只動兩個標記之間。 ── */
+/*DEMO-DATA-START*/
+var DEMO_CSV = {
+  'project-presentation': `﻿# 合成資料（synthetic）：工作坊示範用，代號、分數、反思全部由 make_demo_data.py 產生，不代表任何真實學生。
+student_id,task,evidence_medium,self_score,peer_score,teacher_score,teacher_weakest_criterion,reflection_text,synthetic_note
+DEMO-S01,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,12,12,12,表達流暢,幫別組打分數的時候，才發現自己的簡報也犯了一樣的毛病。,合成資料
+DEMO-S02,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,12,11,12,表達流暢,同學說我語速太快，我回去聽錄音真的是，這個回饋很有用。,合成資料
+DEMO-S03,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,12,16,10,內容正確,時間太短了，8 分鐘根本講不完我們準備的東西。,合成資料
+DEMO-S04,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,11,9,9,結構清楚,教室的投影機顏色跑掉，圖表看不清楚，不是我的問題。,合成資料
+DEMO-S05,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,11,12,11,表達流暢,互評表上有人寫我眼神都看投影片，我以前沒注意到。,合成資料
+DEMO-S06,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,13,11,12,表達流暢,圖表放上去了但我沒有解釋軸是什麼，台下應該看不懂。,合成資料
+DEMO-S07,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,16,9,8,回應提問,學到很多，謝謝老師和同學。,合成資料
+DEMO-S08,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,14,12,12,內容正確,同組的人投影片前一天才給我，我沒時間練。,合成資料
+DEMO-S09,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,14,14,13,結構清楚,我的結構還可以，但結論太短，沒有把前面的重點收回來。,合成資料
+DEMO-S10,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,11,12,11,表達流暢,練習的時候都在背稿，一緊張就忘詞，下次改成只記關鍵字。,合成資料
+DEMO-S11,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,13,12,12,內容正確,請 AI 幫我預想可能被問的問題，真的被問到兩題，這招有用。,合成資料
+DEMO-S12,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,10,10,10,表達流暢,我用 AI 整理了資料，但被問到細節才發現我沒真的看懂那段。,合成資料
+DEMO-S13,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,12,11,12,結構清楚,簡報稿是請 AI 幫我潤的，講的時候有些句子不像我自己會說的話。,合成資料
+DEMO-S14,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,14,6,14,表達流暢,同學建議我把結論放到最前面講一次，試了一下真的比較清楚。,合成資料
+DEMO-S15,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,12,11,10,回應提問,開頭花太久在自我介紹，真正的重點到第五分鐘才出現。,合成資料
+DEMO-S16,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,16,15,15,結構清楚,麥克風一直有雜音，我的聲音被蓋掉。,合成資料
+DEMO-S17,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,15,12,13,內容正確,這次表現還不錯，下次會更好。,合成資料
+DEMO-S18,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,7,13,14,結構清楚,回應提問那段最弱，被問到數據來源時我答不出來。,合成資料
+DEMO-S19,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,15,14,14,表達流暢,我知道自己講到一半會跳段落，下次要先把三個重點寫在紙上。,合成資料
+DEMO-S20,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,12,12,12,回應提問,投影片字太多，台下在讀字沒在聽我講，這點我自己看錄影就發現了。,合成資料
+DEMO-S21,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,9,9,9,結構清楚,看到互評分數的時候很受傷，我明明準備了很久。,合成資料
+DEMO-S22,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,10,11,11,回應提問,被問問題的時候腦袋一片空白，很挫折。,合成資料
+DEMO-S23,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,11,10,11,回應提問,有做完就好，下次再努力。,合成資料
+DEMO-S24,課堂專題簡報（8 分鐘）,口頭報告＋投影片（教師與同儕現場觀察紀錄）,10,11,10,回應提問,我排在最後一個講，大家都累了，沒人認真聽。,合成資料
+`,
+  'pe-squat': `﻿# 合成資料（synthetic）：工作坊示範用，代號、分數、反思全部由 make_demo_data.py 產生，不代表任何真實學生。
+student_id,task,evidence_medium,self_score,peer_score,teacher_score,teacher_weakest_criterion,reflection_text,synthetic_note
+DEMO-S01,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,11,12,11,脊柱中立,那天腿很痠，不是平常的狀態。,合成資料
+DEMO-S02,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,14,15,14,下蹲深度,場地太擠，後面有人經過，我分心了。,合成資料
+DEMO-S03,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,12,16,10,脊柱中立,鞋子不對，穿跑鞋做深蹲本來就會不穩。,合成資料
+DEMO-S04,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,10,8,9,控制與節奏,做完了，應該沒問題。,合成資料
+DEMO-S05,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,15,16,15,下蹲深度,幫同學打分的時候用了規準表，才知道「脊柱中立」原來是看這個。,合成資料
+DEMO-S06,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,11,9,10,下蹲深度,互評的時候要看別人的影片，反而學到怎麼看自己的。,合成資料
+DEMO-S07,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,16,9,8,膝蓋對齊,謝謝老師，學到很多。,合成資料
+DEMO-S08,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,13,13,13,下蹲深度,手機放的角度不對，看不到膝蓋，所以互評的人說不準。,合成資料
+DEMO-S09,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,8,9,9,下蹲深度,我把影片描述給 AI 問它怎麼改，它說的跟老師說的一樣，但我還是做不出來。,合成資料
+DEMO-S10,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,13,13,12,控制與節奏,同學在互評表寫我重心往前倒，我請他示範一次才懂。,合成資料
+DEMO-S11,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,13,12,12,控制與節奏,AI 列了十個要點，太多了，我只記得兩個。,合成資料
+DEMO-S12,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,10,10,11,下蹲深度,腳跟會離地，看影片才知道是腳踝活動度不夠，不是用力的問題。,合成資料
+DEMO-S13,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,13,12,13,控制與節奏,錄影的同學一直晃，影片糊掉了。,合成資料
+DEMO-S14,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,14,6,14,控制與節奏,同學提醒我先把腳打開一點再蹲，第三次明顯穩很多。,合成資料
+DEMO-S15,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,9,8,9,下蹲深度,請 AI 幫我排了一週的練習順序，照做之後深度有進步。,合成資料
+DEMO-S16,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,13,12,13,下蹲深度,看影片才發現我膝蓋會往內夾，自己做的時候完全沒感覺。,合成資料
+DEMO-S17,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,15,15,15,控制與節奏,動作還可以，下次再注意一下。,合成資料
+DEMO-S18,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,7,13,14,下蹲深度,左右腳受力不平均，影片裡身體明顯往右偏。,合成資料
+DEMO-S19,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,14,13,13,下蹲深度,前兩下還可以，第三下開始膝蓋就往內了，應該是撐不住。,合成資料
+DEMO-S20,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,15,12,13,下蹲深度,背會圓，特別是最後幾下累了的時候。,合成資料
+DEMO-S21,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,13,14,13,控制與節奏,深度不夠，我以為蹲到大腿平行了，影片裡差很多。,合成資料
+DEMO-S22,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,10,11,11,下蹲深度,看到同學給我的分數比我自己打的低很多，有點難過，不太想再錄。,合成資料
+DEMO-S23,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,10,12,11,脊柱中立,下去快、起來也快，老師說要數節奏，我回去練的時候真的有差。,合成資料
+DEMO-S24,深蹲動作品質（手機錄影 3 次）,手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）,12,13,13,控制與節奏,一直做不好，覺得自己身體就是不協調。,合成資料
+`,
+  'lab-report': `﻿# 合成資料（synthetic）：工作坊示範用，代號、分數、反思全部由 make_demo_data.py 產生，不代表任何真實學生。
+student_id,task,evidence_medium,self_score,peer_score,teacher_score,teacher_weakest_criterion,reflection_text,synthetic_note
+DEMO-S01,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,8,9,9,假設與設計,看了別組怎麼畫誤差棒，我才知道圖可以這樣呈現。,合成資料
+DEMO-S02,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,11,16,9,假設與設計,儀器那天不穩，數據本來就會跳，誤差不是我能控制的。,合成資料
+DEMO-S03,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,14,15,15,數據處理,假設寫得太像課本，不是我自己的實驗能驗證的那種。,合成資料
+DEMO-S04,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,11,11,12,誤差討論,結論和數據對不起來，我寫了預期的結果而不是實際量到的。,合成資料
+DEMO-S05,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,15,11,8,誤差討論,學到很多實驗技巧。,合成資料
+DEMO-S06,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,12,10,10,假設與設計,我把兩次量測的平均當結果，但沒說明為什麼要平均、差多少。,合成資料
+DEMO-S07,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,14,14,14,結論與反思,誤差討論我只寫了『人為誤差』，老師說要講清楚是哪一步、往哪個方向影響結果。,合成資料
+DEMO-S08,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,16,15,14,數據處理,幫別組看報告的時候，發現大家都沒寫量測次數，回頭補了自己的。,合成資料
+DEMO-S09,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,16,14,15,結論與反思,有效數字沒有統一，有的寫三位有的寫五位，老師圈了一整頁。,合成資料
+DEMO-S10,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,9,11,10,數據處理,互評的同學指出我的單位寫錯，這種錯自己看十次都看不到。,合成資料
+DEMO-S11,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,13,5,13,數據處理,同學問我「你的假設可以被這個實驗推翻嗎」，我答不出來，才發現假設寫錯方向。,合成資料
+DEMO-S12,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,10,11,11,誤差討論,圖的座標軸沒標單位，自己回頭看也看不出量的是什麼。,合成資料
+DEMO-S13,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,13,13,12,假設與設計,組員負責的那部分數據漏抄，報告只能先交。,合成資料
+DEMO-S14,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,9,9,9,誤差討論,實驗室的天平好像沒校正，大家的數據都偏。,合成資料
+DEMO-S15,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,13,13,13,誤差討論,這次報告寫得還可以，下次會更仔細。,合成資料
+DEMO-S16,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,14,13,13,誤差討論,請 AI 解釋為什麼要算標準差，解釋完我才看懂課本那一段。,合成資料
+DEMO-S17,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,12,12,12,誤差討論,講義的步驟跟實際操作不一樣，我們照講義做當然會錯。,合成資料
+DEMO-S18,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,10,9,10,數據處理,被圈了一整頁，看到就不想再打開那份報告。,合成資料
+DEMO-S19,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,14,15,14,數據處理,誤差討論那段是請 AI 幫我寫的，老實說我不太懂它寫的『系統誤差』是什麼。,合成資料
+DEMO-S20,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,9,10,10,結論與反思,數據一直對不起來，寫報告寫到很想放棄這門課。,合成資料
+DEMO-S21,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,15,15,15,結論與反思,整體沒什麼問題。,合成資料
+DEMO-S22,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,10,10,11,誤差討論,有交就好，下次再加強。,合成資料
+DEMO-S23,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,6,12,14,數據處理,我的數據處理沒有算不確定度，看了同學的報告才知道要算。,合成資料
+DEMO-S24,實驗報告（第 3 次實驗）,書面報告（文字、表格、圖）,13,15,14,誤差討論,時間不夠，誤差討論只好隨便寫。,合成資料
+`
+};
+var SAMPLE_ANALYSIS = {"project-presentation":{"task":"課堂專題簡報（8 分鐘）","criteria":["內容正確","結構清楚","表達流暢","回應提問"],"medium":"口頭報告＋投影片（教師與同儕現場觀察紀錄）","categories":{"skill":"具體指出自己的弱點","external":"把原因歸到外部","emotion":"情緒或退縮訊號","peer":"同儕回饋有幫上忙","ai":"提到 AI 的使用方式","vague":"空泛、沒有具體內容"},"ai_category":{"DEMO-S01":"peer","DEMO-S02":"peer","DEMO-S03":"external","DEMO-S04":"external","DEMO-S05":"peer","DEMO-S06":"skill","DEMO-S07":"vague","DEMO-S08":"external","DEMO-S09":"skill","DEMO-S10":"skill","DEMO-S11":"ai","DEMO-S12":"ai","DEMO-S13":"ai","DEMO-S14":"peer","DEMO-S15":"skill","DEMO-S16":"external","DEMO-S17":"vague","DEMO-S18":"vague","DEMO-S19":"skill","DEMO-S20":"skill","DEMO-S21":"emotion","DEMO-S22":"emotion","DEMO-S23":"vague","DEMO-S24":"external"},"true_category":{"DEMO-S01":"peer","DEMO-S02":"peer","DEMO-S03":"external","DEMO-S04":"external","DEMO-S05":"peer","DEMO-S06":"skill","DEMO-S07":"vague","DEMO-S08":"external","DEMO-S09":"skill","DEMO-S10":"skill","DEMO-S11":"ai","DEMO-S12":"ai","DEMO-S13":"ai","DEMO-S14":"peer","DEMO-S15":"skill","DEMO-S16":"external","DEMO-S17":"vague","DEMO-S18":"skill","DEMO-S19":"skill","DEMO-S20":"skill","DEMO-S21":"emotion","DEMO-S22":"emotion","DEMO-S23":"vague","DEMO-S24":"external"},"ai_wrong_on":"DEMO-S18","gaps":[{"student_id":"DEMO-S01","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S02","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S03","self_minus_teacher":2,"peer_minus_teacher":6,"flag":true},{"student_id":"DEMO-S04","self_minus_teacher":2,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S05","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S06","self_minus_teacher":1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S07","self_minus_teacher":8,"peer_minus_teacher":1,"flag":true},{"student_id":"DEMO-S08","self_minus_teacher":2,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S09","self_minus_teacher":1,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S10","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S11","self_minus_teacher":1,"peer_minus_teacher":0,"flag":true},{"student_id":"DEMO-S12","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S13","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S14","self_minus_teacher":0,"peer_minus_teacher":-8,"flag":true},{"student_id":"DEMO-S15","self_minus_teacher":2,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S16","self_minus_teacher":1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S17","self_minus_teacher":2,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S18","self_minus_teacher":-7,"peer_minus_teacher":-1,"flag":true},{"student_id":"DEMO-S19","self_minus_teacher":1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S20","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S21","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S22","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":true},{"student_id":"DEMO-S23","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S24","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false}],"answer_key":{"DEMO-S07":"自評虛高：自評滿分，互評與教師評分都低；反思空泛。","DEMO-S14":"互評異常偏低：自評與教師評分一致、互評極低——可能是互評者標準或關係問題，要回查互評表。","DEMO-S22":"分數中等但反思出現挫折與退縮的訊號，需要回饋介入而不是再扣分。","DEMO-S03":"互評過寬：互評滿分、教師評分偏低；反思把原因推給外部。","DEMO-S18":"自評偏低：表現好但自評很低，反思具體——適合用回饋拉自信。【AI 分類故意標錯】這筆反思其實具體講出了自己的弱點，預跑的 AI 分析卻把它標成「空泛」。抽查抽到它就會發現；全場沒人抽到，講師最後點出來。","DEMO-S11":"AI 使用訊號：反思坦承用 AI 整理但沒真的看懂，分數看不出來、文字才看得出來。"}},"pe-squat":{"task":"深蹲動作品質（手機錄影 3 次）","criteria":["下蹲深度","膝蓋對齊","脊柱中立","控制與節奏"],"medium":"手機錄影的動作觀察紀錄（去識別化後只留評分與文字，不留影像）","categories":{"skill":"具體指出自己的弱點","external":"把原因歸到外部","emotion":"情緒或退縮訊號","peer":"同儕回饋有幫上忙","ai":"提到 AI 的使用方式","vague":"空泛、沒有具體內容"},"ai_category":{"DEMO-S01":"external","DEMO-S02":"external","DEMO-S03":"external","DEMO-S04":"vague","DEMO-S05":"peer","DEMO-S06":"peer","DEMO-S07":"vague","DEMO-S08":"external","DEMO-S09":"ai","DEMO-S10":"peer","DEMO-S11":"ai","DEMO-S12":"skill","DEMO-S13":"external","DEMO-S14":"peer","DEMO-S15":"ai","DEMO-S16":"skill","DEMO-S17":"vague","DEMO-S18":"vague","DEMO-S19":"skill","DEMO-S20":"skill","DEMO-S21":"skill","DEMO-S22":"emotion","DEMO-S23":"skill","DEMO-S24":"emotion"},"true_category":{"DEMO-S01":"external","DEMO-S02":"external","DEMO-S03":"external","DEMO-S04":"vague","DEMO-S05":"peer","DEMO-S06":"peer","DEMO-S07":"vague","DEMO-S08":"external","DEMO-S09":"ai","DEMO-S10":"peer","DEMO-S11":"ai","DEMO-S12":"skill","DEMO-S13":"external","DEMO-S14":"peer","DEMO-S15":"ai","DEMO-S16":"skill","DEMO-S17":"vague","DEMO-S18":"skill","DEMO-S19":"skill","DEMO-S20":"skill","DEMO-S21":"skill","DEMO-S22":"emotion","DEMO-S23":"skill","DEMO-S24":"emotion"},"ai_wrong_on":"DEMO-S18","gaps":[{"student_id":"DEMO-S01","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S02","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S03","self_minus_teacher":2,"peer_minus_teacher":6,"flag":true},{"student_id":"DEMO-S04","self_minus_teacher":1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S05","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S06","self_minus_teacher":1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S07","self_minus_teacher":8,"peer_minus_teacher":1,"flag":true},{"student_id":"DEMO-S08","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S09","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S10","self_minus_teacher":1,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S11","self_minus_teacher":1,"peer_minus_teacher":0,"flag":true},{"student_id":"DEMO-S12","self_minus_teacher":-1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S13","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S14","self_minus_teacher":0,"peer_minus_teacher":-8,"flag":true},{"student_id":"DEMO-S15","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S16","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S17","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S18","self_minus_teacher":-7,"peer_minus_teacher":-1,"flag":true},{"student_id":"DEMO-S19","self_minus_teacher":1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S20","self_minus_teacher":2,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S21","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S22","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":true},{"student_id":"DEMO-S23","self_minus_teacher":-1,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S24","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":false}],"answer_key":{"DEMO-S07":"自評虛高：自評滿分、互評與教師評分都低；反思空泛。","DEMO-S14":"互評異常偏低：自評與教師評分一致、互評極低——回查互評者與拍攝角度。","DEMO-S22":"分數中等但反思出現「不想再錄」的退縮訊號。","DEMO-S03":"互評過寬＋歸因外部（手機角度）。","DEMO-S18":"自評偏低但動作其實不錯，反思具體。【AI 分類故意標錯】這筆反思其實具體講出了自己的弱點，預跑的 AI 分析卻把它標成「空泛」。抽查抽到它就會發現；全場沒人抽到，講師最後點出來。","DEMO-S11":"AI 給了太多要點、學生記不住——回饋量的問題。"}},"lab-report":{"task":"實驗報告（第 3 次實驗）","criteria":["假設與設計","數據處理","誤差討論","結論與反思"],"medium":"書面報告（文字、表格、圖）","categories":{"skill":"具體指出自己的弱點","external":"把原因歸到外部","emotion":"情緒或退縮訊號","peer":"同儕回饋有幫上忙","ai":"提到 AI 的使用方式","vague":"空泛、沒有具體內容"},"ai_category":{"DEMO-S01":"peer","DEMO-S02":"external","DEMO-S03":"skill","DEMO-S04":"skill","DEMO-S05":"vague","DEMO-S06":"skill","DEMO-S07":"skill","DEMO-S08":"peer","DEMO-S09":"skill","DEMO-S10":"peer","DEMO-S11":"peer","DEMO-S12":"skill","DEMO-S13":"external","DEMO-S14":"external","DEMO-S15":"vague","DEMO-S16":"ai","DEMO-S17":"external","DEMO-S18":"emotion","DEMO-S19":"ai","DEMO-S20":"emotion","DEMO-S21":"vague","DEMO-S22":"vague","DEMO-S23":"vague","DEMO-S24":"external"},"true_category":{"DEMO-S01":"peer","DEMO-S02":"external","DEMO-S03":"skill","DEMO-S04":"skill","DEMO-S05":"vague","DEMO-S06":"skill","DEMO-S07":"skill","DEMO-S08":"peer","DEMO-S09":"skill","DEMO-S10":"peer","DEMO-S11":"peer","DEMO-S12":"skill","DEMO-S13":"external","DEMO-S14":"external","DEMO-S15":"vague","DEMO-S16":"ai","DEMO-S17":"external","DEMO-S18":"emotion","DEMO-S19":"ai","DEMO-S20":"emotion","DEMO-S21":"vague","DEMO-S22":"vague","DEMO-S23":"skill","DEMO-S24":"external"},"ai_wrong_on":"DEMO-S23","gaps":[{"student_id":"DEMO-S01","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S02","self_minus_teacher":2,"peer_minus_teacher":7,"flag":true},{"student_id":"DEMO-S03","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S04","self_minus_teacher":-1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S05","self_minus_teacher":7,"peer_minus_teacher":3,"flag":true},{"student_id":"DEMO-S06","self_minus_teacher":2,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S07","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S08","self_minus_teacher":2,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S09","self_minus_teacher":1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S10","self_minus_teacher":-1,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S11","self_minus_teacher":0,"peer_minus_teacher":-8,"flag":true},{"student_id":"DEMO-S12","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S13","self_minus_teacher":1,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S14","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S15","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S16","self_minus_teacher":1,"peer_minus_teacher":0,"flag":true},{"student_id":"DEMO-S17","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S18","self_minus_teacher":0,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S19","self_minus_teacher":0,"peer_minus_teacher":1,"flag":false},{"student_id":"DEMO-S20","self_minus_teacher":-1,"peer_minus_teacher":0,"flag":true},{"student_id":"DEMO-S21","self_minus_teacher":0,"peer_minus_teacher":0,"flag":false},{"student_id":"DEMO-S22","self_minus_teacher":-1,"peer_minus_teacher":-1,"flag":false},{"student_id":"DEMO-S23","self_minus_teacher":-8,"peer_minus_teacher":-2,"flag":true},{"student_id":"DEMO-S24","self_minus_teacher":-1,"peer_minus_teacher":1,"flag":false}],"answer_key":{"DEMO-S05":"自評虛高：自評很高、教師評分低，最弱在誤差討論；反思空泛。","DEMO-S11":"互評異常偏低：自評與教師一致、互評極低。","DEMO-S20":"分數中等但反思寫到「想放棄這門課」。","DEMO-S16":"分數不錯，但反思坦承誤差討論是 AI 寫的、自己不懂——分數看不出來、文字才看得出來。","DEMO-S02":"互評過寬、歸因外部（儀器）。","DEMO-S23":"自評偏低、表現好、反思具體。【AI 分類故意標錯】這筆反思其實具體講出了自己的弱點，預跑的 AI 分析卻把它標成「空泛」。抽查抽到它就會發現；全場沒人抽到，講師最後點出來。"}}};
+/*DEMO-DATA-END*/
+</script>
+<script>
+(function(){
+'use strict';
+var FLOW = window.WORKSHOP_FLOW || null;
+var $ = function(id){ return document.getElementById(id); };
+var esc = function(s){ return String(s == null ? '' : s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+  .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+var RULE = (FLOW && FLOW.meta && FLOW.meta.rule) || '挑一句不同意的、改掉、寫下為什麼。';
+var AI_RULE = (FLOW && FLOW.meta && FLOW.meta.aiRule) || 'AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。';
+
+/* ── 頁首資料、投影與主題切換 ── */
+if(FLOW && FLOW.meta){
+  $('heroEyebrow').textContent = FLOW.meta.title + '｜' + FLOW.meta.subtitle;
+  $('heroMeta').textContent = FLOW.meta.date + ' ' + FLOW.meta.time + '｜' + FLOW.meta.venue + '｜' + FLOW.meta.speaker;
+  $('ruleText').textContent = FLOW.meta.rule;
+  $('aiRuleText').textContent = FLOW.meta.aiRule + ' 這個工作台也一樣：它不會替你判斷，只把東西並列給你看。';
+} else {
+  $('noData').hidden = false;
+}
+var themeBtn = $('themeToggle');
+themeBtn.addEventListener('click', function(){
+  var cur = document.documentElement.dataset.theme;
+  if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  var next = cur === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem('lew-theme', next); } catch(e) {}
+});
+var projBtn = $('projToggle');
+var paintProj = function(on){ projBtn.textContent = on ? '🔎 投影中' : '🔎 投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+paintProj(document.documentElement.classList.contains('projector'));
+projBtn.addEventListener('click', function(){
+  var on = document.documentElement.classList.toggle('projector');
+  paintProj(on);
+  try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
+});
+
+/* ── 暫存：整個工作台一把鑰匙，全部 try/catch ── */
+var STORE_KEY = 'lew-studio-v1';
+function freshState(){ return { tab:'rubric', rubric:{v1:'', v2:'', why:''}, evidence:{dataset:'project-presentation', per:{}}, design:{fields:{}} }; }
+var state = freshState();
+try {
+  var raw = localStorage.getItem(STORE_KEY);
+  if(raw){ var parsed = JSON.parse(raw); if(parsed && typeof parsed === 'object'){
+    state.tab = parsed.tab || state.tab;
+    if(parsed.rubric) state.rubric = Object.assign(state.rubric, parsed.rubric);
+    if(parsed.evidence) state.evidence = Object.assign(state.evidence, parsed.evidence);
+    if(parsed.design && parsed.design.fields) state.design.fields = parsed.design.fields;
+  } }
+} catch(e) {}
+/* 貼上的資料那一份（抽到的代號、判斷、三句結論）只放記憶體，跟畫面上的承諾一致；舊版暫存裡若有，載入時就丟掉 */
+if(state.evidence.per && state.evidence.per.paste) delete state.evidence.per.paste;
+function persistable(){
+  var copy = { tab: state.tab, rubric: state.rubric, evidence: { dataset: state.evidence.dataset, per: {} }, design: state.design };
+  Object.keys(state.evidence.per || {}).forEach(function(k){ if(k !== 'paste') copy.evidence.per[k] = state.evidence.per[k]; });
+  return JSON.stringify(copy);
+}
+var saveTimer = null;
+function writeStore(){
+  try { localStorage.setItem(STORE_KEY, persistable()); $('saveNote').textContent = '已自動暫存 ' + clock() + '（只存在這台瀏覽器；貼上的資料那份除外）。'; }
+  catch(e) { $('saveNote').textContent = '這個瀏覽器不讓存暫存（無痕或被封鎖），記得隨時匯出。'; }
+}
+function save(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(writeStore, 300);
+}
+/* 關分頁、切到別的視窗、重新整理：把還在等的那 300 毫秒立刻寫掉，最後打的字才不會不見 */
+function flush(){ if(saveTimer){ clearTimeout(saveTimer); saveTimer = null; writeStore(); } }
+window.addEventListener('pagehide', flush);
+document.addEventListener('visibilitychange', function(){ if(document.hidden) flush(); });
+function pad(n){ return (n < 10 ? '0' : '') + n; }
+function clock(){ var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function stampLong(){ var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()) + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+function stampFile(){ var d = new Date(); return '' + d.getFullYear() + pad(d.getMonth()+1) + pad(d.getDate()) + '-' + pad(d.getHours()) + pad(d.getMinutes()); }
+function today(){ var d = new Date(); return d.getFullYear() + '-' + pad(d.getMonth()+1) + '-' + pad(d.getDate()); }
+
+/* ── 共用小工具：訊息、下載、複製 ── */
+function showMsg(id, text, ok, sticky){
+  var el = $(id); el.textContent = text; el.hidden = false;
+  el.className = (ok ? 'ok' : 'warn') + ' msg';
+  clearTimeout(el._hideTimer);
+  if(ok && !sticky){ el._hideTimer = setTimeout(function(){ el.hidden = true; }, 6000); }
+}
+function hideMsg(id){ $(id).hidden = true; }
+function download(name, text){
+  var blob = new Blob([text], {type:'text/markdown;charset=utf-8'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a'); a.href = url; a.download = name;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); }, 0);
+}
+function fallbackCopy(t){
+  var ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly','');
+  ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(ta);
+}
+function copyText(t, btn){
+  var old = btn.textContent;
+  var done = function(){ btn.textContent = '已複製'; setTimeout(function(){ btn.textContent = old; }, 1500); };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(done, function(){ fallbackCopy(t); done(); });
+  } else { fallbackCopy(t); done(); }
+}
+
+/* ── 分頁：三個分頁、方向鍵可切、網址 # 直達 ── */
+var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+function showTab(name){
+  if(!tabs.some(function(b){ return b.dataset.tab === name; })) name = 'rubric';
+  tabs.forEach(function(b){
+    var on = b.dataset.tab === name;
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+    b.tabIndex = on ? 0 : -1;
+    $('panel-' + b.dataset.tab).hidden = !on;
+  });
+  state.tab = name; save();
+  if(location.hash !== '#' + name){ try { history.replaceState(null, '', '#' + name); } catch(e) {} }
+}
+tabs.forEach(function(b, i){
+  b.addEventListener('click', function(){ showTab(b.dataset.tab); });
+  b.addEventListener('keydown', function(ev){
+    var j = null;
+    if(ev.key === 'ArrowRight') j = (i + 1) % tabs.length;
+    if(ev.key === 'ArrowLeft') j = (i - 1 + tabs.length) % tabs.length;
+    if(ev.key === 'Home') j = 0;
+    if(ev.key === 'End') j = tabs.length - 1;
+    if(j !== null){ ev.preventDefault(); tabs[j].focus(); showTab(tabs[j].dataset.tab); }
+  });
+});
+Array.prototype.forEach.call(document.querySelectorAll('[data-tab-link]'), function(a){
+  a.addEventListener('click', function(ev){ ev.preventDefault(); showTab(a.dataset.tabLink); window.scrollTo({top: $('ruleBox').offsetTop - 60, behavior:'smooth'}); });
+});
+var isTab = function(n){ return tabs.some(function(b){ return b.dataset.tab === n; }); };
+/* 只有分頁名稱才切分頁；頁內錨點（例如 #prompt-P1）交給瀏覽器自己捲 */
+window.addEventListener('hashchange', function(){ var h = location.hash.replace('#',''); if(isTab(h)) showTab(h); });
+
+/* ── 四塊步驟（跟講義同一份資料） ── */
+/* 步驟裡點名的提示詞卡：P1／P2 就在這頁，其餘（P3、P4、P6）在講義——都做成連結，老師才找得到要貼的字 */
+var LOCAL_PROMPTS = {};
+if(FLOW && FLOW.prompts){ FLOW.prompts.forEach(function(p){ if(p.block === 'B2') LOCAL_PROMPTS[p.id] = true; }); }
+function linkPrompts(s){
+  return esc(s).replace(/\bP([1-6])\b/g, function(m, n){
+    var id = 'P' + n;
+    if(LOCAL_PROMPTS[id]) return '<a href="#prompt-' + id + '">' + id + '</a>';
+    return '<a href="material.html#prompt-' + id + '" title="這張卡在講義裡">' + id + '</a>（在講義）';
+  });
+}
+function renderSteps(blockId, hostId){
+  if(!FLOW) return;
+  var b = FLOW.blockById(blockId); if(!b) return;
+  var html = '<details class="card"><summary>第' + esc(b.num) + '塊「' + esc(b.title) + '」的步驟（跟講義同一份）</summary><ol class="steps">';
+  b.steps.forEach(function(s){
+    html += '<li><div><strong>你說：</strong>' + linkPrompts(s.say) + '</div>' +
+            '<div class="hint"><strong>AI 會做：</strong>' + esc(s.ai) + '</div>' +
+            '<div class="human"><strong>你一定要自己看：</strong>' + esc(s.human) + '</div></li>';
+  });
+  html += '</ol><p class="tip"><strong>卡住時：</strong>' + esc(b.rescue) + '</p></details>';
+  $(hostId).innerHTML = html;
+}
+renderSteps('B2', 'stepsB2'); renderSteps('B3', 'stepsB3'); renderSteps('B4', 'stepsB4');
+
+/* ════════════════ ① Rubric 工作台 ════════════════ */
+var RUBRIC_V1 =
+'# 課堂專題簡報評分規準（第 1 版）\n' +
+'任務：8 分鐘個人專題簡報｜四個規準、四個等級；一格一行\n' +
+'\n' +
+'## 內容正確\n' +
+'- 4：主要論點都有資料或文獻支持，沒有事實錯誤\n' +
+'- 3：主要論點有資料支持，有 1 處小錯誤\n' +
+'- 2：內容尚可，部分論點沒有依據\n' +
+'- 1：多處事實錯誤，或論點與主題無關\n' +
+'\n' +
+'## 結構清楚\n' +
+'- 4：開頭說出三個重點，結尾逐一收回，段落之間有轉折句\n' +
+'- 3：有開頭與結尾，但重點沒有在結尾收回\n' +
+'- 2：段落順序可以辨認，但聽眾要自己拼湊\n' +
+'- 1：沒有可辨認的開頭、主體、結尾\n' +
+'\n' +
+'## 表達流暢\n' +
+'- 4：表現優異、台風穩健\n' +
+'- 3：偶爾看稿，語速適中\n' +
+'- 2：常常看稿，有明顯停頓\n' +
+'- 1：大段朗讀投影片，台下聽不清楚\n' +
+'\n' +
+'## 回應提問\n' +
+'- 4：回答良好，能舉例補充\n' +
+'- 3：回答切題，但沒有補充依據\n' +
+'- 2：回答部分切題，或需要請提問者再講一次\n' +
+'- 1：無法回答，或答非所問';
+
+var P1_SAMPLE = RUBRIC_V1 + '\n' +
+'\n' +
+'## 學生自評表（每個規準一題）\n' +
+'- 內容正確：我給自己 4／3／2／1，我看到的證據是：\n' +
+'- 結構清楚：我給自己 4／3／2／1，我看到的證據是：\n' +
+'- 表達流暢：我給自己 4／3／2／1，我看到的證據是：\n' +
+'- 回應提問：我給自己 4／3／2／1，我看到的證據是：\n' +
+'\n' +
+'## 互評表（同一張表，主詞改成「報告者」）\n' +
+'- 內容正確：我給報告者 4／3／2／1，我看到的證據是：\n' +
+'- 結構清楚、表達流暢、回應提問：同上，各一題\n' +
+'\n' +
+'## 我猜老師最可能不同意的三格\n' +
+'1. 表達流暢・4「表現優異、台風穩健」：兩個形容詞，看不見也數不出。\n' +
+'2. 內容正確・2「內容尚可」：「尚可」的門檻在每位老師心裡都不一樣。\n' +
+'3. 回應提問・4「回答良好」：「良好」沒有說要做到什麼。';
+
+var P2_SAMPLE =
+'審查意見（6 條；每條寫：哪一格／問題是什麼／建議怎麼改）\n' +
+'\n' +
+'1. 表達流暢・4「表現優異、台風穩健」——看不見、數不出，兩位老師會打不一樣。改成：「全程不看稿超過 6 分鐘；停頓不超過 3 次」。\n' +
+'2. 內容正確・2「內容尚可，部分論點沒有依據」——「尚可」沒有門檻。改成：「主要論點有一半以上沒有資料支持」。\n' +
+'3. 回應提問・4「回答良好，能舉例補充」——「良好」沒有說要做到什麼。改成：「每一題都切題回答，至少一題引用簡報裡的資料補充」。\n' +
+'4. 表達流暢・3「偶爾看稿，語速適中」——「偶爾」「適中」數不出。改成：「看稿不超過 3 次；8 分鐘內講完」。\n' +
+'5. 結構清楚・2「聽眾要自己拼湊」——寫的是聽眾的感受，不是報告者做了什麼。改成：「有開頭與結尾，但段落之間沒有轉折句」。\n' +
+'6. 內容正確・3 與 2 的差距不均——從「1 處小錯誤」跳到「部分沒有依據」太大。建議 3 改成：「主要論點有資料支持，有 1–2 處小錯誤」。';
+
+var RUBRIC_V2 = RUBRIC_V1
+  .replace('（第 1 版）', '（第 2 版）')
+  .replace('- 2：內容尚可，部分論點沒有依據', '- 2：主要論點有一半以上沒有資料支持')
+  .replace('- 4：表現優異、台風穩健', '- 4：全程不看稿超過 6 分鐘；停頓不超過 3 次')
+  .replace('- 4：回答良好，能舉例補充', '- 4：每一題都切題回答，至少一題引用簡報裡的資料補充') +
+'\n' +
+'\n' +
+'## 調整紀錄\n' +
+'- 採用審查意見 1、2、3。\n' +
+'- 4 不採：看稿次數現場數不到，先留「偶爾」，下學期錄影再改。\n' +
+'- 5 不採：這一格故意留聽眾視角，互評表會用到。\n' +
+'- 6 不採：先用一輪，看實際分數分布再調等級差距。';
+
+var SAMPLES = {
+  P1: { title:'P1 的範例輸出（示範課：課堂專題簡報）', text:P1_SAMPLE, fillTarget:'v1', fillLabel:'把這張第 1 版填進左欄' },
+  P2: { title:'P2 的範例輸出：審查者 6 條意見，以及採用 1、2、3 之後的第 2 版', text:P2_SAMPLE, fillTarget:'v2', fillLabel:'把示範的第 2 版填進右欄' }
+};
+var PROMPT_TEXT = {};
+
+function renderPrompts(){
+  var host = $('promptCards');
+  if(!FLOW){ host.innerHTML = '<div class="warn">提示詞卡要靠 workflow-data.js 才顯示得出來。</div>'; return; }
+  var html = '';
+  FLOW.prompts.filter(function(p){ return p.block === 'B2'; }).forEach(function(p){
+    PROMPT_TEXT[p.id] = p.text;
+    html += '<div class="prompt" id="prompt-' + esc(p.id) + '"><span class="label">提示詞卡 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
+            '<button type="button" class="btn small copy" data-copy="' + esc(p.id) + '" aria-label="複製提示詞卡 ' + esc(p.id) + '">複製</button>' +
+            esc(p.text) +
+            '<span class="rule-foot">硬規矩：' + esc(RULE) + '</span></div>';
+    var s = SAMPLES[p.id];
+    if(s){
+      html += '<div class="toolbar"><button type="button" class="btn small secondary" data-sample="' + esc(p.id) + '" aria-expanded="false" aria-controls="sample-' + esc(p.id) + '" aria-label="看提示詞卡 ' + esc(p.id) + ' 的範例輸出">看範例輸出</button></div>' +
+              '<div class="card sample" id="sample-' + esc(p.id) + '" hidden><h4>' + esc(s.title) + '</h4><pre>' + esc(s.text) + '</pre>';
+      if(p.id === 'P2'){
+        html += '<pre>' + esc(RUBRIC_V2) + '</pre>';
+        var ex = FLOW.examples && FLOW.examples.presentation;
+        if(ex){ html += '<p class="hint">示範的「為什麼改」：' + esc(ex.whyChanged) + '（這一格要你自己寫，示範不代填。）</p>'; }
+      }
+      html += '<div class="toolbar"><button type="button" class="btn small" data-fill="' + esc(p.id) + '" aria-label="' + esc(s.fillLabel) + '">' + esc(s.fillLabel) + '</button></div></div>';
+    }
+  });
+  host.innerHTML = html;
+  host.addEventListener('click', function(ev){
+    var b = ev.target.closest('button'); if(!b) return;
+    if(b.dataset.copy){ copyText(PROMPT_TEXT[b.dataset.copy] || '', b); }
+    if(b.dataset.sample){
+      var box = $('sample-' + b.dataset.sample); var open = box.hidden;
+      box.hidden = !open; b.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    if(b.dataset.fill){
+      var s = SAMPLES[b.dataset.fill]; var ta = $(s.fillTarget);
+      if(ta.value.trim() && !confirm('欄位裡已經有字，要用示範內容蓋掉嗎？')) return;
+      ta.value = s.fillTarget === 'v1' ? RUBRIC_V1 : RUBRIC_V2;
+      state.rubric[s.fillTarget] = ta.value; save(); ta.focus();
+    }
+  });
+}
+renderPrompts();
+
+['v1','v2','why'].forEach(function(id){
+  $(id).value = state.rubric[id] || '';
+  $(id).addEventListener('input', function(){ state.rubric[id] = $(id).value; save(); });
+});
+
+/* 逐行差異：自己寫的最長共同子序列（LCS），刪除紅、新增綠 */
+function splitLines(t){
+  var arr = String(t).replace(/\r\n?/g, '\n').split('\n').map(function(l){ return l.replace(/\s+$/, ''); });
+  while(arr.length && arr[arr.length - 1] === '') arr.pop();
+  return arr;
+}
+function diffLines(a, b){
+  var A = splitLines(a), B = splitLines(b), n = A.length, m = B.length;
+  if(n > 3000 || m > 3000) return null;
+  var dp = [], i, j;
+  for(i = 0; i <= n; i++){ dp.push(new Uint16Array(m + 1)); }
+  for(i = n - 1; i >= 0; i--){ for(j = m - 1; j >= 0; j--){
+    dp[i][j] = A[i] === B[j] ? dp[i+1][j+1] + 1 : Math.max(dp[i+1][j], dp[i][j+1]);
+  } }
+  var out = []; i = 0; j = 0;
+  while(i < n && j < m){
+    if(A[i] === B[j]){ out.push({t:'ctx', s:A[i]}); i++; j++; }
+    else if(dp[i+1][j] >= dp[i][j+1]){ out.push({t:'del', s:A[i]}); i++; }
+    else { out.push({t:'add', s:B[j]}); j++; }
+  }
+  while(i < n){ out.push({t:'del', s:A[i++]}); }
+  while(j < m){ out.push({t:'add', s:B[j++]}); }
+  return out;
+}
+function diffStats(d){
+  var s = {del:0, add:0, ctx:0}; d.forEach(function(l){ s[l.t]++; }); return s;
+}
+function renderDiff(){
+  hideMsg('msgRubric');
+  var a = $('v1').value, b = $('v2').value;
+  /* 被擋的時候把上一輪的差異清掉，免得把舊結果當成這一次的 */
+  if(!a.trim() || !b.trim()){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '左右兩欄都要有內容才能比較。左欄貼第 1 版、右欄貼你改過的第 2 版。'); return null; }
+  if(!$('why').value.trim()){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '「為什麼改」是必填：先寫一句你為什麼改那一格，再比較——差異是用來核對你的決定，不是用來替你決定。'); $('why').focus(); return null; }
+  var d = diffLines(a, b);
+  if(!d){ $('diffOut').innerHTML = ''; showMsg('msgRubric', '內容太長（超過 3000 行），請縮到一張規準表的大小再比。'); return null; }
+  var st = diffStats(d);
+  var html = '<span class="ln hdr">左 v1 → 右 v2：刪 ' + st.del + ' 行（紅）、增 ' + st.add + ' 行（綠）、不變 ' + st.ctx + ' 行</span>';
+  if(st.del === 0 && st.add === 0){ html += '<span class="ln ctx">兩版一模一樣——還沒改到任何一格。' + esc(RULE) + '</span>'; }
+  d.forEach(function(l){
+    var mk = l.t === 'del' ? '−' : l.t === 'add' ? '＋' : '';
+    html += '<span class="ln ' + l.t + '"><span class="mk" aria-hidden="true">' + mk + '</span>' + (esc(l.s) || ' ') + '</span>';
+  });
+  $('diffOut').innerHTML = html;
+  return d;
+}
+$('btnCompare').addEventListener('click', renderDiff);
+$('btnExportRound').addEventListener('click', function(){
+  hideMsg('msgRubric');
+  var why = $('why').value.trim();
+  if(!$('v1').value.trim() || !$('v2').value.trim()){ showMsg('msgRubric', '左右兩欄都要有內容才能匯出。'); return; }
+  if(!why){ showMsg('msgRubric', '「為什麼改」是必填：寫一句你為什麼改那一格。'); $('why').focus(); return; }
+  var d = renderDiff(); if(!d) return;
+  var fence = '```';
+  var md = '# Rubric 這一輪的紀錄\n\n' +
+    '- 時間：' + stampLong() + '\n' +
+    '- 硬規矩：' + RULE + '\n' +
+    '- ' + AI_RULE + '\n\n' +
+    '## 為什麼改\n\n' + why + '\n\n' +
+    '## 第 1 版（v1）\n\n' + $('v1').value.replace(/\r\n?/g,'\n') + '\n\n' +
+    '## 第 2 版（v2）\n\n' + $('v2').value.replace(/\r\n?/g,'\n') + '\n\n' +
+    '## 兩版差異（− 刪除／＋ 新增／空白＝不變）\n\n' + fence + 'diff\n' +
+    d.map(function(l){ return (l.t === 'del' ? '- ' : l.t === 'add' ? '+ ' : '  ') + l.s; }).join('\n') + '\n' + fence + '\n';
+  var fname = 'rubric-round-' + stampFile() + '.md';
+  download(fname, md);
+  showMsg('msgRubric', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾再存一版，版本說明寫：' + why + '」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：課後用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
+});
+
+/* ════════════════ ② 證據儀表板 ════════════════ */
+var HAS_DATA = (typeof DEMO_CSV !== 'undefined') && (typeof SAMPLE_ANALYSIS !== 'undefined');
+var DS = {
+  'project-presentation': { exKey:'presentation', file:'project-presentation-scores.csv', label:'課堂專題簡報（主範例）' },
+  'pe-squat':             { exKey:'pe',           file:'pe-squat-scores.csv',             label:'體育：深蹲動作品質（自選）' },
+  'lab-report':           { exKey:'lab',          file:'lab-report-scores.csv',           label:'實驗報告（化材／物理／環境，自選）' }
+};
+Object.keys(DS).forEach(function(k){
+  var ex = FLOW && FLOW.examples && FLOW.examples[DS[k].exKey];
+  if(ex && ex.label) DS[k].label = ex.label;
+});
+var FAR = (FLOW && FLOW.meta && FLOW.meta.farGap) || 4;   // 「離 0 遠」的門檻（分）：讀資料源 meta.farGap，投影片第 13 頁也讀同一個數
+(function(){ var el = document.getElementById('farLegend'); if (el) el.textContent = '離 0 遠（差 ' + FAR + ' 分以上）'; })();
+var current = { key:null, records:[], analysis:null, label:'', skipped:0 };
+var pasteRows = null;   // 貼上的資料只放記憶體，不暫存
+
+function parseCSV(text){
+  var rows = [], row = [], field = '', inQ = false, i, c;
+  text = String(text).replace(/^﻿/, '');
+  for(i = 0; i < text.length; i++){
+    c = text[i];
+    if(inQ){
+      if(c === '"'){ if(text[i+1] === '"'){ field += '"'; i++; } else { inQ = false; } }
+      else field += c;
+    } else if(c === '"'){ inQ = true; }
+    else if(c === ','){ row.push(field); field = ''; }
+    else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
+    else if(c === '\r'){ }
+    else field += c;
+  }
+  if(field !== '' || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(function(r){ return r.length && !(r.length === 1 && r[0].trim() === '') && !/^\s*#/.test(r[0]); });
+}
+function toRecords(rows){
+  if(!rows.length) throw new Error('沒有讀到任何一列。');
+  var hdr = rows[0].map(function(h){ return h.trim(); });
+  var idx = function(name){ return hdr.indexOf(name); };
+  var required = ['student_id','self_score','peer_score','teacher_score','reflection_text'];
+  var missing = required.filter(function(r){ return idx(r) < 0; });
+  if(missing.length) throw new Error('缺少欄位：' + missing.join('、') + '。第一列要是欄位名。');
+  var recs = [], skipped = 0, seen = {};
+  for(var i = 1; i < rows.length; i++){
+    var r = rows[i];
+    var rec = {
+      id: (r[idx('student_id')] || '').trim(),
+      self: Number(r[idx('self_score')]), peer: Number(r[idx('peer_score')]), teacher: Number(r[idx('teacher_score')]),
+      weakest: idx('teacher_weakest_criterion') >= 0 ? (r[idx('teacher_weakest_criterion')] || '').trim() : '',
+      reflection: (r[idx('reflection_text')] || '').trim(),
+      task: idx('task') >= 0 ? (r[idx('task')] || '').trim() : ''
+    };
+    if(!rec.id || seen[rec.id] || isNaN(rec.self) || isNaN(rec.peer) || isNaN(rec.teacher)){ skipped++; continue; }
+    seen[rec.id] = true;
+    rec.dSelf = rec.self - rec.teacher; rec.dPeer = rec.peer - rec.teacher;
+    rec.far = Math.max(Math.abs(rec.dSelf), Math.abs(rec.dPeer));
+    recs.push(rec);
+  }
+  return { records: recs, skipped: skipped };
+}
+function sign(n){ return n > 0 ? '+' + n : String(n); }
+function shortId(id){ var s = String(id).replace(/^DEMO-/, ''); return s.length > 6 ? s.slice(0, 5) + '…' : s; }
+function catLabel(code){
+  var cats = current.analysis && current.analysis.categories;
+  return (cats && cats[code]) || code || '—';
+}
+function aiCat(id){
+  if(!current.analysis || !current.analysis.ai_category) return '';
+  return current.analysis.ai_category[id] || '';
+}
+
+function fillDatasetSelect(){
+  var sel = $('dataset'), html = '';
+  Object.keys(DS).forEach(function(k){ html += '<option value="' + k + '">' + esc(DS[k].label) + '</option>'; });
+  html += '<option value="paste">貼上自己的去識別化 CSV</option>';
+  sel.innerHTML = html;
+  sel.value = state.evidence.dataset in DS || state.evidence.dataset === 'paste' ? state.evidence.dataset : 'project-presentation';
+  sel.addEventListener('change', function(){ loadDataset(sel.value); });
+}
+function loadDataset(key){
+  state.evidence.dataset = key; save();
+  $('pasteBox').hidden = key !== 'paste';
+  hideMsg('msgEvidence');
+  if(key === 'paste'){
+    current = { key:'paste', records: pasteRows ? pasteRows.records : [], analysis:null, label:'貼上的資料', skipped: pasteRows ? pasteRows.skipped : 0 };
+    $('dsSummary').textContent = pasteRows ? ('貼上的資料：' + current.records.length + ' 筆' + (current.skipped ? '（略過 ' + current.skipped + ' 列：代號重複、空白或分數不是數字）' : '') + '。AI 分類請對照你的 AI 助手寫的檔。') : '還沒讀到資料：把 CSV 貼進上面的框，按「讀取」。';
+  } else {
+    if(!HAS_DATA){ $('dsSummary').textContent = '示範資料沒有嵌進這個檔。'; current = {key:key, records:[], analysis:null, label:DS[key].label, skipped:0}; }
+    else {
+      var parsed = toRecords(parseCSV(DEMO_CSV[key]));
+      current = { key:key, records: parsed.records, analysis: SAMPLE_ANALYSIS[key] || null, label: DS[key].label, skipped: parsed.skipped };
+      var a = current.analysis;
+      $('dsSummary').textContent = '示範資料 ' + DS[key].file + '（合成，不是真實學生）：' + current.records.length + ' 筆｜任務：' + (a ? a.task : '') + '｜媒介：' + (a ? a.medium : '') + '｜規準：' + (a ? a.criteria.join('、') : '');
+    }
+  }
+  renderChart(); renderGapTable(); renderReflTable(); renderSamples(); renderConclusions(); renderAnswer();
+}
+$('btnLoadPaste').addEventListener('click', function(){
+  hideMsg('msgPaste');
+  try {
+    var parsed = toRecords(parseCSV($('pasteCsv').value));
+    if(!parsed.records.length) throw new Error('沒有一列是完整的：代號、三個分數、反思都要有。');
+    pasteRows = parsed;
+    loadDataset('paste');
+    showMsg('msgPaste', '讀到 ' + parsed.records.length + ' 筆。' + (parsed.skipped ? '略過 ' + parsed.skipped + ' 列。' : ''), true);
+  } catch(e){ showMsg('msgPaste', '讀不進去：' + e.message); }
+});
+
+function renderChart(){
+  var recs = current.records.slice(), host = $('chartWrap');
+  if(!recs.length){ host.innerHTML = '<p class="hint" style="padding:8px">沒有資料可畫。</p>'; return; }
+  var slot = 34, padL = 44, padR = 12, top = 22, bottom = 54;
+  var W = Math.max(720, padL + padR + recs.length * slot), H = 300;
+  var maxAbs = 4;
+  recs.forEach(function(r){ maxAbs = Math.max(maxAbs, Math.abs(r.dSelf), Math.abs(r.dPeer)); });
+  var half = (H - top - bottom) / 2, zeroY = top + half, unit = half / maxAbs;
+  var step = Math.max(1, Math.ceil(maxAbs / 2));
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
+  for(var v = -maxAbs; v <= maxAbs; v += step){
+    var y = zeroY - v * unit;
+    s += '<line class="' + (v === 0 ? 'zero' : 'axis') + '" x1="' + padL + '" x2="' + (W - padR) + '" y1="' + y.toFixed(1) + '" y2="' + y.toFixed(1) + '"/>';
+    s += '<text class="tick" x="' + (padL - 6) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end">' + sign(v) + '</text>';
+  }
+  recs.forEach(function(r, i){
+    var x0 = padL + i * slot + 4;
+    var isFar = r.far >= FAR;
+    [['dSelf','bar-self','自評 − 教師'], ['dPeer','bar-peer','互評 − 教師']].forEach(function(spec, k){
+      var val = r[spec[0]], h = Math.abs(val) * unit, yTop = val >= 0 ? zeroY - h : zeroY;
+      var farCls = Math.abs(val) >= FAR ? ' far-bar' : '';
+      s += '<rect class="' + spec[1] + farCls + '" x="' + (x0 + k * 13) + '" y="' + yTop.toFixed(1) + '" width="11" height="' + Math.max(h, val === 0 ? 1.5 : 0).toFixed(1) + '" rx="2"><title>' + esc(r.id) + '　' + spec[2] + '：' + sign(val) + '</title></rect>';
+    });
+    s += '<text class="' + (isFar ? 'far' : '') + '" x="' + (x0 + 13) + '" y="' + (H - bottom + 16) + '" text-anchor="middle">' + esc(shortId(r.id)) + '</text>';
+  });
+  s += '<text class="tick" x="' + padL + '" y="' + (H - 8) + '">代號（DEMO- 省略）；長條往上＝比教師分高、往下＝比教師分低</text>';
+  s += '</svg>';
+  host.innerHTML = s;
+}
+function renderGapTable(){
+  var recs = current.records.slice().sort(function(a, b){ return b.far - a.far || a.id.localeCompare(b.id); });
+  var host = $('gapTable');
+  if(!recs.length){ host.innerHTML = '<p class="hint">沒有資料。</p>'; return; }
+  var hasWeak = recs.some(function(r){ return r.weakest; });
+  var h = '<table><thead><tr><th>代號</th><th>自評</th><th>互評</th><th>教師</th><th>自評 − 教師</th><th>互評 − 教師</th>' + (hasWeak ? '<th>教師認為最弱的規準</th>' : '') + '</tr></thead><tbody>';
+  recs.forEach(function(r){
+    h += '<tr><td>' + esc(r.id) + '</td><td class="num">' + r.self + '</td><td class="num">' + r.peer + '</td><td class="num">' + r.teacher + '</td>' +
+         '<td class="num' + (Math.abs(r.dSelf) >= FAR ? ' far' : '') + '">' + sign(r.dSelf) + '</td>' +
+         '<td class="num' + (Math.abs(r.dPeer) >= FAR ? ' far' : '') + '">' + sign(r.dPeer) + '</td>' +
+         (hasWeak ? '<td>' + esc(r.weakest) + '</td>' : '') + '</tr>';
+  });
+  host.innerHTML = h + '</tbody></table>';
+}
+function renderReflTable(){
+  var host = $('reflTable'), recs = current.records;
+  if(!recs.length){ host.innerHTML = '<p class="hint">沒有資料。</p>'; return; }
+  var instructor = $('btnInstructor').getAttribute('aria-pressed') === 'true';
+  var ak = (instructor && current.analysis && current.analysis.answer_key) || null;
+  var h = '<table><thead><tr><th>代號</th><th>自評／互評／教師</th><th>反思短文</th><th>AI 分類</th>' + (ak ? '<th>答案卡</th>' : '') + '</tr></thead><tbody>';
+  recs.forEach(function(r){
+    var code = aiCat(r.id);
+    var mark = '';
+    if(ak){
+      if(current.analysis.ai_wrong_on === r.id) mark = '<span class="badge bad">AI 分錯</span>';
+      else if(ak[r.id]) mark = '<span class="badge gold">埋設</span>';
+    }
+    h += '<tr><td>' + esc(r.id) + '</td><td class="num">' + r.self + '／' + r.peer + '／' + r.teacher + '</td><td class="refl">' + esc(r.reflection) + '</td><td>' + (code ? esc(catLabel(code)) : '—') + '</td>' + (ak ? '<td>' + mark + '</td>' : '') + '</tr>';
+  });
+  host.innerHTML = h + '</tbody></table>';
+}
+
+/* 抽樣：每個資料集各自記住抽到哪三筆、怎麼判斷、三句結論 */
+function per(){
+  var k = current.key || 'none';
+  if(!state.evidence.per[k]) state.evidence.per[k] = { ids:[], judge:{}, conclusions:['','',''] };
+  var p = state.evidence.per[k];
+  if(!p.judge) p.judge = {}; if(!p.conclusions) p.conclusions = ['','',''];
+  return p;
+}
+function drawSample(){
+  if(!current.records.length){ showMsg('msgEvidence', '先選一份資料，或貼上並讀取你自己的。'); return; }
+  var p = per();
+  var hasJudge = Object.keys(p.judge).some(function(id){ return p.judge[id] && (p.judge[id].agree || (p.judge[id].why || '').trim()); });
+  if(p.ids.length && hasJudge && !confirm('重抽會清掉這三筆的判斷（三句結論會保留）。確定重抽？')) return;
+  var ids = current.records.map(function(r){ return r.id; });
+  for(var i = ids.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = ids[i]; ids[i] = ids[j]; ids[j] = t; }
+  p.ids = ids.slice(0, Math.min(3, ids.length)).sort();
+  p.judge = {};
+  save(); renderSamples();
+}
+function renderSamples(){
+  var host = $('samples'), p = per();
+  var recsById = {}; current.records.forEach(function(r){ recsById[r.id] = r; });
+  var ids = p.ids.filter(function(id){ return recsById[id]; });
+  $('drawNote').textContent = ids.length ? ('這一輪抽到：' + ids.join('、') + '（可重抽）') : '還沒抽。';
+  if(!ids.length){ host.innerHTML = '<p class="hint">按「抽 3 筆回查」，每一筆讀原始反思、看三個分數，判斷 AI 的分類與落差說明對不對。</p>'; return; }
+  var h = '';
+  ids.forEach(function(id, n){
+    var r = recsById[id], j = p.judge[id] || {agree:'', why:''};
+    var code = aiCat(id);
+    h += '<div class="sample-card" id="sc-' + esc(id) + '"><h4>第 ' + (n + 1) + ' 筆：' + esc(id) + '</h4>' +
+      '<p class="scores">自評 ' + r.self + '／互評 ' + r.peer + '／教師 ' + r.teacher + '　（自評 − 教師 ' + sign(r.dSelf) + '、互評 − 教師 ' + sign(r.dPeer) + '）' + (r.weakest ? '　教師認為最弱：' + esc(r.weakest) : '') + '</p>' +
+      '<p><strong>反思：</strong>「' + esc(r.reflection) + '」</p>' +
+      '<p><strong>AI 分類：</strong>' + (code ? esc(catLabel(code)) + '（預先跑好的分析）' : '—（對照你自己的 AI 助手寫的那個檔）') + '</p>' +
+      '<div class="judge" role="radiogroup" aria-label="' + esc(id) + ' 的判斷">' +
+        '<label><input type="radio" name="agree-' + esc(id) + '" value="yes"' + (j.agree === 'yes' ? ' checked' : '') + '>同意</label>' +
+        '<label><input type="radio" name="agree-' + esc(id) + '" value="no"' + (j.agree === 'no' ? ' checked' : '') + '>不同意</label>' +
+      '</div>' +
+      '<label class="field" for="why-' + esc(id) + '">為什麼<span class="req">必填</span></label>' +
+      '<textarea id="why-' + esc(id) + '" data-why="' + esc(id) + '" aria-label="' + esc(id) + ' 為什麼同意或不同意">' + esc(j.why || '') + '</textarea>' +
+    '</div>';
+  });
+  host.innerHTML = h;
+}
+$('samples').addEventListener('change', function(ev){
+  var t = ev.target; if(t.type !== 'radio') return;
+  var id = t.name.replace(/^agree-/, ''), p = per();
+  p.judge[id] = p.judge[id] || {agree:'', why:''}; p.judge[id].agree = t.value; save();
+});
+$('samples').addEventListener('input', function(ev){
+  var t = ev.target; if(!t.dataset.why) return;
+  var p = per(); p.judge[t.dataset.why] = p.judge[t.dataset.why] || {agree:'', why:''}; p.judge[t.dataset.why].why = t.value; save();
+});
+$('btnDraw').addEventListener('click', drawSample);
+
+function renderConclusions(){
+  var p = per();
+  ['c1','c2','c3'].forEach(function(id, i){ $(id).value = p.conclusions[i] || ''; });
+}
+['c1','c2','c3'].forEach(function(id, i){
+  $(id).addEventListener('input', function(){ per().conclusions[i] = $(id).value; save(); });
+});
+
+$('btnExportSampling').addEventListener('click', function(){
+  hideMsg('msgEvidence');
+  var p = per(), recsById = {}; current.records.forEach(function(r){ recsById[r.id] = r; });
+  var ids = p.ids.filter(function(id){ return recsById[id]; });
+  if(ids.length < Math.min(3, current.records.length)){ showMsg('msgEvidence', '先按「抽 3 筆回查」。'); return; }
+  for(var i = 0; i < ids.length; i++){
+    var j = p.judge[ids[i]] || {};
+    if(!j.agree){ showMsg('msgEvidence', ids[i] + ' 還沒選「同意」或「不同意」。'); return; }
+    if(!(j.why || '').trim()){ showMsg('msgEvidence', ids[i] + ' 的「為什麼」是必填。'); $('why-' + ids[i]).focus(); return; }
+  }
+  var labels = ['我看到的證據是', '因此下次要改', '我要再蒐集…來判斷有沒有效'];
+  for(var k = 0; k < 3; k++){
+    if(!(p.conclusions[k] || '').trim()){ showMsg('msgEvidence', '「三句結論」三格都是必填，還缺「' + labels[k] + '」。'); $('c' + (k + 1)).focus(); return; }
+  }
+  var agreeN = ids.filter(function(id){ return p.judge[id].agree === 'yes'; }).length;
+  var md = '# 抽查紀錄：' + current.label + '\n\n' +
+    '- 時間：' + stampLong() + '\n' +
+    '- 資料：' + (current.key === 'paste' ? '自己的去識別化資料（' + current.records.length + ' 筆）' : DS[current.key].file + '（合成示範資料，' + current.records.length + ' 筆）') + '\n' +
+    '- 抽法：隨機抽 ' + ids.length + ' 筆，由老師本人回查\n' +
+    '- ' + AI_RULE + '\n\n' +
+    '## 抽到的 ' + ids.length + ' 筆\n\n';
+  ids.forEach(function(id){
+    var r = recsById[id], j = p.judge[id], code = aiCat(id);
+    md += '### ' + id + '\n\n' +
+      '- 自評 ' + r.self + '／互評 ' + r.peer + '／教師 ' + r.teacher + '（自評 − 教師 ' + sign(r.dSelf) + '、互評 − 教師 ' + sign(r.dPeer) + '）\n' +
+      (r.weakest ? '- 教師認為最弱的規準：' + r.weakest + '\n' : '') +
+      '- 反思：「' + r.reflection + '」\n' +
+      '- AI 分類：' + (code ? catLabel(code) + '（預先跑好的分析）' : '（對照自己的 AI 分析檔）') + '\n' +
+      '- 我的判斷：' + (j.agree === 'yes' ? '同意' : '不同意') + '\n' +
+      '- 為什麼：' + j.why.trim() + '\n\n';
+  });
+  md += '## 三句結論\n\n' +
+    '- 我看到的證據是：' + p.conclusions[0].trim() + '\n' +
+    '- 因此下次要改：' + p.conclusions[1].trim() + '\n' +
+    '- 我要再蒐集：' + p.conclusions[2].trim() + '\n\n' +
+    '## 同意率\n\n' + agreeN + '／' + ids.length + '（這個數字放進計畫書「資料分析的信度」那一段）\n';
+  var fname = 'sampling-record-' + current.key + '-' + stampFile() + '.md';
+  download(fname, md);
+  showMsg('msgEvidence', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾，連同你剛寫的兩個分析檔一起存一版，版本說明寫：第三塊：AI 分析＋人工抽查 3 筆」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：課後用 GitHub 網頁版上傳。', true, true);
+});
+
+/* 講師模式：答案卡只在按下時出現，不暫存 */
+$('btnInstructor').addEventListener('click', function(){
+  var on = this.getAttribute('aria-pressed') !== 'true';
+  if(on && !confirm('這是講師用的：會直接顯示答案卡和那筆故意分錯的。你是來參加的老師，先別看——第三塊的抽查就靠它當靶。確定要看？')) return;
+  this.setAttribute('aria-pressed', on ? 'true' : 'false');
+  renderAnswer(); renderReflTable();
+});
+function renderAnswer(){
+  var card = $('answerCard'), on = $('btnInstructor').getAttribute('aria-pressed') === 'true';
+  card.hidden = !on; if(!on) return;
+  var a = current.analysis;
+  if(!a || !a.answer_key){ card.innerHTML = '<h3>答案卡</h3><p>貼上的資料沒有答案卡；答案在你自己的課裡。</p>'; return; }
+  var wrong = a.ai_wrong_on;
+  var h = '<h3>答案卡（講師用）：' + esc(current.label) + '</h3>';
+  if(wrong){
+    h += '<div class="warn"><strong>預跑分析故意分錯的一筆：' + esc(wrong) + '</strong>——AI 標成「' + esc(catLabel(a.ai_category[wrong])) + '」，其實是「' + esc((a.categories && a.categories[a.true_category[wrong]]) || a.true_category[wrong]) + '」。全場沒人抽到就由講師點出來：重點不是抓到，是知道「要抽」。</div>';
+  }
+  h += '<p class="hint">這份資料埋了 ' + Object.keys(a.answer_key).length + ' 筆落差，各一句解讀：</p><ul>';
+  Object.keys(a.answer_key).forEach(function(id){
+    h += '<li><strong>' + esc(id) + '</strong>' + (id === wrong ? ' <span class="badge bad">AI 分錯</span>' : '') + '：' + esc(a.answer_key[id]) + '</li>';
+  });
+  h += '</ul>';
+  card.innerHTML = h;
+}
+
+fillDatasetSelect();
+loadDataset($('dataset').value);
+
+/* ════════════════ ③ 一頁設計 ════════════════ */
+var MUST = { task:true, feedback:true };
+function renderDesignFields(){
+  var host = $('designFields');
+  if(!FLOW){ host.innerHTML = '<div class="warn">十一欄要靠 workflow-data.js 才顯示得出來。</div>'; return; }
+  var h = '';
+  FLOW.designFields.forEach(function(f, i){
+    h += '<label class="field" for="df-' + esc(f.id) + '">' + (i + 1) + '. ' + esc(f.label) +
+         '<span class="badge plan">' + esc(f.planLabel) + '</span>' + (MUST[f.id] ? '<span class="must">必改</span>' : '') +
+         '<span class="changed" id="chg-' + esc(f.id) + '" hidden>已改</span>' +
+         '<div class="hint">' + esc(f.hint) + '</div></label>' +
+         '<textarea id="df-' + esc(f.id) + '" data-field="' + esc(f.id) + '" aria-label="' + esc(f.label) + '">' + esc(state.design.fields[f.id] || '') + '</textarea>';
+  });
+  host.innerHTML = h;
+  host.addEventListener('input', function(ev){
+    var t = ev.target; if(!t.dataset.field) return;
+    state.design.fields[t.dataset.field] = t.value; save(); renderPreview();
+  });
+}
+function designMarkdown(){
+  var md = '# 一頁「評量—回饋—教學調整—研究」設計\n\n' +
+    '- 日期：' + today() + '\n' +
+    '- 版本：工作坊版 ' + ((FLOW && FLOW.meta && FLOW.meta.date) || '2026-10-16') + '\n' +
+    '- 硬規矩：' + RULE + '\n';
+  if(!FLOW) return md;
+  FLOW.designFields.forEach(function(f){
+    var v = (state.design.fields[f.id] || '').trim();
+    md += '\n## ' + f.planLabel + '\n' + '欄位：' + f.label + '\n\n' + (v || '（尚未填）') + '\n';
+  });
+  return md;
+}
+function mdToHtml(md){
+  var out = [], inList = false;
+  md.split('\n').forEach(function(line){
+    if(/^- /.test(line)){ if(!inList){ out.push('<ul>'); inList = true; } out.push('<li>' + esc(line.slice(2)) + '</li>'); return; }
+    if(inList){ out.push('</ul>'); inList = false; }
+    if(/^# /.test(line)) out.push('<h3>' + esc(line.slice(2)) + '</h3>');
+    else if(/^## /.test(line)) out.push('<h4>' + esc(line.slice(3)) + '</h4>');
+    else if(line.trim() === '') { }
+    else out.push('<p>' + esc(line) + '</p>');
+  });
+  if(inList) out.push('</ul>');
+  return out.join('');
+}
+function renderPreview(){
+  var md = designMarkdown();
+  $('mdPreview').innerHTML = mdToHtml(md);
+  $('mdRaw').textContent = md;
+  if(!FLOW) return;
+  var changed = 0, filled = 0;
+  FLOW.designFields.forEach(function(f){
+    var v = (state.design.fields[f.id] || '').trim();
+    var isChanged = !!v && v !== f.demo.trim();
+    if(v) filled++; if(isChanged) changed++;
+    var tag = $('chg-' + f.id); if(tag) tag.hidden = !isChanged;
+  });
+  $('changedNote').textContent = '已填 ' + filled + '／' + FLOW.designFields.length + ' 欄；跟示範課不一樣的有 ' + changed + ' 欄（起手式：至少改兩格，「評量任務與 Rubric」「回饋與調整」必改）。';
+}
+$('btnDemo').addEventListener('click', function(){
+  if(!FLOW) return;
+  var any = FLOW.designFields.some(function(f){ return (state.design.fields[f.id] || '').trim(); });
+  if(any && !confirm('欄位裡已經有字，要用示範課的內容蓋掉全部十一欄嗎？')) return;
+  FLOW.designFields.forEach(function(f){ state.design.fields[f.id] = f.demo; $('df-' + f.id).value = f.demo; });
+  save(); renderPreview();
+  $('df-' + FLOW.designFields[0].id).focus();
+});
+$('btnCopyDesign').addEventListener('click', function(){ copyText(designMarkdown(), this); });
+$('btnExportDesign').addEventListener('click', function(){
+  var fname = 'one-page-design-' + stampFile() + '.md';
+  download(fname, designMarkdown());
+  showMsg('msgDesign', '已下載 ' + fname + '（在你的「下載」資料夾）。本機路線，整句跟 AI 助手說：「我的下載資料夾裡有一個剛下載的 ' + fname + '，請搬進課程資料夾再存一版，版本說明寫：一頁設計 v1：工作坊版」。它若問能不能讀下載資料夾，按允許。瀏覽器路線：用 GitHub 網頁版上傳（課後手冊有步驟）。', true, true);
+});
+renderDesignFields(); renderPreview();
+
+/* ── 清除暫存 ── */
+$('btnClear').addEventListener('click', function(){
+  if(!confirm('清除這台瀏覽器裡工作台的所有暫存（兩版 Rubric、為什麼改、抽查判斷、三句結論、一頁設計）？已經匯出的檔案不受影響。')) return;
+  try { localStorage.removeItem(STORE_KEY); } catch(e) {}
+  state = freshState();
+  location.hash = ''; location.reload();
+});
+
+/* ── 開頁：網址 # 優先，其次上次停在哪一頁 ── */
+var h0 = location.hash.replace('#', '');
+showTab(h0 || state.tab || 'rubric');
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+/* slides/deck.css — 10/16 工作坊投影片的版式與設計代幣
+   畫布 1280×720；色票沿用 assets/site.css（同一個團隊的教材，老師看到會認得）。
+   深淺頁交錯：淺底講內容、深底放一句話（紅線、硬規矩、三句結論、收尾）。
+   閘門：skills/course-intro/check_deck_pages.py（.slide 深淺 class、footer-org、class="seal"）
+        與 check_overflow.py（1280×720 內不溢出、不壓頁尾）。
+   字型用系統字（Noto Sans TC → PingFang → 微軟正黑體），離線、投影機、GitHub Pages 都一樣，不靠外部字型。 */
+
+:root{
+  --teal:#0E7C7B; --teal-deep:#0A5958; --teal-soft:#DCEFED;
+  --gold:#D9A441; --gold-soft:#F3E3C3; --gold-deep:#8a5a00;
+  --cream:#F4ECD8; --card:#FDFAF2; --ink:#1A1A1A; --mist:#55615f; --line:#ddd3b9;
+  --bad:#b3441e; --bad-soft:#F6DED3; --good:#2E7D4F; --good-soft:#DCEFE2;
+  --dark:#062524; --dark-2:#0B2B2B; --on-dark:#E6F2F2; --on-dark-dim:#9FBDBC;
+  --shadow:0 6px 24px rgba(6,37,36,.07);
+  --zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
+  --mono:"Cascadia Code","Consolas","JetBrains Mono",Menlo,"Noto Sans TC","Microsoft JhengHei",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{background:#333}
+
+/* ── 畫布 ── */
+.slide{
+  position:relative; width:1280px; height:720px; overflow:hidden;
+  font-family:var(--zh); color:var(--ink); line-height:1.5;
+  padding:60px 96px 84px; display:flex; flex-direction:column;
+}
+.slide--light{
+  background:var(--cream);
+  background-image:radial-gradient(circle at 100% 100%, rgba(14,124,123,.05) 0%, transparent 42%),
+                   radial-gradient(circle at 0% 0%, rgba(217,164,65,.06) 0%, transparent 36%);
+}
+/* 深底頁：把代幣整組換掉，底下所有元件（卡片、SVG、標籤）跟著變色，不用一條條寫 */
+.slide--dark{
+  background:var(--dark); color:var(--on-dark);
+  --ink:var(--on-dark); --mist:var(--on-dark-dim);
+  --card:rgba(230,242,242,.06); --line:rgba(230,242,242,.18); --cream:var(--dark-2);
+  --teal:#3aa6a1; --teal-deep:#7fd0cb; --teal-soft:rgba(58,166,161,.18);
+  --gold-soft:rgba(217,164,65,.16); --gold-deep:#F0C96A;
+  --bad:#ff967a; --bad-soft:rgba(255,150,122,.14); --good:#7fd0a0; --good-soft:rgba(127,208,160,.14);
+  --shadow:none;
+}
+.arc{position:absolute; border:1.5px solid rgba(217,164,65,.16); border-radius:50%; pointer-events:none}
+
+/* ── 小標、標題、副標 ── */
+.kicker{font-weight:800; font-size:15px; letter-spacing:.2em; text-transform:uppercase; color:var(--teal)}
+.slide--dark .kicker{color:var(--gold)}
+.title{font-weight:900; font-size:40px; line-height:1.22; letter-spacing:.01em; margin-top:6px}
+.title--big{font-size:52px}
+.rule{width:64px; height:3px; background:var(--gold); border:0; margin:14px 0 0}
+.slide--dark .rule{width:96px}
+.subtitle{font-size:21px; font-weight:500; color:var(--mist); margin-top:12px}
+
+/* 主視覺區：只長不縮（flex:1 0 auto）——內容太高就會把底部一行推出框、被 check_overflow 量到，
+   不會被 flex 默默壓扁藏起來。 */
+.vis{flex:1 0 auto; display:flex; flex-direction:column; justify-content:center; gap:14px; margin-top:14px}
+.vis--top{justify-content:flex-start}
+.spacer{flex:1}
+
+/* 底部一行（檢查點／提醒） */
+.bar{flex:0 0 auto; display:flex; align-items:center; gap:14px; margin-top:12px;
+  padding:10px 18px; border-radius:12px; background:var(--teal-soft); font-size:19px; font-weight:700; line-height:1.45}
+.bar>span{flex:1 1 auto; min-width:0}
+.bar .tag{flex:0 0 auto; padding:3px 12px; border-radius:8px; background:var(--teal); color:#fff; font-size:16px; font-weight:800; letter-spacing:.08em}
+.bar.gold{background:var(--gold-soft)}
+.bar.gold .tag{background:var(--gold); color:#2E2106}
+.slide--dark .bar{border:1px solid rgba(217,164,65,.38)}
+
+/* 頁尾與團隊徽章 */
+.footer-org{position:absolute; left:96px; bottom:40px; font-size:14px; letter-spacing:.04em; color:var(--mist); line-height:1.3}
+.seal{position:absolute; right:40px; bottom:36px; font-size:12px; font-weight:800; letter-spacing:.14em; line-height:1.4;
+  color:var(--teal-deep); border:1.5px solid var(--teal); border-radius:999px; padding:3px 12px; background:rgba(255,255,255,.35)}
+.slide--dark .seal{color:var(--gold); border-color:var(--gold); background:rgba(217,164,65,.08)}
+
+/* ── 封面 ── */
+.cover{
+  padding:0; color:var(--on-dark);
+  --ink:var(--on-dark); --mist:var(--on-dark-dim);
+  background:
+    radial-gradient(circle at 82% 18%, rgba(217,164,65,.26) 0%, transparent 28%),
+    radial-gradient(circle at 10% 90%, rgba(58,166,161,.25) 0%, transparent 34%),
+    linear-gradient(120deg, #062524 0%, #0A4544 58%, #0E7C7B 100%);
+}
+.cover .inner{position:relative; height:100%; padding:80px 96px 100px; display:flex; flex-direction:column}
+.cover .ckicker{font-size:16px; letter-spacing:.18em; color:var(--gold); font-weight:800}
+.cover .ctitle{font-size:74px; font-weight:900; line-height:1.1; color:#fff; margin-top:14px; letter-spacing:.01em;
+  text-shadow:0 10px 30px rgba(0,0,0,.3)}
+.cover .csub{font-size:25px; color:var(--gold); font-weight:700; margin-top:12px}
+.cover .cpromise{font-size:23px; font-weight:700; margin-top:20px; color:var(--on-dark)}
+.cover .chips{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap}
+.cover .chips span{display:inline-flex; align-items:center; height:34px; padding:0 16px; border:1px solid rgba(217,164,65,.5);
+  border-radius:999px; background:rgba(6,37,36,.45); color:#F8E8B8; font-size:15px; font-weight:700}
+.cover .cmeta{margin-top:auto; font-size:17px; color:var(--on-dark); line-height:1.6}
+.cover .cmeta b{color:#fff; font-weight:800}
+
+/* ── 卡片與格線 ── */
+.cols{display:grid; gap:20px}
+.cols-2{grid-template-columns:1fr 1fr}
+.cols-3{grid-template-columns:repeat(3,1fr)}
+.card{background:var(--card); border:1px solid var(--line); border-radius:18px; padding:20px 24px; box-shadow:var(--shadow)}
+.card .n{font-size:30px; font-weight:900; color:var(--gold); line-height:1}
+.card .h{font-size:22px; font-weight:900; color:var(--teal-deep); margin-top:8px; line-height:1.3}
+.card .p{font-size:18.5px; color:var(--ink); margin-top:8px; line-height:1.55}
+.card .p.mist{color:var(--mist)}
+.card.accent{border-color:var(--gold); background:var(--gold-soft)}
+
+/* 步驟清單（從 WORKSHOP_FLOW.blocks[n].steps 渲染） */
+.steps{list-style:none; display:flex; flex-direction:column; gap:11px}
+.steps li{display:flex; gap:16px; align-items:flex-start; font-size:20px; line-height:1.5}
+.steps--lg{gap:18px}
+.steps--lg li{font-size:22px}
+.steps .n{flex:0 0 38px; height:38px; border-radius:50%; background:var(--teal); color:#fff; font-weight:900; font-size:19px;
+  display:flex; align-items:center; justify-content:center; margin-top:1px}
+.steps .body{flex:1 1 auto; min-width:0}
+.steps .say{font-weight:700}
+.steps .name{font-weight:900; color:var(--teal-deep)}
+.steps .ai{display:inline-block; font-size:15px; color:var(--mist); margin-left:8px; font-weight:500}
+.steps .human{font-size:18px; color:var(--ink); margin-top:2px}
+.steps .human::before{content:"👁 "; }
+
+/* 工作台按鈕／分頁名稱：讓老師一眼對上工作台上的字 */
+.ui{display:inline-block; padding:0 8px; margin:0 1px; border:1.5px solid var(--teal); border-radius:7px; line-height:1.45;
+  font-size:.9em; font-weight:800; color:var(--teal-deep); background:rgba(255,255,255,.55); vertical-align:baseline}
+.slide--dark .ui{background:rgba(230,242,242,.08)}
+
+/* 大字陳述頁 */
+.center{justify-content:center}
+.quote{font-size:38px; font-weight:900; line-height:1.4; color:var(--teal-deep); padding-left:24px; border-left:6px solid var(--gold)}
+.big{font-size:54px; font-weight:900; line-height:1.3; letter-spacing:.01em}
+.big .em{color:var(--gold)}
+.big-sub{font-size:23px; color:var(--mist); margin-top:16px; line-height:1.6}
+.lines{display:flex; flex-direction:column; gap:16px}
+.lines div{font-size:30px; font-weight:800; line-height:1.4; padding:12px 22px; border-left:6px solid var(--gold); background:var(--card); border-radius:0 14px 14px 0}
+.lines .em{color:var(--gold)}
+.url{font-family:var(--mono); font-size:32px; font-weight:700; color:#fff; white-space:nowrap; line-height:1.3}
+.statement{font-size:30px; font-weight:700; line-height:1.55}
+.slide--dark .url{color:#fff}
+.note{font-size:17px; color:var(--mist); line-height:1.55}
+.lead{font-size:21px; line-height:1.6}
+.lead b{color:var(--teal-deep)}
+
+/* 對照表（接到計畫書哪一章） */
+.map{display:grid; grid-template-columns:1fr 56px 1fr; row-gap:10px; column-gap:6px; align-items:center; font-size:21px}
+.map .l{padding:10px 16px; background:var(--card); border:1px solid var(--line); border-radius:12px; font-weight:700}
+.map .r{padding:10px 16px; background:var(--teal-soft); border-radius:12px; font-weight:800; color:var(--teal-deep)}
+.map .ar{text-align:center; color:var(--gold); font-weight:900; font-size:26px}
+
+/* 三件事（今天的做法） */
+.three{display:grid; grid-template-columns:1fr 44px 1fr 44px 1fr; align-items:stretch; gap:0}
+.three .ar{display:flex; align-items:center; justify-content:center; color:var(--gold); font-size:30px; font-weight:900}
+.three .card .n{font-size:32px}
+.three .card .p{font-size:20px}
+
+/* 一頁設計縮圖頁的左右排 */
+.side{display:grid; grid-template-columns:520px 1fr; gap:36px; align-items:center}
+
+/* ── SVG 自繪圖：顏色一律走代幣 ── */
+svg{display:block; max-width:100%}
+svg text{font-family:var(--zh); fill:var(--ink)}
+.f-teal{fill:var(--teal)} .f-teal-deep{fill:var(--teal-deep)} .f-teal-soft{fill:var(--teal-soft)}
+.f-gold{fill:var(--gold)} .f-gold-soft{fill:var(--gold-soft)} .f-gold-deep{fill:var(--gold-deep)}
+.f-bad{fill:var(--bad)} .f-bad-soft{fill:var(--bad-soft)} .f-good{fill:var(--good)} .f-good-soft{fill:var(--good-soft)}
+.f-mist{fill:var(--mist)} .f-ink{fill:var(--ink)} .f-card{fill:var(--card)} .f-cream{fill:var(--cream)} .f-white{fill:#fff} .f-none{fill:none}
+.s-teal{stroke:var(--teal)} .s-gold{stroke:var(--gold)} .s-bad{stroke:var(--bad)} .s-good{stroke:var(--good)}
+.s-line{stroke:var(--line)} .s-mist{stroke:var(--mist)} .s-ink{stroke:var(--ink)}
+.t-xs{font-size:12px} .t-sm{font-size:14px} .t-md{font-size:16px} .t-lg{font-size:19px} .t-xl{font-size:22px}
+.t-b{font-weight:800} .t-c{text-anchor:middle} .t-e{text-anchor:end} .t-mono{font-family:var(--mono)}
+.dash{stroke-dasharray:6 6}

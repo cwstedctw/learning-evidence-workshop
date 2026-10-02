@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>講義｜從學習證據到教學改進</title>
+<meta name="description" content="2026-10-16 教師工作坊講義：跟 AI 助手一起用版本紀錄留下學習證據、做 Rubric、分析與抽查、寫出一頁研究設計。">
+<link rel="stylesheet" href="assets/site.css">
+<script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
+<style>
+/* ── 講義頁專用版式（顏色一律用 site.css 的代幣）── */
+header.hero .keyline{display:inline-block;margin-top:18px;background:rgba(244,236,216,.14);border:1px solid rgba(244,236,216,.45);border-radius:12px;padding:12px 20px;font-size:1.05rem;color:#fff}
+header.hero .keyline strong{color:#F3E3C3}
+header.hero .links{margin:14px 0 0;font-size:.95rem}
+header.hero .links a{color:#F3E3C3;margin-right:14px;display:inline-block;white-space:nowrap}
+nav.topnav a.home{font-weight:700;color:var(--teal-deep)}
+section{scroll-margin-top:64px}
+h2 .sec-num{font-size:1rem;letter-spacing:.12em;display:block;margin-bottom:2px}
+.lbl{display:block;font-size:.8rem;font-weight:700;color:var(--teal-deep);letter-spacing:.05em;margin:.6em 0 .2em}
+.route h3{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.tcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:1em 0}
+.tcard{background:var(--card);border:2px dashed var(--gold);border-radius:12px;padding:12px 14px}
+.tcard strong{display:block;font-size:1.08rem;margin-bottom:2px}
+.tcard span{font-size:.92rem;color:var(--ink-soft)}
+.block{margin-top:2.2em;padding-top:.5em;border-top:3px solid var(--teal-soft)}
+.block h3{font-size:1.35rem;margin-top:.6em}
+.block .mode{font-size:.9rem;color:var(--ink-soft);margin:-.3em 0 .8em}
+.stepgrid{display:grid;grid-template-columns:1.25fr 1fr 1.25fr;gap:10px}
+.stepgrid .cell{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.96rem}
+.stepgrid .cell p{margin:.2em 0 .4em}
+.stepgrid .cell .lbl{margin-top:0}
+.stepgrid .cell .lbl.sub{margin-top:.6em}
+.stepgrid .cell .ptext{display:block;margin:.2em 0 .4em}
+.stepgrid .cell.c-see{background:var(--gold-soft);border-color:var(--gold)}
+.stepgrid .cell.c-see .lbl{color:var(--warn-text)}
+.stepgrid .cell.c-ai{background:var(--teal-soft)}
+.steps>li{margin:1.3em 0}
+.behind{font-size:.92rem;color:var(--ink-soft);margin:.8em 0}
+.behind code{font-size:.9em}
+.prompt .ptext{display:block}
+.prompt .rule-foot{display:block;margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:.88rem;color:var(--warn-text);font-weight:700}
+.prompt .copy{position:absolute;top:8px;right:8px}
+.prompt{padding-top:16px}
+.prompt .label{padding-right:90px}
+.excard .crit{margin:.3em 0 .6em}
+.excard .crit .badge{margin:2px 6px 2px 0}
+.excard blockquote{margin:.6em 0;padding:10px 14px;border-left:4px solid var(--bad);background:var(--bad-soft);border-radius:0 10px 10px 0}
+.excard blockquote.why{border-left-color:var(--good);background:var(--good-soft)}
+.studio-table td:first-child{white-space:nowrap;font-weight:700}
+.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px 18px;margin:1em 0}
+.glossary div{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.glossary dt{font-weight:700}
+.glossary dd{margin:2px 0 0;font-size:.94rem;color:var(--ink-soft)}
+.plain{list-style:none;padding-left:0}
+.plain li{margin:.6em 0;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.fig-scroll{overflow-x:auto}
+figure svg{width:100%;height:auto;display:block}
+figure svg text{font-family:var(--sans)}
+.sv-ink{fill:var(--ink)} .sv-soft{fill:var(--ink-soft)} .sv-teal{fill:var(--teal)} .sv-gold{fill:var(--gold)}
+.sv-bad{fill:var(--bad)} .sv-good{fill:var(--good)} .sv-white{fill:#fff}
+.sv-card{fill:var(--card);stroke:var(--line);stroke-width:1.5}
+.sv-tsoft{fill:var(--teal-soft)} .sv-gsoft{fill:var(--gold-soft)} .sv-bsoft{fill:var(--bad-soft)} .sv-gdsoft{fill:var(--good-soft)}
+.sv-box{fill:var(--teal-soft);stroke:var(--teal);stroke-width:2}
+.sv-axis{stroke:var(--line);stroke-width:4;stroke-linecap:round}
+.sv-zero{stroke:var(--ink-soft);stroke-width:1.5}
+.sv-arrow{stroke:var(--teal);stroke-width:3;fill:none}
+.sv-arrowhead{fill:var(--teal)}
+.sv-b{font-weight:700}
+.sv-ring{fill:none;stroke:var(--gold);stroke-width:4}
+.agenda-total{font-size:.9rem;color:var(--ink-soft)}
+.cite{font-size:.85rem;color:var(--ink-soft)}
+@media (max-width:760px){
+  .stepgrid{grid-template-columns:1fr}
+  .steps>li{padding-left:40px}
+}
+@media (max-width:640px){
+  .fig-scroll svg{min-width:600px}
+  header.hero .keyline{font-size:.98rem;padding:10px 14px}
+  /* 手機：導覽列單排、可左右滑，不折成三排黏在頂端 */
+  nav.topnav .inner{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:4px 10px;padding:8px 12px}
+  nav.topnav a,nav.topnav button{white-space:nowrap;flex:0 0 auto}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <p class="eyebrow" id="hero-host">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</p>
+    <h1 id="hero-title">從學習證據到教學改進</h1>
+    <p class="sub"><span id="hero-sub">AI 協作促進學習評量與教學實踐研究工作坊</span>｜<span id="hero-tag">讓每一次教學調整都留下證據</span></p>
+    <p class="meta"><span id="hero-date">2026-10-16（五）</span> <span id="hero-time">15:00–17:00</span>｜<span id="hero-venue">國立東華大學 環境學院 3F CIRES 會議室</span>｜講師：<span id="hero-speaker">陳文盛（國立東華大學通識教育中心）</span></p>
+    <div class="keyline">今天全場只有一條硬規矩：<strong id="rule-text">挑一句不同意的、改掉、寫下為什麼。</strong><br><span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></div>
+    <p class="links">📘 這一頁是詳細講義：上課跟著「參」走，課後回來查「柒」。　<a href="index.html">入口</a><a href="start.html">行前準備</a><a href="studio.html">證據工作台</a><a href="slides/index.html">投影片</a></p>
+  </div>
+</header>
+
+<nav class="topnav" aria-label="講義章節">
+  <div class="inner">
+    <a class="home" href="index.html">⌂</a>
+    <a href="#sec-why">壹 為什麼</a>
+    <a href="#sec-how">貳 怎麼做</a>
+    <a href="#sec-blocks">參 四塊</a>
+    <a href="#sec-examples">肆 領域卡</a>
+    <a href="#sec-design">伍 一頁設計</a>
+    <a href="#sec-ethics">陸 倫理</a>
+    <a href="#sec-after">柒 課後</a>
+    <a href="#sec-agenda">捌 議程</a>
+    <a href="#sec-glossary">玖 名詞</a>
+    <a href="#sec-limits">拾 限制</a>
+    <span class="spacer"></span>
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用">🔎 投影</button>
+    <button id="themeToggle" type="button" title="切換深淺色" aria-label="切換深淺色">🌗</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════ 壹 ═══════════ -->
+<section id="sec-why">
+  <h2><span class="sec-num">壹</span>為什麼是「證據」：研究最難寫的一段</h2>
+  <p>寫教學實踐研究計畫，最難拿出來的一段，不是文獻、不是方法，是「我根據證據調整了教學」。學期中你一定改過東西：規準表改了一格、學習單換了一題、回饋從書面改成當面講。可是到了寫計畫書或成果報告那天，能證明「改過」的，常常只剩記憶。</p>
+  <p>版本紀錄做的就是這件事：一門課一個資料夾，每改一次就存一個版本，順手寫一句為什麼改。學期末打開，改了哪裡、什麼時候改、當時怎麼想的，全都在。這不是資訊工程的事，是研究方法的一部分：審查委員問「你怎麼知道是這個調整有效」，你拿得出一條時間線，而不是一段回憶。</p>
+  <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背指令，指令交給 AI 助手（AI agent）代打；你負責三件事：看它的計畫、看它改完的前後對照、點頭。這三件事就是「監督」，今天四塊的每一步都會回到這三件事。</p>
+  <div class="card">
+    <h3>跟上一場的關係</h3>
+    <p>上一場「跟 AI 一起用 Git」（2026-09-09）教的是方法本身；這一場把方法用在評量上，主線是三件事：留下證據、做出規準、分析與抽查。沒上過也沒關係，今天需要的那幾招都會重做一次。想複習可以回去翻 <a id="prev-link" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener">上一場的教材</a>。</p>
+  </div>
+  <div class="note">今天沒有任何真實學生資料。四塊全部用合成的示範資料（代號 <code>DEMO-S01</code>…），例子一律講「某生」。</div>
+</section>
+
+<!-- ═══════════ 貳 ═══════════ -->
+<section id="sec-how">
+  <h2><span class="sec-num">貳</span>今天怎麼做</h2>
+
+  <h3>兩條路線</h3>
+  <p>主線是 🅐：AI 助手在你的電腦上代打，你說一句、它做一步、你看一眼。行前頁沒做完的人走 🅑，四塊一樣做得完，只是存版本改用 GitHub 網頁版上傳。</p>
+  <div class="grid2" id="routes" data-render></div>
+
+  <h3>進場桌牌三種（自己拿，不點名）</h3>
+  <div class="tcards" id="tablecards" data-render></div>
+
+  <h3>紅線三句</h3>
+  <p>開場就講，整場不變。</p>
+  <div class="redline" id="redline-R1"><h3>學生資料不上網</h3><p>今天全程只用示範資料（代號 DEMO-S01…），老師不需要帶任何真實的學生資料來。</p></div>
+  <div class="redline" id="redline-R2"><h3>課後自己的資料放不公開的版本庫（私人 repo）</h3><p>回去放自己課程的資料時，專案一律設成不公開；丟給雲端 AI 之前，先把姓名、學號、能認出人的細節拿掉。</p></div>
+  <div class="redline" id="redline-R3"><h3>AI 的分析要回頭查</h3><p>AI 分完類、找完落差，老師抽幾筆自己讀一次。抽查本身就是研究方法的一部分，審查委員會問。</p></div>
+
+  <h3>一條硬規矩，四塊都用</h3>
+  <div class="human"><strong>挑一句不同意的、改掉、寫下為什麼。</strong><br>AI 起草的東西一定有你不同意的句子，那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</div>
+
+  <h3>你看三件事</h3>
+  <p>AI 助手動手之前、之中、之後，你只需要看三件事。看不到任何一件，就請它重做。</p>
+  <ol>
+    <li><strong>計畫</strong>：它要動哪個資料夾、改哪個檔、會不會上傳到任何地方。沒先說計畫就動手的，叫它先說。</li>
+    <li><strong>前後對照</strong>：改完以後，哪幾行變了。多出一行你沒要的，就要問。</li>
+    <li><strong>點頭</strong>：存版本之前，版本說明是不是你的話。說明寫得像 AI 的話，改成你的。</li>
+  </ol>
+
+  <h3>證據工作台怎麼用</h3>
+  <p>工作台（<a href="studio.html">studio.html</a>）是一個單檔網頁：不連任何 AI、不上傳任何東西，雙擊就能開。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
+  <div class="table-wrap">
+    <table class="studio-table">
+      <thead><tr><th>分頁</th><th>按鈕</th><th>必填欄</th><th>用在哪一塊</th></tr></thead>
+      <tbody>
+        <tr><td>Rubric 工作台</td><td>「複製」（提示詞卡）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td>「為什麼改」</td><td>第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
+        <tr><td>證據儀表板</td><td>「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td>「三句結論」</td><td>第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
+        <tr><td>一頁設計</td><td>「帶入示範課」、「複製」、「匯出 Markdown」</td><td>—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td>第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
+        <tr><td>全站</td><td>「清除暫存」</td><td>—</td><td>工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ═══════════ 參 ═══════════ -->
+<section id="sec-blocks">
+  <h2><span class="sec-num">參</span>四塊逐步：你說什麼、AI 會做什麼、你一定要自己看的</h2>
+  <p>每一塊的格式都一樣：講師先做一遍，大家跟著做，每步一句話。左欄是你對 AI 助手說的話，中欄是它會做什麼，右欄（金色）是你一定要自己看的那件事。要 AI 助手動手的步驟，左欄底下多一句「貼給 AI 助手的話」，整句複製貼上就行。走 🅑 路線的人：第一塊看線上練習台（這一塊最後有連結），第二塊起左欄的話才貼到你的 AI 聊天網頁，存版本改用 GitHub 網頁版上傳。</p>
+  <div id="blocks" data-render></div>
+</section>
+
+<!-- ═══════════ 肆 ═══════════ -->
+<section id="sec-examples">
+  <h2><span class="sec-num">肆</span>領域卡：主範例與兩組自選</h2>
+  <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的自選卡。三張卡的共同點：改掉的都是形容詞，換上數得出的事；你的課找同一種格子。</p>
+  <div id="examples" data-render></div>
+</section>
+
+<!-- ═══════════ 伍 ═══════════ -->
+<section id="sec-design">
+  <h2><span class="sec-num">伍</span>一頁設計：十一欄怎麼填</h2>
+  <p>第四塊填的這一頁，欄位名稱直接對應教學實踐研究計畫書的章節（表裡「計畫書對應」那一欄），之後長成計畫書不用重寫。工作台「一頁設計」分頁的十一欄跟這張表一樣，右側會即時預覽成 Markdown，標題用計畫書的詞。</p>
+  <div class="tip">填法只有一個訣竅：每一欄都要「下學期做得到」。研究問題要能被你下學期蒐到的資料回答；信效度只選一件做得到的事；介入作為寫具體動作，不寫「加強引導」。</div>
+  <div class="table-wrap" id="designfields" data-render></div>
+</section>
+
+<!-- ═══════════ 陸 ═══════════ -->
+<section id="sec-ethics">
+  <h2><span class="sec-num">陸</span>資料倫理：回去用自己的資料之前</h2>
+  <p>今天全程用合成資料，所以沒有倫理問題。回去換成自己課的資料，紅線第二句就開始生效。下面三件事做完，再開始。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>去識別化怎麼做</h3>
+      <ol>
+        <li>先做一張「姓名 ↔ 代號」對照表，放在學校帳號的雲端或紙本，不放進課程資料夾。</li>
+        <li>試算表裡的姓名欄整欄換成代號；學號、信箱、電話、座號整欄刪掉。</li>
+        <li>反思文字裡提到的人名換成「某同學」，提到的特殊事件（請假原因、家裡的事）刪掉。</li>
+        <li>影像類證據（錄影、照片）不留檔，只留評分與觀察文字。</li>
+        <li>檔名也不要有姓名或班級；用任務名與日期就夠了。</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>私人 repo（不公開的版本庫）</h3>
+      <ul>
+        <li>請 AI 助手建遠端版本庫時，明講「設成不公開（private）」；建完自己到 GitHub 網頁看一次設定。</li>
+        <li>走瀏覽器路線的人，在 GitHub 網頁建 repo 時勾「Private」，上傳前再看一眼頁面上有沒有鎖頭圖示。</li>
+        <li>共同研究者用「邀請協作者」加進來，不要把 repo 改成公開來共享。</li>
+        <li>研究結束要公開教材時，另開一個只有教材、沒有資料的公開 repo。</li>
+      </ul>
+    </div>
+  </div>
+  <div class="card">
+    <h3>給 AI 之前拿掉什麼</h3>
+    <p>給雲端 AI 的，只有<strong>代號、分數、去掉姓名的反思文字</strong>。不給的：姓名、學號、信箱、電話、班級加座號、任何能認出人的細節、影像。平台匯出的檔多半混了姓名與空白列，先在試算表清一遍，再用課後手冊裡的提示詞卡 <a href="#prompt-P5">P5</a> 請 AI 整理成固定欄位；AI 整理完先只看前 5 列確認格式。</p>
+    <p class="cite">知情同意與資料保存年限依各校研究倫理規範；一頁設計的「資料倫理」欄請寫你學校的做法。</p>
+  </div>
+</section>
+
+<!-- ═══════════ 柒 ═══════════ -->
+<section id="sec-after">
+  <h2><span class="sec-num">柒</span>課後手冊</h2>
+  <p>工作坊結束之後會用到的事都在這裡。第一節「<span id="ac1-title-ref">兩種紀錄怎麼讀成同一種</span>」先讀，它回答最常被問的一題：我今天走瀏覽器路線，紀錄跟走本機路線的人一樣嗎。</p>
+  <div id="aftercourse" data-render></div>
+
+  <div class="card">
+    <h3>抽查紀錄怎麼呈現</h3>
+    <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。表的樣子像這樣（示範資料「課堂專題簡報」）：</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>抽到的代號</th><th>AI 的分類</th><th>我的判斷</th><th>為什麼</th></tr></thead>
+        <tbody>
+          <tr><td>DEMO-S03</td><td>把原因歸到外部</td><td>同意</td><td>整句都在講時間不夠，沒有提到自己可以改的事。</td></tr>
+          <tr><td>DEMO-S14</td><td>同儕回饋有幫上忙</td><td>同意</td><td>反思寫出同學的具體建議，而且試過了。互評分數異常低，要回查互評表。</td></tr>
+          <tr><td>DEMO-S08</td><td>把原因歸到外部</td><td>部分不同意</td><td>歸因外部沒錯，但「沒時間練」也指出了自己的準備流程，下次回饋要接這一句。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這就是「分析信度」那一段的素材；下學期每次分析都抽，數字就會累積起來。</p>
+  </div>
+
+  <div class="card">
+    <h3>信效度怎麼寫</h3>
+    <p>工作坊兩小時做不出信效度，計畫書也不用假裝有。誠實的寫法是「工具發展過程」：Rubric v1 是 AI 起草、v2 是你改了哪幾格與為什麼、v3 是下學期兩位老師同評之後改的。信度的部分，下學期只做一件事就夠：請一位同領域老師用同一份 Rubric 評 10 份作品，先算「同一格打一樣分的比例」，不一致的格子回頭改成 v3。這個比例跟改了哪幾格，寫進計畫書「研究工具信效度」那一節；一頁設計的第九欄就是替這一段先占好位子。</p>
+  </div>
+</section>
+
+<!-- ═══════════ 捌 ═══════════ -->
+<section id="sec-agenda">
+  <h2><span class="sec-num">捌</span>兩小時議程</h2>
+  <div class="table-wrap" id="agenda" data-render></div>
+</section>
+
+<!-- ═══════════ 玖 ═══════════ -->
+<section id="sec-glossary">
+  <h2><span class="sec-num">玖</span>名詞表（八個就夠）</h2>
+  <p>今天會反覆聽到的英文詞就這八個。看得懂就好，不用背。</p>
+  <dl class="glossary">
+    <div><dt>AI agent</dt><dd>AI 助手：裝在你電腦上、能代你打指令與改檔案的 AI 程式。它說「做完了」不等於做完——看它的計畫、看前後對照、點頭。</dd></div>
+    <div><dt>Git</dt><dd>版本控制工具：幫一個資料夾記住每一次修改。</dd></div>
+    <div><dt>repo（repository）</dt><dd>版本庫：被 Git 管理的那個資料夾。放在 GitHub 上的叫遠端版本庫，可以設成不公開。</dd></div>
+    <div><dt>commit／log</dt><dd>存一版／版本清單：commit 把現在的狀態存成一個版本、附一句說明，今天每塊結束都存一版；log 是所有版本依時間排好的清單，每筆有說明，研究歷程資料的長相。</dd></div>
+    <div><dt>diff</dt><dd>前後對照：兩個版本之間哪幾行變了。你一定要自己看的那件事。</dd></div>
+    <div><dt>Rubric</dt><dd>評分規準表：規準乘以等級的一張表，每格寫看得見、數得出的描述。</dd></div>
+    <div><dt>CSV</dt><dd>逗號分隔的純文字表格：示範資料的格式，任何試算表都能開、AI 也讀得懂。</dd></div>
+    <div><dt>Markdown</dt><dd>純文字的排版格式：工作台匯出的檔都是它，用任何文字編輯器都能開，Git 看得出逐行差異。</dd></div>
+  </dl>
+</section>
+
+<!-- ═══════════ 拾 ═══════════ -->
+<section id="sec-limits">
+  <h2><span class="sec-num">拾</span>三條誠實限制</h2>
+  <div id="limits" data-render></div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="inner">
+    從學習證據到教學改進｜2026-10-16 教師工作坊講義<br>
+    工具費用與方案會變動，開始前請以各官方頁面現況為準。<br>
+    © 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。
+  </div>
+</footer>
+
+<!-- ═══════════ 四張自繪圖（真文字、顏色用代幣；由 JS 放進對應的那一塊）═══════════ -->
+<template id="tpl-F-timeline">
+<!-- 五個點的字對應 workflow-data.js 的 blocks：B1 步 2「第 0 版：先放一個空殼」、B1 步 4「第 1 版：四個規準」、B2 步 5（版本說明＝你那句「為什麼改」）、B3 步 5「第三塊：AI 分析＋人工抽查 3 筆」、B4 步 4「一頁設計 v1：工作坊版」。
+     圖上點下方只放冒號後半句，冒號前的版本名放點上方（第 0 版／第 1 版／Rubric v2／抽查紀錄／一頁設計 v1）。blocks 的版本說明改字時，這裡要跟著改。 -->
+<svg viewBox="0 0 860 240" width="100%" role="img" aria-labelledby="ft-title">
+  <title id="ft-title">版本紀錄時間軸：今天會留下的五個版本，每個點旁一句為什麼改</title>
+  <text x="20" y="30" class="sv-ink sv-b" font-size="17">版本清單（git log）長這樣：一個點＝存了一版＋一句「為什麼改」</text>
+  <line x1="40" y1="130" x2="826" y2="130" class="sv-axis"/>
+  <polygon points="826,122 842,130 826,138" class="sv-arrowhead" style="fill:var(--line)"/>
+  <g>
+    <circle cx="80" cy="130" r="13" class="sv-teal"/>
+    <text x="80" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">第 0 版</text>
+    <text x="80" y="104" text-anchor="middle" class="sv-soft" font-size="13">第一塊</text>
+    <text x="80" y="168" text-anchor="middle" class="sv-ink" font-size="14">「先放一個空殼」</text>
+  </g>
+  <g>
+    <circle cx="260" cy="130" r="13" class="sv-teal"/>
+    <text x="260" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">第 1 版</text>
+    <text x="260" y="104" text-anchor="middle" class="sv-soft" font-size="13">第一塊</text>
+    <text x="260" y="168" text-anchor="middle" class="sv-ink" font-size="14">「四個規準」</text>
+  </g>
+  <g>
+    <circle cx="440" cy="130" r="13" class="sv-gold"/>
+    <circle cx="440" cy="130" r="19" class="sv-ring"/>
+    <text x="440" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">Rubric v2</text>
+    <text x="440" y="104" text-anchor="middle" class="sv-soft" font-size="13">第二塊</text>
+    <text x="440" y="168" text-anchor="middle" class="sv-ink" font-size="14">「要兩個老師打一樣的分」</text>
+    <text x="440" y="188" text-anchor="middle" class="sv-bad" font-size="12">你不同意的那一句，改在這裡</text>
+  </g>
+  <g>
+    <circle cx="620" cy="130" r="13" class="sv-teal"/>
+    <text x="620" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">抽查紀錄</text>
+    <text x="620" y="104" text-anchor="middle" class="sv-soft" font-size="13">第三塊</text>
+    <text x="620" y="168" text-anchor="middle" class="sv-ink" font-size="14">「AI 分析＋人工抽查 3 筆」</text>
+  </g>
+  <g>
+    <circle cx="790" cy="130" r="13" class="sv-teal"/>
+    <text x="790" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">一頁設計 v1</text>
+    <text x="790" y="104" text-anchor="middle" class="sv-soft" font-size="13">第四塊</text>
+    <text x="790" y="168" text-anchor="middle" class="sv-ink" font-size="14">「工作坊版」</text>
+  </g>
+  <text x="20" y="222" class="sv-soft" font-size="13">每一筆都有時間、說明、前後對照。寫計畫書時把這條線整理成一張表，就是研究歷程資料。</text>
+</svg>
+</template>
+
+<template id="tpl-F-rubric-diff">
+<!-- 左右兩欄「表達流暢」四級的字，逐字對 studio.html「看範例輸出」的 RUBRIC_V1／RUBRIC_V2：4 級＝examples.presentation.disagreeExample 那格（唯一改的）；
+     3／2／1 級兩版相同，因為示範的調整紀錄寫「4 不採：看稿次數現場數不到，先留『偶爾』」。studio 改範例時，這裡要跟著改。 -->
+<svg viewBox="0 0 860 310" width="100%" role="img" aria-labelledby="fr-title">
+  <title id="fr-title">Rubric 前後並列：左邊第 1 版有形容詞，右邊第 2 版數得出，差異處上色</title>
+  <text x="20" y="28" class="sv-ink sv-b" font-size="17">同一格「表達流暢」：左邊 AI 起草的第 1 版，右邊你改過的第 2 版</text>
+  <rect x="20" y="45" width="390" height="208" rx="10" class="sv-card"/>
+  <rect x="20" y="45" width="390" height="34" rx="10" class="sv-tsoft"/>
+  <rect x="20" y="69" width="390" height="10" class="sv-tsoft"/>
+  <text x="36" y="68" class="sv-ink sv-b" font-size="15">第 1 版（AI 起草）</text>
+  <rect x="28" y="88" width="374" height="30" rx="6" class="sv-bsoft"/>
+  <text x="38" y="109" class="sv-bad sv-b" font-size="15">−</text>
+  <text x="58" y="109" class="sv-ink" font-size="14">4 級　表現優異、台風穩健</text>
+  <text x="58" y="147" class="sv-soft" font-size="14">3 級　偶爾看稿，語速適中</text>
+  <text x="58" y="185" class="sv-soft" font-size="14">2 級　常常看稿，有明顯停頓</text>
+  <text x="58" y="223" class="sv-soft" font-size="14">1 級　大段朗讀投影片，台下聽不清楚</text>
+  <text x="300" y="109" class="sv-bad" font-size="12">看不見、數不出</text>
+  <line x1="414" y1="150" x2="440" y2="150" class="sv-arrow"/>
+  <polygon points="438,142 452,150 438,158" class="sv-arrowhead"/>
+  <rect x="450" y="45" width="390" height="208" rx="10" class="sv-card"/>
+  <rect x="450" y="45" width="390" height="34" rx="10" class="sv-tsoft"/>
+  <rect x="450" y="69" width="390" height="10" class="sv-tsoft"/>
+  <text x="466" y="68" class="sv-ink sv-b" font-size="15">第 2 版（你改過）</text>
+  <rect x="458" y="88" width="374" height="30" rx="6" class="sv-gdsoft"/>
+  <text x="468" y="109" class="sv-good sv-b" font-size="15">＋</text>
+  <text x="488" y="109" class="sv-ink" font-size="14">4 級　全程不看稿超過 6 分鐘；停頓不超過 3 次</text>
+  <text x="488" y="147" class="sv-soft" font-size="14">3 級　偶爾看稿，語速適中</text>
+  <text x="488" y="185" class="sv-soft" font-size="14">2 級　常常看稿，有明顯停頓</text>
+  <text x="488" y="223" class="sv-soft" font-size="14">1 級　大段朗讀投影片，台下聽不清楚</text>
+  <text x="20" y="282" class="sv-ink sv-b" font-size="15">為什麼改：要兩個老師打一樣的分，格子裡得是數得出的事。</text>
+  <text x="20" y="302" class="sv-soft" font-size="13">工作台「比較兩版」會把這種差異逐行上色：刪除紅、新增綠。兩版的差異就是證據。</text>
+</svg>
+</template>
+
+<template id="tpl-F-gap">
+<!-- 16 個數字手打自 data/project-presentation-scores.csv（自評−教師／互評−教師），8 筆＝S01、S03、S07、S11、S14、S18、S22、S24；長條寬度＝|差|×26px。
+     make_demo_data.py 重跑或 CSV 改動後，沒有任何腳本會抓到這裡，要人工回查這 16 個數字（validate-workshop.mjs 已有 csvRows 可以接）。 -->
+<svg viewBox="0 0 860 420" width="100%" role="img" aria-labelledby="fg-title">
+  <title id="fg-title">三方評分落差圖：自評減教師分、互評減教師分，離 0 遠的代號浮出來</title>
+  <text x="20" y="26" class="sv-ink sv-b" font-size="16">三方評分落差（示範資料「課堂專題簡報」，取 8 筆）</text>
+  <rect x="560" y="14" width="14" height="14" rx="3" class="sv-teal"/>
+  <text x="580" y="26" class="sv-soft" font-size="13">自評 − 教師</text>
+  <rect x="680" y="14" width="14" height="14" rx="3" class="sv-gold"/>
+  <text x="700" y="26" class="sv-soft" font-size="13">互評 − 教師</text>
+  <line x1="460" y1="48" x2="460" y2="384" class="sv-zero"/>
+  <!-- DEMO-S01: 0 / 0 -->
+  <text x="60" y="80" class="sv-soft" font-size="13">DEMO-S01</text>
+  <text x="466" y="76" class="sv-soft" font-size="12">0</text>
+  <text x="466" y="90" class="sv-soft" font-size="12">0</text>
+  <!-- DEMO-S03: +2 / +6 -->
+  <text x="60" y="120" class="sv-bad sv-b" font-size="13">DEMO-S03</text>
+  <rect x="460" y="104" width="52" height="12" rx="3" class="sv-teal"/>
+  <text x="518" y="115" class="sv-soft" font-size="12">+2</text>
+  <rect x="460" y="118" width="156" height="12" rx="3" class="sv-gold"/>
+  <text x="622" y="129" class="sv-soft" font-size="12">+6</text>
+  <text x="690" y="120" class="sv-bad" font-size="12">互評過寬？</text>
+  <!-- DEMO-S07: +8 / +1 -->
+  <text x="60" y="160" class="sv-bad sv-b" font-size="13">DEMO-S07</text>
+  <rect x="460" y="144" width="208" height="12" rx="3" class="sv-teal"/>
+  <text x="674" y="155" class="sv-soft" font-size="12">+8</text>
+  <rect x="460" y="158" width="26" height="12" rx="3" class="sv-gold"/>
+  <text x="492" y="169" class="sv-soft" font-size="12">+1</text>
+  <text x="690" y="166" class="sv-bad" font-size="12">自評虛高？</text>
+  <!-- DEMO-S11: +1 / 0 -->
+  <text x="60" y="200" class="sv-soft" font-size="13">DEMO-S11</text>
+  <rect x="460" y="184" width="26" height="12" rx="3" class="sv-teal"/>
+  <text x="492" y="195" class="sv-soft" font-size="12">+1</text>
+  <text x="466" y="209" class="sv-soft" font-size="12">0</text>
+  <text x="690" y="200" class="sv-soft" font-size="12">分數看不出來，文字才看得出來</text>
+  <!-- DEMO-S14: 0 / -8 -->
+  <text x="60" y="240" class="sv-bad sv-b" font-size="13">DEMO-S14</text>
+  <text x="466" y="236" class="sv-soft" font-size="12">0</text>
+  <rect x="252" y="238" width="208" height="12" rx="3" class="sv-gold"/>
+  <text x="222" y="249" class="sv-soft" font-size="12">−8</text>
+  <text x="690" y="240" class="sv-bad" font-size="12">互評極低→回查互評表</text>
+  <!-- DEMO-S18: -7 / -1 -->
+  <text x="60" y="280" class="sv-bad sv-b" font-size="13">DEMO-S18</text>
+  <rect x="278" y="264" width="182" height="12" rx="3" class="sv-teal"/>
+  <text x="248" y="275" class="sv-soft" font-size="12">−7</text>
+  <rect x="434" y="278" width="26" height="12" rx="3" class="sv-gold"/>
+  <text x="404" y="289" class="sv-soft" font-size="12">−1</text>
+  <text x="690" y="280" class="sv-bad" font-size="12">表現好、自評低</text>
+  <!-- DEMO-S22: -1 / 0 -->
+  <text x="60" y="320" class="sv-soft" font-size="13">DEMO-S22</text>
+  <rect x="434" y="304" width="26" height="12" rx="3" class="sv-teal"/>
+  <text x="404" y="315" class="sv-soft" font-size="12">−1</text>
+  <text x="466" y="329" class="sv-soft" font-size="12">0</text>
+  <text x="690" y="320" class="sv-soft" font-size="12">分數中等，要讀反思</text>
+  <!-- DEMO-S24: 0 / +1 -->
+  <text x="60" y="360" class="sv-soft" font-size="13">DEMO-S24</text>
+  <text x="466" y="356" class="sv-soft" font-size="12">0</text>
+  <rect x="460" y="358" width="26" height="12" rx="3" class="sv-gold"/>
+  <text x="492" y="369" class="sv-soft" font-size="12">+1</text>
+  <!-- 刻度 -->
+  <text x="252" y="404" text-anchor="middle" class="sv-soft" font-size="12">−8</text>
+  <text x="356" y="404" text-anchor="middle" class="sv-soft" font-size="12">−4</text>
+  <text x="460" y="404" text-anchor="middle" class="sv-soft" font-size="12">0</text>
+  <text x="564" y="404" text-anchor="middle" class="sv-soft" font-size="12">+4</text>
+  <text x="668" y="404" text-anchor="middle" class="sv-soft" font-size="12">+8</text>
+  <text x="690" y="404" class="sv-soft" font-size="12">右邊是可能的解讀，不是結論</text>
+</svg>
+</template>
+
+<template id="tpl-F-check">
+<svg viewBox="0 0 860 220" width="100%" role="img" aria-labelledby="fc-title">
+  <title id="fc-title">AI 分析加人工抽查的流程：AI 分類、抽 3 筆、同意或不同意、三句結論、存一版</title>
+  <text x="20" y="26" class="sv-ink sv-b" font-size="16">第三塊的流程：AI 先整理，人再抽查，兩樣一起留下來才是證據</text>
+  <circle cx="30" cy="50" r="5" class="sv-bad"/>
+  <text x="42" y="54" class="sv-bad" font-size="12">預先跑好的那份有一筆故意分錯，抽到就會發現；沒抽到，講師最後點出來。</text>
+  <rect x="20" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <text x="93" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">AI 分類＋落差</text>
+  <text x="93" y="166" text-anchor="middle" class="sv-soft" font-size="12">自己請 AI 跑／工作台預跑</text>
+  <line x1="168" y1="107" x2="180" y2="107" class="sv-arrow"/><polygon points="178,100 188,107 178,114" class="sv-arrowhead"/>
+  <rect x="190" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <text x="263" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">抽 3 筆回查</text>
+  <text x="263" y="166" text-anchor="middle" class="sv-soft" font-size="12">可重抽</text>
+  <line x1="338" y1="107" x2="350" y2="107" class="sv-arrow"/><polygon points="348,100 358,107 348,114" class="sv-arrowhead"/>
+  <rect x="360" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <text x="433" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="13">同意／不同意／為什麼</text>
+  <text x="433" y="166" text-anchor="middle" class="sv-soft" font-size="12">每筆一行</text>
+  <line x1="508" y1="107" x2="520" y2="107" class="sv-arrow"/><polygon points="518,100 528,107 518,114" class="sv-arrowhead"/>
+  <rect x="530" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <text x="603" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">三句結論</text>
+  <text x="603" y="166" text-anchor="middle" class="sv-soft" font-size="12">證據是／下次改／再蒐集</text>
+  <line x1="678" y1="107" x2="690" y2="107" class="sv-arrow"/><polygon points="688,100 698,107 688,114" class="sv-arrowhead"/>
+  <rect x="700" y="72" width="140" height="70" rx="10" class="sv-gsoft" style="stroke:var(--gold);stroke-width:2"/>
+  <text x="770" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">存一版</text>
+  <text x="770" y="166" text-anchor="middle" class="sv-soft" font-size="12">版本說明寫清楚</text>
+  <text x="20" y="206" class="sv-soft" font-size="13">同意率與不同意的理由，就是計畫書裡「分析信度」那一段的素材。</text>
+</svg>
+</template>
+
+<script src="workflow-data.js"></script>
+<script>
+(function(){
+  'use strict';
+  var F = window.WORKSHOP_FLOW;
+  var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+  var $ = function(sel){ return document.querySelector(sel); };
+
+  /* ── 主題與投影模式（做法同上一場）── */
+  var themeBtn = $('#themeToggle');
+  themeBtn.addEventListener('click', function(){
+    var cur = document.documentElement.dataset.theme;
+    if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('lew-theme', next); } catch(e) {}
+  });
+  var projBtn = $('#projToggle');
+  var paintProj = function(on){ projBtn.textContent = on ? '🔎 投影中' : '🔎 投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(document.documentElement.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = document.documentElement.classList.toggle('projector');
+    paintProj(on);
+    try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
+  });
+
+  /* ── 複製（含舊瀏覽器與 file:// 的備援）── */
+  function copyText(text, btn){
+    var orig = btn.textContent;
+    var done = function(){ btn.textContent = '已複製 ✓'; setTimeout(function(){ btn.textContent = orig; }, 1400); };
+    var fallback = function(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+      if(ok) done(); else btn.textContent = '請手動選取複製';
+    };
+    if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+  }
+  document.addEventListener('click', function(ev){
+    var btn = ev.target.closest('button[data-copy-from]');
+    if(!btn) return;
+    var src = btn.closest(btn.getAttribute('data-copy-from'));
+    var el = src ? src.querySelector('.ptext') : null;
+    if(el) copyText(el.textContent, btn);
+  });
+
+  if(!F){
+    document.querySelectorAll('[data-render]').forEach(function(el){
+      el.innerHTML = '<p class="warn">資料源 workflow-data.js 沒載到，這一段無法顯示。請確認它跟講義放在同一層。</p>';
+    });
+    return;
+  }
+
+  /* ── 貳：路線、桌牌 ── */
+  $('#routes').innerHTML = F.routes.map(function(r){
+    return '<article class="card route"><h3><span class="badge gold">' + esc(r.badge) + '</span>' + esc(r.label) + '</h3>' +
+      '<p>' + esc(r.promise) + '</p>' +
+      '<span class="lbl">需要先有</span><ul>' + r.needs.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ul>' +
+      '<span class="lbl">今天怎麼走</span><ol>' + r.how.map(function(n){ return '<li>' + esc(n) + '</li>'; }).join('') + '</ol></article>';
+  }).join('');
+  $('#tablecards').innerHTML = F.tableCards.map(function(t){
+    return '<div class="tcard"><strong>' + esc(t.label) + '</strong><span>' + esc(t.note) + '</span></div>';
+  }).join('');
+
+  /* ── 參：四塊（步驟、幕後指令、卡住時、提示詞卡、圖）── */
+  var figHtml = function(id){
+    var t = document.getElementById('tpl-' + id);
+    var meta = F.figureById ? F.figureById(id) : null;
+    if(!t) return '';
+    return '<figure data-figure="' + esc(id) + '"><div class="fig-scroll">' + t.innerHTML + '</div>' +
+      '<figcaption>圖｜' + esc(meta ? meta.title : id) + '</figcaption></figure>';
+  };
+  var promptCard = function(p){
+    return '<div class="prompt" id="prompt-' + esc(p.id) + '">' +
+      '<span class="label">提示詞卡 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
+      '<button class="btn small copy" type="button" data-copy-from=".prompt" aria-label="複製提示詞卡 ' + esc(p.id) + '">複製</button>' +
+      '<span class="ptext">' + esc(p.text) + '</span>' +
+      '<span class="rule-foot">硬規矩：' + esc(F.meta.rule) + '</span></div>';
+  };
+  var linkPrompts = function(s){ return esc(s).replace(/提示詞卡 (P\d)/g, function(m, p){ return '提示詞卡 <a href="#prompt-' + p + '">' + p + '</a>'; }); };
+  var dataBase = (F.meta.siteUrl || '').replace(/\/?$/, '/') + 'data/';
+  var blockExtras = {
+    B1: '<p class="behind">上面提到的線上練習台在這裡：<a href="' + esc(F.meta.simUrl) + '" target="_blank" rel="noopener">' + esc(F.meta.simUrl) + '</a>（上一場的模擬頁，不用安裝任何東西）。</p>',
+    B3: '<div class="note">示範資料的網址（請 AI 助手下載這一份）：<br><code>' + esc(dataBase) + 'project-presentation-scores.csv</code><br>' +
+        '體育與實驗報告的自選資料在同一層：<code>pe-squat-scores.csv</code>、<code>lab-report-scores.csv</code>；預先跑好的分析是 <code>sample-analysis.json</code>。三份都是合成資料，第一行寫明了。</div>'
+  };
+  var blockFigs = { B1:['F-timeline'], B2:['F-rubric-diff'], B3:['F-gap','F-check'], B4:[] };
+
+  /* 可直接貼給 AI 助手的整句。第一塊四步的 say 本身就是；第二～四塊凡要 AI 動手的步驟（ai 欄不是「（不用 AI）」「（已預跑）」），
+     say 是給老師看的指示，這裡補一句可貼的。匯出檔名照工作台 download() 實際的前綴：rubric-round-／sampling-record-／one-page-design-。
+     ⚠️ 這四句理想上該進 workflow-data.js 的 steps（例如加 paste 欄）讓工作台也拿得到；資料源這輪不開放改，先放講義這一層。鍵＝區塊 id-步驟序號。 */
+  var pasteSay = {
+    'B2-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 rubric-round-。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫：【把你在工作台「為什麼改」寫的那句貼在這裡】。不要上傳到任何地方。',
+    'B3-1': '請把 ' + dataBase + 'project-presentation-scores.csv 下載到 my-course-evidence 資料夾，下載完告訴我檔案有幾行。接下來我會貼兩段分析要求給你，每段做完把結果各存成一個 .md 檔放進同一個資料夾，檔名取好告訴我。',
+    'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-。請把它從下載資料夾搬進 my-course-evidence，連同你剛才寫的兩個分析檔一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
+    'B4-4': '我剛從瀏覽器下載了一個檔，檔名開頭是 one-page-design-。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫「一頁設計 v1：工作坊版」。'
+  };
+  var copyBtnHtml = '<button class="btn small copy" type="button" data-copy-from=".cell" aria-label="複製這一句">複製</button>';
+
+  $('#blocks').innerHTML = F.blocks.map(function(b){
+    var steps = b.steps.map(function(s, i){
+      var paste = (b.id === 'B1') ? null : (pasteSay[b.id + '-' + (i + 1)] || null);
+      var sayHtml = (b.id === 'B1')
+        ? '<span class="ptext">' + esc(s.say) + '</span>' + copyBtnHtml
+        : '<p>' + linkPrompts(s.say) + '</p>' + (paste ? '<span class="lbl sub">貼給 AI 助手的話</span><span class="ptext">' + esc(paste) + '</span>' + copyBtnHtml : '');
+      return '<li><div class="stepgrid">' +
+        '<div class="cell c-say" style="position:relative"><span class="lbl">你說什麼</span>' + sayHtml + '</div>' +
+        '<div class="cell c-ai"><span class="lbl">AI 會做什麼</span><p>' + esc(s.ai) + '</p></div>' +
+        '<div class="cell c-see"><span class="lbl">你一定要自己看的</span><p>' + esc(s.human) + '</p></div>' +
+        '</div></li>';
+    }).join('');
+    var prompts = F.prompts.filter(function(p){ return p.block === b.id; }).map(promptCard).join('');
+    var figs = (blockFigs[b.id] || []).map(figHtml).join('');
+    return '<article class="block" id="block-' + esc(b.id) + '">' +
+      '<span class="kicker">第' + esc(b.num) + '塊</span>' +
+      '<h3>' + esc(b.title) + '</h3>' +
+      '<p class="mode">' + esc(b.mode) + '</p>' +
+      '<p>' + esc(b.why) + '</p>' +
+      '<div class="tip">' + esc(b.concept) + '</div>' +
+      (blockExtras[b.id] && b.id === 'B3' ? blockExtras[b.id] : '') +
+      '<ol class="steps">' + steps + '</ol>' +
+      '<p class="behind">幕後 AI 代打的指令（看得懂就好，不用背）：<code>' + esc(b.behind) + '</code></p>' +
+      '<div class="warn"><strong>卡住時：</strong>' + esc(b.rescue) + '</div>' +
+      (blockExtras[b.id] && b.id === 'B1' ? blockExtras[b.id] : '') +
+      (prompts ? '<h4>這一塊的提示詞卡</h4>' + prompts : '') +
+      figs +
+      '</article>';
+  }).join('');
+
+  /* ── 肆：領域卡 ── */
+  var exList = [F.examples.presentation, F.examples.pe, F.examples.lab].filter(Boolean);
+  $('#examples').innerHTML = '<div class="grid2">' + exList.map(function(e){
+    return '<article class="card excard"><h3>' + esc(e.label) + '</h3>' +
+      '<p><strong>任務：</strong>' + esc(e.task) + '</p>' +
+      '<div class="crit">' + e.criteria.map(function(c){ return '<span class="badge">' + esc(c) + '</span>'; }).join('') + '</div>' +
+      '<p><strong>證據媒介：</strong>' + esc(e.medium) + '</p>' +
+      '<span class="lbl">不同意的那一句（示範）</span><blockquote>' + esc(e.disagreeExample) + '</blockquote>' +
+      '<span class="lbl">為什麼改</span><blockquote class="why">' + esc(e.whyChanged) + '</blockquote></article>';
+  }).join('') + '</div>';
+
+  /* ── 伍：一頁設計欄位 ── */
+  $('#designfields').innerHTML = '<table><thead><tr><th>#</th><th>欄位</th><th>計畫書對應</th><th>怎麼填</th><th>示範課的填法（「帶入示範課」會填進去的）</th></tr></thead><tbody>' +
+    F.designFields.map(function(d, i){
+      return '<tr><td>' + (i + 1) + '</td><td><strong>' + esc(d.label) + '</strong></td><td><span class="badge gold">' + esc(d.planLabel) + '</span></td><td>' + esc(d.hint) + '</td><td>' + esc(d.demo) + '</td></tr>';
+    }).join('') + '</tbody></table>';
+
+  /* ── 柒：課後手冊（前四節；第五節「三條誠實限制」放在拾）── */
+  var after = F.afterCourse.slice(0, 4);
+  var afterPrompts = F.prompts.filter(function(p){ return p.block === 'after'; }).map(promptCard).join('');
+  $('#aftercourse').innerHTML = after.map(function(a){
+    return '<div class="card" id="after-' + esc(a.id) + '"><h3>' + esc(a.title) + '</h3><p>' + esc(a.text) + '</p>' +
+      (a.id === 'AC3' ? afterPrompts : '') + '</div>';
+  }).join('');
+
+  /* ── 捌：議程 ── */
+  var total = F.totalMinutes ? F.totalMinutes() : F.agenda.reduce(function(s, a){ return s + a.minutes; }, 0);
+  $('#agenda').innerHTML = '<table><thead><tr><th>時間</th><th>段</th><th>形式</th><th>做什麼</th><th>老師帶走什麼</th></tr></thead><tbody>' +
+    F.agenda.map(function(a){
+      return '<tr><td style="white-space:nowrap">' + esc(a.start) + '–' + esc(a.end) + '<br><span class="agenda-total">' + a.minutes + ' 分</span></td><td><strong>' + esc(a.title) + '</strong></td><td style="white-space:nowrap">' + esc(a.mode) + '</td><td>' + esc(a.summary) + '</td><td>' + esc(a.takeaway) + '</td></tr>';
+    }).join('') + '</tbody></table><p class="agenda-total">合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉桌牌，鄰座或助教先看。</p>';
+
+  /* ── 拾：三條誠實限制（afterCourse 第五節）── */
+  var ac5 = F.afterCourse[4];
+  var items = ac5 ? ac5.text.split(/(?=[一二三]、)/).filter(function(s){ return s.trim(); }) : [];
+  $('#limits').innerHTML = '<ul class="plain">' + items.map(function(s){ return '<li>' + esc(s.trim()) + '</li>'; }).join('') + '</ul>';
+
+  /* ── 自檢：講義裡靜態寫死的錨點句，必須跟資料源一字不差（驗證腳本用靜態掃描，所以這些句子不能只靠 JS 渲染）── */
+  var checks = [
+    ['#rule-text', F.meta.rule], ['#airule-text', F.meta.aiRule],
+    ['#hero-title', F.meta.title], ['#hero-sub', F.meta.subtitle], ['#hero-tag', F.meta.tagline],
+    ['#hero-date', F.meta.date], ['#hero-time', F.meta.time], ['#hero-venue', F.meta.venue], ['#hero-speaker', F.meta.speaker], ['#hero-host', F.meta.host],
+    ['#ac1-title-ref', F.afterCourse[0].title]
+  ];
+  F.redlines.forEach(function(r){ checks.push(['#redline-' + r.id + ' h3', r.title]); checks.push(['#redline-' + r.id + ' p', r.text]); });
+  var bad = 0;
+  checks.forEach(function(c){
+    var el = $(c[0]); var got = el ? el.textContent.trim() : null;
+    if(got !== c[1]){ bad++; console.error('[講義自檢] 靜態錨點與資料源不一致：', c[0], '\n講義：', got, '\n資料源：', c[1]); }
+  });
+  if(total !== 120) console.error('[講義自檢] 議程分鐘數加總不是 120：', total);
+  var prev = $('#prev-link'); if(prev && prev.getAttribute('href') !== F.meta.prevWorkshopUrl) console.error('[講義自檢] 上一場連結與資料源不一致');
+  if(bad === 0) console.info('[講義自檢] 靜態錨點 ' + checks.length + ' 處全部與資料源一致；議程合計 ' + total + ' 分鐘。');
+})();
+</script>
+</body>
+</html>
