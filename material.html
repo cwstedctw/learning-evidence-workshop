@@ -9,17 +9,11 @@
 <script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
 <style>
 /* ── 講義頁專用版式（顏色一律用 site.css 的代幣）── */
-/* 頁首：比共用版式矮一半（簡化工單 2026-10-02：手機一屏內）——只留題目、一行副標、一行時地、一句要記的話、一行去處 */
-header.hero{padding:20px 20px 16px}
-header.hero h1{font-size:clamp(1.35rem,3.2vw,2rem);margin:0 0 6px}
-header.hero .sub{font-size:1rem;margin:0 0 4px}
-header.hero .meta{font-size:.88rem;line-height:1.55}
-header.hero .keyline{margin:10px 0 0;font-size:1rem;color:#fff;line-height:1.6}
-header.hero .keyline strong{color:#F3E3C3}
+/* 頁首高度與字級由 site.css 統一（四頁同一個樣子、手機一屏內）；這裡只多兩行：一句要記的話、一行去處。顏色走 --on-hero 代幣 */
+header.hero .keyline{margin:10px 0 0;font-size:1rem;color:var(--on-hero);line-height:1.6}
+header.hero .keyline strong{color:var(--on-hero-soft)}
 header.hero .links{margin:8px 0 0;font-size:.9rem;line-height:1.7}
-header.hero .links a{color:#F3E3C3;margin-right:14px;display:inline-block;white-space:nowrap}
-nav.topnav a.home{font-weight:700;color:var(--teal-deep)}
-section{scroll-margin-top:64px}
+header.hero .links a{color:var(--on-hero-soft);margin-right:14px;display:inline-block;white-space:nowrap}
 h2 .sec-num{font-size:1rem;letter-spacing:.12em;display:block;margin-bottom:2px}
 .lbl{display:block;font-size:.8rem;font-weight:700;color:var(--teal-deep);letter-spacing:.05em;margin:.6em 0 .2em}
 .block{margin-top:2.2em;padding-top:.5em;border-top:3px solid var(--teal-soft)}
@@ -76,9 +70,7 @@ figure svg text{font-family:var(--sans)}
 @media (max-width:640px){
   .fig-scroll svg{min-width:600px}
   header.hero .keyline{font-size:.95rem}
-  /* 手機：導覽列單排、可左右滑，不折成三排黏在頂端 */
-  nav.topnav .inner{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;gap:4px 10px;padding:8px 12px}
-  nav.topnav a,nav.topnav button{white-space:nowrap;flex:0 0 auto}
+  /* 導覽列的手機版（單排可滑、黏頂一列）2026-10-02 起搬到 site.css，四頁共用 */
 }
 </style>
 </head>
@@ -94,22 +86,20 @@ figure svg text{font-family:var(--sans)}
   </div>
 </header>
 
-<nav class="topnav" aria-label="講義章節">
+<!-- 導覽列：四頁同一個結構——左邊「全站六個去處＋本頁錨點」單排可滑（右側淡出＝還有），右邊兩顆鈕固定（圖示是內嵌 SVG，跟著代幣變色） -->
+<nav class="topnav" aria-label="導覽">
   <div class="inner">
-    <a class="home" href="index.html">入口</a>
-    <a href="#sec-why">壹 為什麼</a>
-    <a href="#sec-how">貳 怎麼做</a>
-    <a href="#sec-blocks">參 四塊</a>
-    <a href="#sec-examples">肆 例子</a>
-    <a href="#sec-design">伍 一頁設計</a>
-    <a href="#sec-ethics">陸 倫理</a>
-    <a href="#sec-after">柒 課後</a>
-    <a href="#sec-agenda">捌 議程</a>
-    <a href="#sec-glossary">玖 名詞</a>
-    <a href="#sec-limits">拾 限制</a>
-    <span class="spacer"></span>
-    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用">🔎 投影</button>
-    <button id="themeToggle" type="button" title="切換深淺色" aria-label="切換深淺色">🌗</button>
+    <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+    <div class="links" id="navLinks">
+      <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html" aria-current="page">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a></span>
+      <span class="sep" aria-hidden="true"></span>
+      <span class="anchors"><a href="#sec-why">壹 為什麼</a><a href="#sec-how">貳 怎麼做</a><a href="#sec-blocks">參 四塊</a><a href="#sec-examples">肆 例子</a><a href="#sec-design">伍 一頁設計</a><a href="#sec-ethics">陸 倫理</a><a href="#sec-after">柒 課後</a><a href="#sec-agenda">捌 議程</a><a href="#sec-glossary">玖 名詞</a><a href="#sec-limits">拾 限制</a></span>
+    </div>
+    <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+    <div class="ctl">
+      <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+      <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+    </div>
   </div>
 </nav>
 
@@ -147,13 +137,13 @@ figure svg text{font-family:var(--sans)}
   <h3>證據工作台怎麼用</h3>
   <p>工作台（<a href="studio.html">studio.html</a>）是一個純前端網頁：不連任何 AI、不上傳任何東西；把整個教材資料夾下載下來（或用 git clone），離線也能開——它要跟同一層的 workflow-data.js 放在一起。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
   <div class="table-wrap">
-    <table class="studio-table">
+    <table class="studio-table stack">
       <thead><tr><th>分頁</th><th>按鈕</th><th>必填欄</th><th>用在哪一塊</th></tr></thead>
       <tbody>
-        <tr><td>Rubric 工作台</td><td>「複製」（提示詞）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td>「為什麼改」</td><td>第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
-        <tr><td>證據儀表板</td><td>「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td>每筆「同意／不同意」與「為什麼」、「三句結論」</td><td>第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
-        <tr><td>一頁設計</td><td>「帶入示範課」、「複製」、「匯出 Markdown」</td><td>—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td>第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
-        <tr><td>全站</td><td>「清除暫存」</td><td>—</td><td>工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
+        <tr><td data-th="分頁">Rubric 工作台</td><td data-th="按鈕">「複製」（提示詞）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td data-th="必填欄">「為什麼改」</td><td data-th="用在哪一塊">第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
+        <tr><td data-th="分頁">證據儀表板</td><td data-th="按鈕">「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td data-th="必填欄">每筆「同意／不同意」與「為什麼」、「三句結論」</td><td data-th="用在哪一塊">第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
+        <tr><td data-th="分頁">一頁設計</td><td data-th="按鈕">「帶入示範課」、「複製」、「匯出 Markdown」</td><td data-th="必填欄">—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td data-th="用在哪一塊">第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
+        <tr><td data-th="分頁">全站</td><td data-th="按鈕">「清除暫存」</td><td data-th="必填欄">—</td><td data-th="用在哪一塊">工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
       </tbody>
     </table>
   </div>
@@ -454,23 +444,48 @@ figure svg text{font-family:var(--sans)}
   var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
   var $ = function(sel){ return document.querySelector(sel); };
 
-  /* ── 主題與投影模式（做法同上一場）── */
+  /* ── 主題與投影模式（做法同上一場；按鈕只換文字節點與圖示，SVG 留著）── */
+  var root = document.documentElement;
   var themeBtn = $('#themeToggle');
+  var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  var paintTheme = function(){
+    var isDark = root.dataset.theme ? root.dataset.theme === 'dark' : darkMq.matches;
+    themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+    themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+  };
   themeBtn.addEventListener('click', function(){
-    var cur = document.documentElement.dataset.theme;
-    if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    var cur = root.dataset.theme;
+    if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
     var next = cur === 'dark' ? 'light' : 'dark';
-    document.documentElement.dataset.theme = next;
+    root.dataset.theme = next;
     try { localStorage.setItem('lew-theme', next); } catch(e) {}
+    paintTheme();
   });
+  if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+  paintTheme();
   var projBtn = $('#projToggle');
-  var paintProj = function(on){ projBtn.textContent = on ? '🔎 投影中' : '🔎 投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
-  paintProj(document.documentElement.classList.contains('projector'));
+  var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(root.classList.contains('projector'));
   projBtn.addEventListener('click', function(){
-    var on = document.documentElement.classList.toggle('projector');
+    var on = root.classList.toggle('projector');
     paintProj(on);
     try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
   });
+  /* 導覽列單排可滑：只有真的溢出、而且還沒捲到底時，才在右側加淡出提示 */
+  var navLinks = $('#navLinks');
+  if(navLinks){
+    var navPrev = document.getElementById('navPrev'), navNext = document.getElementById('navNext');
+    var navFade = function(){
+      var over = navLinks.scrollWidth > navLinks.clientWidth + 2, atEnd = navLinks.scrollLeft + navLinks.clientWidth >= navLinks.scrollWidth - 2;
+      navLinks.classList.toggle('is-overflow', over && !atEnd);
+      if(navPrev) navPrev.hidden = !(over && navLinks.scrollLeft > 2);
+      if(navNext) navNext.hidden = !(over && !atEnd);
+    };
+    var navStep = function(dir){ navLinks.scrollBy({left: dir * navLinks.clientWidth * 0.7, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); setTimeout(navFade, 700); };   /* 平滑捲動結束後再算一次（舊瀏覽器沒有 scrollend） */
+    if(navPrev) navPrev.addEventListener('click', function(){ navStep(-1); });
+    if(navNext) navNext.addEventListener('click', function(){ navStep(1); });
+    navLinks.addEventListener('scroll', navFade, {passive:true}); navLinks.addEventListener('scrollend', navFade); window.addEventListener('resize', navFade); navFade();
+  }
 
   /* ── 複製（含舊瀏覽器與 file:// 的備援）── */
   function copyText(text, btn){
@@ -589,9 +604,10 @@ figure svg text{font-family:var(--sans)}
   }).join('') + '</div>';
 
   /* ── 伍：一頁設計欄位 ── */
-  $('#designfields').innerHTML = '<table><thead><tr><th>#</th><th>欄位</th><th>計畫書對應</th><th>怎麼填</th><th>示範課的填法（「帶入示範課」會填進去的）</th></tr></thead><tbody>' +
+  /* data-th＝欄名：手機（≤640px）表格改成每列一張卡時，每格前面印這個 */
+  $('#designfields').innerHTML = '<table class="stack"><thead><tr><th>#</th><th>欄位</th><th>計畫書對應</th><th>怎麼填</th><th>示範課的填法（「帶入示範課」會填進去的）</th></tr></thead><tbody>' +
     F.designFields.map(function(d, i){
-      return '<tr><td>' + (i + 1) + '</td><td><strong>' + esc(d.label) + '</strong></td><td><span class="badge gold">' + esc(d.planLabel) + '</span></td><td>' + esc(d.hint) + '</td><td>' + esc(d.demo) + '</td></tr>';
+      return '<tr><td data-th="#">' + (i + 1) + '</td><td data-th="欄位"><strong>' + esc(d.label) + '</strong></td><td data-th="計畫書對應"><span class="badge gold">' + esc(d.planLabel) + '</span></td><td data-th="怎麼填">' + esc(d.hint) + '</td><td data-th="示範課的填法">' + esc(d.demo) + '</td></tr>';
     }).join('') + '</tbody></table>';
 
   /* ── 柒：課後手冊（前四節；第五節「三條誠實限制」放在拾）── */
@@ -604,9 +620,9 @@ figure svg text{font-family:var(--sans)}
 
   /* ── 捌：議程 ── */
   var total = F.totalMinutes ? F.totalMinutes() : F.agenda.reduce(function(s, a){ return s + a.minutes; }, 0);
-  $('#agenda').innerHTML = '<table><thead><tr><th>時間</th><th>段</th><th>形式</th><th>做什麼</th><th>老師帶走什麼</th></tr></thead><tbody>' +
+  $('#agenda').innerHTML = '<table class="stack"><thead><tr><th>時間</th><th>段</th><th>形式</th><th>做什麼</th><th>老師帶走什麼</th></tr></thead><tbody>' +
     F.agenda.map(function(a){
-      return '<tr><td style="white-space:nowrap">' + esc(a.start) + '–' + esc(a.end) + '<br><span class="agenda-total">' + a.minutes + ' 分</span></td><td><strong>' + esc(a.title) + '</strong></td><td style="white-space:nowrap">' + esc(a.mode) + '</td><td>' + esc(a.summary) + '</td><td>' + esc(a.takeaway) + '</td></tr>';
+      return '<tr><td data-th="時間" style="white-space:nowrap">' + esc(a.start) + '–' + esc(a.end) + '<br><span class="agenda-total">' + a.minutes + ' 分</span></td><td data-th="段"><strong>' + esc(a.title) + '</strong></td><td data-th="形式" style="white-space:nowrap">' + esc(a.mode) + '</td><td data-th="做什麼">' + esc(a.summary) + '</td><td data-th="老師帶走什麼">' + esc(a.takeaway) + '</td></tr>';
     }).join('') + '</tbody></table><p class="agenda-total">合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉手，鄰座或講師先看。</p>';
 
   /* ── 拾：三條誠實限制（afterCourse 第五節）── */

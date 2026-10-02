@@ -12,6 +12,7 @@
   --bad:#b3441e; --bad-soft:#F6DED3; --good:#2E7D4F; --good-soft:#DCEFE2;
   --dark:#062524; --dark-2:#0B2B2B; --on-dark:#E6F2F2; --on-dark-dim:#9FBDBC;
   --shadow:0 6px 24px rgba(6,37,36,.07);
+  --on-teal:#fff;   /* 壓在 --teal 上的字；深底頁換成深色（.slide--dark） */
   --zh:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
   --mono:"Cascadia Code","Consolas","JetBrains Mono",Menlo,"Noto Sans TC","Microsoft JhengHei",monospace;
 }
@@ -117,10 +118,10 @@ html,body{background:#333}
 .steps .human{font-size:18px; color:var(--ink); margin-top:2px}
 .steps .human::before{content:"你看："; font-weight:900; color:var(--teal-deep)}   /* 2026-10-02：表情符號圖示改文字 */
 
-/* 工作台按鈕／分頁名稱：讓老師一眼對上工作台上的字 */
+/* 工作台按鈕／分頁名稱：讓老師一眼對上工作台上的字——所以長得跟工作台的 .btn 一樣：茶綠實心、白字
+   （2026-10-02 設計審查：原本是白底細框，老師要對兩次）。幾何不動（padding／border 寬度同原本），overflow 閘門不受影響 */
 .ui{display:inline-block; padding:0 8px; margin:0 1px; border:1.5px solid var(--teal); border-radius:7px; line-height:1.45;
-  font-size:.9em; font-weight:800; color:var(--teal-deep); background:rgba(255,255,255,.55); vertical-align:baseline}
-.slide--dark .ui{background:rgba(230,242,242,.08)}
+  font-size:.9em; font-weight:800; color:var(--on-teal); background:var(--teal); vertical-align:baseline}
 
 /* 大字陳述頁 */
 .center{justify-content:center}

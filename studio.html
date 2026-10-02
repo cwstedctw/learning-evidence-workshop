@@ -30,16 +30,16 @@
   .chart-wrap svg{min-width:720px;display:block;width:100%;height:auto}
   .chart-wrap .axis{stroke:var(--line);stroke-width:1}
   .chart-wrap .zero{stroke:var(--ink-soft);stroke-width:1.5}
-  .chart-wrap text{fill:var(--ink);font-family:var(--sans);font-size:11px}
+  .chart-wrap text{fill:var(--ink);font-family:var(--sans);font-size:13px}   /* 2026-10-02：刻度 11→13px */
   .chart-wrap text.tick{fill:var(--ink-soft)}
   .chart-wrap text.far{fill:var(--bad);font-weight:700}
   .chart-wrap .bar-self{fill:var(--teal)}
-  .chart-wrap .bar-peer{fill:var(--gold)}
+  .chart-wrap .bar-peer{fill:var(--gold);stroke:var(--warn-text);stroke-width:1}   /* 金色長條淺色只有 2.2:1，加一圈深金描邊補對比 */
   .chart-wrap .far-bar{stroke:var(--bad);stroke-width:2}
   .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:var(--ink-soft);margin:.2em 0 .8em}
   .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:4px}
   .legend .l-self{background:var(--teal)}
-  .legend .l-peer{background:var(--gold)}
+  .legend .l-peer{background:var(--gold);box-shadow:inset 0 0 0 1px var(--warn-text)}
   .legend .l-far{background:transparent;border:2px solid var(--bad)}
   td.far,th.far{color:var(--bad);font-weight:700}
   td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -48,10 +48,12 @@
   .sample-card h4{margin:0 0 .4em}
   .sample-card .scores{font-variant-numeric:tabular-nums}
   .sample-card .judge{display:flex;flex-wrap:wrap;gap:6px 18px;margin:.4em 0}
-  .sample-card .judge label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
+  .sample-card .judge label{display:inline-flex;gap:6px;align-items:center;cursor:pointer;min-height:44px;padding:0 4px}   /* 單選鈕整個 label 都是觸控目標 */
+  .sample-card.needs{border-color:var(--bad);box-shadow:0 0 0 3px var(--bad-soft)}   /* 匯出時這張卡少填：紅框＋卡內訊息，頁面也會捲到這裡 */
+  .sample-card .cardmsg{margin:.4em 0 .2em}
   .sample-card textarea{min-height:72px}
   .conclusions textarea{min-height:64px}
-  .btn[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+  .btn[aria-pressed="true"]{background:var(--gold);color:var(--on-gold)}   /* 講師模式按下去：深色模式下 --ink 是米白、壓金色只有 2:1，改用 --on-gold */
   .answer[hidden]{display:none}
   .design-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;align-items:start}
   @media (min-width:920px){
@@ -70,8 +72,8 @@
   .md-preview p{margin:.2em 0 .6em}
   .md-preview ul{margin:.2em 0 .6em}
   .md-raw pre{white-space:pre-wrap;font-size:.85rem}
-  .tabs button:focus-visible,.btn:focus-visible,nav.topnav button:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
-  details.card summary{cursor:pointer;font-weight:700}
+  /* 焦點環 2026-10-02 起由 site.css 統一（a／button／input／select／textarea／summary／[role=tab] 都是 3px 茶綠） */
+  details.card summary{cursor:pointer;font-weight:700;padding:8px 0}
   details.card .steps{margin-top:.8em}
   .steps .human{margin:.4em 0 0}
   .danger{margin-top:2.5em}
@@ -89,16 +91,20 @@
   </div>
 </header>
 
-<nav class="topnav" aria-label="頁內導覽">
+<!-- 導覽列：四頁同一個結構——左邊「全站六個去處＋本頁三個分頁」單排可滑（右側淡出＝還有），右邊兩顆鈕固定（圖示是內嵌 SVG，跟著代幣變色） -->
+<nav class="topnav" aria-label="導覽">
   <div class="inner">
-    <a href="#rubric" data-tab-link="rubric">Rubric 工作台</a>
-    <a href="#evidence" data-tab-link="evidence">證據儀表板</a>
-    <a href="#design" data-tab-link="design">一頁設計</a>
-    <a href="material.html">講義</a>
-    <a href="index.html">回入口</a>
-    <span class="spacer"></span>
-    <button id="projToggle" type="button" aria-pressed="false" aria-label="投影模式：放大字級，上課投影用">🔎 投影</button>
-    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式">🌗</button>
+    <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+    <div class="links" id="navLinks">
+      <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html" aria-current="page">工作台</a><a href="slides/index.html">投影片</a></span>
+      <span class="sep" aria-hidden="true"></span>
+      <span class="anchors"><a href="#rubric" data-tab-link="rubric">Rubric 工作台</a><a href="#evidence" data-tab-link="evidence">證據儀表板</a><a href="#design" data-tab-link="design">一頁設計</a></span>
+    </div>
+    <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+    <div class="ctl">
+      <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+      <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+    </div>
   </div>
 </nav>
 
@@ -136,7 +142,8 @@
       </div>
     </div>
     <label class="field" for="why">為什麼改<span class="req">必填</span><small>——一句話，講得出「下次學生會怎麼不一樣」</small></label>
-    <textarea id="why" rows="2" style="min-height:64px" aria-label="為什麼改（必填）" placeholder="例如：要兩個老師打一樣的分，格子裡得是數得出的事。"></textarea>
+    <p class="hint" id="why-hint">例如：要兩個老師打一樣的分，格子裡得是數得出的事。</p>
+    <textarea id="why" rows="2" style="min-height:64px" aria-label="為什麼改（必填）" aria-describedby="why-hint"></textarea>
     <div class="toolbar">
       <button type="button" class="btn" id="btnCompare" aria-label="比較兩版：逐行列出第 1 版與第 2 版的差異">比較兩版</button>
       <button type="button" class="btn secondary" id="btnExportRound" aria-label="匯出這一輪：下載含兩版、差異與為什麼改的 Markdown 檔">匯出這一輪</button>
@@ -345,22 +352,48 @@ if(FLOW && FLOW.meta){
 } else {
   $('noData').hidden = false;
 }
+/* 導覽列兩顆鈕：深淺色（只換文字節點與圖示，SVG 留著）、投影 */
+var rootEl = document.documentElement;
 var themeBtn = $('themeToggle');
+var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+var paintTheme = function(){
+  var isDark = rootEl.dataset.theme ? rootEl.dataset.theme === 'dark' : darkMq.matches;
+  themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+  themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+};
 themeBtn.addEventListener('click', function(){
-  var cur = document.documentElement.dataset.theme;
-  if(!cur){ cur = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+  var cur = rootEl.dataset.theme;
+  if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
   var next = cur === 'dark' ? 'light' : 'dark';
-  document.documentElement.dataset.theme = next;
+  rootEl.dataset.theme = next;
   try { localStorage.setItem('lew-theme', next); } catch(e) {}
+  paintTheme();
 });
+if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+paintTheme();
 var projBtn = $('projToggle');
-var paintProj = function(on){ projBtn.textContent = on ? '🔎 投影中' : '🔎 投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
-paintProj(document.documentElement.classList.contains('projector'));
+var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+paintProj(rootEl.classList.contains('projector'));
 projBtn.addEventListener('click', function(){
-  var on = document.documentElement.classList.toggle('projector');
+  var on = rootEl.classList.toggle('projector');
   paintProj(on);
   try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
 });
+/* 導覽列單排可滑：只有真的溢出、而且還沒捲到底時，才在右側加淡出提示 */
+var navLinks = $('navLinks');
+if(navLinks){
+  var navPrev = document.getElementById('navPrev'), navNext = document.getElementById('navNext');
+    var navFade = function(){
+      var over = navLinks.scrollWidth > navLinks.clientWidth + 2, atEnd = navLinks.scrollLeft + navLinks.clientWidth >= navLinks.scrollWidth - 2;
+      navLinks.classList.toggle('is-overflow', over && !atEnd);
+      if(navPrev) navPrev.hidden = !(over && navLinks.scrollLeft > 2);
+      if(navNext) navNext.hidden = !(over && !atEnd);
+    };
+    var navStep = function(dir){ navLinks.scrollBy({left: dir * navLinks.clientWidth * 0.7, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'}); setTimeout(navFade, 700); };   /* 平滑捲動結束後再算一次（舊瀏覽器沒有 scrollend） */
+    if(navPrev) navPrev.addEventListener('click', function(){ navStep(-1); });
+    if(navNext) navNext.addEventListener('click', function(){ navStep(1); });
+  navLinks.addEventListener('scroll', navFade, {passive:true}); navLinks.addEventListener('scrollend', navFade); window.addEventListener('resize', navFade); navFade();
+}
 
 /* ── 暫存：整個工作台一把鑰匙，全部 try/catch ── */
 var STORE_KEY = 'lew-studio-v1';
@@ -403,10 +436,24 @@ function today(){ var d = new Date(); return d.getFullYear() + '-' + pad(d.getMo
 
 /* ── 共用小工具：訊息、下載、複製 ── */
 function showMsg(id, text, ok, sticky){
-  var el = $(id); el.textContent = text; el.hidden = false;
-  el.className = (ok ? 'ok' : 'warn') + ' msg';
+  var el = $(id); el.textContent = text;
+  el.hidden = true; el.className = (ok ? 'ok' : 'warn') + ' msg';
+  void el.offsetWidth; el.hidden = false;   /* 先藏再現，.msg 的輕過場每次都會重播 */
   clearTimeout(el._hideTimer);
   if(ok && !sticky){ el._hideTimer = setTimeout(function(){ el.hidden = true; }, 6000); }
+  if(el.scrollIntoView) el.scrollIntoView({block:'nearest'});   /* 訊息在畫面外（例如一頁設計的預覽欄）就捲過去 */
+}
+/* 匯出抽查紀錄時某一張卡少填：紅框＋卡內同一句訊息、頁面捲到那張卡、焦點放到那個欄位（設計審查：原本訊息在頁尾、離卡片兩三個螢幕） */
+function clearCardFlags(){
+  Array.prototype.forEach.call(document.querySelectorAll('.sample-card.needs'), function(c){ c.classList.remove('needs'); var m = c.querySelector('.cardmsg'); if(m) m.hidden = true; });
+}
+function flagCard(id, text, sel){
+  var card = $('sc-' + id); if(!card) return;
+  card.classList.add('needs');
+  var m = card.querySelector('.cardmsg'); if(m){ m.textContent = text; m.hidden = false; }
+  var el = card.querySelector(sel);
+  if(el){ try { el.focus({preventScroll:true}); } catch(e){ el.focus(); } }
+  card.scrollIntoView({block:'center'});
 }
 function hideMsg(id){ $(id).hidden = true; }
 function download(name, text){
@@ -815,12 +862,13 @@ function renderGapTable(){
   var host = $('gapTable');
   if(!recs.length){ host.innerHTML = '<p class="hint">沒有資料。</p>'; return; }
   var hasWeak = recs.some(function(r){ return r.weakest; });
-  var h = '<table><thead><tr><th>代號</th><th>自評</th><th>互評</th><th>教師</th><th>自評 − 教師</th><th>互評 − 教師</th>' + (hasWeak ? '<th>教師認為最弱的規準</th>' : '') + '</tr></thead><tbody>';
+  /* data-th＝欄名：手機（≤640px）表格改成每列一張卡時，每格前面印這個 */
+  var h = '<table class="stack"><thead><tr><th>代號</th><th>自評</th><th>互評</th><th>教師</th><th>自評 − 教師</th><th>互評 − 教師</th>' + (hasWeak ? '<th>教師認為最弱的規準</th>' : '') + '</tr></thead><tbody>';
   recs.forEach(function(r){
-    h += '<tr><td>' + esc(r.id) + '</td><td class="num">' + r.self + '</td><td class="num">' + r.peer + '</td><td class="num">' + r.teacher + '</td>' +
-         '<td class="num' + (Math.abs(r.dSelf) >= FAR ? ' far' : '') + '">' + sign(r.dSelf) + '</td>' +
-         '<td class="num' + (Math.abs(r.dPeer) >= FAR ? ' far' : '') + '">' + sign(r.dPeer) + '</td>' +
-         (hasWeak ? '<td>' + esc(r.weakest) + '</td>' : '') + '</tr>';
+    h += '<tr><td data-th="代號">' + esc(r.id) + '</td><td class="num" data-th="自評">' + r.self + '</td><td class="num" data-th="互評">' + r.peer + '</td><td class="num" data-th="教師">' + r.teacher + '</td>' +
+         '<td class="num' + (Math.abs(r.dSelf) >= FAR ? ' far' : '') + '" data-th="自評 − 教師">' + sign(r.dSelf) + '</td>' +
+         '<td class="num' + (Math.abs(r.dPeer) >= FAR ? ' far' : '') + '" data-th="互評 − 教師">' + sign(r.dPeer) + '</td>' +
+         (hasWeak ? '<td data-th="教師認為最弱的規準">' + esc(r.weakest) + '</td>' : '') + '</tr>';
   });
   host.innerHTML = h + '</tbody></table>';
 }
@@ -829,7 +877,7 @@ function renderReflTable(){
   if(!recs.length){ host.innerHTML = '<p class="hint">沒有資料。</p>'; return; }
   var instructor = $('btnInstructor').getAttribute('aria-pressed') === 'true';
   var ak = (instructor && current.analysis && current.analysis.answer_key) || null;
-  var h = '<table><thead><tr><th>代號</th><th>自評／互評／教師</th><th>反思短文</th><th>AI 分類</th>' + (ak ? '<th>答案卡</th>' : '') + '</tr></thead><tbody>';
+  var h = '<table class="stack"><thead><tr><th>代號</th><th>自評／互評／教師</th><th>反思短文</th><th>AI 分類</th>' + (ak ? '<th>答案卡</th>' : '') + '</tr></thead><tbody>';
   recs.forEach(function(r){
     var code = aiCat(r.id);
     var mark = '';
@@ -837,7 +885,7 @@ function renderReflTable(){
       if(current.analysis.ai_wrong_on === r.id) mark = '<span class="badge bad">AI 分錯</span>';
       else if(ak[r.id]) mark = '<span class="badge gold">埋設</span>';
     }
-    h += '<tr><td>' + esc(r.id) + '</td><td class="num">' + r.self + '／' + r.peer + '／' + r.teacher + '</td><td class="refl">' + esc(r.reflection) + '</td><td>' + (code ? esc(catLabel(code)) : '—') + '</td>' + (ak ? '<td>' + mark + '</td>' : '') + '</tr>';
+    h += '<tr><td data-th="代號">' + esc(r.id) + '</td><td class="num" data-th="自評／互評／教師">' + r.self + '／' + r.peer + '／' + r.teacher + '</td><td class="refl" data-th="反思短文">' + esc(r.reflection) + '</td><td data-th="AI 分類">' + (code ? esc(catLabel(code)) : '—') + '</td>' + (ak ? '<td data-th="答案卡">' + mark + '</td>' : '') + '</tr>';
   });
   host.innerHTML = h + '</tbody></table>';
 }
@@ -879,8 +927,10 @@ function renderSamples(){
         '<label><input type="radio" name="agree-' + esc(id) + '" value="yes"' + (j.agree === 'yes' ? ' checked' : '') + '>同意</label>' +
         '<label><input type="radio" name="agree-' + esc(id) + '" value="no"' + (j.agree === 'no' ? ' checked' : '') + '>不同意</label>' +
       '</div>' +
+      '<div class="warn msg cardmsg" hidden></div>' +   /* 匯出時這張卡少填，同一句訊息放在欄位旁邊（錯誤要靠近欄位） */
       '<label class="field" for="why-' + esc(id) + '">為什麼<span class="req">必填</span></label>' +
-      '<textarea id="why-' + esc(id) + '" data-why="' + esc(id) + '" placeholder="為什麼？部分不同意也選「不同意」，在這裡寫清楚哪裡不同意" aria-label="' + esc(id) + ' 為什麼同意或不同意">' + esc(j.why || '') + '</textarea>' +
+      '<p class="hint" id="why-hint-' + esc(id) + '">為什麼？部分不同意也選「不同意」，在這裡寫清楚哪裡不同意</p>' +   /* 原本是 placeholder，一打字就不見；改成標籤下一行的提示 */
+      '<textarea id="why-' + esc(id) + '" data-why="' + esc(id) + '" aria-label="' + esc(id) + ' 為什麼同意或不同意" aria-describedby="why-hint-' + esc(id) + '">' + esc(j.why || '') + '</textarea>' +
     '</div>';
   });
   host.innerHTML = h;
@@ -889,10 +939,12 @@ $('samples').addEventListener('change', function(ev){
   var t = ev.target; if(t.type !== 'radio') return;
   var id = t.name.replace(/^agree-/, ''), p = per();
   p.judge[id] = p.judge[id] || {agree:'', why:''}; p.judge[id].agree = t.value; save();
+  var card = t.closest('.sample-card'); if(card && card.classList.contains('needs')){ card.classList.remove('needs'); var m = card.querySelector('.cardmsg'); if(m) m.hidden = true; }
 });
 $('samples').addEventListener('input', function(ev){
   var t = ev.target; if(!t.dataset.why) return;
   var p = per(); p.judge[t.dataset.why] = p.judge[t.dataset.why] || {agree:'', why:''}; p.judge[t.dataset.why].why = t.value; save();
+  var card = t.closest('.sample-card'); if(card && card.classList.contains('needs') && t.value.trim()){ card.classList.remove('needs'); var m = card.querySelector('.cardmsg'); if(m) m.hidden = true; }
 });
 $('btnDraw').addEventListener('click', drawSample);
 
@@ -908,11 +960,12 @@ $('btnExportSampling').addEventListener('click', function(){
   hideMsg('msgEvidence');
   var p = per(), recsById = {}; current.records.forEach(function(r){ recsById[r.id] = r; });
   var ids = p.ids.filter(function(id){ return recsById[id]; });
-  if(ids.length < Math.min(3, current.records.length)){ showMsg('msgEvidence', '先按「抽 3 筆回查」。'); return; }
+  clearCardFlags();
+  if(ids.length < Math.min(3, current.records.length)){ showMsg('msgEvidence', '先按「抽 3 筆回查」。'); $('btnDraw').focus(); return; }
   for(var i = 0; i < ids.length; i++){
     var j = p.judge[ids[i]] || {};
-    if(!j.agree){ showMsg('msgEvidence', ids[i] + ' 還沒選「同意」或「不同意」。'); return; }
-    if(!(j.why || '').trim()){ showMsg('msgEvidence', ids[i] + ' 的「為什麼」是必填。'); $('why-' + ids[i]).focus(); return; }
+    if(!j.agree){ var t1 = ids[i] + ' 還沒選「同意」或「不同意」。'; showMsg('msgEvidence', t1); flagCard(ids[i], t1, 'input[name="agree-' + ids[i] + '"]'); return; }
+    if(!(j.why || '').trim()){ var t2 = ids[i] + ' 的「為什麼」是必填。'; showMsg('msgEvidence', t2); flagCard(ids[i], t2, '#why-' + ids[i]); return; }
   }
   var labels = ['我看到的證據是', '因此下次要改', '我要再蒐集…來判斷有沒有效'];
   for(var k = 0; k < 3; k++){

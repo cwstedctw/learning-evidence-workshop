@@ -1,23 +1,30 @@
 /* 從學習證據到教學改進——共用設計代幣與基礎版式
    同一組色票沿用「跟 AI 一起用 Git」（同一個團隊的教材，老師看到會認得）。
-   四頁（index／start／material／studio）都只載這一份；投影片另有 slides/deck.css。 */
+   四頁（index／start／material／studio）都只載這一份；投影片另有 slides/deck.css。
+   2026-10-02 UI 打磨（設計審查 §③ 5–10 與 §② 🟡）：頁首代幣、表單邊線代幣、統一焦點環、導覽列單排可滑、
+   手機表格每列一張卡、觸控目標 44px、prefers-reduced-motion、.msg 輕過場。 */
 :root{
   --teal:#0E7C7B; --teal-deep:#0A5958; --gold:#D9A441; --gold-soft:#F3E3C3;
   --teal-soft:#DCEFED; --bg:#F4ECD8; --card:#FDFAF2; --ink:#1A1A1A; --ink-soft:#4a463d;
-  --line:#e2d8bf; --bad:#b3441e; --bad-soft:#F6DED3; --good:#2E7D4F; --good-soft:#DCEFE2;
+  --line:#e2d8bf;            /* 分隔線、卡片邊：裝飾用，對比不到 3:1 也沒關係 */
+  --line-strong:#8f8262;     /* 表單元件邊線：對頁底 3.2:1、對卡片 3.6:1（WCAG 1.4.11 非文字 3:1）；原本用 --line 只有 1.2:1 */
+  --bad:#9e3a17; --bad-soft:#F6DED3; --good:#1f6a3f; --good-soft:#DCEFE2;   /* 2026-10-02 調深：小標籤「必填」「完成判準」原本 4.2–4.3:1，現在 5.3／5.5 */
   --warn-text:#8a5a00; --shadow:0 2px 10px rgba(26,26,26,.07);
-  --on-teal:#fff;   /* 壓在 --teal 上的字；深色時 --teal 變淺，這個要跟著變深（設計審查 2026-10-02：原本 2.94:1） */
+  --on-teal:#fff;            /* 壓在 --teal 上的字；深色時 --teal 變淺，這個要跟著變深（設計審查 2026-10-02：原本 2.94:1） */
+  --on-gold:#2E2106;         /* 壓在 --gold 上的字（講師模式按下去那顆、投影片金色標籤），淺深色都用它 */
+  --hero-a:#0B6665; --hero-b:#0A5958; --on-hero:#fff; --on-hero-soft:#F3E3C3;   /* 頁首漸層：起點從 #0E7C7B 調深，米色字 5.3:1（原本 3.5–4.0） */
+  --focus:var(--teal);
   --mono:"Cascadia Code","Consolas","SFMono-Regular",Menlo,monospace;
-  --sans:"PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;   /* 跟投影片 deck.css 同一組順序 */
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){ --bg:#151d1c; --card:#1d2726; --ink:#ece6d6; --ink-soft:#b7b0a0;
-    --line:#33403e; --teal:#3aa6a1; --teal-deep:#7fd0cb; --gold:#d9a441;
+    --line:#33403e; --line-strong:#6b7a77; --teal:#3aa6a1; --teal-deep:#7fd0cb; --gold:#d9a441;
     --gold-soft:#3a3220; --teal-soft:#173937; --bad:#ff967a; --bad-soft:#3d241b; --good:#7fd0a0; --good-soft:#1c3327;
     --warn-text:#f0bc58; --shadow:0 2px 10px rgba(0,0,0,.35); --on-teal:#0b1a19; }
 }
 :root[data-theme="dark"]{ --bg:#151d1c; --card:#1d2726; --ink:#ece6d6; --ink-soft:#b7b0a0;
-  --line:#33403e; --teal:#3aa6a1; --teal-deep:#7fd0cb; --gold:#d9a441;
+  --line:#33403e; --line-strong:#6b7a77; --teal:#3aa6a1; --teal-deep:#7fd0cb; --gold:#d9a441;
   --gold-soft:#3a3220; --teal-soft:#173937; --bad:#ff967a; --bad-soft:#3d241b; --good:#7fd0a0; --good-soft:#1c3327;
   --warn-text:#f0bc58; --shadow:0 2px 10px rgba(0,0,0,.35); --on-teal:#0b1a19; }
 
@@ -37,10 +44,14 @@ ul,ol{padding-left:1.4em}
 li{margin:.25em 0}
 hr{border:0;border-top:1px solid var(--line);margin:2em 0}
 img,svg{max-width:100%;height:auto}
+[id]{scroll-margin-top:70px}   /* 錨點與被 focus 的欄位捲進來時，別躲在黏頂導覽底下（WCAG 2.4.11） */
 table{border-collapse:collapse;width:100%;font-size:.95rem;background:var(--card);box-shadow:var(--shadow);border-radius:10px;overflow:hidden}
 th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
 th{background:var(--teal-soft);font-weight:700}
 .table-wrap{overflow-x:auto;margin:1em 0}
+
+/* ── 統一焦點環：四頁所有可操作的東西同一個樣子（原本只有工作台的分頁與按鈕有） ── */
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible,[role=tab]:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
 
 /* ── 投影模式：上課投影用，只放大字級 ── */
 /* 放大 root 字級，rem 的標題、提示、標籤才會一起放大（設計審查：原本只放大 body，h2 只比正文大 2.8px） */
@@ -51,20 +62,41 @@ th{background:var(--teal-soft);font-weight:700}
 :root.projector main{max-width:1180px}
 :root.projector nav.topnav .inner{font-size:.85rem}
 
-/* ── 頁首與導覽 ── */
-header.hero{background:linear-gradient(150deg,#0E7C7B,#0A5958);color:#F4ECD8;padding:44px 20px 36px}
+/* ── 頁首：四頁同一個結構（eyebrow／h1／sub／meta），高度收斂、手機一屏內 ── */
+header.hero{background:linear-gradient(150deg,var(--hero-a),var(--hero-b));color:var(--on-hero);padding:28px 20px 24px}
 header.hero .inner{max-width:960px;margin:0 auto}
-header.hero .eyebrow{font-size:.95rem;letter-spacing:.08em;opacity:.85;margin:0 0 6px}
-header.hero h1{font-size:clamp(1.5rem,3.6vw,2.4rem);margin:0 0 10px;color:#fff}
-header.hero .sub{font-size:1.1rem;color:#F3E3C3;margin:0 0 8px}
-header.hero .meta{font-size:.95rem;opacity:.9;margin:0}
+header.hero .eyebrow{font-size:.9rem;letter-spacing:.06em;color:var(--on-hero-soft);margin:0 0 4px}
+header.hero h1{font-size:clamp(1.4rem,3.2vw,2.1rem);margin:0 0 8px;color:var(--on-hero);line-height:1.25}
+header.hero .sub{font-size:1.02rem;color:var(--on-hero-soft);margin:0 0 6px}
+header.hero .meta{font-size:.9rem;margin:0;line-height:1.6}
+header.hero a{color:var(--on-hero-soft)}
+
+/* ── 黏頂導覽：左邊一排連結（全站五頁＋本頁錨點）單排可滑、右邊兩顆鈕固定；高度一列 52px ── */
 nav.topnav{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
-nav.topnav .inner{max-width:960px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px 14px;padding:8px 16px;font-size:.95rem}
-nav.topnav a{text-decoration:none;color:var(--ink);padding:4px 2px;border-bottom:2px solid transparent}
+nav.topnav .inner{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;padding:4px 16px;font-size:.95rem}   /* 導覽比正文寬（1200 vs 960）：十幾個連結在一般筆電才放得下一排 */
+nav.topnav a{text-decoration:none;color:var(--ink);padding:0 3px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap;border-bottom:2px solid transparent;border-top:2px solid transparent;touch-action:manipulation}
 nav.topnav a:hover{border-bottom-color:var(--gold)}
+nav.topnav a[aria-current="page"]{font-weight:800;color:var(--teal-deep);border-bottom-color:var(--gold)}
+nav.topnav .links a:focus-visible{outline-offset:-3px}   /* 連結在可滑的捲動盒裡，焦點環改畫在框內，才不會被盒邊切掉 */
 nav.topnav .spacer{flex:1}
-nav.topnav button{font:inherit;font-size:.9rem;background:transparent;border:1px solid var(--line);border-radius:8px;padding:3px 10px;color:var(--ink);cursor:pointer}
+nav.topnav .links{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:0 10px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth}
+nav.topnav .links::-webkit-scrollbar{display:none}
+nav.topnav .links::after{content:"";flex:0 0 28px}   /* 捲到底時，最後一個連結不會被右側淡出吃到 */
+nav.topnav .links.is-overflow{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 40px),transparent)}   /* 右側淡出＝還有東西（JS 只在真的溢出時加這個 class） */
+nav.topnav .site,nav.topnav .anchors{display:inline-flex;align-items:center;gap:0 10px;flex:0 0 auto}
+nav.topnav .site a{font-weight:700}
+nav.topnav .sep{flex:0 0 auto;width:1px;height:22px;background:var(--line-strong);opacity:.55}
+/* 滑鼠用的捲動鈕：只在連結真的溢出時出現（左邊那顆要捲過才出現）；手機用手指滑，不顯示 */
+nav.topnav .navbtn{flex:0 0 auto;width:32px;min-height:44px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--teal-deep);display:inline-flex;align-items:center;justify-content:center;cursor:pointer}
+nav.topnav .navbtn:hover{background:var(--teal-soft)}
+nav.topnav .navbtn[hidden]{display:none}
+nav.topnav .navbtn svg{width:18px;height:18px}
+nav.topnav .ctl{display:flex;align-items:center;gap:8px;flex:0 0 auto;margin-left:auto}
+nav.topnav button{font:inherit;font-size:.9rem;background:transparent;border:1px solid var(--line-strong);border-radius:8px;padding:0 10px;min-height:44px;display:inline-flex;align-items:center;gap:6px;color:var(--ink);cursor:pointer;white-space:nowrap;touch-action:manipulation;transition:background-color .15s ease,border-color .15s ease}
+nav.topnav button svg{width:16px;height:16px;flex:0 0 auto}
+nav.topnav button svg[hidden]{display:none}
 nav.topnav button:hover{background:var(--teal-soft)}
+nav.topnav button[aria-pressed="true"]{background:var(--teal-soft);border-color:var(--teal);color:var(--teal-deep)}
 main{max-width:960px;margin:0 auto;padding:24px 16px 80px}
 
 /* ── 元件 ── */
@@ -75,25 +107,29 @@ main{max-width:960px;margin:0 auto;padding:24px 16px 80px}
 .warn{background:var(--bad-soft);border-left:4px solid var(--bad);padding:10px 14px;border-radius:0 10px 10px 0;margin:1em 0}
 .ok{background:var(--good-soft);border-left:4px solid var(--good);padding:10px 14px;border-radius:0 10px 10px 0;margin:1em 0}
 .tip{background:var(--teal-soft);border-left:4px solid var(--teal);padding:10px 14px;border-radius:0 10px 10px 0;margin:1em 0}
+.msg{animation:msg-in .22s ease-out}   /* 工作台的訊息出現時一個很輕的過場，視線不在那邊也會注意到 */
+@keyframes msg-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
 .kicker{display:inline-block;background:var(--teal);color:var(--on-teal);border-radius:999px;padding:2px 12px;font-size:.85rem;font-weight:700;letter-spacing:.04em;margin-bottom:6px}
 .sec-num{color:var(--warn-text);font-weight:900;margin-right:.35em}
-.btn{display:inline-block;font:inherit;background:var(--teal);color:var(--on-teal);border:0;border-radius:10px;padding:8px 16px;cursor:pointer;text-decoration:none;font-weight:700}
+/* 按鈕家族：主要＝茶綠實心、次要＝茶綠框線、small＝字小一號但高度一樣 44px（觸控目標；原本 small 只有 32px） */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font:inherit;background:var(--teal);color:var(--on-teal);border:0;border-radius:10px;padding:6px 16px;min-height:44px;line-height:1.3;cursor:pointer;text-decoration:none;font-weight:700;text-align:center;touch-action:manipulation;transition:background-color .15s ease,color .15s ease}
 .btn:hover{background:var(--teal-deep)}
 .btn.secondary{background:transparent;color:var(--teal-deep);border:2px solid var(--teal)}
 .btn.secondary:hover{background:var(--teal-soft)}
-.btn.small{padding:4px 10px;font-size:.9rem;border-radius:8px}
+.btn.small{padding:4px 12px;font-size:.9rem;border-radius:8px}
 .btn:disabled{opacity:.5;cursor:not-allowed}
+.btn:active{transform:translateY(1px)}
 .prompt{position:relative;background:var(--card);border:1px dashed var(--teal);border-radius:12px;padding:14px 16px 14px;margin:1em 0;white-space:pre-wrap;font-size:.98rem;line-height:1.7}
 .prompt .copy{position:absolute;top:8px;right:8px}
-.prompt .label{display:block;font-size:.8rem;color:var(--teal-deep);font-weight:700;margin-bottom:6px;letter-spacing:.05em}
+.prompt .label{display:block;min-height:40px;padding-right:100px;font-size:.8rem;color:var(--teal-deep);font-weight:700;margin-bottom:6px;letter-spacing:.05em}   /* 標籤列留 40px 高，複製鈕（44px）不會壓到第一行字 */
 .human{background:var(--gold-soft);border:1px solid var(--gold);border-radius:12px;padding:12px 16px;margin:1em 0}
 .human strong{color:var(--warn-text)}
 .steps{counter-reset:step;list-style:none;padding:0}
 .steps>li{counter-increment:step;position:relative;padding-left:48px;margin:1.1em 0}
 .steps>li::before{content:counter(step);position:absolute;left:0;top:0;width:34px;height:34px;border-radius:50%;background:var(--teal);color:var(--on-teal);font-weight:900;display:flex;align-items:center;justify-content:center}
-.checklist label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:8px;cursor:pointer}
+.checklist label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:8px;cursor:pointer;min-height:44px}
 .checklist label:hover{background:var(--teal-soft)}
-.checklist input{margin-top:6px;transform:scale(1.2)}
+.checklist input{margin-top:3px}
 .checklist label.done{text-decoration:line-through;color:var(--ink-soft)}
 .badge{display:inline-block;background:var(--teal-soft);color:var(--teal-deep);border-radius:6px;padding:0 8px;font-size:.85rem;font-weight:700}
 .badge.gold{background:var(--gold-soft);color:var(--warn-text)}
@@ -105,12 +141,16 @@ figure svg{background:var(--card);border:1px solid var(--line);border-radius:12p
 .redline{border:2px solid var(--bad);border-radius:14px;padding:14px 18px;margin:1.2em 0;background:var(--card)}
 .redline h3{color:var(--bad);margin-top:0}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:2px solid var(--line);margin:1em 0 0}
-.tabs button{font:inherit;background:transparent;border:0;border-bottom:3px solid transparent;padding:8px 14px;cursor:pointer;color:var(--ink-soft);font-weight:700;margin-bottom:-2px}
+.tabs button{font:inherit;background:transparent;border:0;border-bottom:3px solid transparent;padding:8px 14px;min-height:44px;cursor:pointer;color:var(--ink-soft);font-weight:700;margin-bottom:-2px;touch-action:manipulation}
 .tabs button[aria-selected="true"]{color:var(--teal-deep);border-bottom-color:var(--gold)}
 .tabpanel{padding-top:12px}
 .tabpanel[hidden]{display:none}
-textarea,input[type=text],input[type=number],select{font:inherit;width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+/* 表單：邊線用看得見的代幣、最矮 44px；placeholder 不用瀏覽器預設灰 */
+textarea,input[type=text],input[type=number],select{font:inherit;width:100%;padding:8px 10px;min-height:44px;border:1.5px solid var(--line-strong);border-radius:8px;background:var(--card);color:var(--ink)}
 textarea{min-height:120px;line-height:1.6;resize:vertical}
+::placeholder{color:var(--ink-soft);opacity:1}
+input[type=checkbox],input[type=radio]{accent-color:var(--teal);width:22px;height:22px;margin:0;flex:0 0 auto;cursor:pointer}
+summary{cursor:pointer}
 label.field{display:block;margin:.8em 0 .2em;font-weight:700}
 label.field small{font-weight:400;color:var(--ink-soft)}
 .diff{font-family:var(--mono);font-size:.9rem;line-height:1.55;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:auto}
@@ -126,9 +166,30 @@ footer.site .inner{max-width:960px;margin:0 auto}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 @media (max-width:640px){
   body{font-size:16px}
-  header.hero{padding:30px 16px 26px}
+  header.hero{padding:18px 16px 16px}
+  header.hero h1{font-size:1.35rem}
+  header.hero .sub{font-size:.98rem}
+  nav.topnav .inner{padding:4px 12px;gap:4px 8px}
+  nav.topnav .links,nav.topnav .site,nav.topnav .anchors{gap:0 8px}
+  nav.topnav #projToggle{display:none}   /* 手機沒有投影這回事；留一顆深淺色 */
+  nav.topnav .navbtn{display:none !important}   /* 手機用手指滑＋右側淡出，不放捲動鈕 */
   .card{padding:14px 14px}
   th,td{padding:6px 8px;font-size:.9rem}
+  .tabs button{padding:8px 8px;font-size:.95rem}
+  /* 表格改「每列一張卡」：thead 藏起來、每格前面印 data-th 的欄名。四到七欄的表在 375px 不會被壓成一欄三個字 */
+  table.stack,table.stack tbody,table.stack tr{display:block}
+  table.stack thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table.stack caption{display:block}
+  table.stack tr{border-bottom:8px solid var(--bg);padding:8px 12px}
+  table.stack tr:last-child{border-bottom:0}
+  table.stack td{display:grid;grid-template-columns:minmax(5.5em,7em) 1fr;gap:2px 10px;border:0;padding:3px 0;font-size:.92rem;white-space:normal}
+  table.stack td::before{content:attr(data-th);font-weight:700;color:var(--ink-soft)}
+  table.stack td.num{text-align:left}
+  table.stack td.refl{min-width:0}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
 }
 @media print{
   nav.topnav,.btn,.copy{display:none !important}

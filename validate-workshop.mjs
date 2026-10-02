@@ -295,8 +295,9 @@ section('四頁共同規矩', () => {
     const src = read(rel); pageSrc[rel] = src;
     basicHtmlChecks(rel, src, { needSiteCss: true });
     if (!/<script src="workflow-data\.js"><\/script>/.test(src)) fail(`${rel} 沒載 workflow-data.js（清單類內容要從資料源渲染）`);
-    if (!src.includes('🔎 投影')) fail(`${rel} 導覽列缺「🔎 投影」鈕`);
-    if (!src.includes('🌗')) fail(`${rel} 導覽列缺「🌗」鈕`);
+    // 2026-10-02 UI 打磨：兩顆鈕改成內嵌 SVG＋可見文字（「投影」「深色」），用 id 認；舊的表情符號寫法仍放行（learn.html 還是舊寫法）
+    if (!src.includes('🔎 投影') && !/id="projToggle"[^>]*>[\s\S]*?<span class="txt">投影<\/span>/.test(src)) fail(`${rel} 導覽列缺「投影」鈕（id="projToggle"＋可見字「投影」，或舊寫法「🔎 投影」）`);
+    if (!src.includes('🌗') && !/id="themeToggle"[^>]*>[\s\S]*?<span class="txt">深色<\/span>/.test(src)) fail(`${rel} 導覽列缺「深色」鈕（id="themeToggle"＋可見字「深色」，或舊寫法「🌗」）`);
     if (!/\.projector\b/.test(src) && !/classList\.toggle\('projector'\)/.test(src) && !/projector/.test(src)) fail(`${rel} 看不到投影模式（:root.projector）的切換`);
     if (!/data-theme|dataset\.theme/.test(src)) fail(`${rel} 看不到深淺色（data-theme）的切換`);
     const text = squash(stripTags(src));
