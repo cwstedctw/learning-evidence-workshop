@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>先玩一遍｜從學習證據到教學改進</title>
+<meta name="description" content="2026-10-16 教師工作坊的互動導覽：先在這裡把當天要做的四件事各玩一次，當天你只要對 AI 助手說一句話。">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* ────────────────────────────────────────────────────────────
+   本頁版式。顏色一律用 site.css 的代幣；風格走「乾淨、留白、高對比」：
+   字不小於 17px、可點的東西不矮於 44px、動畫短而有意義、尊重減少動態的設定。
+   ──────────────────────────────────────────────────────────── */
+:root{
+  --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px;
+  --r:12px; --r-lg:16px;
+  --dur-fast:150ms; --dur:240ms; --dur-slow:380ms;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --nav-h:52px;
+}
+html{font-size:17px}   /* site.css 只設 body；根元素留 16px 的話，所有 rem 單位都會小於 17px */
+body{font-size:17px;line-height:1.7}
+@media (max-width:640px){ body{font-size:17px} header.hero .sub{font-size:1rem} }   /* 這頁給沒資訊背景的老師，手機也不縮字 */
+h1,h2,h3{text-wrap:balance}
+nav.topnav .inner{font-size:1rem}
+nav.topnav button{font-size:1rem}
+header.hero .eyebrow,header.hero .meta{font-size:1rem}
+.note,.tip,.ok,.warn{font-size:1rem}
+.badge,.kicker{font-size:1rem}
+footer.site{font-size:1rem}
+main{padding-top:var(--s4)}
+section.stage{scroll-margin-top:calc(var(--nav-h) + 16px)}
+[hidden]{display:none !important}
+.skip{position:absolute;left:-9999px;top:8px;background:var(--card);color:var(--teal-deep);padding:10px 16px;border-radius:var(--r);z-index:100;font-weight:700}
+.skip:focus{left:8px}
+
+/* 焦點環沿用 site.css 的全站規則（3px --focus、外推 2px），本頁不另設 */
+button,a,[role=button]{cursor:pointer;touch-action:manipulation}
+
+/* 圖示：一套線條圖示，粗細一致 */
+.ic{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.28em;flex:0 0 auto}
+
+/* 按鈕 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.45em;min-height:44px;padding:10px 20px;font-size:1.05rem;line-height:1.3;border-radius:var(--r);
+  transition:background-color var(--dur-fast),color var(--dur-fast),border-color var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
+.btn.secondary{padding:8px 18px}
+.btn.ghost{background:transparent;color:var(--ink-soft);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--teal-soft);color:var(--teal-deep)}
+
+/* ── 進度：四段分段條 ── */
+.progress{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s2) var(--s3);box-shadow:var(--shadow);margin:0 0 var(--s4)}
+.prog-head{display:flex;align-items:center;gap:var(--s1) var(--s2);flex-wrap:wrap;margin-bottom:var(--s2)}
+.prog-head .where{font-weight:900;color:var(--teal-deep);white-space:nowrap}
+.prog-head .where-title{color:var(--ink-soft);flex:1 1 auto;min-width:0}
+.prog-head .replay{margin-left:auto}
+.steps4{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s1)}
+.steps4 .pill{font:inherit;width:100%;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px;border:0;background:transparent;color:var(--ink-soft);border-radius:var(--r);
+  transition:color var(--dur-fast),background-color var(--dur-fast)}
+.steps4 .pill:hover{background:var(--teal-soft);color:var(--teal-deep)}
+.steps4 .dot{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line);background:var(--card);font-weight:900;color:var(--ink-soft);
+  transition:background-color var(--dur),border-color var(--dur),color var(--dur),transform var(--dur)}
+.steps4 .lab{font-size:1rem;font-weight:700;line-height:1.2}
+.steps4 .pill[aria-current="step"]{color:var(--teal-deep)}
+.steps4 .pill[aria-current="step"] .dot{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-deep);transform:scale(1.08)}
+.steps4 .pill.done{color:var(--good)}
+.steps4 .pill.done .dot{background:var(--good);border-color:var(--good);color:#fff}
+:root[data-theme="dark"] .steps4 .pill.done .dot{color:#0b1a19}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .steps4 .pill.done .dot{color:#0b1a19} }
+.track{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:var(--s2)}
+.track .fill{height:100%;width:100%;background:var(--teal);border-radius:4px;transform-origin:left center;transform:scaleX(0);transition:transform var(--dur-slow) var(--ease)}
+
+/* ── 每一關的頭與尾 ── */
+.stage-head{margin-bottom:var(--s3)}
+.stage-head .kicker{display:inline-flex;align-items:center;gap:.4em}
+.stage-head h2{margin:.25em 0 .3em;padding-top:0;font-size:1.65rem}
+.stage p.desc{font-size:1.08rem;color:var(--ink-soft);margin:0;max-width:62ch}
+.stage-foot{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;margin:var(--s4) 0 0}
+.closing{display:flex;gap:.6em;align-items:flex-start;font-size:1.15rem;font-weight:700;color:var(--teal-deep);margin:var(--s3) 0 0;padding:14px 18px;border-left:5px solid var(--gold);background:var(--gold-soft);border-radius:0 var(--r) var(--r) 0;animation:rise var(--dur-slow) var(--ease) both}
+.closing .ic{margin-top:.2em;color:var(--warn-text)}
+
+/* 回饋框：顏色之外一律帶圖示＋文字 */
+.fb{display:flex;gap:.55em;align-items:flex-start;margin-top:var(--s2);padding:10px 14px;border-radius:0 var(--r) var(--r) 0;line-height:1.55;animation:rise var(--dur) var(--ease) both}
+.fb .ic{margin-top:.2em}
+.fb.good{background:var(--good-soft);border-left:4px solid var(--good)} .fb.good .ic{color:var(--good)}
+.fb.warn{background:var(--bad-soft);border-left:4px solid var(--bad)} .fb.warn .ic{color:var(--bad)}
+.fb.soft{background:var(--gold-soft);border-left:4px solid var(--gold)} .fb.soft .ic{color:var(--warn-text)}
+.fb:empty{display:none}
+
+/* ── 第 1 關：三欄模擬 ── */
+.sim{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:var(--s2);align-items:start}
+.sim-col{background:var(--card);border:2px solid var(--line);border-radius:var(--r-lg);padding:var(--s2) var(--s2) var(--s3);box-shadow:var(--shadow);min-width:0;scroll-margin-top:calc(var(--nav-h) + 64px);transition:border-color var(--dur),box-shadow var(--dur)}
+.sim-col.active{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-soft),var(--shadow)}
+.sim-col h3{font-size:1.1rem;margin:0 0 var(--s2);display:flex;flex-wrap:wrap;align-items:center;gap:.4em .5em;color:var(--teal-deep)}
+.sim-col h3 .n{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--teal);color:var(--on-teal);font-size:1rem;flex:0 0 auto}
+.sim-col h3 .ttl{flex:1 1 auto;min-width:0;white-space:nowrap}   /* 標題自己佔一段，不會被右邊的標籤擠成一字一行 */
+.sim-col h3 .here{display:none;margin-left:auto;flex:0 0 auto;background:var(--gold-soft);color:var(--warn-text);border-radius:999px;padding:2px 12px;font-size:1rem;white-space:nowrap}
+.sim-col.active h3 .here{display:inline-flex;align-items:center;gap:.3em;animation:rise var(--dur) var(--ease) both}
+/* 手機：三欄上下排，頂上黏一條「現在看哪一格」的切換列 */
+.sim-tabs{display:none}
+@media (max-width:900px){
+  .sim{grid-template-columns:1fr}
+  .sim-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;position:sticky;top:var(--nav-h);z-index:20;background:var(--bg);padding:8px 0;margin:0 0 var(--s1)}
+  .sim-tabs button{font:inherit;min-height:44px;border:2px solid var(--line);background:var(--card);color:var(--ink-soft);border-radius:var(--r);font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:.3em;padding:4px 6px;
+    transition:background-color var(--dur-fast),border-color var(--dur-fast),color var(--dur-fast)}
+  .sim-tabs button[aria-current="true"]{border-color:var(--teal);background:var(--teal-soft);color:var(--teal-deep)}
+}
+.substep{display:flex;align-items:center;gap:var(--s2);margin:calc(-1 * var(--s1)) 0 var(--s2);color:var(--ink-soft);font-size:1rem}
+.substep .track{flex:1;margin:0;height:6px}
+.chatlog{max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:var(--s2);padding:4px 2px;scroll-behavior:smooth}
+@media (max-width:900px){ .chatlog{max-height:none;overflow:visible} }
+.chatlog:empty::before{content:'（還沒說話。按下面那句開始。）';color:var(--ink-soft);align-self:center;padding:var(--s2)}
+.turn{display:flex;gap:10px;align-items:flex-end;max-width:100%;animation:rise var(--dur) var(--ease) both}
+.turn.me{flex-direction:row-reverse}
+.avatar{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto}
+.turn.ai .avatar{background:var(--teal);color:var(--on-teal)}
+.turn.me .avatar{background:var(--gold-soft);color:var(--warn-text)}
+.bub{max-width:calc(100% - 42px);padding:10px 14px;border-radius:var(--r-lg);white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere}
+.turn.me .bub{background:var(--teal);color:var(--on-teal);border-bottom-right-radius:4px}
+.turn.ai .bub{background:var(--teal-soft);border-bottom-left-radius:4px}
+.bub .who{display:block;font-size:1rem;margin-bottom:2px;font-weight:700}
+.turn.ai .bub .who{color:var(--teal-deep)}
+.choices{display:flex;flex-direction:column;gap:var(--s1);margin-top:var(--s2)}
+.choices.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.choices .wait{display:flex;gap:.5em;align-items:flex-start;color:var(--warn-text);background:var(--gold-soft);border-radius:var(--r);padding:10px 14px;font-weight:700;animation:rise var(--dur) var(--ease) both}
+.choices .wait .ic{margin-top:.2em}
+.say{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--teal);border-radius:var(--r);padding:10px 14px;min-height:44px;line-height:1.5;overflow-wrap:anywhere;animation:rise var(--dur) var(--ease) both;
+  transition:background-color var(--dur-fast),color var(--dur-fast),transform var(--dur-fast)}
+.say .ic{margin-top:.2em;color:var(--teal-deep)}
+.say:hover{background:var(--teal-soft)}
+.say:active{transform:scale(.99)}
+.say.go{background:var(--teal);color:var(--on-teal);justify-content:center;align-items:center;font-weight:700}
+.say.go .ic{color:inherit;margin-top:0}
+.say.go:hover{background:var(--teal-deep)}
+.say.stop{border-color:var(--line);color:var(--ink-soft);justify-content:center;align-items:center}
+.say.stop .ic{color:inherit;margin-top:0}
+.say.stop:hover{background:var(--bg);color:var(--ink)}
+.tree{min-height:56px}
+.tree .empty{color:var(--ink-soft);border:2px dashed var(--line);border-radius:var(--r);padding:var(--s2);text-align:center}
+.tree .fold{display:flex;align-items:center;gap:.4em;font-weight:700;color:var(--teal-deep);animation:rise var(--dur) var(--ease) both}
+.tree .file{display:inline-flex;align-items:center;gap:.5em;font:inherit;background:transparent;color:var(--ink);border:2px dashed var(--teal);border-radius:var(--r);padding:8px 14px;min-height:44px;margin:var(--s1) 0 0 26px;animation:rise var(--dur) var(--ease) 80ms both;
+  transition:background-color var(--dur-fast),border-color var(--dur-fast)}
+.tree .file:hover{background:var(--teal-soft);border-style:solid}
+.tree .file .badge{font-size:1rem}
+.tree .file.ping{animation:ping 1.1s var(--ease) 3}
+@keyframes ping{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 6px var(--gold-soft),0 0 0 8px var(--gold)}}
+.paper{background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:0 var(--r) var(--r) 0;padding:12px 14px;margin-top:var(--s2);line-height:1.65;overflow-wrap:anywhere}
+.paper .title{display:flex;align-items:center;gap:.4em;font-weight:700;color:var(--teal-deep);margin-bottom:6px}
+.paper .ln{display:block;padding:3px 10px;border-radius:8px;animation:rise var(--dur) var(--ease) both}
+.paper .ln:nth-child(3){animation-delay:40ms}.paper .ln:nth-child(4){animation-delay:80ms}.paper .ln:nth-child(5){animation-delay:120ms}.paper .ln:nth-child(6){animation-delay:160ms}.paper .ln:nth-child(7){animation-delay:200ms}.paper .ln:nth-child(8){animation-delay:240ms}.paper .ln:nth-child(9){animation-delay:280ms}
+.paper .ln.old{background:var(--bad-soft);text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px}
+.paper .ln.new{background:var(--good-soft)}
+.paper .ln.mark{color:var(--ink-soft);font-family:var(--mono);font-size:1rem}
+.paper .tiny{color:var(--ink-soft);margin-top:var(--s1);font-size:1rem;line-height:1.5}
+.hint{display:flex;gap:.5em;align-items:flex-start;margin:var(--s2) 0 0;padding:10px 14px;border-radius:0 var(--r) var(--r) 0;background:var(--gold-soft);border-left:4px solid var(--gold);color:var(--ink);font-weight:700;animation:rise var(--dur) var(--ease) both}
+.hint .ic{color:var(--warn-text);margin-top:.2em}
+.hint:empty{display:none}
+.lesson{display:flex;gap:.5em;align-items:flex-start;margin:var(--s2) 0 0;padding:10px 14px;border-radius:0 var(--r) var(--r) 0;background:var(--good-soft);border-left:4px solid var(--good);font-weight:700;animation:rise var(--dur) var(--ease) both}
+.lesson .ic{color:var(--good);margin-top:.2em}
+.lesson:empty{display:none}
+.tl{list-style:none;padding:0;margin:0;position:relative}
+.tl:empty{display:none}
+.tl::before{content:'';position:absolute;left:11px;top:10px;bottom:10px;width:3px;background:var(--line);border-radius:2px}
+.tl li{position:relative;padding-left:36px;margin:0 0 var(--s1)}
+.tl li.fresh{animation:rise var(--dur) var(--ease) both}
+.tl li::before{content:'';position:absolute;left:4px;top:14px;width:17px;height:17px;border-radius:50%;background:var(--teal);border:3px solid var(--card);box-shadow:0 0 0 2px var(--teal);transition:background-color var(--dur),box-shadow var(--dur)}
+.tl li.fresh::before{animation:pop var(--dur-slow) var(--ease) both}
+.tl li.cur::before{background:var(--gold);box-shadow:0 0 0 2px var(--gold)}
+.tl button{font:inherit;text-align:left;width:100%;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px;min-height:44px;color:var(--ink);line-height:1.5;
+  transition:background-color var(--dur-fast),border-color var(--dur-fast)}
+.tl button:hover{background:var(--teal-soft);border-color:var(--teal)}
+.tl .t{font-weight:900;color:var(--teal-deep);margin-right:8px;font-variant-numeric:tabular-nums}
+.tl .now{display:inline-block;background:var(--gold-soft);color:var(--warn-text);border-radius:6px;padding:0 8px;font-size:1rem;font-weight:700}
+.tl .m{display:block}
+.tl .x{display:none;color:var(--ink-soft);font-size:1rem}
+.tl.open .x{display:block}
+.tl-empty{color:var(--ink-soft);border:2px dashed var(--line);border-radius:var(--r);padding:var(--s2);text-align:center}
+.flash{animation:flash .9s var(--ease)}
+@keyframes flash{0%{box-shadow:0 0 0 4px var(--gold)}100%{box-shadow:var(--shadow)}}
+.sim-col .back{margin-top:var(--s1);margin-right:var(--s1)}
+
+/* ── 第 2 關 ── */
+.cell{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s3);box-shadow:var(--shadow)}
+.cell .from{display:inline-flex;align-items:center;gap:.4em;background:var(--teal-soft);color:var(--teal-deep);border-radius:999px;padding:4px 14px;font-weight:700}
+.cell .big{font-size:1.35rem;font-weight:700;margin:var(--s2) 0;padding:14px 18px;background:var(--bg);border-left:4px solid var(--teal);border-radius:0 var(--r) var(--r) 0;transition:background-color var(--dur),border-color var(--dur)}
+.cell .big.changed{background:var(--good-soft);border-left-color:var(--good)}
+.cell .q{font-weight:700;margin:var(--s3) 0 var(--s1)}
+.row{display:flex;gap:var(--s2);flex-wrap:wrap}
+.opt{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;font:inherit;background:var(--card);color:var(--ink);border:2px solid var(--teal);border-radius:var(--r);padding:10px 14px;min-height:44px;line-height:1.5;
+  transition:background-color var(--dur-fast),transform var(--dur-fast)}
+.opt .ic{margin-top:.2em;color:var(--teal-deep)}
+.opt:hover{background:var(--teal-soft)}
+.opt:active{transform:scale(.99)}
+.record{margin-top:var(--s2);background:var(--bg);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:var(--s2);animation:rise var(--dur) var(--ease) both}
+.record .k{display:inline-block;font-weight:700;color:var(--teal-deep);min-width:5em}
+.record .old{background:var(--bad-soft);text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:2px;padding:2px 8px;border-radius:6px}
+.record .new{background:var(--good-soft);padding:2px 8px;border-radius:6px}
+.record p{margin:.35em 0}
+input[type=text]{min-height:48px;font-size:1.05rem;padding:8px 14px;border-radius:var(--r)}   /* 邊線與焦點環沿用 site.css（--line-strong、--focus） */
+label.field{margin-top:var(--s2)}
+
+/* ── 第 3 關 ── */
+.legend{display:flex;gap:var(--s2);flex-wrap:wrap;margin:0 0 var(--s2);color:var(--ink-soft)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.sw-self{background:var(--warn-text)} .sw-peer{background:var(--teal)} .sw-teach{background:var(--ink-soft)}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:var(--s1) var(--s2)}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;min-width:0;transition:outline-color var(--dur),transform var(--dur);outline:3px solid transparent}
+.mini.picked{outline-color:var(--gold);transform:translateY(-2px)}
+.mini .code{font-weight:900;color:var(--teal-deep);margin-bottom:6px}
+.bars{display:grid;grid-template-columns:auto 1fr auto;gap:5px 8px;align-items:center}
+.bars .lab{color:var(--ink-soft);white-space:nowrap}
+.bars .bar{height:12px;background:var(--line);border-radius:6px;overflow:hidden;min-width:0}
+.bars .bar i{display:block;height:100%;border-radius:6px}
+.bar.self i{background:var(--warn-text)} .bar.peer i{background:var(--teal)} .bar.teach i{background:var(--ink-soft)}
+.bars .v{font-weight:700;text-align:right;min-width:2ch;font-variant-numeric:tabular-nums}
+.tag{display:inline-flex;align-items:center;gap:.35em;margin-top:8px;background:var(--teal-soft);color:var(--teal-deep);border-radius:8px;padding:2px 10px;font-weight:700}
+.draw-bar{margin:var(--s3) 0 var(--s2)}
+.draw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:var(--s2);margin:0 0 var(--s2)}
+.dcard{background:var(--card);border:2px solid var(--gold);border-radius:var(--r-lg);padding:var(--s2);box-shadow:var(--shadow);min-width:0;animation:rise var(--dur-slow) var(--ease) both}
+.dcard:nth-child(2){animation-delay:70ms}.dcard:nth-child(3){animation-delay:140ms}
+.dcard .code{font-weight:900;color:var(--teal-deep);font-size:1.15rem;margin-bottom:6px}
+.dcard .quote{background:var(--bg);border-left:4px solid var(--gold);padding:10px 14px;border-radius:0 var(--r) var(--r) 0;margin:var(--s2) 0}
+.dcard .snote{display:flex;gap:.4em;align-items:flex-start;color:var(--ink-soft);margin:8px 0 0}
+.dcard .snote .ic{margin-top:.2em}
+.judge{display:flex;gap:var(--s1);flex-wrap:wrap;margin-top:var(--s2)}
+.judge .btn{flex:1 1 120px}
+
+/* ── 第 4 關 ── */
+.onepage{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:var(--s2);align-items:start}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s3);box-shadow:var(--shadow)}
+.sheet.preview{border-top:6px solid var(--teal)}
+.sheet h3{margin:0 0 var(--s2);font-size:1.2rem;color:var(--teal-deep);display:flex;gap:.4em;align-items:center}
+.sheet .r{padding:10px 0;border-bottom:1px dashed var(--line);overflow-wrap:anywhere;animation:rise var(--dur) var(--ease) both}
+.sheet .r:nth-child(3){animation-delay:40ms}.sheet .r:nth-child(4){animation-delay:80ms}.sheet .r:nth-child(5){animation-delay:120ms}.sheet .r:nth-child(6){animation-delay:160ms}.sheet .r:nth-child(7){animation-delay:200ms}
+.sheet .r:last-of-type{border-bottom:0}
+.sheet .k{display:block;font-weight:700;color:var(--teal-deep);font-size:1rem;margin-bottom:2px}
+.sheet .grey{display:inline-block;color:var(--ink-soft);background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:2px 10px}
+.sheet .empty{display:flex;flex-direction:column;align-items:center;gap:var(--s1);color:var(--ink-soft);text-align:center;padding:var(--s4) var(--s2);border:2px dashed var(--line);border-radius:var(--r)}
+.sheet .empty .ic{width:2em;height:2em;color:var(--teal)}
+.helper{color:var(--ink-soft);font-size:1rem;margin:4px 0 0}
+
+/* ── 收尾 ──（按鈕列不能叫 .links：那是全站導覽列可滑連結盒的 class，撞名會讓導覽折行） */
+.recap{list-style:none;margin:0 0 var(--s3);padding:0;display:grid;gap:var(--s1)}
+.recap li{display:flex;gap:.6em;align-items:flex-start}
+.recap .ic{color:var(--good);margin-top:.2em}
+.exit-links{display:flex;gap:var(--s2);flex-wrap:wrap;margin:0 0 var(--s2)}
+
+/* ── 動畫 ── */
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+.stage.enter{animation:rise var(--dur-slow) var(--ease) both}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+  .chatlog{scroll-behavior:auto}
+}
+</style>
+<script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})()</script>
+</head>
+<body>
+<a class="skip" href="#top">跳到內容</a>
+
+<!-- 一套線條圖示（一致的粗細與圓角；放在文字旁時都是裝飾，隱藏於輔助工具） -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
+  <symbol id="i-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><path d="M18 11V6a2 2 0 0 0-4 0v1"/><path d="M14 10V4a2 2 0 0 0-4 0v2"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></symbol>
+  <symbol id="i-shuffle" viewBox="0 0 24 24"><path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22"/><path d="m18 2 4 4-4 4"/><path d="M2 6h1.9c1.5 0 2.9.9 3.6 2.2"/><path d="M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8"/><path d="m18 14 4 4-4 4"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M3 12h.01"/><path d="M3 18h.01"/><path d="M3 6h.01"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M8 6h13"/></symbol>
+  <symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4Z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+</svg>
+
+<header class="hero">
+  <div class="inner">
+    <p class="eyebrow">先玩一遍｜大約 5 分鐘</p>
+    <h1>10/16 工作坊會做四件事</h1>
+    <p class="sub">先在這裡各玩一次，當天你只要對 AI 助手說一句話，它替你做。</p>
+    <p class="meta">不用裝任何東西、不會連到任何地方；手機也能玩。</p>
+  </div>
+</header>
+
+<nav class="topnav" id="topnav" aria-label="導覽">
+  <div class="inner">
+    <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+    <div class="links" id="navLinks">
+      <span class="site"><a href="index.html">入口</a><a href="learn.html" aria-current="page">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a></span>
+      <span class="sep" aria-hidden="true"></span>
+      <span class="anchors"><a href="#s1" data-go="1">第 1 關</a><a href="#s2" data-go="2">第 2 關</a><a href="#s3" data-go="3">第 3 關</a><a href="#s4" data-go="4">第 4 關</a><a href="#done" data-go="5">收尾</a></span>
+    </div>
+    <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+    <div class="ctl">
+      <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+      <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+  <div class="progress" id="progress" aria-label="進度">
+    <div class="prog-head">
+      <span class="where" id="where">第 1／4 關</span>
+      <span class="where-title" id="whereTitle">一個會記住每次修改的資料夾</span>
+      <button class="btn ghost secondary replay" type="button" id="replay"><svg class="ic" aria-hidden="true"><use href="#i-rotate"/></svg>重玩</button>
+    </div>
+    <ol class="steps4" role="list">
+      <li><button class="pill" type="button" data-go="1" aria-label="第 1 關：資料夾"><span class="dot">1</span><span class="lab">資料夾</span></button></li>
+      <li><button class="pill" type="button" data-go="2" aria-label="第 2 關：改一句"><span class="dot">2</span><span class="lab">改一句</span></button></li>
+      <li><button class="pill" type="button" data-go="3" aria-label="第 3 關：抽三筆"><span class="dot">3</span><span class="lab">抽三筆</span></button></li>
+      <li><button class="pill" type="button" data-go="4" aria-label="第 4 關：一頁設計"><span class="dot">4</span><span class="lab">一頁設計</span></button></li>
+    </ol>
+    <div class="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
+  </div>
+
+  <!-- ══════════ 第 1 關 ══════════ -->
+  <section class="stage" id="s1" data-stage="1">
+    <div class="stage-head">
+      <span class="kicker"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>第 1 關</span>
+      <h2>一個會記住每次修改的資料夾</h2>
+      <p class="desc">一門課一個資料夾，每改一次就存一版，順手寫一句為什麼。下面每一步，按那句你當天真的會說的話。</p>
+    </div>
+
+    <div class="sim-tabs" id="simTabs" aria-label="現在看哪一格">
+      <button type="button" data-col="colChat" aria-current="true"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>說話</button>
+      <button type="button" data-col="colFolder"><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg>資料夾</button>
+      <button type="button" data-col="colTl"><svg class="ic" aria-hidden="true"><use href="#i-history"/></svg>時間線</button>
+    </div>
+
+    <div class="sim">
+      <div class="sim-col active" id="colChat">
+        <h3><span class="n">1</span><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><span class="ttl">你對 AI 助手說的話</span><span class="here"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>現在看這裡</span></h3>
+        <div class="substep"><span id="substepText">第 1 步／7</span><div class="track"><div class="fill" id="subfill"></div></div></div>
+        <div class="chatlog" id="chatlog" role="log" aria-live="polite"></div>
+        <div class="choices" id="choices"></div>
+        <div class="lesson" id="lesson1" aria-live="polite"></div>
+      </div>
+
+      <div class="sim-col" id="colFolder">
+        <h3><span class="n">2</span><svg class="ic" aria-hidden="true"><use href="#i-folder"/></svg><span class="ttl">你的資料夾</span><span class="here"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>現在看這裡</span></h3>
+        <div class="tree" id="tree"><div class="empty">（還是空的）</div></div>
+        <div id="fileview"></div>
+        <div class="hint" id="hintFolder" aria-live="polite"></div>
+      </div>
+
+      <div class="sim-col" id="colTl">
+        <h3><span class="n">3</span><svg class="ic" aria-hidden="true"><use href="#i-history"/></svg><span class="ttl">版本時間線</span><span class="here"><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>現在看這裡</span></h3>
+        <div class="tl-empty" id="tlEmpty">（還沒有任何一版）</div>
+        <ol class="tl" id="tl"></ol>
+        <div class="hint" id="hintTl" aria-live="polite"></div>
+        <div class="lesson" id="lesson2" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <p class="closing" id="closing1" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg><span>學期末打開這條線，改了哪裡、什麼時候改、為什麼改，全都在。當天這些話，你會真的對 AI 助手說。</span></p>
+    <div class="stage-foot">
+      <button class="btn secondary next" type="button" data-next="2">先跳過，到第 2 關<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+      <button class="btn ghost secondary" type="button" id="redo1"><svg class="ic" aria-hidden="true"><use href="#i-rotate"/></svg>這關再玩一次</button>
+    </div>
+  </section>
+
+  <!-- ══════════ 第 2 關 ══════════ -->
+  <section class="stage" id="s2" data-stage="2" hidden>
+    <div class="stage-head">
+      <span class="kicker"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>第 2 關</span>
+      <h2>挑一句你不同意的，改掉</h2>
+      <p class="desc">AI 起草很快，但第一版一定有你不同意的句子。那一句，就是你今天的第一筆紀錄。</p>
+    </div>
+
+    <div class="cell">
+      <span class="from"><svg class="ic" aria-hidden="true"><use href="#i-sparkles"/></svg>AI 助手起草的評分表，其中一格</span>
+      <div class="big" id="cellText">表達流暢・4 分：表現優異、台風穩健</div>
+      <div class="q">這格打得出分數嗎？</div>
+      <div class="row" id="q1">
+        <button class="btn secondary" type="button" data-q1="yes">打得出</button>
+        <button class="btn" type="button" data-q1="no">打不出</button>
+      </div>
+      <div class="fb" id="fb1" aria-live="polite"></div>
+
+      <div id="q2" hidden>
+        <div class="q">換成哪一句？</div>
+        <div class="choices">
+          <button class="opt" type="button" data-q2="a"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg><span>全程不看稿超過 6 分鐘；停頓不超過 3 次</span></button>
+          <button class="opt" type="button" data-q2="b"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg><span>請學生自己說</span></button>
+        </div>
+        <div class="fb" id="fb2" aria-live="polite"></div>
+      </div>
+
+      <div id="q3" hidden>
+        <label class="field" for="why2">為什麼改 <small>（預設一句，可以改）</small></label>
+        <input type="text" id="why2" value="兩位老師要打一樣的分，格子裡得是數得出的事。">
+        <div class="row" style="margin-top:16px">
+          <button class="btn" type="button" id="keep2"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>留下這一筆</button>
+        </div>
+      </div>
+
+      <div class="record" id="rec2" hidden></div>
+    </div>
+
+    <p class="closing" id="closing2" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg><span>這就是你今天的第一筆紀錄。</span></p>
+    <div class="stage-foot">
+      <button class="btn secondary next" type="button" data-next="3">先跳過，到第 3 關<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+    </div>
+  </section>
+
+  <!-- ══════════ 第 3 關 ══════════ -->
+  <section class="stage" id="s3" data-stage="3" hidden>
+    <div class="stage-head">
+      <span class="kicker"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>第 3 關</span>
+      <h2>AI 分完，你抽三筆回頭看</h2>
+      <p class="desc">AI 很會找落差、很會分類，但它會錯。你的工作是抽三筆，回頭讀學生自己寫的那句話。</p>
+    </div>
+
+    <div class="legend"><span><i class="sw-self"></i>自評</span><span><i class="sw-peer"></i>互評</span><span><i class="sw-teach"></i>老師評分</span><span>（滿分 16）</span></div>
+    <div class="mini-grid" id="miniGrid"></div>
+
+    <div class="row draw-bar">
+      <button class="btn" type="button" id="drawBtn"><svg class="ic" aria-hidden="true"><use href="#i-shuffle"/></svg>抽三筆</button>
+    </div>
+    <div class="draw" id="draw"></div>
+    <div class="fb" id="fb3" aria-live="polite"></div>
+
+    <p class="closing" id="closing3" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg><span>AI 分得快，但會錯得很有說服力——抽查就是你的研究方法。</span></p>
+    <div class="stage-foot">
+      <button class="btn secondary next" type="button" data-next="4">先跳過，到第 4 關<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+    </div>
+  </section>
+
+  <!-- ══════════ 第 4 關 ══════════ -->
+  <section class="stage" id="s4" data-stage="4" hidden>
+    <div class="stage-head">
+      <span class="kicker"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>第 4 關</span>
+      <h2>填三格，長出一頁設計</h2>
+      <p class="desc">填三格，就長出一頁可以直接變成計畫書的設計。其他格當天再填。</p>
+    </div>
+
+    <div class="onepage">
+      <div class="sheet">
+        <h3><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg>先填三格</h3>
+        <label class="field" for="f1">我的課</label>
+        <input type="text" id="f1" placeholder="例：通識課「科學與生活」" autocomplete="off">
+        <label class="field" for="f2">要評的任務</label>
+        <input type="text" id="f2" placeholder="例：8 分鐘個人專題簡報" autocomplete="off">
+        <label class="field" for="f3">下次我想改的一件事</label>
+        <input type="text" id="f3" placeholder="例：簡報後每人拿到自評與老師評分的對照" autocomplete="off">
+        <p class="helper">寫一句就好，當天還會再改。</p>
+        <div class="row" style="margin-top:16px">
+          <button class="btn" type="button" id="growBtn"><svg class="ic" aria-hidden="true"><use href="#i-sprout"/></svg>長出來</button>
+          <button class="btn secondary" type="button" id="demoBtn">先用示範填</button>
+        </div>
+      </div>
+      <div class="sheet preview" id="sheet">
+        <div class="empty"><svg class="ic" aria-hidden="true"><use href="#i-layout"/></svg><span>按「長出來」，這裡會出現你的一頁設計。</span></div>
+      </div>
+    </div>
+
+    <p class="closing" id="closing4" hidden><svg class="ic" aria-hidden="true"><use href="#i-bulb"/></svg><span>這一頁，當天會真的長成你的計畫書草稿。</span></p>
+    <div class="stage-foot">
+      <button class="btn secondary next" type="button" data-next="5">先跳過，看收尾<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></button>
+    </div>
+  </section>
+
+  <!-- ══════════ 收尾 ══════════ -->
+  <section class="stage" id="done" data-stage="5" hidden>
+    <div class="stage-head">
+      <span class="kicker"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>收尾</span>
+      <h2>當天這四件事會真的做在你自己的課上</h2>
+      <p class="desc">差別只是：你說一句，AI 助手替你做。</p>
+    </div>
+    <div class="card">
+      <ul class="recap">
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check-circle"/></svg><span>一個會記住每次修改的資料夾</span></li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check-circle"/></svg><span>挑一句不同意的，改掉、寫下為什麼</span></li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check-circle"/></svg><span>AI 分完，你抽三筆回頭看</span></li>
+        <li><svg class="ic" aria-hidden="true"><use href="#i-check-circle"/></svg><span>填三格，長出一頁設計</span></li>
+      </ul>
+      <div class="exit-links">
+        <a class="btn" href="start.html">行前要準備什麼<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+        <a class="btn secondary" href="studio.html">當天的工作台<svg class="ic" aria-hidden="true"><use href="#i-arrow-right"/></svg></a>
+      </div>
+      <div class="row">
+        <button class="btn ghost secondary" type="button" id="replay2"><svg class="ic" aria-hidden="true"><use href="#i-rotate"/></svg>從第 1 關重玩</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site"><div class="inner">
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+</div></footer>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(s, r){ return (r || document).querySelector(s); };
+  var $$ = function(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  var esc = function(s){ return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+  var ic = function(name){ return '<svg class="ic" aria-hidden="true"><use href="#i-' + name + '"/></svg>'; };
+  var store = {
+    get: function(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set: function(k,v){ try { localStorage.setItem(k,v); } catch(e){} },
+    del: function(k){ try { localStorage.removeItem(k); } catch(e){} }
+  };
+  var pad = function(n){ return (n < 10 ? '0' : '') + n; };
+  var nowHM = function(){ var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+  var reduced = function(){ try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e){ return false; } };
+  var flash = function(el){ if(!el) return; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
+  var flashBtn = function(btn, msg){
+    var old = btn.innerHTML; btn.innerHTML = ic('check') + esc(msg);
+    setTimeout(function(){ btn.innerHTML = old; }, 1600);
+  };
+  var copyText = function(btn, text){
+    var fallback = function(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly',''); ta.style.position = 'fixed'; ta.style.top = '-1000px';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(ta);
+      flashBtn(btn, ok ? '已複製' : '請手動選取');
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ flashBtn(btn, '已複製'); }, fallback);
+    } else { fallback(); }
+  };
+  /* 回饋框：圖示＋文字，不只靠顏色 */
+  var setFb = function(el, kind, text){
+    var icon = kind === 'good' ? 'check-circle' : kind === 'warn' ? 'alert' : 'info';
+    el.className = 'fb ' + kind;
+    el.innerHTML = ic(icon) + '<span>' + esc(text) + '</span>';
+  };
+  var setNote = function(el, icon, text){ el.innerHTML = text ? ic(icon) + '<span>' + esc(text) + '</span>' : ''; };
+
+  /* 導覽列高度 → 黏在它底下的東西用 */
+  var nav = $('#topnav');
+  var measureNav = function(){ document.documentElement.style.setProperty('--nav-h', nav.offsetHeight + 'px'); };
+  measureNav(); window.addEventListener('resize', measureNav);
+
+  /* ── 導覽列兩顆按鈕：深淺色（只換文字節點與圖示）、投影；寫法跟其他四頁一樣 ── */
+  var root = document.documentElement;
+  var themeBtn = $('#themeToggle');
+  var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  var paintTheme = function(){
+    var isDark = root.dataset.theme ? root.dataset.theme === 'dark' : darkMq.matches;
+    themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+    themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+  };
+  themeBtn.addEventListener('click', function(){
+    var cur = root.dataset.theme;
+    if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    store.set('lew-theme', next);
+    paintTheme();
+  });
+  if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+  paintTheme();
+  var projBtn = $('#projToggle');
+  var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); setTimeout(measureNav, 50); };
+  paintProj(root.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = root.classList.toggle('projector');
+    paintProj(on);
+    store.set('lew-proj', on ? '1' : '0');
+  });
+  /* 導覽列單排可滑：只有真的溢出、而且還沒捲到底時，才在右側加淡出提示（寫法同 index.html） */
+  var navLinks = $('#navLinks');
+  if(navLinks){
+    var navPrev = $('#navPrev'), navNext = $('#navNext');
+    var navFade = function(){
+      var over = navLinks.scrollWidth > navLinks.clientWidth + 2, atEnd = navLinks.scrollLeft + navLinks.clientWidth >= navLinks.scrollWidth - 2;
+      navLinks.classList.toggle('is-overflow', over && !atEnd);
+      if(navPrev) navPrev.hidden = !(over && navLinks.scrollLeft > 2);
+      if(navNext) navNext.hidden = !(over && !atEnd);
+    };
+    var navStep = function(dir){ navLinks.scrollBy({left: dir * navLinks.clientWidth * 0.7, behavior: reduced() ? 'auto' : 'smooth'}); setTimeout(navFade, 700); };   /* 平滑捲動結束後再算一次（舊瀏覽器沒有 scrollend） */
+    if(navPrev) navPrev.addEventListener('click', function(){ navStep(-1); });
+    if(navNext) navNext.addEventListener('click', function(){ navStep(1); });
+    navLinks.addEventListener('scroll', navFade, {passive:true}); navLinks.addEventListener('scrollend', navFade); window.addEventListener('resize', navFade); navFade();
+  }
+
+  /* ── 進度：存在這台瀏覽器裡，重新整理回到上次那一關 ── */
+  var KEY = 'lew-learn';
+  var TITLES = {1:'一個會記住每次修改的資料夾', 2:'挑一句你不同意的，改掉', 3:'AI 分完，你抽三筆回頭看', 4:'填三格，長出一頁設計', 5:'當天這四件事會真的做在你自己的課上'};
+  var state = { stage: 1, done: {} };
+  (function(){ try { var j = JSON.parse(store.get(KEY) || 'null'); if(j && j.stage >= 1 && j.stage <= 5){ state = j; state.done = state.done || {}; } } catch(e){} })();
+  var saveState = function(){ store.set(KEY, JSON.stringify(state)); };
+
+  var paintProgress = function(){
+    var doneCount = 0;
+    $$('#progress .pill').forEach(function(p){
+      var n = +p.dataset.go, done = !!state.done[n];
+      if(n === state.stage) p.setAttribute('aria-current', 'step'); else p.removeAttribute('aria-current');
+      p.classList.toggle('done', done);
+      $('.dot', p).innerHTML = done ? ic('check') : String(n);
+      if(done) doneCount++;
+    });
+    $('#where').textContent = state.stage === 5 ? '四關都玩過了' : ('第 ' + state.stage + '／4 關');
+    $('#whereTitle').textContent = TITLES[state.stage] || '';
+    $('#fill').style.transform = 'scaleX(' + (doneCount / 4) + ')';
+  };
+  var paintFoot = function(n){
+    var sec = $('.stage[data-stage="' + n + '"]'); if(!sec) return;
+    var btn = $('.next', sec); if(!btn) return;
+    var nxt = +btn.dataset.next;
+    if(state.done[n]){ btn.classList.remove('secondary'); btn.innerHTML = esc(nxt === 5 ? '看收尾' : ('下一關：第 ' + nxt + ' 關')) + ic('arrow-right'); }
+  };
+  var showStage = function(n, noScroll){
+    state.stage = n; saveState();
+    $$('.stage').forEach(function(s){
+      var show = (+s.dataset.stage === n);
+      if(show && s.hidden){ s.classList.remove('enter'); void s.offsetWidth; s.classList.add('enter'); }
+      s.hidden = !show;
+    });
+    paintProgress(); paintFoot(n);
+    if(!noScroll){ try { $('#progress').scrollIntoView({behavior: reduced() ? 'auto' : 'smooth', block:'start'}); } catch(e){} }
+  };
+  var markDone = function(n){ state.done[n] = true; saveState(); paintProgress(); paintFoot(n); };
+  document.addEventListener('click', function(ev){
+    var go = ev.target.closest && ev.target.closest('[data-go]');
+    if(go){ ev.preventDefault(); showStage(+go.dataset.go); return; }
+    var nx = ev.target.closest && ev.target.closest('[data-next]');
+    if(nx){ showStage(+nx.dataset.next); return; }
+  });
+  var replay = function(){ store.del(KEY); location.reload(); };
+  $('#replay').addEventListener('click', replay);
+  $('#replay2').addEventListener('click', replay);
+
+  /* ══════════ 第 1 關：三欄模擬 ══════════ */
+  var FILE_NAME = '評分表';
+  var LINE0 = '課堂專題簡報評分表（第 0 版）';
+  var LINES4 = ['內容正確：資料正確、有來源', '結構清楚：有開頭、中段、結尾', '表達流暢：表現優異、台風穩健', '回應提問：能回答提問'];
+  var SAY = {
+    s1: '請幫我建一個資料夾 my-course-evidence，裡面放一份評分表，先寫一行『課堂專題簡報評分表（第 0 版）』。做完把完整位置印給我。',
+    s2: '把這個資料夾交給你記住每一次修改，存第一版，說明寫『第 0 版：先放一個空殼』。不要上傳到任何地方。',
+    s3: '把評分表改成四行：內容正確、結構清楚、表達流暢、回應提問。',
+    s3b: '你說做好了，但檔案沒變。請重做，並把你改的內容印給我看。',
+    s4: '先不要存，把改了哪幾行列給我看。',
+    s5: '可以存了，說明寫『第 1 版：四個項目』。',
+    s6: '把所有版本列給我看。',
+    go: '好，做吧', stop: '先不要'
+  };
+  var STEP_OF = { p1:1, c1:1, look1:1, p2:2, c2:2, p3:3, look2:3, p3b:3, p4:4, p5:5, p6:6, free:7 };
+  var S1 = {};
+  var chatlog = $('#chatlog'), choices = $('#choices'), tree = $('#tree'), fileview = $('#fileview');
+  var hintF = $('#hintFolder'), hintT = $('#hintTl'), tl = $('#tl'), tlEmpty = $('#tlEmpty');
+  var lesson1 = $('#lesson1'), lesson2 = $('#lesson2');
+
+  /* 現在該看哪一格：桌機亮框，手機再加上面那條切換列 */
+  var setActive = function(id){
+    $$('.sim-col').forEach(function(c){ c.classList.toggle('active', c.id === id); });
+    $$('#simTabs button').forEach(function(b){ if(b.dataset.col === id) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+  };
+  var nudge = function(el){
+    if(!el) return; flash(el);
+    if(el.classList.contains('sim-col')) setActive(el.id);
+    var r = el.getBoundingClientRect();
+    if(r.top < 60 || r.bottom > window.innerHeight){ try { el.scrollIntoView({behavior: reduced() ? 'auto' : 'smooth', block:'nearest'}); } catch(e){ el.scrollIntoView(); } }
+  };
+  $$('#simTabs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var col = $('#' + b.dataset.col); setActive(b.dataset.col);
+      try { col.scrollIntoView({behavior: reduced() ? 'auto' : 'smooth', block:'start'}); } catch(e){ col.scrollIntoView(); }
+    });
+  });
+
+  var paintSub = function(){
+    var k = STEP_OF[S1.phase] || 1;
+    $('#substepText').textContent = k === 7 ? '做完了・加分題' : ('第 ' + k + ' 步／7');
+    $('#subfill').style.transform = 'scaleX(' + (k === 7 ? 1 : (k - 1) / 6) + ')';
+  };
+  var resetS1 = function(){
+    S1 = { phase: 'p1', folder: false, lines: [LINE0], versions: [], view: {kind:'none'}, listed: false };
+    chatlog.innerHTML = ''; choices.innerHTML = ''; lesson1.innerHTML = ''; lesson2.innerHTML = '';
+    hintF.innerHTML = ''; hintT.innerHTML = ''; fileview.innerHTML = '';
+    tl.innerHTML = ''; tl.classList.remove('open'); tlEmpty.hidden = false;
+    $('#closing1').hidden = true;
+    setActive('colChat');
+    renderTree(); renderChoices();
+  };
+  var bubble = function(who, text){
+    var d = document.createElement('div');
+    d.className = 'turn ' + (who === 'me' ? 'me' : 'ai');
+    d.innerHTML = '<span class="avatar" aria-hidden="true">' + ic(who === 'me' ? 'user' : 'sparkles') + '</span>' +
+      '<div class="bub"><span class="who">' + (who === 'me' ? '你' : 'AI 助手') + '</span>' + esc(text) + '</div>';
+    chatlog.appendChild(d);
+    chatlog.scrollTop = chatlog.scrollHeight;
+  };
+  var sayBtn = function(text, kind, onclick){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'say' + (kind ? ' ' + kind : '');
+    b.innerHTML = ic(kind === 'go' ? 'check' : kind === 'stop' ? 'hand' : 'chat') + '<span>' + esc(text) + '</span>';
+    b.addEventListener('click', onclick);
+    return b;
+  };
+  var waitNote = function(text){ var d = document.createElement('div'); d.className = 'wait'; d.innerHTML = ic('eye') + '<span>' + esc(text) + '</span>'; return d; };
+
+  var renderTree = function(){
+    if(!S1.folder){ tree.innerHTML = '<div class="empty">（還是空的）</div>'; return; }
+    tree.innerHTML = '<div class="fold">' + ic('folder') + 'my-course-evidence</div>' +
+      '<button type="button" class="file" id="fileBtn">' + ic('file') + esc(FILE_NAME) + '<span class="badge">點我看內容</span></button>';
+    $('#fileBtn').addEventListener('click', openFile);
+  };
+  var pingFile = function(){ var b = $('#fileBtn'); if(b){ b.classList.remove('ping'); void b.offsetWidth; b.classList.add('ping'); } };
+
+  var renderFile = function(){
+    var v = S1.view, html = '';
+    if(v.kind === 'none'){ fileview.innerHTML = ''; return; }
+    if(v.kind === 'cur'){
+      html = '<div class="paper"><div class="title">' + ic('file') + esc(FILE_NAME) + '（現在的內容）</div>' +
+        S1.lines.map(function(l){ return '<span class="ln">' + esc(l) + '</span>'; }).join('') + '</div>';
+    } else if(v.kind === 'cmp'){
+      html = '<div class="paper"><div class="title">' + ic('list') + '改了哪幾行</div>' +
+        '<span class="ln mark">--- 改之前</span><span class="ln mark">+++ 改之後</span><span class="ln mark">@@ -1 +1,4 @@</span>' +
+        '<span class="ln old">− ' + esc(LINE0) + '</span>' +
+        LINES4.map(function(l){ return '<span class="ln new">＋ ' + esc(l) + '</span>'; }).join('') +
+        '<div class="tiny">開頭奇怪符號的那幾行是位置標記，不用管；只看劃掉的（舊）和綠色的（新）。</div></div>' +
+        '<button type="button" class="btn secondary back" id="backCur">' + ic('file') + '回到現在的內容</button>';
+    } else if(v.kind === 'ver'){
+      var ver = S1.versions[v.idx], isCur = (v.idx === S1.versions.length - 1);
+      html = '<div class="paper"><div class="title">' + ic('history') + esc(FILE_NAME) + '（' + esc(ver.name) + '那時候的內容・' + esc(ver.time) + '）</div>' +
+        ver.lines.map(function(l){ return '<span class="ln">' + esc(l) + '</span>'; }).join('') +
+        (isCur ? '<div class="tiny">這就是現在的內容。</div>' : '') + '</div>';
+      if(!isCur && S1.phase === 'free'){
+        html += '<button type="button" class="btn back" id="restoreBtn">' + ic('rotate') + '回到這一版</button>';
+      } else if(!isCur){
+        html += '<div class="tiny">（把上面的步驟做完，就可以「回到這一版」）</div>';
+      }
+      html += '<button type="button" class="btn secondary back" id="backCur">' + ic('file') + '回到現在的內容</button>';
+    }
+    fileview.innerHTML = html;
+    var bc = $('#backCur'); if(bc) bc.addEventListener('click', function(){ S1.view = {kind:'cur'}; renderFile(); });
+    var rb = $('#restoreBtn'); if(rb) rb.addEventListener('click', function(){ restoreVersion(v.idx); });
+  };
+  var openFile = function(){
+    S1.view = {kind:'cur'}; renderFile(); flash($('#colFolder'));
+    if(S1.phase === 'look1'){
+      setNote(hintF, 'check-circle', '對，真的只有這一行。這個「自己看一眼」的習慣，等一下會救你一次。');
+      S1.phase = 'p2'; renderChoices(); nudge($('#colChat'));
+    } else if(S1.phase === 'look2'){
+      setNote(hintF, 'alert', '咦，還是一行。它說做好了，但檔案沒變。');
+      S1.phase = 'p3b'; renderChoices(); nudge($('#colChat'));
+    }
+  };
+  var countChange = function(prev, next){
+    var removed = prev.filter(function(l){ return next.indexOf(l) < 0; }).length;
+    var added = next.filter(function(l){ return prev.indexOf(l) < 0; }).length;
+    if(!prev.length) return '新建 ' + added + ' 行';
+    return '改了 ' + (removed + added) + ' 行（拿掉 ' + removed + '、加上 ' + added + '）';
+  };
+  var addVersion = function(msg, prevLines){
+    var v = { name: '第 ' + S1.versions.length + ' 版', msg: msg, time: nowHM(), lines: S1.lines.slice(), changed: countChange(prevLines, S1.lines) };
+    S1.versions.push(v);
+    renderTl(S1.versions.length - 1); nudge($('#colTl'));
+  };
+  var renderTl = function(freshIdx){
+    tlEmpty.hidden = S1.versions.length > 0;
+    tl.innerHTML = S1.versions.map(function(v, i){
+      var cur = i === S1.versions.length - 1;
+      return '<li class="' + (cur ? 'cur' : '') + (i === freshIdx ? ' fresh' : '') + '"' + (cur ? ' aria-current="true"' : '') + '><button type="button" data-ver="' + i + '">' +
+        '<span class="t">' + esc(v.time) + '</span>' + (cur ? '<span class="now">現在</span>' : '') + '<span class="m">' + esc(v.msg) + '</span>' +
+        '<span class="x">' + esc(v.name) + '・' + esc(v.changed) + '・點一下看那時候的內容</span></button></li>';
+    }).join('');
+    $$('button[data-ver]', tl).forEach(function(b){
+      b.addEventListener('click', function(){ S1.view = {kind:'ver', idx:+b.dataset.ver}; renderFile(); nudge($('#colFolder')); });
+    });
+  };
+  var restoreVersion = function(idx){
+    var ver = S1.versions[idx], prev = S1.lines.slice();
+    bubble('me', '回到' + ver.name + '。');
+    S1.lines = ver.lines.slice();
+    bubble('ai', '好，回到' + ver.name + '了。我是新存了一版，說明寫「回到' + ver.name + '」；原來的每一版都還在時間線上。');
+    addVersion('回到' + ver.name, prev);
+    S1.view = {kind:'cur'}; renderFile();
+    setNote(lesson2, 'bulb', '回去也是一次新的紀錄，什麼都不會不見。');
+    hintT.innerHTML = '';
+  };
+
+  var planThen = function(afterDo){
+    choices.innerHTML = ''; choices.classList.add('pair');
+    choices.appendChild(sayBtn(SAY.go, 'go', function(){ choices.classList.remove('pair'); afterDo(); }));
+    choices.appendChild(sayBtn(SAY.stop, 'stop', function(){ bubble('ai', '好，先不動。你想好了再按「好，做吧」。'); }));
+  };
+  var renderChoices = function(){
+    choices.innerHTML = ''; choices.classList.remove('pair'); paintSub();
+    var ph = S1.phase;
+    if(ph === 'p1'){
+      choices.appendChild(sayBtn(SAY.s1, '', function(){
+        bubble('me', SAY.s1);
+        bubble('ai', '我的計畫：\n1. 建資料夾 my-course-evidence\n2. 在裡面建一份「評分表」，寫一行\n3. 把完整位置印給你\n要做嗎？');
+        planThen(function(){
+          bubble('ai', '做好了。\n完整位置：我的電腦 › 課程 › my-course-evidence\n裡面有一份檔案：評分表');
+          S1.folder = true; renderTree(); pingFile();
+          setNote(hintF, 'eye', '它說做完了——你自己打開檔案看一眼。');
+          S1.phase = 'look1'; renderChoices(); nudge($('#colFolder'));
+        });
+      }));
+    } else if(ph === 'look1' || ph === 'look2'){
+      choices.appendChild(waitNote('先到「你的資料夾」那格，點一下檔名。'));
+    } else if(ph === 'p2'){
+      choices.appendChild(sayBtn(SAY.s2, '', function(){
+        bubble('me', SAY.s2);
+        bubble('ai', '我的計畫：\n1. 開始記住這個資料夾的每一次修改\n2. 存第一版，說明寫「第 0 版：先放一個空殼」\n3. 不上傳\n要做嗎？');
+        planThen(function(){
+          bubble('ai', '存好了。第一版的說明是「第 0 版：先放一個空殼」。');
+          addVersion('第 0 版：先放一個空殼', []);
+          setNote(hintT, 'info', '第一個點長出來了：時間，加上你那句說明。');
+          S1.phase = 'p3'; renderChoices();
+        });
+      }));
+    } else if(ph === 'p3'){
+      choices.appendChild(sayBtn(SAY.s3, '', function(){
+        bubble('me', SAY.s3);
+        bubble('ai', '做好了，評分表現在是四行。');
+        setNote(hintF, 'eye', '它說做好了——再去點一次檔名看看。');
+        pingFile();
+        S1.phase = 'look2'; renderChoices(); nudge($('#colFolder'));
+      }));
+    } else if(ph === 'p3b'){
+      choices.appendChild(sayBtn(SAY.s3b, '', function(){
+        bubble('me', SAY.s3b);
+        bubble('ai', '抱歉，剛才沒有真的寫進去。這次改好了，內容是：\n' + LINES4.join('\n'));
+        S1.lines = LINES4.slice();
+        S1.view = {kind:'cur'}; renderFile(); nudge($('#colFolder'));
+        setNote(hintF, 'check-circle', '這次才真的變成四行。');
+        setNote(lesson1, 'bulb', 'AI 說做完，不等於做完。');
+        S1.phase = 'p4'; renderChoices();
+      }));
+    } else if(ph === 'p4'){
+      choices.appendChild(sayBtn(SAY.s4, '', function(){
+        bubble('me', SAY.s4);
+        bubble('ai', '列好了，在「你的資料夾」那格。拿掉 1 行、加上 4 行。');
+        S1.view = {kind:'cmp'}; renderFile(); nudge($('#colFolder'));
+        setNote(hintF, 'info', '只有你要改的那幾行動了。多出來的任何一行，都要問它。');
+        S1.phase = 'p5'; renderChoices();
+      }));
+    } else if(ph === 'p5'){
+      choices.appendChild(sayBtn(SAY.s5, '', function(){
+        bubble('me', SAY.s5);
+        bubble('ai', '存好了。說明是「第 1 版：四個項目」。');
+        addVersion('第 1 版：四個項目', [LINE0]);
+        S1.view = {kind:'cur'}; renderFile();
+        hintF.innerHTML = '';
+        setNote(hintT, 'info', '第二個點。每一點＝一次修改＋一句為什麼。');
+        S1.phase = 'p6'; renderChoices();
+      }));
+    } else if(ph === 'p6'){
+      choices.appendChild(sayBtn(SAY.s6, '', function(){
+        bubble('me', SAY.s6);
+        var list = S1.versions.slice().reverse().map(function(v){ return v.name + '　' + v.time + '　' + v.msg; }).join('\n');
+        bubble('ai', '目前有 ' + S1.versions.length + ' 版：\n' + list);
+        S1.listed = true; tl.classList.add('open'); renderTl(-1); nudge($('#colTl'));
+        setNote(hintT, 'eye', '加分：點時間線上的第一個點，看看那時候的檔案長什麼樣。');
+        S1.phase = 'free'; renderChoices();
+        $('#closing1').hidden = false; markDone(1);
+      }));
+    } else if(ph === 'free'){
+      choices.appendChild(waitNote('這關做完了。想再試一次「回到舊的一版」，點時間線上的任何一點。'));
+    }
+  };
+  $('#redo1').addEventListener('click', resetS1);
+  resetS1();
+
+  /* ══════════ 第 2 關：挑一句不同意的，改掉 ══════════ */
+  var OLD2 = '表達流暢・4 分：表現優異、台風穩健';
+  var NEW2 = '表達流暢・4 分：全程不看稿超過 6 分鐘；停頓不超過 3 次';
+  $$('[data-q1]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var fb = $('#fb1');
+      if(b.dataset.q1 === 'yes'){
+        setFb(fb, 'soft', '兩位老師看同一場簡報，「優異」會打一樣的分嗎？再想想。');
+      } else {
+        setFb(fb, 'good', '對。形容詞打不出分數，兩位老師會打出兩種分。');
+        $('#q2').hidden = false; flash($('#q2'));
+      }
+    });
+  });
+  $$('[data-q2]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var fb = $('#fb2');
+      if(b.dataset.q2 === 'a'){
+        setFb(fb, 'good', '數得出來的句子，兩位老師會打一樣的分。');
+        var cell = $('#cellText'); cell.textContent = NEW2; cell.classList.add('changed'); flash($('.cell'));
+        $('#q3').hidden = false;
+      } else {
+        setFb(fb, 'warn', '這句還是打不出分數——換另一句試試。');
+      }
+    });
+  });
+  $('#keep2').addEventListener('click', function(){
+    var why = $('#why2').value.replace(/^\s+|\s+$/g, '') || '（沒寫為什麼）';
+    var rec = $('#rec2');
+    rec.innerHTML = '<p><span class="k">時間</span>' + esc(nowHM()) + '</p>' +
+      '<p><span class="k">改之前</span><span class="old">' + esc(OLD2) + '</span></p>' +
+      '<p><span class="k">改之後</span><span class="new">' + esc(NEW2) + '</span></p>' +
+      '<p><span class="k">為什麼改</span>' + esc(why) + '</p>';
+    rec.hidden = false; flash(rec);
+    $('#closing2').hidden = false; markDone(2);
+  });
+
+  /* ══════════ 第 3 關：抽三筆回頭看（示範資料，全部合成） ══════════ */
+  var CAT = { skill:'具體指出弱點', external:'歸因外部', emotion:'情緒訊號', peer:'同學回饋有用', ai:'提到 AI', vague:'空泛' };
+  var STU = [
+    { id:'DEMO-S02', s:12, p:11, t:12, text:'同學說我語速太快，我回去聽錄音真的是，這個回饋很有用。', ai:'peer', truth:'peer' },
+    { id:'DEMO-S03', s:12, p:16, t:10, text:'時間太短了，8 分鐘根本講不完我們準備的東西。', ai:'external', truth:'external', note:'互評 16、老師 10：互評給得太寬，反思把原因推給外面。' },
+    { id:'DEMO-S06', s:13, p:11, t:12, text:'圖表放上去了但我沒有解釋軸是什麼，台下應該看不懂。', ai:'skill', truth:'skill' },
+    { id:'DEMO-S07', s:16, p:9, t:8, text:'學到很多，謝謝老師和同學。', ai:'vague', truth:'vague', note:'自評 16、老師 8：自評比老師高 8 分，學生可能不知道標準在哪。' },
+    { id:'DEMO-S12', s:10, p:10, t:10, text:'我用 AI 整理了資料，但被問到細節才發現我沒真的看懂那段。', ai:'ai', truth:'ai', note:'三個分數都 10，看不出問題；是文字才看得出他沒真的看懂。' },
+    { id:'DEMO-S14', s:14, p:6, t:14, text:'同學建議我把結論放到最前面講一次，試了一下真的比較清楚。', ai:'peer', truth:'peer', note:'互評 6、自評與老師都 14：互評明顯偏低，要回頭看互評表，不是扣學生分。' },
+    { id:'DEMO-S17', s:15, p:12, t:13, text:'這次表現還不錯，下次會更好。', ai:'vague', truth:'vague' },
+    { id:'DEMO-S18', s:7, p:13, t:14, text:'回應提問那段最弱，被問到數據來源時我答不出來。', ai:'vague', truth:'skill', note:'自評 7、老師 14：自評偏低，表現其實不錯。' },
+    { id:'DEMO-S21', s:9, p:9, t:9, text:'看到互評分數的時候很受傷，我明明準備了很久。', ai:'emotion', truth:'emotion' },
+    { id:'DEMO-S23', s:11, p:10, t:11, text:'有做完就好，下次再努力。', ai:'vague', truth:'vague' }
+  ];
+  var WRONG = 'DEMO-S18';
+  var barsHTML = function(s){
+    var row = function(lab, cls, v){ return '<span class="lab">' + lab + '</span><span class="bar ' + cls + '"><i style="width:' + Math.round(v / 16 * 100) + '%"></i></span><span class="v">' + v + '</span>'; };
+    return '<div class="bars" aria-label="自評 ' + s.s + '、互評 ' + s.p + '、老師評分 ' + s.t + '">' + row('自評', 'self', s.s) + row('互評', 'peer', s.p) + row('老師評分', 'teach', s.t) + '</div>';
+  };
+  var drawn = [], judged = {}, drawCount = 0;
+  var renderMini = function(){
+    $('#miniGrid').innerHTML = STU.map(function(s){
+      var picked = drawn.some(function(d){ return d.id === s.id; });
+      return '<div class="mini' + (picked ? ' picked' : '') + '"><div class="code">' + esc(s.id) + '</div>' + barsHTML(s) +
+        '<span class="tag">' + ic('sparkles') + 'AI 分類：' + esc(CAT[s.ai]) + '</span></div>';
+    }).join('');
+  };
+  var shuffle = function(a){ for(var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; };
+  var draw = function(){
+    var pool = STU.slice(), pick = [];
+    if(drawCount === 0){ pick.push(STU.filter(function(s){ return s.id === WRONG; })[0]); pool = pool.filter(function(s){ return s.id !== WRONG; }); }
+    while(pick.length < 3){ pick.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]); }
+    drawn = shuffle(pick); judged = {}; drawCount++;
+    $('#closing3').hidden = true; var fb3 = $('#fb3'); fb3.className = 'fb'; fb3.innerHTML = '';
+    $('#drawBtn').innerHTML = ic('shuffle') + '再抽三筆';
+    renderMini(); renderDraw();
+    nudge($('#draw'));
+  };
+  var renderDraw = function(){
+    $('#draw').innerHTML = drawn.map(function(s){
+      return '<div class="dcard" data-id="' + esc(s.id) + '"><div class="code">' + esc(s.id) + '</div>' + barsHTML(s) +
+        (s.note ? '<div class="snote">' + ic('info') + '<span>' + esc(s.note) + '</span></div>' : '') +
+        '<div class="quote">「' + esc(s.text) + '」</div>' +
+        '<div><span class="tag">' + ic('sparkles') + 'AI 分類：' + esc(CAT[s.ai]) + '</span></div>' +
+        '<div class="judge"><button class="btn secondary" type="button" data-j="yes">' + ic('check') + '同意</button><button class="btn secondary" type="button" data-j="no">' + ic('x') + '不同意</button></div>' +
+        '<div class="fb" aria-live="polite"></div></div>';
+    }).join('');
+  };
+  $('#draw').addEventListener('click', function(ev){
+    var b = ev.target.closest && ev.target.closest('[data-j]'); if(!b) return;
+    var card = b.closest('.dcard'), id = card.dataset.id, fb = $('.fb', card);
+    var s = STU.filter(function(x){ return x.id === id; })[0];
+    var yes = b.dataset.j === 'yes';
+    if(id === WRONG){
+      if(yes){ setFb(fb, 'warn', '再讀一次那句話：它有沒有具體說出自己哪裡弱？'); }
+      else { setFb(fb, 'good', '對，AI 這筆分錯了。這句明明具體說出了自己哪裡弱，AI 卻標成「空泛」——今天就是要你抽到它。'); judged[id] = 'caught'; }
+    } else {
+      if(yes){ setFb(fb, 'good', '對，這筆 AI 分得沒錯。'); }
+      else { setFb(fb, 'soft', '這筆 AI 其實分對了——再讀一次原文，對照一下「' + CAT[s.truth] + '」。'); }
+      judged[id] = 'ok';
+    }
+    if(Object.keys(judged).length === drawn.length){
+      var hasWrong = drawn.some(function(d){ return d.id === WRONG; });
+      setFb($('#fb3'), hasWrong ? 'good' : 'soft', hasWrong ? '你抽的三筆裡，AI 錯了 1 筆——你抓到了。' : '這三筆 AI 都分對了。但你不抽，就不會知道；再抽一次，可能會遇到分錯的那一筆。');
+      $('#closing3').hidden = false; markDone(3);
+    }
+  });
+  $('#drawBtn').addEventListener('click', draw);
+  renderMini();
+
+  /* ══════════ 第 4 關：填三格，長出一頁設計 ══════════ */
+  var DEMO4 = { f1:'通識課「科學與生活」', f2:'8 分鐘個人專題簡報', f3:'簡報後每人拿到一張自評與老師評分的對照，附一句回饋' };
+  var grown = false;
+  var sheetText = function(){
+    var v = function(id){ return $('#' + id).value.replace(/^\s+|\s+$/g, ''); };
+    return { course: v('f1') || '（還沒填）', task: v('f2') || '（還沒填）', change: v('f3') || '（還沒填）' };
+  };
+  var renderSheet = function(animate){
+    var d = sheetText(), sheet = $('#sheet');
+    sheet.innerHTML = '<h3>' + ic('layout') + '一頁設計：' + esc(d.course) + '</h3>' +
+      '<div class="r"><span class="k">我的課</span>' + esc(d.course) + '</div>' +
+      '<div class="r"><span class="k">要評的任務</span>' + esc(d.task) + '</div>' +
+      '<div class="r"><span class="k">下次我想改的一件事</span>' + esc(d.change) + '</div>' +
+      '<div class="r"><span class="k">研究問題</span><span class="grey">當天再填</span></div>' +
+      '<div class="r"><span class="k">證據從哪來</span><span class="grey">當天再填</span></div>' +
+      '<div class="r"><span class="k">怎麼抽查</span><span class="grey">當天再填</span></div>' +
+      '<div class="row" style="margin-top:16px"><button class="btn secondary" type="button" id="copySheet">' + ic('copy') + '複製這一頁</button></div>';
+    if(!animate){ $$('.r', sheet).forEach(function(r){ r.style.animation = 'none'; }); }
+    $('#copySheet').addEventListener('click', function(){
+      var t = '一頁設計：' + d.course + '\n我的課：' + d.course + '\n要評的任務：' + d.task + '\n下次我想改的一件事：' + d.change +
+        '\n研究問題：（當天再填）\n證據從哪來：（當天再填）\n怎麼抽查：（當天再填）';
+      copyText(this, t);
+    });
+  };
+  $('#growBtn').addEventListener('click', function(){
+    grown = true; renderSheet(true); flash($('#sheet')); nudge($('#sheet'));
+    $('#closing4').hidden = false; markDone(4);
+  });
+  $('#demoBtn').addEventListener('click', function(){
+    $('#f1').value = DEMO4.f1; $('#f2').value = DEMO4.f2; $('#f3').value = DEMO4.f3;
+    if(grown) renderSheet(false);
+  });
+  ['f1','f2','f3'].forEach(function(id){ $('#' + id).addEventListener('input', function(){ if(grown) renderSheet(false); }); });
+
+  /* 開機：回到上次那一關 */
+  showStage(state.stage, true);
+})();
+</script>
+</body>
+</html>
