@@ -11,60 +11,65 @@
 <link rel="stylesheet" href="assets/site.css">
 <script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
 <style>
-/* ── 講義頁專用版式（樣稿 D）：顏色一律用 site.css 的代幣。刊頭、導覽、版心（.sec > .wrap）、卡片與色條、提示框、
-   提示詞區塊、三欄步驟卡（.trio）、表格、頁尾全是 site.css 的共用元件；這裡只剩本頁獨有的幾樣：
-   拉引句上方的小標、四塊的區塊骨架、步驟卡裡的「可貼句」小框、幕後指令、例子卡的引文、名詞表、三條限制、四張自繪圖的著色。 ── */
-.pullquote .pre{margin:0 0 .7em;font-size:.82rem;font-weight:700;letter-spacing:.1em;color:var(--ink-soft);line-height:1.5}
-.lbl{display:block;margin:.9em 0 .3em;font-size:.78rem;letter-spacing:.12em;font-weight:700;color:var(--ink-soft);line-height:1.5}
+/* ── 講義頁專用版式（v5 立霧風格；Ted 2026-10-04 拍板「全站換成立霧的樣子、內容用我們的」）：顏色一律用 site.css 的代幣、零硬編色。
+   刊頭、導覽、版心（.sec > .wrap 一欄）、章節號（珊瑚橘小字）、卡片與色條、提示框、提示詞區塊、三欄步驟卡（.trio）、拉引句、表格、頁尾
+   全是 site.css 的共用元件；這裡只剩本頁獨有的幾樣：拉引句上方的小標、四塊的區塊骨架、步驟卡裡的「可貼句」小框、幕後指令、例子卡的引文、
+   名詞表、三條限制、四張自繪圖的著色。 ── */
+.pullquote .pre{margin:0 0 .7em;font-family:var(--mono);font-size:.76rem;font-weight:700;letter-spacing:.12em;color:var(--c-deep);line-height:1.5}
+.lbl{display:block;margin:.9em 0 .3em;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;font-weight:700;color:var(--teal-deep);line-height:1.5}
 .cite{font-size:.88rem;color:var(--ink-soft)}
-/* 參：四塊——每塊一道 1.5px 墨線起頭、四塊色標籤、襯線標題 */
-.block{margin-top:3em;padding-top:1.4em;border-top:var(--bw) solid var(--frame)}
+/* 刊頭資訊列的分隔號「｜」只有講義這頁自己夾（start 是 JS 產的 .m）；site.css 給它中灰 --line-strong，壓頁底只有 3.3:1，這裡改次要字色（5.8:1） */
+header.hero .meta .sep{color:var(--ink-soft)}
+/* 參：四塊——每塊一道淡藍粗線起頭、四塊色標籤、粗體大標 */
+.block{margin-top:3em;padding-top:1.4em;border-top:3px solid var(--teal-soft)}
 .block .mark{margin:0 0 .5em}
-.block h3{font-size:clamp(1.35rem,2vw,1.6rem);line-height:1.3;margin:.1em 0 .25em}
+.block h3{font-size:clamp(1.35rem,2vw,1.6rem);line-height:1.3;margin:.1em 0 .25em;font-weight:800;letter-spacing:-.02em}
 .block .mode{margin:0 0 1em;font-size:.92rem;color:var(--ink-soft)}
 .block h4.sub-h{margin-top:1.8em}
 .steps>li{margin:1.6em 0}
-/* 步驟卡裡「可以整句貼給 AI 助手」的那一句：暖白、墨框、3px 偏移，複製鈕放句子底下（欄位窄，不放右上角） */
-.trio .step .say{margin:10px 0 0;padding:12px 12px 10px;background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);box-shadow:var(--sh)}
+/* 步驟卡裡「可以整句貼給 AI 助手」的那一句：頁底色小框、左緣 3px 深藍（同 .prompt 的語意），複製鈕放句子底下（欄位窄，不放右上角） */
+.trio .step .say{margin:10px 0 0;padding:12px 12px 10px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:0 var(--r-sm) var(--r-sm) 0}
 .trio .step .say .ptext{display:block;margin:0 0 10px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.95rem;line-height:1.7}
 .trio .step .lbl{margin-top:14px}
 .trio .step p+p{margin-top:.6em}
 .behind{margin:1.4em 0 .4em;font-size:.92rem;color:var(--ink-soft)}
 pre.cmd{margin:0 0 1em;overflow-wrap:anywhere;white-space:pre-wrap}
 .datafiles code{overflow-wrap:anywhere}
-.prompt .rule-foot{display:block;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--rule-strong);font-size:.9rem;font-weight:700;color:var(--ink);white-space:normal}
+.prompt .rule-foot{display:block;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line-strong);font-size:.9rem;font-weight:700;color:var(--ink);white-space:normal}
 /* 肆：例子卡——規準標籤一列、兩段引文用共用的 .warn／.ok 淡底框 */
 .excard .crit{margin:.3em 0 .8em}
 .excard .crit .badge{margin:2px 6px 2px 0}
 .excard blockquote{margin:.4em 0 .9em}
-/* 玖：名詞表——桌機兩欄（詞｜解釋），髮線分列 */
+/* 玖：名詞表——桌機兩欄（詞｜解釋），淡線分列 */
 .glossary{margin:0}
-.glossary div{padding:12px 0;border-bottom:1px solid var(--rule)}
-.glossary div:first-child{border-top:2px solid var(--frame)}
-.glossary dt{font-family:var(--serif);font-weight:700}
+.glossary div{padding:12px 0;border-bottom:1px solid var(--line)}
+.glossary div:first-child{border-top:1px solid var(--line)}
+.glossary dt{font-weight:700}
 .glossary dd{margin:2px 0 0;font-size:.95rem;color:var(--ink-soft)}
 /* 拾：三條限制——每條一張珊瑚橘色條的卡 */
 .plain{list-style:none;padding:0;margin:0}
 .plain>li{margin:0 0 14px}
-/* 四張自繪圖：真文字、顏色走代幣（墨色線、四色塊與淡底、編輯紅只標「改在這裡」），深色模式一起變 */
+/* 四張自繪圖：真文字、顏色走代幣——深藍＝主色（版本點、長條、流程框、箭頭）、珊瑚橘＝你改的那一版與互評長條、紅＝「改在這裡」、
+   描邊用中灰 --line-strong（淡線 --line 在圖裡會看不見）；深色模式一起變 */
 .fig-scroll{overflow-x:auto}
 figure svg{width:100%;height:auto;display:block}
 figure svg text{font-family:var(--sans)}
 .sv-ink{fill:var(--ink)} .sv-soft{fill:var(--ink-soft)} .sv-b{font-weight:700}
 .sv-red{fill:var(--red)} .sv-bad{fill:var(--c-deep)} .sv-good{fill:var(--a-deep)}
-.sv-dot{fill:var(--a);stroke:var(--frame);stroke-width:1.5}
-.sv-mark{fill:var(--y);stroke:var(--frame);stroke-width:1.5}
+.sv-dot{fill:var(--teal)}
+.sv-mark{fill:var(--c)}
 .sv-ring{fill:none;stroke:var(--red);stroke-width:3}
-.sv-bar-a{fill:var(--a)} .sv-bar-y{fill:var(--y)}
-.sv-card{fill:var(--card);stroke:var(--frame);stroke-width:1.5}
-.sv-head{fill:var(--y-soft)}
-.sv-del{fill:var(--c-soft)} .sv-add{fill:var(--a-soft)}
-.sv-box{fill:var(--card);stroke:var(--frame);stroke-width:1.5}
-.sv-box-y{fill:var(--y-soft);stroke:var(--frame);stroke-width:1.5}
-.sv-axis{stroke:var(--frame);stroke-width:2.5;stroke-linecap:round}
-.sv-zero{stroke:var(--rule-strong);stroke-width:1.5}
-.sv-arrow{stroke:var(--frame);stroke-width:2.5;fill:none;stroke-linecap:round}
-.sv-arrowhead{fill:var(--frame)}
+.sv-bar-a{fill:var(--teal)} .sv-bar-y{fill:var(--c)}
+.sv-card{fill:var(--card);stroke:var(--line-strong);stroke-width:1.5}
+.sv-head{fill:var(--teal-soft)}
+.sv-del{fill:var(--bad-soft)} .sv-add{fill:var(--good-soft)}
+.sv-box{fill:var(--card);stroke:var(--teal);stroke-width:1.5}
+.sv-box-y{fill:var(--gold-soft);stroke:var(--gold);stroke-width:1.5}
+.sv-axis{stroke:var(--line-strong);stroke-width:2.5;stroke-linecap:round}
+.sv-axishead{fill:var(--line-strong)}
+.sv-zero{stroke:var(--line-strong);stroke-width:1.5}
+.sv-arrow{stroke:var(--teal);stroke-width:2.5;fill:none;stroke-linecap:round}
+.sv-arrowhead{fill:var(--teal)}
 /* 貳的速查表：分頁名不折行；伍的「計畫書對應」欄給標籤一行的寬度 */
 table.studio td.seg{white-space:nowrap}
 #designfields th:nth-child(3){width:170px}
@@ -87,7 +92,7 @@ table.studio td.seg{white-space:nowrap}
 <body>
 <a class="skip" href="#main">跳到主要內容</a>
 
-<!-- 刊頭（樣稿 D，照入口頁）：主辦小字＋紅短線→髮線→大題名→左欄版權頁式資訊、右欄副標。
+<!-- 刊頭（v5 矮版，長相由 site.css 的 header.hero 統一；照立霧參考版）：主辦眉標（珊瑚橘小字）→大題名→副標、一行日期地點講師。
      靜態文字只是備援（沒 JS 時與 validate-workshop.mjs 靜態掃描用），頁尾的自檢會逐一對資料源 -->
 <header class="hero"><div class="inner">
   <p class="eyebrow" id="hero-host">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</p>
@@ -116,7 +121,7 @@ table.studio td.seg{white-space:nowrap}
 
 <main id="main" class="editorial">
 
-<!-- 首屏：全場只記的那一句，放進芥末黃淡底的拉引句大卡（照入口頁的「貳」） -->
+<!-- 首屏：全場只記的那一句，放進白卡、珊瑚橘左線的拉引句（site.css 的 .pullquote） -->
 <section class="sec first" aria-label="今天只記一句"><div class="wrap">
   <div class="pullquote">
     <p class="pre">今天只記一句：</p>
@@ -185,7 +190,7 @@ table.studio td.seg{white-space:nowrap}
 <section id="sec-examples" class="sec" aria-labelledby="sec-examples-h"><div class="wrap">
   <h2 id="sec-examples-h"><span class="num">肆</span><span class="t">例子：主範例與兩組自選</span></h2>
   <div class="body prose">
-    <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的例子。三個例子的共同點：改掉的都是形容詞，換上數得出的事；你的課找同一種格子。</p>
+    <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的例子。三個例子的共同點：改掉的都是形容詞，換上現場看得見、而且對得上學習目標的描述；你的課找同一種格子。</p>
     <div id="examples" data-render></div>
   </div>
 </div></section>
@@ -273,7 +278,7 @@ table.studio td.seg{white-space:nowrap}
       <div><dt>repo（repository）</dt><dd>版本庫：被 Git 管理的那個資料夾。放在 GitHub 上的叫遠端版本庫，可以設成不公開。</dd></div>
       <div><dt>commit／log</dt><dd>存一版／版本清單：commit 把現在的狀態存成一個版本、附一句說明，今天每塊結束都存一版；log 是所有版本依時間排好的清單，每筆有說明，研究歷程資料的長相。</dd></div>
       <div><dt>diff</dt><dd>前後對照：兩個版本之間哪幾行變了。你一定要自己看的那件事。</dd></div>
-      <div><dt>Rubric</dt><dd>評分規準表：規準乘以等級的一張表，每格寫看得見、數得出的描述。</dd></div>
+      <div><dt>Rubric</dt><dd>評分規準表：規準乘以等級的一張表，每格寫看得見、對應學習目標的描述。</dd></div>
       <div><dt>CSV</dt><dd>逗號分隔的純文字表格：示範資料的格式，任何試算表都能開、AI 也讀得懂。</dd></div>
       <div><dt>Markdown</dt><dd>純文字的排版格式：工作台匯出的檔都是它，用任何文字編輯器都能開，Git 看得出逐行差異。</dd></div>
     </dl>
@@ -304,12 +309,12 @@ table.studio td.seg{white-space:nowrap}
 <template id="tpl-F-timeline">
 <!-- 五個點的字對應 workflow-data.js 的 blocks：B1 步 2「第 0 版：先放一個空殼」、B1 步 4「第 1 版：四個規準」、B2 步 5（版本說明＝你那句「為什麼改」）、B3 步 5「第三塊：AI 分析＋人工抽查 3 筆」、B4 步 4「一頁設計 v1：工作坊版」。
      圖上點下方只放冒號後半句，冒號前的版本名放點上方（第 0 版／第 1 版／Rubric v2／抽查紀錄／一頁設計 v1）。blocks 的版本說明改字時，這裡要跟著改。
-     著色：墨色軸線、湖水綠版本點（同入口頁刊頭插圖）、芥末黃＋編輯紅圈＝你改的那一版。 -->
+     著色：中灰軸線、深藍版本點、珊瑚橘＋紅圈＝你改的那一版。 -->
 <svg viewBox="0 0 860 240" width="100%" role="img" aria-labelledby="ft-title">
   <title id="ft-title">版本紀錄時間軸：今天會留下的五個版本，每個點旁一句為什麼改</title>
   <text x="20" y="30" class="sv-ink sv-b" font-size="17">版本清單（git log）長這樣：一個點＝存了一版＋一句「為什麼改」</text>
   <line x1="40" y1="130" x2="826" y2="130" class="sv-axis"/>
-  <polygon points="826,122 842,130 826,138" class="sv-arrowhead"/>
+  <polygon points="826,122 842,130 826,138" class="sv-axishead"/>
   <g>
     <circle cx="80" cy="130" r="13" class="sv-dot"/>
     <text x="80" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">第 0 版</text>
@@ -327,7 +332,7 @@ table.studio td.seg{white-space:nowrap}
     <circle cx="440" cy="130" r="20" class="sv-ring"/>
     <text x="440" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">Rubric v2</text>
     <text x="440" y="104" text-anchor="middle" class="sv-soft" font-size="13">第二塊</text>
-    <text x="440" y="168" text-anchor="middle" class="sv-ink" font-size="14">「要兩個老師打一樣的分」</text>
+    <text x="440" y="168" text-anchor="middle" class="sv-ink" font-size="14">「評的是表達、不是背稿」</text>
     <text x="440" y="188" text-anchor="middle" class="sv-red sv-b" font-size="12">你不同意的那一句，改在這裡</text>
   </g>
   <g>
@@ -347,44 +352,58 @@ table.studio td.seg{white-space:nowrap}
 </template>
 
 <template id="tpl-F-rubric-diff">
-<!-- 左右兩欄「表達流暢」四級的字，逐字對 studio.html「看範例輸出」的 RUBRIC_V1／RUBRIC_V2：4 級＝examples.presentation.disagreeExample 那格（唯一改的）；
-     3／2／1 級兩版相同，因為示範的調整紀錄寫「4 不採：看稿次數現場數不到，先留『偶爾』」。studio 改範例時，這裡要跟著改。
-     著色：兩張暖白墨框卡、芥末黃淡底標題列；刪＝珊瑚橘淡底、加＝湖水綠淡底（同 site.css 的 .diff）。 -->
-<svg viewBox="0 0 860 310" width="100%" role="img" aria-labelledby="fr-title">
-  <title id="fr-title">Rubric 前後並列：左邊第 1 版有形容詞，右邊第 2 版數得出，差異處上色</title>
+<!-- 左右兩欄「表達流暢」四級的字，對 studio.html「看範例輸出」的 RUBRIC_V1／RUBRIC_V2 與 workflow-data.js 的 examples.presentation：
+     左欄 v1 四級＝AI 起草原樣；右欄 4 級＝disagreeExample 裡「改成」的那句（看得見、對應學習目標），3／2／1 級沿同一規準（論點順序、轉折、聽眾回問次數）改寫；
+     「為什麼改」那行＝whyChanged。四列兩版都不同，所以四列都上色。studio 或資料源改範例時，這裡要跟著改（2026-10-04 v5：舊的計數寫法退場）。
+     著色：兩張白卡中灰描邊、淡藍標題列；刪＝紅淡底、加＝綠淡底（同 site.css 的 .diff）；中間箭頭深藍。 -->
+<svg viewBox="0 0 860 328" width="100%" role="img" aria-labelledby="fr-title">
+  <title id="fr-title">Rubric 前後並列：左邊第 1 版有形容詞，右邊第 2 版看得見且對應學習目標，差異處上色</title>
   <text x="20" y="28" class="sv-ink sv-b" font-size="17">同一格「表達流暢」：左邊 AI 起草的第 1 版，右邊你改過的第 2 版</text>
-  <rect x="20" y="45" width="390" height="208" rx="8" class="sv-card"/>
+  <rect x="20" y="45" width="390" height="220" rx="8" class="sv-card"/>
   <rect x="20.75" y="45.75" width="388.5" height="33" rx="7" class="sv-head"/>
   <rect x="20.75" y="69" width="388.5" height="10" class="sv-head"/>
   <text x="36" y="68" class="sv-ink sv-b" font-size="15">第 1 版（AI 起草）</text>
-  <rect x="28" y="88" width="374" height="30" rx="6" class="sv-del"/>
-  <text x="38" y="109" class="sv-bad sv-b" font-size="15">−</text>
-  <text x="58" y="109" class="sv-ink" font-size="14">4 級　表現優異、台風穩健</text>
-  <text x="58" y="147" class="sv-soft" font-size="14">3 級　偶爾看稿，語速適中</text>
-  <text x="58" y="185" class="sv-soft" font-size="14">2 級　常常看稿，有明顯停頓</text>
-  <text x="58" y="223" class="sv-soft" font-size="14">1 級　大段朗讀投影片，台下聽不清楚</text>
-  <text x="300" y="109" class="sv-bad" font-size="12">看不見、數不出</text>
-  <line x1="414" y1="150" x2="440" y2="150" class="sv-arrow"/>
-  <polygon points="438,142 452,150 438,158" class="sv-arrowhead"/>
-  <rect x="450" y="45" width="390" height="208" rx="8" class="sv-card"/>
+  <rect x="28" y="88" width="374" height="48" rx="6" class="sv-del"/>
+  <text x="38" y="117" class="sv-bad sv-b" font-size="15">−</text>
+  <text x="58" y="117" class="sv-ink" font-size="14">4 級　表現優異、台風穩健</text>
+  <text x="300" y="117" class="sv-bad" font-size="12">看不見</text>
+  <rect x="28" y="142" width="374" height="30" rx="6" class="sv-del"/>
+  <text x="38" y="163" class="sv-bad sv-b" font-size="15">−</text>
+  <text x="58" y="163" class="sv-ink" font-size="14">3 級　偶爾看稿，語速適中</text>
+  <rect x="28" y="178" width="374" height="30" rx="6" class="sv-del"/>
+  <text x="38" y="199" class="sv-bad sv-b" font-size="15">−</text>
+  <text x="58" y="199" class="sv-ink" font-size="14">2 級　常常看稿，有明顯停頓</text>
+  <rect x="28" y="214" width="374" height="30" rx="6" class="sv-del"/>
+  <text x="38" y="235" class="sv-bad sv-b" font-size="15">−</text>
+  <text x="58" y="235" class="sv-ink" font-size="14">1 級　大段朗讀投影片，台下聽不清楚</text>
+  <line x1="414" y1="155" x2="440" y2="155" class="sv-arrow"/>
+  <polygon points="438,147 452,155 438,163" class="sv-arrowhead"/>
+  <rect x="450" y="45" width="390" height="220" rx="8" class="sv-card"/>
   <rect x="450.75" y="45.75" width="388.5" height="33" rx="7" class="sv-head"/>
   <rect x="450.75" y="69" width="388.5" height="10" class="sv-head"/>
   <text x="466" y="68" class="sv-ink sv-b" font-size="15">第 2 版（你改過）</text>
-  <rect x="458" y="88" width="374" height="30" rx="6" class="sv-add"/>
-  <text x="468" y="109" class="sv-good sv-b" font-size="15">＋</text>
-  <text x="488" y="109" class="sv-ink" font-size="14">4 級　全程不看稿超過 6 分鐘；停頓不超過 3 次</text>
-  <text x="488" y="147" class="sv-soft" font-size="14">3 級　偶爾看稿，語速適中</text>
-  <text x="488" y="185" class="sv-soft" font-size="14">2 級　常常看稿，有明顯停頓</text>
-  <text x="488" y="223" class="sv-soft" font-size="14">1 級　大段朗讀投影片，台下聽不清楚</text>
-  <text x="20" y="282" class="sv-ink sv-b" font-size="15">為什麼改：要兩個老師打一樣的分，格子裡得是數得出的事。</text>
-  <text x="20" y="302" class="sv-soft" font-size="13">工作台「比較兩版」會把這種差異逐行上色：刪除紅、新增綠。兩版的差異就是證據。</text>
+  <rect x="458" y="88" width="374" height="48" rx="6" class="sv-add"/>
+  <text x="468" y="117" class="sv-good sv-b" font-size="15">＋</text>
+  <text x="488" y="108" class="sv-ink" font-size="14">4 級　主要論點依序說完，每點之間有一句轉折；</text>
+  <text x="528" y="128" class="sv-ink" font-size="14">聽眾不必回問就跟得上</text>
+  <rect x="458" y="142" width="374" height="30" rx="6" class="sv-add"/>
+  <text x="468" y="163" class="sv-good sv-b" font-size="15">＋</text>
+  <text x="488" y="163" class="sv-ink" font-size="14">3 級　論點依序說完，轉折偶爾跳接，聽眾回問 1 次</text>
+  <rect x="458" y="178" width="374" height="30" rx="6" class="sv-add"/>
+  <text x="468" y="199" class="sv-good sv-b" font-size="15">＋</text>
+  <text x="488" y="199" class="sv-ink" font-size="14">2 級　順序跳動，聽眾回問 2–3 次</text>
+  <rect x="458" y="214" width="374" height="30" rx="6" class="sv-add"/>
+  <text x="468" y="235" class="sv-good sv-b" font-size="15">＋</text>
+  <text x="488" y="235" class="sv-ink" font-size="14">1 級　聽眾跟不上，回問超過 3 次</text>
+  <text x="20" y="294" class="sv-ink sv-b" font-size="15">為什麼改：現場看得到，評的是表達、不是背稿；其他等級沿同一規準改寫。</text>
+  <text x="20" y="315" class="sv-soft" font-size="13">工作台「比較兩版」會把這種差異逐行上色：刪除紅、新增綠。兩版的差異就是證據。</text>
 </svg>
 </template>
 
 <template id="tpl-F-gap">
 <!-- 16 個數字手打自 data/project-presentation-scores.csv（自評−教師／互評−教師），8 筆＝S01、S03、S07、S11、S14、S18、S22、S24；長條寬度＝|差|×26px。
      make_demo_data.py 重跑或 CSV 改動後，沒有任何腳本會抓到這裡，要人工回查這 16 個數字（validate-workshop.mjs 已有 csvRows 可以接）。
-     著色：自評−教師＝湖水綠、互評−教師＝芥末黃；離 0 遠的代號與「可能的解讀」用珊瑚橘深色（語意＝要人回頭看，不是結論）。 -->
+     著色：自評−教師＝深藍、互評−教師＝珊瑚橘；離 0 遠的代號與「可能的解讀」用珊瑚橘深色（語意＝要人回頭看，不是結論）。 -->
 <svg viewBox="0 0 860 420" width="100%" role="img" aria-labelledby="fg-title">
   <title id="fg-title">評分落差圖：自評減教師分、互評減教師分，離 0 遠的代號浮出來</title>
   <text x="20" y="26" class="sv-ink sv-b" font-size="16">自評、互評、教師評分的落差（示範資料「課堂專題簡報」，取 8 筆）</text>
@@ -452,7 +471,7 @@ table.studio td.seg{white-space:nowrap}
 </template>
 
 <template id="tpl-F-check">
-<!-- 著色：五個步驟是暖白墨框卡，最後「存一版」換芥末黃淡底；箭頭墨色；開頭那句提醒用珊瑚橘深色（警示）。 -->
+<!-- 著色：五個步驟是白卡深藍框，最後「存一版」換珊瑚橘淡底；箭頭深藍；開頭那句提醒用珊瑚橘深色（警示）。 -->
 <svg viewBox="0 0 860 220" width="100%" role="img" aria-labelledby="fc-title">
   <title id="fc-title">AI 分析加人工抽查的流程：AI 分類、抽 3 筆、同意或不同意、三句結論、存一版</title>
   <text x="20" y="26" class="sv-ink sv-b" font-size="16">第三塊的流程：AI 先整理，人再抽查，兩樣一起留下來才是證據</text>
@@ -584,7 +603,7 @@ table.studio td.seg{white-space:nowrap}
     return '<figure data-figure="' + esc(id) + '"><div class="fig-scroll">' + t.innerHTML + '</div>' +
       '<figcaption>圖｜' + esc(meta ? meta.title : id) + '</figcaption></figure>';
   };
-  /* 提示詞區塊（site.css 的新寫法）：薰衣草淡底標籤列＋右側複製鈕、<pre> 放純文字、底下一行那句硬規矩 */
+  /* 提示詞區塊（site.css 的新寫法）：淡藍標籤列＋右側複製鈕、<pre> 放純文字、底下一行那句硬規矩 */
   var promptCard = function(p){
     return '<div class="prompt" id="prompt-' + esc(p.id) + '">' +
       '<div class="prompt-head"><span class="label">提示詞 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' + copyBtn('.prompt', '複製提示詞 ' + p.id) + '</div>' +
@@ -621,7 +640,7 @@ table.studio td.seg{white-space:nowrap}
       var sayHtml = (b.id === 'B1')
         ? sayBox(s.say)
         : '<p>' + linkPrompts(s.say) + '</p>' + (paste ? '<span class="lbl">貼給 AI 助手的話</span>' + sayBox(paste) : '');
-      /* 三欄步驟卡（site.css .trio）：你說什麼＝芥末黃線、AI 會做什麼＝湖水綠線（.ai）、你一定要自己看的＝珊瑚橘線（.see） */
+      /* 三欄步驟卡（site.css .trio）：你說什麼＝深藍線、AI 會做什麼＝綠線（.ai）、你一定要自己看的＝珊瑚橘線（.see） */
       return '<li><div class="trio">' +
         '<div class="step"><h4>你說什麼</h4>' + sayHtml + '</div>' +
         '<div class="step ai"><h4>AI 會做什麼</h4><p>' + esc(s.ai) + '</p></div>' +

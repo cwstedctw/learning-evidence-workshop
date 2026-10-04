@@ -6,54 +6,56 @@
 <meta name="color-scheme" content="light dark">
 <title>投影片｜從學習證據到教學改進</title>
 <meta name="description" content="2026-10-16 教師工作坊投影片播放殼：iframe 載 01–16 頁、等比縮放、鍵盤翻頁、#n 直達。">
-<!-- 字型跟全站同一組（定稿樣稿 D）：本機有裝就用本機的，沒有就從 Google Fonts 拿，兩邊都沒有時退到系統字 -->
+<!-- 字型跟投影片同一組（2026-10-04 v5：只用 Noto Sans TC）：本機有裝就用本機的，沒有就從 Google Fonts 拿，兩邊都沒有時退到系統黑體 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&display=swap">
 <style>
-/* 播放殼的頂欄與說明框照定稿樣稿 D：奶油白底、墨色字、1.5px 墨框、3px 輕偏移；舞台（放投影片的那一塊）用墨色，投影片才會跳出來。
-   深色模式（跟著系統）：底色翻成墨色、字翻成奶油，四色降一階。 */
-:root{--paper:#FFF7E6;--card:#FFFDF7;--ink:#1B1B1F;--ink-soft:#4A4650;--red:#B42318;--y:#EAC653;--tint:#F6ECD2;--rule:#E3D9C1;--rule-strong:#857F74;
-  --stage:#1B1B1F;--on-stage:#CFC9BA;--bw:1.5px;--sh:3px 3px 0 var(--ink);--r:6px;--r-sm:4px;
-  --serif:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif;
+/* 播放殼（2026-10-04 v5）照立霧參考版：頂欄白底、深藍字、1px 淺框方角按鈕；舞台（放投影片的那一塊）用深藍黑，投影片才會跳出來。
+   深色模式（跟著系統）：色值＝立霧 reference.css 的 dark 代幣（底 #101725、卡 #182237、淺藍、淺珊瑚）。功能與 44px 觸控目標不動。 */
+:root{--paper:#f7f8fb;--card:#fff;--ink:#17243d;--ink-soft:#566278;--line:#dce2ec;--line-strong:#7c8aa2;
+  --blue:#243d70;--blue-deep:#1c305a;--blue-soft:#edf1f8;--coral:#e7785c;--coral-soft:#fbebe5;--coral-deep:#934029;--on-blue:#fff;
+  --stage:#101725;--on-stage:#bcc9df;--r:8px;--r-sm:5px;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
   --mono:"Cascadia Code","Consolas","SFMono-Regular",Menlo,monospace}
 @media (prefers-color-scheme:dark){
-  :root{--paper:#1B1B1F;--card:#26262B;--ink:#FFF7E6;--ink-soft:#CFC9BA;--red:#F07F6E;--y:#DDB94C;--tint:rgba(255,247,230,.08);--rule:rgba(255,247,230,.28);--rule-strong:rgba(255,247,230,.55);
-    --stage:#111114;--sh:3px 3px 0 rgba(255,247,230,.55)}
+  :root{--paper:#101725;--card:#182237;--ink:#f0f3fa;--ink-soft:#b3bfd3;--line:#34415a;--line-strong:#8695b0;
+    --blue:#a9c4ff;--blue-deep:#bed3ff;--blue-soft:#243450;--coral:#f2a087;--coral-soft:#402b28;--coral-deep:#f2b39f;--on-blue:#152139;
+    --stage:#0b111c}
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:var(--stage);color:var(--ink);font-family:var(--sans)}
 body{display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
-.top{display:flex;align-items:center;gap:8px;padding:4px 16px;font-size:14px;background:var(--paper);border-bottom:var(--bw) solid var(--ink);flex-wrap:wrap}
-.top .t{font-family:var(--serif);font-weight:900;font-size:17px;color:var(--ink);white-space:nowrap;font-feature-settings:"palt"}
+.top{display:flex;align-items:center;gap:8px;padding:4px 16px;font-size:14px;background:var(--card);border-bottom:1px solid var(--line);flex-wrap:wrap}
+.top .t{font-weight:900;font-size:17px;color:var(--blue-deep);white-space:nowrap;letter-spacing:-.02em;font-feature-settings:"palt"}
 .top .sub{color:var(--ink-soft);white-space:nowrap}
 .top .sp{flex:1}
-/* 連結與按鈕最矮 44px（觸控目標；2026-10-02 設計審查原本 30px）；連結照 D 的導覽列：墨字、底線用 hover 的灰線 */
+/* 連結與按鈕最矮 44px（觸控目標；2026-10-02 設計審查原本 30px）；連結照立霧的導覽列：深藍字、hover 底線珊瑚 */
 .top a{color:var(--ink);text-decoration:none;padding:0 10px;min-height:44px;display:inline-flex;align-items:center;font-weight:600;border-top:3px solid transparent;border-bottom:3px solid transparent}
-.top a:hover{border-bottom-color:var(--rule-strong)}
-.top button{font:inherit;font-size:14px;font-weight:600;background:var(--card);color:var(--ink);border:var(--bw) solid var(--ink);border-radius:var(--r-sm);padding:0 12px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .15s ease,transform .08s ease}
-.top button:hover{background:var(--tint)}
+.top a:hover{border-bottom-color:var(--coral);color:var(--blue-deep)}
+.top button{font:inherit;font-size:14px;font-weight:600;background:var(--card);color:var(--blue-deep);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:0 12px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .15s ease,transform .08s ease}
+.top button:hover{background:var(--blue-soft);border-color:var(--blue)}
 .top button:active{transform:translateY(1px)}
-.top a:focus-visible,.top button:focus-visible,.help button:focus-visible,.help a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.top a:focus-visible,.top button:focus-visible,.help button:focus-visible,.help a:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 .stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px 16px 34px;background:var(--stage)}
-.fit{position:relative;width:1280px;height:720px;box-shadow:0 12px 44px rgba(0,0,0,.5);background:#1B1B1F;border-radius:4px;overflow:hidden}
+.fit{position:relative;width:1280px;height:720px;box-shadow:0 12px 44px rgba(0,0,0,.5);background:#101725;border-radius:4px;overflow:hidden}
 .frame{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:top left}
-.frame iframe{width:1280px;height:720px;border:0;display:block;background:#1B1B1F}
+.frame iframe{width:1280px;height:720px;border:0;display:block;background:#101725}
 .hit{position:absolute;inset:0;cursor:pointer}
 .pre{position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;opacity:0;pointer-events:none;border:0}
 .counter{position:absolute;right:20px;bottom:8px;font-size:13px;color:var(--on-stage);font-variant-numeric:tabular-nums;user-select:none}
 .hint{position:absolute;left:20px;bottom:8px;font-size:12px;color:var(--on-stage);user-select:none}
-.help{position:fixed;inset:0;background:rgba(27,27,31,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+.help{position:fixed;inset:0;background:rgba(16,23,37,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
 .help.on{display:flex}
-.help .box{max-width:600px;width:100%;background:var(--card);color:var(--ink);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:22px 26px;font-size:15px;line-height:1.7;max-height:90vh;overflow:auto}
-.help h2{margin:0 0 8px;font-family:var(--serif);font-weight:900;font-size:20px;color:var(--ink)}
-.help kbd{font-family:var(--mono);background:var(--tint);border:1px solid var(--ink);border-radius:var(--r-sm);padding:0 6px;font-size:13px}
+.help .box{max-width:600px;width:100%;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:var(--r);padding:22px 26px;font-size:15px;line-height:1.7;max-height:90vh;overflow:auto}
+.help h2{margin:0 0 8px;font-weight:900;font-size:20px;color:var(--blue-deep);letter-spacing:-.02em}
+.help kbd{font-family:var(--mono);background:var(--blue-soft);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:0 6px;font-size:13px}
 .help code{font-family:var(--mono);font-size:.95em}
-.help .foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-soft)}
-.help .foot a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:3px}
-.help .close{margin-top:12px;font:inherit;font-weight:700;font-size:15px;min-height:44px;padding:0 20px;background:var(--y);color:#1B1B1F;border:var(--bw) solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--sh);cursor:pointer;transition:transform .08s ease,box-shadow .08s ease}
-.help .close:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.help .foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink-soft)}
+.help .foot a{color:var(--blue-deep);text-decoration:underline;text-decoration-color:var(--coral);text-decoration-thickness:2px;text-underline-offset:3px}
+.help .close{margin-top:12px;font:inherit;font-weight:700;font-size:15px;min-height:44px;padding:0 20px;background:var(--blue);color:var(--on-blue);border:0;border-radius:var(--r-sm);cursor:pointer;transition:background-color .15s ease,transform .08s ease}
+.help .close:hover{background:var(--blue-deep)}
+.help .close:active{transform:translateY(1px)}
 :fullscreen .top{display:none}
 :fullscreen .stage{padding:0}
 @media (max-width:640px){.top{padding:4px 12px;font-size:13px}.top .sub{display:none}.stage{padding:8px 16px}}

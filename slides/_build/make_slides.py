@@ -34,11 +34,11 @@ SAMPLE = ROOT / 'data' / 'sample-analysis.json'
 FOOTER = '從學習證據到教學改進｜2026-10-16'
 SEAL = 'AI 協作團隊'
 DARK_PAGES = {2, 11, 16}   # 開場那一句、三句結論、收尾（2026-10-02 簡化：20 → 16 頁）
-# 字型跟全站同一組（定稿樣稿 D）：Noto Serif TC 900 當展示字、Noto Sans TC 當內文。本機有裝就用本機的，沒有就從這裡拿；
-# 兩邊都沒有時 deck.css 的字型堆疊退到系統字（display=swap：字會換、版不會壞）。
-FONTS_CSS = 'https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap'
-# 四塊對四色（跟入口頁議程表 .badge.b1–b4、deck.css 檔頭同一個對應）：第一塊黃、第二塊橘、第三塊綠、第四塊紫
-BLOCK_FILL = {'B1': 'f-y', 'B2': 'f-c', 'B3': 'f-a', 'B4': 'f-l'}
+# 字型（2026-10-04 v5 立霧風格）：只用 Noto Sans TC，標題 900、內文 400–700，不再用襯線。本機有裝就用本機的，沒有就從這裡拿；
+# 兩邊都沒有時 deck.css 的字型堆疊退到系統黑體（display=swap：字會換、版不會壞）。
+FONTS_CSS = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap'
+# 四塊對四階（deck.css 檔頭同一個對應；取代 v4 的黃／橘／綠／紫）：第一塊淺藍、第二塊珊瑚、第三塊中藍、第四塊藍
+BLOCK_FILL = {'B1': 'f-b1', 'B2': 'f-b2', 'B3': 'f-b3', 'B4': 'f-b4'}
 # 落差圖「離 0 遠」的門檻（絕對值 ≥ 這個數就標紅）。工作台 studio.html 的 `var FAR = 4`（圖例、長條、排序表共用）
 # 跟這裡必須同一個數字，不然老師兩邊對照會以為自己看錯；資料源目前沒有這個欄位（可考慮加 meta.farGap 讓兩邊都讀它），
 # 在那之前改門檻要兩邊一起改。
@@ -253,8 +253,7 @@ def render_pairs(path):
 
 
 # ───────────────────────── 頁面殼 ─────────────────────────
-ARCS = ('<div class="arc" style="width:520px;height:520px;right:-150px;top:-160px"></div>'
-        '<div class="arc" style="width:340px;height:340px;right:-60px;top:-40px;border-color:rgba(230,242,242,.10)"></div>')
+# v5（立霧風格）：深底頁不再放裝飾弧線（.arc），版面乾淨；deck.css 的 .arc 也設 display:none 以防舊頁殘留。
 
 
 def page(n, kicker, title, body, figure=None, cover=False, title_cls='title', title_attrs=''):
@@ -267,7 +266,7 @@ def page(n, kicker, title, body, figure=None, cover=False, title_cls='title', ti
     plain = re.sub(r'<[^>]+>', '', title)
     head = '' if cover else (f'<div class="kicker">{kicker}</div>'
                              f'<div class="{title_cls}"{(" " + title_attrs) if title_attrs else ""}>{title}</div><hr class="rule">')
-    arcs = '' if (light or cover) else ARCS
+    arcs = ''
     foot = '' if cover else f'<div class="footer-org">{FOOTER}</div><div class="seal">{SEAL}</div>'
     return f'''<!DOCTYPE html>
 <html lang="zh-Hant-TW">
@@ -302,7 +301,7 @@ def svg(w, h, inner, cls=''):
     return f'<svg class="{cls}" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" xmlns="http://www.w3.org/2000/svg">{inner}</svg>'
 
 
-def arrow_h(x1, x2, y, cls='f-ink', stroke='s-ink'):
+def arrow_h(x1, x2, y, cls='f-blue', stroke='s-blue'):
     return (f'<line x1="{x1}" y1="{y}" x2="{x2 - 10}" y2="{y}" class="{stroke}" stroke-width="3"/>'
             f'<polygon points="{x2 - 12},{y - 8} {x2},{y} {x2 - 12},{y + 8}" class="{cls}"/>')
 
@@ -320,31 +319,32 @@ def fig_agenda():
         hand = a['mode'] == '動手'
         if hand:
             hands += a['minutes']
-        # 動手的四塊各一色（BLOCK_FILL）、講／對談用沙色；每格 1.5px 墨框（D 的色塊長相）
-        seg_fill = BLOCK_FILL.get(a.get('blockId'), 'f-y') if hand else 'f-sand'
-        parts.append(f'<rect x="{x:.1f}" y="{y}" width="{w - 3:.1f}" height="{h}" rx="6" class="{seg_fill} s-ink" stroke-width="1.5"/>')
-        parts.append(f'<line x1="{x:.1f}" y1="36" x2="{x:.1f}" y2="{y}" class="s-line" stroke-width="1.5"/>')
+        # 動手的四塊各一階（BLOCK_FILL：淺藍／珊瑚／中藍／藍）、講／對談用中性灰藍；色塊不加框（立霧的色塊長相），格與格之間留 3px
+        seg_fill = BLOCK_FILL.get(a.get('blockId'), 'f-b1') if hand else 'f-sand'
+        parts.append(f'<rect x="{x:.1f}" y="{y}" width="{w - 3:.1f}" height="{h}" rx="6" class="{seg_fill}"/>')
+        parts.append(f'<line x1="{x:.1f}" y1="36" x2="{x:.1f}" y2="{y}" class="s-tick" stroke-width="1.5"/>')
         # 最後一段太窄時，開始時間往上一行，免得跟右端的結束時間互疊（字級升到 15px 後會撞）
         parts.append(fill('text', f'agenda.{i}.start', 't-xs f-mist', attrs=f'x="{x + 2:.1f}" y="34"'))
         if hand:
-            parts.append(fill('text', f'agenda.{i}.title', 't-sm f-ink', attrs=f'x="{x + 12:.1f}" y="{y + 24}" opacity=".8"', sep='・', part=0))
+            # 格內兩行都用全色墨藍字（v4 第一行 opacity .8，壓在第四塊的藍上只剩 2.7:1，拿掉後 4.7:1）
+            parts.append(fill('text', f'agenda.{i}.title', 't-sm f-ink', attrs=f'x="{x + 12:.1f}" y="{y + 24}"', sep='・', part=0))
             title_cls = fit_cls(resolve(f'agenda.{i}.title', sep='・', part=1) or '', w - 21)   # 格寬扣左 12、右 6、縫 3
             parts.append(fill('text', f'agenda.{i}.title', f'{title_cls} t-b f-ink', attrs=f'x="{x + 12:.1f}" y="{y + 52}"', sep='・', part=1))
-            parts.append(f'<text x="{x + 12:.1f}" y="158" class="t-sm t-b f-red">帶走</text>')
+            parts.append(f'<text x="{x + 12:.1f}" y="158" class="t-sm t-b f-coral-deep">帶走</text>')
             parts.append(fill('text', f'agenda.{i}.takeaway', 't-md', attrs=f'x="{x + 12:.1f}" y="184"', wrap_=max(6, int((w - 24) / 20))))
         else:
             parts.append(fill('text', f'agenda.{i}.title', 't-lg t-b t-c', attrs=f'x="{x + (w - 3) / 2:.1f}" y="{y + 43}"'))
         x += w
-    parts.append(f'<line x1="1088" y1="36" x2="1088" y2="{y}" class="s-line" stroke-width="1.5"/>')
+    parts.append(f'<line x1="1088" y1="36" x2="1088" y2="{y}" class="s-tick" stroke-width="1.5"/>')
     # 最後一段太窄（收尾 8 分鐘）時，結束時間放到長條下方右端，免得跟最後一段的開始時間互疊
     end_y = 150 if ag[-1]['minutes'] * per < 100 else 34
     parts.append(fill('text', f'agenda.{len(ag) - 1}.end', 't-xs f-mist t-e', attrs=f'x="1088" y="{end_y}"'))
     # 圖例與合計（合計用 data-sum 綁資料源，deck.js 執行期會再加一次；格子寬度仍是建置時算的，議程改了還是要重 build 才會重排）
-    # 圖例「動手」＝四色直條（四塊各一色）外加墨框；「講／對談」＝沙色
-    parts.append('<rect x="0" y="262" width="4.5" height="18" class="f-y"/><rect x="4.5" y="262" width="4.5" height="18" class="f-c"/>'
-                 '<rect x="9" y="262" width="4.5" height="18" class="f-a"/><rect x="13.5" y="262" width="4.5" height="18" class="f-l"/>'
-                 '<rect x="0" y="262" width="18" height="18" rx="3" class="f-none s-ink" stroke-width="1.5"/><text x="26" y="276" class="t-sm">動手</text>')
-    parts.append('<rect x="88" y="262" width="18" height="18" rx="3" class="f-sand s-ink" stroke-width="1.5"/><text x="114" y="276" class="t-sm">講／對談</text>')
+    # 圖例「動手」＝四階直條（四塊各一階）外加細框；「講／對談」＝中性灰藍
+    parts.append('<rect x="0" y="262" width="4.5" height="18" class="f-b1"/><rect x="4.5" y="262" width="4.5" height="18" class="f-b2"/>'
+                 '<rect x="9" y="262" width="4.5" height="18" class="f-b3"/><rect x="13.5" y="262" width="4.5" height="18" class="f-b4"/>'
+                 '<rect x="0" y="262" width="18" height="18" rx="3" class="f-none s-tick" stroke-width="1"/><text x="26" y="276" class="t-sm">動手</text>')
+    parts.append('<rect x="88" y="262" width="18" height="18" rx="3" class="f-sand s-tick" stroke-width="1"/><text x="114" y="276" class="t-sm">講／對談</text>')
     parts.append('<text x="1088" y="276" class="t-sm f-mist t-e">動手合計 '
                  + sum_fill('tspan', 'agenda.minutes', where='mode=動手')
                  + ' 分鐘｜全場 ' + sum_fill('tspan', 'agenda.minutes') + ' 分鐘</text>')
@@ -353,8 +353,8 @@ def fig_agenda():
 
 def fig_timeline():
     xs = [130, 400, 670, 940]
-    # 時間線墨色；第 3 版還沒發生，虛線＋次要色
-    parts = [f'<line x1="40" y1="110" x2="{xs[2]}" y2="110" class="s-ink" stroke-width="4"/>',
+    # 時間線深藍；第 3 版還沒發生，虛線＋次要色
+    parts = [f'<line x1="40" y1="110" x2="{xs[2]}" y2="110" class="s-blue" stroke-width="4"/>',
              f'<line x1="{xs[2]}" y1="110" x2="1048" y2="110" class="s-mist dash" stroke-width="4"/>']
     tops = [
         fill('text', 'blocks.0.steps.1.say', 't-lg t-b t-c', attrs=f'x="{xs[0]}" y="62"', rx='「(.+?)」'),
@@ -369,15 +369,15 @@ def fig_timeline():
         None,
         '<text x="{x}" y="196" class="t-sm"><tspan x="{x}" dy="0">兩位老師同評、算一致性，</tspan><tspan x="{x}" dy="1.4em">不一致的格子回頭改。</tspan></text>',
     ]
-    # 版本點：存過的湖水綠、你改過的那一版芥末黃（D 插圖的同一個語意）、還沒發生的第 3 版空心虛線
-    dots = ['f-a s-ink', 'f-a s-ink', 'f-y s-ink', 'f-card s-mist dash']
+    # 版本點：AI 助手存過的深藍、你改過的那一版珊瑚（深藍＝AI 做的、珊瑚＝你動手的）、還沒發生的第 3 版空心虛線
+    dots = ['f-blue s-blue', 'f-blue s-blue', 'f-coral s-coral', 'f-card s-mist dash']
     for i, x in enumerate(xs):
         last = i == 3
         parts.append(f'<circle cx="{x}" cy="110" r="14" class="{dots[i]}" stroke-width="{3 if last else 4}"/>')
         parts.append(tops[i])
         parts.append(f'<text x="{x}" y="86" class="t-sm f-mist t-c">{times[i]}</text>')
-        parts.append(f'<rect x="{x - 125}" y="146" width="250" height="96" rx="6" class="f-card s-ink" stroke-width="1.5"/>')
-        parts.append(f'<text x="{x - 110}" y="172" class="t-xs t-b f-red">為什麼改</text>')
+        parts.append(f'<rect x="{x - 125}" y="146" width="250" height="96" rx="6" class="f-card s-line" stroke-width="1.5"/>')
+        parts.append(f'<text x="{x - 110}" y="172" class="t-xs t-b f-coral-deep">為什麼改</text>')
         if whys[i] is None:
             parts.append(fill('text', 'examples.presentation.whyChanged', 't-sm', attrs=f'x="{x - 110}" y="196"', wrap_=13))   # 卡寬 250、左留 15：17px 一行 13 字（16 字會出框 37px）
         else:
@@ -391,33 +391,37 @@ def fig_rubric_diff():
     m = re.search(r'「([^」]*?)・', ex['disagreeExample'])
     hi = crit.index(m.group(1)) if m and m.group(1) in crit else 2
     parts = []
-    # 第 1 版（AI 起草、有你不同意的那一格）＝珊瑚橘：淡底表頭、那一格實心；第 2 版（你改過）＝湖水綠，同樣一淡一實
-    for side, x0, head_fill, row_fill, tag_cls, title in [(0, 0, 'f-c-soft', 'f-c', 'f-c-deep', '第 1 版・AI 起草'),
-                                                          (1, 608, 'f-a-soft', 'f-a', 'f-a-deep', '第 2 版・你改過')]:
-        parts.append(f'<rect x="{x0}" y="0" width="480" height="268" rx="6" class="f-card s-ink" stroke-width="1.5"/>')
+    # 第 1 版（AI 起草、有你不同意的那一格）＝珊瑚：淡珊瑚表頭、那一格實心珊瑚；第 2 版（你改過）＝藍：淡藍表頭、那一格中藍（墨藍字 7.2:1）
+    for side, x0, head_fill, row_fill, tag_cls, title in [(0, 0, 'f-coral-soft', 'f-coral', 'f-coral-deep', '第 1 版・AI 起草'),
+                                                          (1, 608, 'f-blue-soft', 'f-b3', 'f-blue-deep', '第 2 版・你改過')]:
+        parts.append(f'<rect x="{x0}" y="0" width="480" height="268" rx="6" class="f-card s-line" stroke-width="1.5"/>')
         parts.append(f'<path d="M{x0 + 6},0 h468 a6,6 0 0 1 6,6 v38 h-480 v-38 a6,6 0 0 1 6,-6 z" class="{head_fill}"/>')
-        parts.append(f'<line x1="{x0}" y1="44" x2="{x0 + 480}" y2="44" class="s-ink" stroke-width="1.5"/>')
+        parts.append(f'<line x1="{x0}" y1="44" x2="{x0 + 480}" y2="44" class="s-line" stroke-width="1.5"/>')
         parts.append(f'<text x="{x0 + 20}" y="30" class="t-lg t-b">{title}</text>')
         if side == 0:
             parts.append(fill('text', 'examples.presentation.disagreeExample', f't-sm t-b {tag_cls} t-e', attrs=f'x="{x0 + 460}" y="30"', rx='——(.+?)。'))
         else:
-            parts.append(f'<text x="{x0 + 460}" y="30" class="t-sm t-b {tag_cls} t-e">看得見、數得出</text>')
+            parts.append(f'<text x="{x0 + 460}" y="30" class="t-sm t-b {tag_cls} t-e">看得見、對應目標</text>')
         for k, c in enumerate(crit):
             y = 44 + k * 56
-            parts.append(f'<line x1="{x0 + 16}" y1="{y + 56}" x2="{x0 + 464}" y2="{y + 56}" class="s-line" stroke-width="1" opacity=".8"/>')
+            parts.append(f'<line x1="{x0 + 16}" y1="{y + 56}" x2="{x0 + 464}" y2="{y + 56}" class="s-tick" stroke-width="1"/>')
             parts.append(fill('text', f'examples.presentation.criteria.{k}', 't-md t-b', attrs=f'x="{x0 + 20}" y="{y + 35}"'))
             if k == hi:
-                # 那一格從 x0+112 到 x0+470（第 2 版那句 19px 要 342px 寬，原本 344 寬、字從 +130 起會出框 8px）
-                parts.append(f'<rect x="{x0 + 112}" y="{y + 9}" width="358" height="38" rx="4" class="{row_fill} s-ink" stroke-width="1.5"/>')
-                if side == 0:
-                    parts.append(fill('text', 'examples.presentation.disagreeExample', 't-md', attrs=f'x="{x0 + 120}" y="{y + 34}"', rx='「[^」]*?・(.+?)」', nth=0))
+                # 那一格從 x0+112 到 x0+470、高 50（列高 56，上下各留 3px 縫）。句子 19px 放得進 342px 就一行置中；
+                # 放不進（2026-10-04 資料源第 2 版範例句改成 31 字）就 17px 折兩行（每行 16 字），deck.js 執行期用同一組 data-wrap 再折一次。
+                # 三行會壓到下一列的字——verify_slides.py 的 SVG 重疊檢查會抓到，到時再改版面
+                rx = '「[^」]*?・(.+?)」' if side == 0 else '改成「(.+?)」'
+                sentence = resolve('examples.presentation.disagreeExample', rx=rx) or ''
+                parts.append(f'<rect x="{x0 + 112}" y="{y + 3}" width="358" height="50" rx="4" class="{row_fill}"/>')
+                if text_px(sentence, 19) <= 342:
+                    parts.append(fill('text', 'examples.presentation.disagreeExample', 't-md', attrs=f'x="{x0 + 120}" y="{y + 34}"', rx=rx, nth=0))
                 else:
-                    parts.append(fill('text', 'examples.presentation.disagreeExample', 't-md', attrs=f'x="{x0 + 120}" y="{y + 34}"', rx='改成「(.+?)」', nth=0))
+                    parts.append(fill('text', 'examples.presentation.disagreeExample', 't-sm', attrs=f'x="{x0 + 120}" y="{y + 21}"', rx=rx, nth=0, wrap_=16))
             else:
                 parts.append(f'<text x="{x0 + 130}" y="{y + 34}" class="t-md f-mist">4 級 … 3 級 … 2 級 … 1 級</text>')
-    parts.append(arrow_h(492, 604, 134))
-    parts.append('<text x="544" y="120" class="t-sm t-b f-red t-c">改這一格</text>')
-    parts.append('<text x="0" y="304" class="t-md t-b f-red">為什麼改</text>')
+    parts.append(arrow_h(492, 604, 134, 'f-coral', 's-coral'))
+    parts.append('<text x="544" y="120" class="t-sm t-b f-coral-deep t-c">改這一格</text>')
+    parts.append('<text x="0" y="304" class="t-md t-b f-coral-deep">為什麼改</text>')
     parts.append(fill('text', 'examples.presentation.whyChanged', 't-md', attrs='x="84" y="304"'))
     return svg(1088, 316, ''.join(parts))
 
@@ -432,12 +436,12 @@ def fig_gap():
     for v, lab in [(8, '+8'), (4, '+4'), (0, '0'), (-4, '−4'), (-8, '−8')]:
         yy = zero - v * scale
         if v in (4, -4):
-            parts.append(f'<line x1="{left}" y1="{yy:.1f}" x2="{right}" y2="{yy:.1f}" class="s-line dash" stroke-width="1"/>')
+            parts.append(f'<line x1="{left}" y1="{yy:.1f}" x2="{right}" y2="{yy:.1f}" class="s-tick dash" stroke-width="1"/>')
         parts.append(f'<text x="{left - 8}" y="{yy + 4:.1f}" class="t-xs f-mist t-e">{lab}</text>')
     parts.append(f'<line x1="{left}" y1="{zero}" x2="{right}" y2="{zero}" class="s-ink" stroke-width="1.5"/>')
     for i, g in enumerate(gaps):
         gx = left + i * gw
-        for j, (key, base) in enumerate([('self_minus_teacher', 'f-a'), ('peer_minus_teacher', 'f-y')]):   # 自評湖水綠、互評芥末黃（跟圖例同色）
+        for j, (key, base) in enumerate([('self_minus_teacher', 'f-b3'), ('peer_minus_teacher', 'f-coral')]):   # 自評中藍、互評珊瑚（跟圖例同色；兩色都比紅框淺，框看得見）
             v = g[key]
             bx = gx + 5 + j * 17
             cls = base + (' far' if abs(v) >= FAR_GAP else '')   # 保留系列色、加紅框（設計審查：紅色吃掉系列色就分不出自評／互評）
@@ -450,8 +454,8 @@ def fig_gap():
         code = g['student_id'].replace('DEMO-', '')
         flag = g.get('flag')
         parts.append(f'<text x="{gx + gw / 2:.1f}" y="250" class="t-xs t-c{" t-b f-red" if flag else " f-mist"}">{esc(code)}</text>')
-    parts.append('<rect x="60" y="8" width="14" height="14" rx="3" class="f-a"/><text x="80" y="20" class="t-xs">自評 − 教師</text>')
-    parts.append('<rect x="172" y="8" width="14" height="14" rx="3" class="f-y"/><text x="192" y="20" class="t-xs">互評 − 教師</text>')
+    parts.append('<rect x="60" y="8" width="14" height="14" rx="3" class="f-b3"/><text x="80" y="20" class="t-xs">自評 − 教師</text>')
+    parts.append('<rect x="172" y="8" width="14" height="14" rx="3" class="f-coral"/><text x="192" y="20" class="t-xs">互評 − 教師</text>')
     parts.append(f'<rect x="284" y="8" width="14" height="14" rx="3" class="f-none far"/><text x="304" y="20" class="t-xs">差 {FAR_GAP} 分以上</text>')
     parts.append('<text x="1068" y="20" class="t-xs f-mist t-e">課堂專題簡報・24 筆合成示範資料（代號 DEMO-S01…）；紅字代號＝答案卡有話要說</text>')
     return svg(1088, 262, ''.join(parts))
@@ -480,12 +484,12 @@ def fig_check():
 
     boxes = [
         # (角色, 格子標題, 格子樣式, 底下說明)
-        # AI 助手的格子＝湖水綠淡底、你的格子＝芥末黃淡底（講義三欄步驟卡同一個對應），都 1.5px 墨框
-        ('AI 助手', prose_label(0, 'AI 分類、找落差'), 'f-a-soft s-ink', cap(0, f'{S}.0.ai')),
-        ('你', label(1, f'{S}.2.say', '「(.+?)」'), 'f-y-soft s-ink', prose_cap(1, '在工作台「證據儀表板」按，可以重抽')),
-        ('你', label(2, f'{S}.2.human', '寫「(.+?)」'), 'f-y-soft s-ink', prose_cap(2, '讀原始反思、看三個分數再判斷')),
-        ('你', label(3, f'{S}.3.say', '「(.+?)」'), 'f-y-soft s-ink', prose_cap(3, '證據是…／下次要改…／再蒐集…')),
-        ('AI 助手', prose_label(4, '存一版'), 'f-a-soft s-ink', cap(4, f'{S}.4.say', rx='版本說明寫[：「](.+?)」', wrap_=10)),
+        # AI 助手的格子＝淡藍底深藍框、你的格子＝淡珊瑚底珊瑚框（跟立霧版第 10 頁同一個對應），框 1.5px
+        ('AI 助手', prose_label(0, 'AI 分類、找落差'), 'f-blue-soft s-blue', cap(0, f'{S}.0.ai')),
+        ('你', label(1, f'{S}.2.say', '「(.+?)」'), 'f-coral-soft s-coral', prose_cap(1, '在工作台「證據儀表板」按，可以重抽')),
+        ('你', label(2, f'{S}.2.human', '寫「(.+?)」'), 'f-coral-soft s-coral', prose_cap(2, '讀原始反思、看三個分數再判斷')),
+        ('你', label(3, f'{S}.3.say', '「(.+?)」'), 'f-coral-soft s-coral', prose_cap(3, '證據是…／下次要改…／再蒐集…')),
+        ('AI 助手', prose_label(4, '存一版'), 'f-blue-soft s-blue', cap(4, f'{S}.4.say', rx='版本說明寫[：「](.+?)」', wrap_=10)),
     ]
     parts = []
     for k, (role, lab, cls, capt) in enumerate(boxes):
@@ -501,10 +505,10 @@ def fig_check():
 
 def fig_onepage():
     rows = FLOW['designFields']
-    # 第四塊＝薰衣草紫：表頭淡紫、1.5px 墨框
-    parts = ['<rect x="6" y="6" width="508" height="406" rx="6" class="f-card s-ink" stroke-width="1.5"/>',
-             '<path d="M12,6 h496 a6,6 0 0 1 6,6 v42 h-508 v-42 a6,6 0 0 1 6,-6 z" class="f-l-soft"/>',
-             '<line x1="6" y1="54" x2="514" y2="54" class="s-ink" stroke-width="1.5"/>',
+    # 一頁設計：白卡、淡藍表頭、1.5px 淺框
+    parts = ['<rect x="6" y="6" width="508" height="406" rx="6" class="f-card s-line" stroke-width="1.5"/>',
+             '<path d="M12,6 h496 a6,6 0 0 1 6,6 v42 h-508 v-42 a6,6 0 0 1 6,-6 z" class="f-blue-soft"/>',
+             '<line x1="6" y1="54" x2="514" y2="54" class="s-line" stroke-width="1.5"/>',
              '<text x="24" y="37" class="t-md t-b">一頁「評量—回饋—教學調整—研究」設計</text>']
     y0, rh = 66, 31
     for i in range(len(rows)):
@@ -512,29 +516,29 @@ def fig_onepage():
         parts.append(fill('text', f'designFields.{i}.label', 't-sm t-b', attrs=f'x="24" y="{yy + 22}"'))
         parts.append(fill('text', f'designFields.{i}.planLabel', 't-xs f-mist t-e', attrs=f'x="496" y="{yy + 22}"'))
         if i < len(rows) - 1:
-            parts.append(f'<line x1="18" y1="{yy + 32}" x2="502" y2="{yy + 32}" class="s-line" stroke-width="1" opacity=".8"/>')
+            parts.append(f'<line x1="18" y1="{yy + 32}" x2="502" y2="{yy + 32}" class="s-tick" stroke-width="1"/>')
     return svg(520, 418, ''.join(parts))
 
 
 def fig_records():
     parts = []
 
-    def box(x, y, w, h, cls, tag, lines, tag_cls='f-a-deep'):
+    def box(x, y, w, h, cls, tag, lines, tag_cls='f-blue-deep'):
         out = [f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="6" class="{cls}" stroke-width="1.5"/>',
                f'<text x="{x + 18}" y="{y + 28}" class="t-xs t-b {tag_cls}">{esc(tag)}</text>']
         for i, ln in enumerate(lines):
             out.append(f'<text x="{x + 18}" y="{y + 52 + i * 22}" class="t-sm{" t-b" if i == 0 else " f-mist"}">{esc(ln)}</text>')
         return ''.join(out)
 
-    # 兩種紀錄（暖白卡）→ 匯成一條時間線（湖水綠淡底）→ 寫計畫書時（芥末黃淡底）；連接線與箭頭墨色
-    parts.append(box(0, 16, 380, 92, 'f-card s-ink', '工作坊當天（AI 助手存的）', ['版本清單（git log）', '每一筆：時間、說明、前後對照']))
-    parts.append(box(0, 140, 380, 92, 'f-card s-ink', '課後用 GitHub 網頁版上傳', ['匯出 Markdown → 網頁上傳', '每一筆：時間、說明（Commit history）'], 'f-red'))
-    parts.append('<path d="M380,62 C430,62 430,124 480,124" class="f-none s-ink" stroke-width="3"/>')
-    parts.append('<path d="M380,186 C430,186 430,124 480,124" class="f-none s-ink" stroke-width="3"/>')
-    parts.append('<polygon points="478,116 492,124 478,132" class="f-ink"/>')
-    parts.append(box(494, 78, 300, 92, 'f-a-soft s-ink', '到最後長一樣', ['一條時間線', '什麼時候、改了什麼、為什麼']))
+    # 兩種紀錄（白卡）→ 匯成一條時間線（淡藍底、深藍框＝AI 存的）→ 寫計畫書時（淡珊瑚底、珊瑚框＝你動手）；連接線與箭頭深藍
+    parts.append(box(0, 16, 380, 92, 'f-card s-line', '工作坊當天（AI 助手存的）', ['版本清單（git log）', '每一筆：時間、說明、前後對照']))
+    parts.append(box(0, 140, 380, 92, 'f-card s-line', '課後用 GitHub 網頁版上傳', ['匯出 Markdown → 網頁上傳', '每一筆：時間、說明（Commit history）'], 'f-coral-deep'))
+    parts.append('<path d="M380,62 C430,62 430,124 480,124" class="f-none s-blue" stroke-width="3"/>')
+    parts.append('<path d="M380,186 C430,186 430,124 480,124" class="f-none s-blue" stroke-width="3"/>')
+    parts.append('<polygon points="478,116 492,124 478,132" class="f-blue"/>')
+    parts.append(box(494, 78, 300, 92, 'f-blue-soft s-blue', '到最後長一樣', ['一條時間線', '什麼時候、改了什麼、為什麼']))
     parts.append(arrow_h(800, 846, 124))
-    parts.append(box(850, 78, 238, 92, 'f-y-soft s-ink', '寫計畫書時', ['整理成一張表', '＝研究歷程資料'], 'f-red'))
+    parts.append(box(850, 78, 238, 92, 'f-coral-soft s-coral', '寫計畫書時', ['整理成一張表', '＝研究歷程資料'], 'f-coral-deep'))
     return svg(1088, 248, ''.join(parts))
 
 
@@ -549,28 +553,11 @@ def p01():
 <div class="chips"><span>四塊全部動手</span><span>AI agent 代打</span><span>示範資料、不碰真實學生</span></div>
 <div class="cmeta"><b>{fill('span', 'meta.date')}</b> {fill('span', 'meta.time')}｜{fill('span', 'meta.venue')}<br>{fill('span', 'meta.speaker')}</div>
 </div>
-{COVER_ART}
 <div class="footer-org">主辦：{fill('span', 'meta.host')}</div>'''
     return page(1, '', '封面', body, cover=True)
 
 
-# 封面右側的細線小插圖（定稿樣稿 D 刊頭那張；純圖形、無文字）：資料夾裡的評分表、被改掉的那一列、三個版本點。
-# 顏色全走 deck.css 的 .f-*／.s-* 類別（薰衣草資料夾、珊瑚橘那一列、芥末黃鉛筆、湖水綠版本點、墨色線條），不硬編色碼。
-COVER_ART = ('<svg class="cover-art" viewBox="0 0 320 250" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
-             '<path d="M24 70h70l16 18h120a10 10 0 0 1 10 10v108a10 10 0 0 1-10 10H34a10 10 0 0 1-10-10V80a10 10 0 0 1 10-10z" class="f-l"/>'
-             '<path d="M24 100h216"/>'
-             '<rect x="95" y="49" width="176" height="176" rx="6" class="f-ink ns"/>'
-             '<rect x="92" y="46" width="176" height="176" rx="6" class="f-card"/>'
-             '<rect x="108" y="62" width="70" height="10" rx="2" class="f-ink ns"/>'
-             '<path d="M108 98h144M108 150h144M108 176h144M108 202h110"/>'
-             '<rect x="104" y="112" width="152" height="24" rx="4" class="f-c"/>'
-             '<path d="M112 124h112" stroke-width="3"/>'
-             '<g transform="rotate(-38 236 128)"><rect x="226" y="60" width="20" height="104" rx="4" class="f-y"/>'
-             '<path d="M226 164l10 24 10-24z" class="f-card"/><path d="M226 80h20"/></g>'
-             '<path d="M40 232h116" stroke-width="3"/>'
-             '<circle cx="44" cy="232" r="10" class="f-a"/><circle cx="98" cy="232" r="10" class="f-a"/><circle cx="152" cy="232" r="10" class="f-y"/>'
-             '<path d="M147 232l4 4 7-8"/>'
-             '</svg>')
+# 封面（2026-10-04 v5）照立霧版：整面深藍、白色大題名、珊瑚副標、細框標籤；v4 右側那張細線小插圖拿掉，版面乾淨。
 
 
 def p02():
@@ -583,7 +570,7 @@ def p02():
 </div>
 </div>
 {bar(fill('span', 'redlines.0.text'), '先講一件事', gold=True)}'''
-    return page(2, '開場 · WHY', '研究最難拿出來的一段', body)
+    return page(2, '開場', '研究最難拿出來的一段', body)
 
 
 def p03():
@@ -599,20 +586,20 @@ def p03():
 </div>
 </div>
 {bar(fill('span', 'meta.aiRule'), '原則')}'''
-    return page(3, '開場 · HOW', '今天的做法：你說一句、AI 助手做、你看過才點頭', body)
+    return page(3, '開場', '今天的做法：你說一句、AI 助手做、你看過才點頭', body)
 
 
 def p04():
     body = f'''<div class="vis">{fig_agenda()}</div>
 {bar('四塊全部自己動手；講師先做一遍，大家跟著做。', '節奏')}'''
-    return page(4, '開場 · AGENDA', '兩小時、四塊、每塊帶走一樣東西', body, figure='F-agenda')
+    return page(4, '開場', '兩小時、四塊、每塊帶走一樣東西', body, figure='F-agenda')
 
 
 def p05():
     body = f'''<div class="subtitle">版本控制工具（Git）幫一個資料夾記住每一次修改：一門課一個資料夾，每改一次存一版、寫一句為什麼改。</div>
 <div class="vis">{fig_timeline()}</div>
 {bar('你不必背指令：交給 AI 助手代打，你看計畫、看前後對照、點頭。', '分工')}'''
-    return page(5, '第一塊 · BLOCK 1', f'第一塊・{fill("span", "blocks.0.title")}', body, figure='F-timeline')
+    return page(5, '第一塊', f'第一塊・{fill("span", "blocks.0.title")}', body, figure='F-timeline')
 
 
 def p06():
@@ -622,7 +609,7 @@ def p06():
                      f'{fill("div", f"blocks.0.steps.{k}.human", cls="human")}</div></li>')
     body = f'''<div class="subtitle">AI 說做完，不等於做完——每一步都有你一定要自己看的。</div>
 <div class="vis vis--top"><ol class="steps">{''.join(items)}</ol></div>'''
-    return page(6, '第一塊 · FOUR STEPS', '四步、每步一句話；你說的那句在講義第參章', body)
+    return page(6, '第一塊', '四步、每步一句話；你說的那句在講義第參章', body)
 
 
 def p07():
@@ -630,13 +617,13 @@ def p07():
     body = f'''<div class="subtitle">評分規準表（Rubric）不是一次寫對的，是被學生的表現磨出來的。</div>
 <div class="vis">{fig_rubric_diff()}</div>
 {bar(f'{fill("b", "meta.rule")}<br>AI 起草的第一版一定有你不同意的句子，那一句就是今天的第一筆調整紀錄。', '重點', gold=True)}'''
-    return page(7, '第二塊 · BLOCK 2', f'第二塊・{fill("span", "blocks.1.title")}', body, figure='F-rubric-diff')
+    return page(7, '第二塊', f'第二塊・{fill("span", "blocks.1.title")}', body, figure='F-rubric-diff')
 
 
 def p08():
     tpl = '<li><span class="n">{{@n}}</span><div class="body"><div class="say">{{say|ui}}</div></div></li>'
     body = f'''<div class="vis vis--top">{render_list('blocks.1.steps', tpl, cls='steps steps--lg')}</div>'''
-    return page(8, '第二塊 · STEPS', '起草 → 不同意 → 審查者 → 第 2 版 → 存一版', body)
+    return page(8, '第二塊', '起草 → 不同意 → 審查者 → 第 2 版 → 存一版', body)
 
 
 def p09():
@@ -647,7 +634,7 @@ def p09():
 <div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">互評極低、另兩方一致 → 回查互評表，不是扣分。</div></div>
 </div></div>
 {bar('AI 很會找落差，但它會錯——而且錯得很有說服力。', '提醒', gold=True)}'''
-    return page(9, '第三塊 · BLOCK 3', f'第三塊・{fill("span", "blocks.2.title")}', body, figure='F-gap')
+    return page(9, '第三塊', f'第三塊・{fill("span", "blocks.2.title")}', body, figure='F-gap')
 
 
 def p10():
@@ -655,7 +642,7 @@ def p10():
 <div class="vis">{fig_check()}
 <div class="note">按<span class="ui">匯出抽查紀錄</span>——這份就是「分析信度」那一段的素材。</div></div>
 {bar('沒人抽到那筆分錯的？講師最後會點出來。重點不是抓到，是你知道「要抽」。', '提醒', gold=True)}'''
-    return page(10, '第三塊 · CHECK', 'AI 分析＋人工抽查，一起呈現才站得住', body, figure='F-check')
+    return page(10, '第三塊', 'AI 分析＋人工抽查，一起呈現才站得住', body, figure='F-check')
 
 
 def p11():
@@ -668,7 +655,7 @@ def p11():
 </div>
 <div class="big-sub">{fill('span', 'blocks.2.steps.3.human')}</div>
 </div>'''
-    return page(11, '第三塊 · THREE SENTENCES', '三句結論', body)
+    return page(11, '第三塊', '三句結論', body)
 
 
 def p12():
@@ -679,13 +666,13 @@ def p12():
 <p class="lead" style="margin-top:18px">起手式：按<span class="ui">帶入示範課</span>讓每一欄都有字，再改掉至少兩格。</p>
 <p class="lead" style="margin-top:18px">必改：<b>「評量任務與 Rubric」「回饋與調整」</b>。</p>
 </div></div></div>'''
-    return page(12, '第四塊 · BLOCK 4', '第四塊・帶著自己的課，一頁設計', body, figure='F-onepage')
+    return page(12, '第四塊', '第四塊・帶著自己的課，一頁設計', body, figure='F-onepage')
 
 
 def p13():
     tpl = '<li><span class="n">{{@n}}</span><div class="body"><div class="say">{{say|ui}}</div></div></li>'
     body = f'''<div class="vis vis--top">{render_list('blocks.3.steps', tpl, cls='steps steps--lg')}</div>'''
-    return page(13, '第四塊 · STEPS', '起手式：帶入示範課，再改兩格', body)
+    return page(13, '第四塊', '起手式：帶入示範課，再改兩格', body)
 
 
 def p14():
@@ -694,19 +681,19 @@ def p14():
 <div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">兩邊到最後長一樣：一條「什麼時候、改了什麼、為什麼」的時間線。</div></div>
 <div class="card accent" style="padding:12px 18px"><div class="p" style="margin-top:0">寫計畫書時，把這條時間線整理成一張表，就是研究歷程資料。</div></div>
 </div></div>'''
-    return page(14, '收尾 · AFTER', fill('span', 'afterCourse.0.title'), body)
+    return page(14, '收尾', fill('span', 'afterCourse.0.title'), body)
 
 
 def p15():
     body = f'''<div class="vis">{render_pairs('afterCourse.3.text')}</div>'''
-    return page(15, '收尾 · TO THE PROPOSAL', fill('span', 'afterCourse.3.title'), body)
+    return page(15, '收尾', fill('span', 'afterCourse.3.title'), body)
 
 
 def p16():
     body = f'''<div class="vis center">
 <div class="url">{fill('span', 'meta.siteUrl')}</div>
 </div>'''
-    return page(16, '收尾 · NEXT MONDAY', '週一把這句存進資料夾。', body, title_cls='title title--big')
+    return page(16, '收尾', '週一把這句存進資料夾。', body, title_cls='title title--big')
 
 
 PAGES = [p01, p02, p03, p04, p05, p06, p07, p08, p09, p10, p11, p12, p13, p14, p15, p16]

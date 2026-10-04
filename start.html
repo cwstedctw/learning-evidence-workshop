@@ -5,65 +5,63 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>行前準備｜從學習證據到教學改進</title>
 <meta name="description" content="2026-10-16 教師工作坊的行前準備頁：十項可勾選清單、資料夾放哪、在家卡住怎麼辦、當天帶什麼。">
-<!-- 字型：Noto Serif TC 900 當展示字、Noto Sans TC 當內文；site.css 用 @import 從 Google Fonts 拿，這兩行只是先握手；離線或沒拿到就退到系統字 -->
+<!-- 字型：Noto Sans TC（site.css 用 @import 從 Google Fonts 拿，這兩行只是先握手）；離線或沒拿到就退到系統字 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <style>
-/* 行前頁專用版式（樣稿 D）；顏色一律用 site.css 的代幣。刊頭、導覽列、版心（.sec > .wrap）、卡片、提示框、提示詞區塊、表單、頁尾都是共用元件，
-   這裡只剩本頁獨有的幾樣：十項清單的勾選列與大數字、進度條、Windows／Mac 兩欄、求救句的摺疊列、自我檢查的方框、頁尾前的去處一行。 */
-/* 進度列：暖白槽、墨框、湖水綠（＝完成）填滿 */
+/* 行前頁專用版式（v5 立霧風格）；顏色一律用 site.css 的代幣。刊頭、導覽列、版心（.sec > .wrap）、卡片、提示框、提示詞區塊、三欄步驟卡、表單、頁尾都是共用元件，
+   這裡只剩本頁獨有的幾樣：進度列、十項清單的勾選列與圓號、Windows／Mac 兩格、求救句的虛線框、自我檢查的方框、頁尾前的去處一行。 */
+/* 進度列：淡線色的槽、深藍填滿（＝完成），沒有外框 */
 .progress{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin:0 0 1.2em}
-.progress .bar{flex:1 1 180px;min-width:140px;height:14px;background:var(--card);border:var(--bw) solid var(--frame);border-radius:999px;overflow:hidden}
-.progress .bar i{display:block;height:100%;width:0;background:var(--a);transition:width .25s ease}
-/* 十項：每項一張 .card（色條四色輪流）；勾選列＝核取方塊＋大號襯線數字＋標題；勾完整張卡轉湖水綠淡底 */
+.progress .bar{flex:1 1 180px;min-width:140px;height:10px;background:var(--line);border-radius:999px;overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .25s ease}
+/* 十項：每項一張 .card（1px 淡線、無陰影、沒有色條）；勾選列＝核取方塊＋深藍圓號＋標題；勾完邊框與圓號轉綠、標題轉淡 */
 .prep{list-style:none;padding:0;margin:0}
-.prep>li{margin:0 0 22px}
-.prep .head{display:flex;align-items:baseline;gap:14px;margin:0;cursor:pointer}
-.prep .head input{align-self:center}
-.prep .head .num{flex:0 0 auto;min-width:2ch;font-family:var(--serif);font-weight:900;font-size:2.6rem;line-height:1;letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
-.prep .head .ttl{font-family:var(--serif);font-weight:700;font-size:1.22rem;line-height:1.35}
-.prep .head .ttl small{display:block;font-family:var(--sans);font-weight:400;font-size:.88rem;line-height:1.5;color:var(--ink-soft);margin-top:2px}
-.prep>li.done{background:var(--a-soft)}
-.prep>li.done .head .num{color:var(--a-deep)}
+.prep>li{margin:0 0 16px}
+.prep .head{display:flex;align-items:flex-start;gap:12px;margin:0;cursor:pointer}
+.prep .head input{margin-top:5px}
+.prep .head .num{flex:0 0 auto;width:32px;height:32px;border-radius:50%;background:var(--teal);color:var(--on-teal);font-weight:800;font-size:.95rem;line-height:1;display:flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+.prep .head .ttl{font-weight:800;font-size:1.12rem;line-height:1.4;padding-top:3px}
+.prep .head .ttl small{display:block;font-weight:400;font-size:.88rem;line-height:1.6;color:var(--ink-soft);margin-top:2px}
+.prep>li.done{border-color:var(--good)}
+.prep>li.done .head .num{background:var(--good)}
 .prep>li.done .head .ttl{color:var(--ink-soft)}
-.prep .detail{margin:12px 0 0}
+.prep .detail{margin:12px 0 0 44px}
 .prep .detail>:last-child{margin-bottom:0}
 .prep .detail .note{font-size:.97rem}
-/* Windows／Mac 兩欄：照 D 的步驟卡做法，不加外框、只有一道沙色頂線（放在卡裡才不會框中框） */
+/* Windows／Mac 兩格：頁底色的淡框小格（立霧版的排法），放在卡裡也不會框中框太重 */
 .os{margin:.8em 0 1em}
-.os>div{border-top:4px solid var(--sand);padding-top:10px;font-size:.97rem}
-.os b{display:block;font-family:var(--serif);font-weight:700;font-size:1.02rem;margin-bottom:2px}
+.os>div{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:10px 14px;font-size:.95rem;line-height:1.75}
+.os b{display:block;font-weight:700;margin-bottom:2px}
 .trio.auth{margin:.6em 0 1em}
-.trio.auth .step{font-size:.97rem}
-.trio.auth .step b{display:block;font-family:var(--serif);font-weight:700;font-size:1.02rem;margin-bottom:4px}
-/* 求救句：卡片底部一條虛線，摺疊列 44px 高；展開箭頭用 CSS 畫（不用表情符號） */
-details.ask{margin:14px 0 0;border-top:1px dashed var(--rule-strong)}
-details.ask summary{display:flex;align-items:center;gap:10px;min-height:44px;padding:4px 0 0;font-weight:700;font-size:.95rem;color:var(--ink);cursor:pointer;list-style:none;touch-action:manipulation}
+.trio.auth .step{font-size:.95rem}
+.trio.auth .step b{display:block;font-weight:700;color:var(--teal-deep);margin-bottom:4px}
+/* 求救句：虛線淡框的摺疊列（立霧版的框），摺疊列 44px 高；展開箭頭用 CSS 畫（不用表情符號） */
+details.ask{margin:14px 0 0;border:1px dashed var(--line);border-radius:var(--r);padding:0 14px}
+details.ask summary{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:700;font-size:.95rem;color:var(--teal-deep);cursor:pointer;list-style:none;touch-action:manipulation}
 details.ask summary::-webkit-details-marker{display:none}
-details.ask summary::before{content:"";flex:0 0 auto;width:9px;height:9px;margin:0 2px 0 3px;border-right:2px solid var(--red);border-bottom:2px solid var(--red);transform:rotate(-45deg);transition:transform .15s ease}
+details.ask summary::before{content:"";flex:0 0 auto;width:9px;height:9px;margin:0 2px 0 3px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s ease}
 details.ask[open] summary::before{transform:rotate(45deg)}
-details.ask .prompt{margin:6px 0 8px}
+details.ask .prompt{margin:4px 0 12px}
 /* 沒有標籤列的求救句：複製鈕浮在右上，正文自己繞開它（桌機手機都不會壓到字） */
 .ask .prompt .copy{position:static;float:right;margin:0 0 8px 12px}
 .card>p:last-child{margin-bottom:0}
 textarea.oneline{min-height:70px}
 .brk{overflow-wrap:anywhere}
-/* 最終自我檢查：方框用 CSS 畫 */
+/* 最終自我檢查：方框用 CSS 畫（深藍細框，對應立霧版那個空方格） */
 .final{list-style:none;padding:0;margin:0}
 .final li{position:relative;padding-left:1.9em;margin:.5em 0}
-.final li::before{content:"";position:absolute;left:.1em;top:.5em;width:.85em;height:.85em;border:var(--bw) solid var(--frame);border-radius:var(--r-sm);background:var(--paper)}
-.golinks{margin:0 0 40px;padding-top:28px;border-top:1px solid var(--rule);font-size:.95rem;line-height:1.9}
+.final li::before{content:"";position:absolute;left:.1em;top:.5em;width:.85em;height:.85em;border:1.5px solid var(--teal);border-radius:3px;background:var(--card)}
+.golinks{margin:0 0 40px;padding-top:28px;border-top:1px solid var(--line);font-size:.95rem;line-height:1.9}
 .golinks .sep{color:var(--ink-soft);margin:0 .3em}
 @media (max-width:640px){
   .prep .head{gap:10px}
-  .prep .head .num{font-size:2.2rem}
-  .prep .head .ttl{font-size:1.12rem}
+  .prep .head .num{width:28px;height:28px;font-size:.88rem}
+  .prep .head .ttl{font-size:1.05rem;padding-top:2px}
+  .prep .detail{margin-left:0}
   .progress .bar{flex-basis:100%;order:3}
 }
-
-/* 行前頁的開場段以「這一頁是什麼」起頭，首字放大會把「這一頁」拆開，所以本頁不放大首字 */
-.sec.first .lead::first-letter{float:none;font:inherit;margin:0;padding:0;line-height:inherit;color:inherit}
 </style>
 <script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})()</script>
 </head>
@@ -72,11 +70,10 @@ textarea.oneline{min-height:70px}
 <!-- 複製鈕的圖示只畫一次，各鈕用 <use> 引用 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol></svg>
 
-<!-- 刊頭（樣稿 D）：小字＋紅短線→髮線→大題名→左欄版權頁式資訊、右欄副標。題名與副標靜態文字是備援，日期地點主辦由 workflow-data.js 填 -->
+<!-- 刊頭（v5 立霧子頁版面）：矮、底下一條淡線；眉標（珊瑚橘等寬小字）→ 題名 → 副標 → 一行日期地點主辦。題名與副標靜態文字是備援，副標與日期地點主辦由 workflow-data.js 填 -->
 <header class="hero"><div class="inner">
   <p class="eyebrow">行前準備｜請在 10/14（三）前做完，留兩個晚上</p>
-  <hr>
-  <h1 id="heroTitle"><span>從學習證據</span><span>到教學改進</span></h1>
+  <h1 id="heroTitle">從學習證據到教學改進</h1>
   <div class="deck">
     <p class="sub" id="heroSub">AI 協作促進學習評量與教學實踐研究工作坊</p>
     <p class="meta" id="heroMeta"></p>
@@ -100,7 +97,7 @@ textarea.oneline{min-height:70px}
 
 <main id="main" class="editorial">
 
-<!-- 開場：這一頁是什麼——引言用襯線字＋首字放大；當天做法那兩段從資料源來 -->
+<!-- 開場：這一頁是什麼——引言用 .lead（v5 沒有首字放大）；當天做法那兩段從資料源來 -->
 <section class="sec first" aria-label="這一頁是什麼"><div class="wrap">
   <p class="lead"><strong>這一頁是什麼。</strong>還不知道「跟 AI 助手動手做」長什麼樣？先去<a href="learn.html">玩一遍</a>（5 分鐘，不用裝任何東西）。10/16 下午的工作坊，四塊內容都是老師自己跟著 AI 助手動手做：建一個會記住每次修改的課程資料夾、改一張評分規準表、抽查一份 AI 分析、填一頁自己的課的設計。要做得順，電腦得先備好：<strong>人人都要做完下面的十項</strong>，它要下載安裝幾樣東西，請留兩個晚上做、別排在前一天。真的裝不起來、或筆電是學校統一控管裝不了東西，提早 20 分鐘到會議室一起裝（見後面的「在家卡住怎麼辦」）。</p>
   <div class="body prose">
@@ -155,7 +152,7 @@ textarea.oneline{min-height:70px}
 
     <ol class="prep" id="prepList">
 
-      <li class="card c-y" data-k="p1">
+      <li class="card" data-k="p1">
         <label class="head"><input type="checkbox" aria-label="完成第 1 項 GitHub 帳號"><span class="num">1</span><span class="ttl">GitHub 帳號<small>Windows／Mac 一樣</small></span></label>
         <div class="detail">
           <p>到 <a href="https://github.com" target="_blank" rel="noopener">github.com</a> 註冊一個帳號，用哪個信箱都可以，記得回信箱按驗證信。已經有帳號的人，確認還登得進去就好。</p>
@@ -165,7 +162,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-c" data-k="p2">
+      <li class="card" data-k="p2">
         <label class="head"><input type="checkbox" aria-label="完成第 2 項 兩步驟驗證"><span class="num">2</span><span class="ttl">兩步驟驗證（2FA）<small>GitHub 要求時才做；沒被要求，直接打勾</small></span></label>
         <div class="detail">
           <p>GitHub 的強制兩步驟驗證只針對被通知的人（2026-10-02 查核，以官方頁現況為準）。登入時如果畫面要你設定，就照它做：手機裝一個驗證 App（例如 Google Authenticator 或 Microsoft Authenticator，任一個都行；別選簡訊），用它掃網頁上的方格圖，把手機跳出的六位數字填回網頁，最後把那一串<strong>備援碼</strong>存好——手機掉了要靠它。</p>
@@ -175,7 +172,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-a" data-k="p3">
+      <li class="card" data-k="p3">
         <label class="head"><input type="checkbox" aria-label="完成第 3 項 裝 Antigravity"><span class="num">3</span><span class="ttl">裝 Antigravity，用個人 Gmail 登入<small>這是當天的 AI 助手；備援是 ChatGPT 桌面版裡的 Codex</small></span></label>
         <div class="detail">
           <p>到 <a href="https://antigravity.google" target="_blank" rel="noopener">antigravity.google</a> 下載。<strong>網址列開頭是 antigravity.google 才是官方的</strong>，別點搜尋結果裡其他長得像的網站。裝好打開，用 Google 帳號登入。</p>
@@ -184,13 +181,13 @@ textarea.oneline{min-height:70px}
             <div><b>Windows：</b>下載安裝檔，照畫面裝；若跳出「是否允許」視窗按「是」。</div>
             <div><b>Mac：</b>下載後把它拖進「應用程式」；第一次打開若問「確定要開啟嗎」，按開啟。</div>
           </div>
-          <p><strong>備援</strong>：Antigravity 裝不起來或登不進去，改用 ChatGPT 桌面版裡的 Codex——到 <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a> 找桌面版下載。<strong>裝的要是「ChatGPT」，不是頁尾那個「ChatGPT Classic」</strong>——Classic 是舊版，裡面沒有 Codex。免費版摸得到 Codex，額度官方沒公布（這兩句都 2026-10-02 查核，以官方頁現況為準）。裝好後確認找得到 Codex 這個模式在哪，先不用叫它做事。後面第 4 到 9 項說的「AI 助手」，用 Codex 的人就是對它說同樣的話。</p>
+          <p><strong>備援</strong>：Antigravity 裝不起來或登不進去，改用 ChatGPT 桌面版裡的 Codex——到 <a href="https://chatgpt.com" target="_blank" rel="noopener">chatgpt.com</a> 找桌面版下載。<strong>裝的要是「ChatGPT」，不是頁尾那個「ChatGPT Classic」</strong>——Classic 是舊版，裡面沒有 Codex。本工作坊不預設需要付費訂閱；請於課前完成登入與本機小試身手，實際可用性及額度依帳號與官方當時規則為準。Codex 免費桌面版存取依官方推出進度開放，不保證每個帳號都已可用；這不代表 CLI、IDE 或 API 都免費。若額度或登入受限，可先手動編輯搭配 Git，或跟著講師示範完成練習。裝好後確認找得到 Codex 這個模式在哪，先不用叫它做事。後面第 4 到 9 項說的「AI 助手」，用 Codex 的人就是對它說同樣的話。</p>
           <div class="note"><strong>完成判準</strong>：打得開、登入成功、找得到那個可以打字的輸入框。打開後會是一個像寫程式的視窗，可以打字的地方不只一處——找標著 Agent（或對話）的那個面板，它最下面有一個可以打字的框，後面每一項的話都貼在那裡（面板字樣以你電腦上看到的為準）。找不到就截圖貼給你慣用的 AI 聊天網頁，問「Antigravity 的 agent 輸入框在哪」。</div>
           <details class="ask"><summary>卡住怎麼問 AI</summary><div class="prompt"><button class="btn secondary small copy" type="button" aria-label="複製第 3 項求救句"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="txt">複製</span></button><pre>我在裝 Antigravity（或 ChatGPT 桌面版），卡在＿＿＿（例如：登入被擋／裝好打不開／找不到輸入框／不確定我裝的 ChatGPT 是不是 Classic），畫面如附圖。請告訴我畫面上發生什麼事，再一步一步帶我。我用的是＿＿（Windows／Mac）。</pre></div></details>
         </div>
       </li>
 
-      <li class="card c-l" data-k="p4">
+      <li class="card" data-k="p4">
         <label class="head"><input type="checkbox" aria-label="完成第 4 項 第一聲招呼"><span class="num">4</span><span class="ttl">跟 AI 助手打第一聲招呼<small>先確認它會回話；後面卡住才分得清是工具壞了還是助手壞了</small></span></label>
         <div class="detail">
           <p>在第 3 項找到的那個輸入框貼這句，按 Enter：</p>
@@ -200,7 +197,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-y" data-k="p5">
+      <li class="card" data-k="p5">
         <label class="head"><input type="checkbox" aria-label="完成第 5 項 裝 git"><span class="num">5</span><span class="ttl">裝 git<small>交給 AI 助手做，你不用自己去下載</small></span></label>
         <div class="detail">
           <p>Git 是替一個資料夾記住每一次修改的工具，當天的「存版本」「看前後對照」都靠它。在第 4 項打過招呼的那個輸入框貼這句就好：</p>
@@ -214,7 +211,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-c" data-k="p6">
+      <li class="card" data-k="p6">
         <label class="head"><input type="checkbox" aria-label="完成第 6 項 PowerShell 7"><span class="num">6</span><span class="ttl">裝 PowerShell 7<small>只有 Windows 要做；Mac 直接打勾跳過</small></span></label>
         <div class="detail">
           <p><strong>為什麼要多這一步</strong>：Windows 內建的舊版 PowerShell 請 AI 建中文檔案時，某些寫法會把檔案存成一種 Git 認不出是文字的格式——之後你的評分規準表改了哪一行，前後對照會<strong>整個看不到</strong>，而且不會跳出任何錯誤訊息。PowerShell 7 沒這個毛病，而且跟舊版並存、不會蓋掉原本的。</p>
@@ -228,12 +225,12 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-a" data-k="p7">
+      <li class="card" data-k="p7">
         <label class="head"><input type="checkbox" aria-label="完成第 7 項 AI 助手授權設定"><span class="num">7</span><span class="ttl">調一下 AI 助手的授權<small>讓它別每件小事都問你，但該問的還是要問</small></span></label>
         <div class="detail">
           <p>AI 助手每跑一個指令都停下來問「可以嗎」，課堂上會很卡。打開 Antigravity 的設定，找跟「權限」有關的那幾格看一眼。Windows 與 Mac 的畫面不一樣（2026-10-02 查核官方說明；設定畫面的字樣以你電腦上看到的為準）：</p>
           <div class="grid2 os">
-            <div><b>Windows：</b>找「終端機指令自動執行」（Terminal command auto execution）那一格，三個選項：課堂建議選 <strong>Always Proceed</strong>，指令不再每條都停下來問，課才跑得順；想每一條指令都過目再跑的謹慎派，選 <strong>Request Review</strong>。另一格「工作資料夾以外的檔案存取」<strong>不要打開</strong>——它要碰別的地方，還是得先問你一聲。</div>
+            <div><b>Windows：</b>找「終端機指令自動執行」（Terminal command auto execution）那一格，三個選項：課堂建議選 <strong>Always Proceed</strong>，指令不再每條都停下來問，課才跑得順；想每一條指令都過目再跑的謹慎派，選 Request Review。另一格「工作資料夾以外的檔案存取」不要打開——它要碰別的地方，還是得先問你一聲。</div>
             <div><b>Mac：</b>設定 → General → Permission Settings，有一個三選一的「權限預設」：課堂建議選名字就叫 <strong>Default</strong> 的那個，指令在隔離的沙箱裡自動跑、要跑出沙箱才會問你；謹慎派選 <strong>Request Review</strong>，每一條指令都問。</div>
           </div>
           <p>哪個系統都一樣：選項說明若寫著「不隔離、不限制、整台電腦都能讀寫」（Mac 上叫 Turbo），<strong>別選那個</strong>——這場要練的正好相反：你是它的指導教授，不是橡皮圖章。</p>
@@ -243,7 +240,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-l" data-k="p8">
+      <li class="card" data-k="p8">
         <label class="head"><input type="checkbox" aria-label="完成第 8 項 GitHub 登入"><span class="num">8</span><span class="ttl">GitHub 登入<small>一樣讓 AI 助手代裝代登；工具名叫 gh</small></span></label>
         <div class="detail">
           <p>在輸入框貼這句：</p>
@@ -261,7 +258,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-y" data-k="p9">
+      <li class="card" data-k="p9">
         <label class="head"><input type="checkbox" aria-label="完成第 9 項 小試身手"><span class="num">9</span><span class="ttl">小試身手：讓它真的動手一次<small>約 5 分鐘；一句話驗掉整條安裝鏈，順便先存一版</small></span></label>
         <div class="detail">
           <p>前面都裝好了？貼這句：</p>
@@ -273,7 +270,7 @@ textarea.oneline{min-height:70px}
         </div>
       </li>
 
-      <li class="card c-c" data-k="p10">
+      <li class="card" data-k="p10">
         <label class="head"><input type="checkbox" aria-label="完成第 10 項 想好一門課一個評量任務"><span class="num">10</span><span class="ttl">想好一門課、一個評量任務，寫下一句<small>當天第四塊要用</small></span></label>
         <div class="detail">
           <p>第四塊是把前三塊的零件裝回你自己的課。先想好：哪一門課、哪一個會打分數的任務、學生交出來的是什麼。一句話就好，寫在這裡（只存在你這台電腦的瀏覽器裡）：</p>
@@ -304,7 +301,7 @@ textarea.oneline{min-height:70px}
 <section id="stuck" class="sec" aria-labelledby="stuck-h"><div class="wrap">
   <h2 id="stuck-h"><span class="num">伍</span><span class="t">在家卡住怎麼辦：任何一項卡死，不用硬撐</span></h2>
   <div class="body prose">
-    <div class="card c-c">
+    <div class="card">
       <p><strong>一、提早 20 分鐘到會議室</strong>（14:40），講師現場陪你裝好，課照上。</p>
       <p><strong>二、先寄信給講師</strong>，把卡住的畫面截圖附上，讓講師在 10/16 前遠端看一眼。</p>
       <p><strong>三、學校統一控管的筆電裝不了東西</strong>：不用跟它纏鬥，先寄信告訴講師；當天跟鄰座兩人一組、用同一台做，自己的課程資料夾回家再補建（講義每一句都可以複製）。</p>
@@ -331,7 +328,7 @@ textarea.oneline{min-height:70px}
   <h2 id="final-h"><span class="num">柒</span><span class="t">最終自我檢查</span></h2>
   <div class="body prose">
     <p>這份是自助式的，不用交回報——<strong>把關的人就是你自己</strong>。</p>
-    <div class="card c-a">
+    <div class="card">
       <h3>四件事都成立才算完成</h3>
       <ul class="final">
         <li>上面十項全部打勾（第 6 項 Mac 免做）。</li>
@@ -484,7 +481,7 @@ textarea.oneline{min-height:70px}
 
   if(!FLOW) return;
 
-  /* ── 頁首：題名、副標、日期時間地點主辦，從資料源來。題名靜態兩段（桌機一行、手機兩行）只在跟資料源不一樣時才整個換掉 ── */
+  /* ── 頁首：題名、副標、日期時間地點主辦，從資料源來。題名靜態文字只在跟資料源不一樣時才整個換掉 ── */
   var m = FLOW.meta || {};
   var ht = document.getElementById('heroTitle');
   if(m.title && ht.textContent.trim() !== m.title) ht.textContent = m.title;

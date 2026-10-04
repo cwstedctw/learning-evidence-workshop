@@ -1,40 +1,37 @@
 /* slides/deck.css — 10/16 工作坊投影片的版式與設計代幣
-   2026-10-04 換成定稿樣稿 D 的設計系統（_qa/design/mockups/D/style.css）：奶油白底、墨色字、
-   Noto Serif TC 900 當展示字、Noto Sans TC 當內文；四色（芥末黃／珊瑚橘／湖水綠／薰衣草紫）當色塊，
-   1.5px 墨框、3px 輕偏移陰影、編輯紅只當短線與標籤字。四色對應四塊：第一塊黃、第二塊橘、第三塊綠、第四塊紫
-   （跟入口頁議程表的 .badge.b1–b4 同一個對應）；「你」的格子用黃、「AI 助手」的格子用綠（跟講義三欄步驟卡同一個對應）。
+   2026-10-04 v5：全站換成立霧參考版的風格（白底、深藍、珊瑚橘；workspace/outbox/20261004-workshop-reference/assets/reference-deck.css）。
+   淺底頁＝近白紙底（#f7f8fb）、白卡片、深藍標題（Noto Sans TC 900，不再用襯線）、kicker 中文小標＋珊瑚短線；
+   深底頁＝深藍底（#15233e）、白字，代幣整組換成亮一階的藍與珊瑚（對深藍底全部 ≥4.5:1）。
+   四塊對四階（取代 v4 的黃／橘／綠／紫，語意不變）：第一塊淺藍 --b1、第二塊珊瑚 --b2、第三塊中藍 --b3、第四塊藍 --b4；
+   四階壓墨藍字都 ≥4.7:1。角色色：深藍＝AI 助手做的事、結構、工作台主要按鈕；珊瑚＝你要自己看的、被改掉的那一格、互評；
+   紅（#a23d32）只當落差圖「離 0 遠」的框與紅字代號；珊瑚深（#934029）當淡底上的標籤字（為什麼改、帶走、改這一格）。
    畫布 1280×720；深淺頁交錯：淺底講內容、深底放一句話（開場、三句結論、收尾）。
-   深底頁＝墨色底、奶油字，四色降一階（對墨底 6.3–9.1:1、墨字壓在上面同樣 ≥6.3:1），編輯紅換成 #F07F6E（6.5:1）。
    閘門：skills/course-intro/check_deck_pages.py（.slide 深淺 class、footer-org、class="seal"）
-        與 check_overflow.py（1280×720 內不溢出、不壓頁尾）。
-   字型：本機有 Noto Serif TC／Noto Sans TC 就用本機的，沒有就從 Google Fonts 拿（頁面 <head> 的 link、display=swap），
-   兩邊都沒有時退到系統襯線／黑體——字會換、版不會壞。 */
+        與 check_overflow.py（1280×720 內不溢出、不壓頁尾）。幾何（padding／border／字級）跟 v4 相同或更小，閘門結果不受影響。
+   字型：本機有 Noto Sans TC 就用本機的，沒有就從 Google Fonts 拿（頁面 <head> 的 link、display=swap），兩邊都沒有時退到系統黑體——字會換、版不會壞。 */
 
 :root{
-  --paper:#FFF7E6;      /* 頁底：奶油白 */
-  --card:#FFFDF7;       /* 卡片：暖白 */
-  --ink:#1B1B1F;        /* 墨色：主字色、外框、陰影（深底頁翻成奶油） */
-  --ink-soft:#4A4650;   /* 次要文字（奶油底 8.6:1） */
-  --red:#B42318;        /* 編輯紅：kicker 短線、「為什麼改」這類標籤字、落差圖紅框（奶油底 6.2:1） */
-  --y:#EAC653;  --y-soft:#F7EABF;  --y-deep:#7A5A00;   /* 芥末黃：第一塊、你說的話、主要按鈕 */
-  --c:#EA906C;  --c-soft:#F9D9CD;  --c-deep:#A63D1A;   /* 珊瑚橘：第二塊、被改掉的那一格、你一定要自己看的 */
-  --a:#6BC7B9;  --a-soft:#D3EEEA;  --a-deep:#0B6B5C;   /* 湖水綠：第三塊、AI 助手做的事（深字比 D 的 #0E7C6B 再深一點：壓在淡底上 5.25:1，原值只有 4.18） */
-  --l:#C9BDEF;  --l-soft:#E7E2F8;  --l-deep:#5B3FBF;   /* 薰衣草紫：第四塊、一頁設計 */
-  --sand:#D9CDB0;       /* 中性色條：議程裡「講／對談」的格子 */
-  --rule:#E3D9C1;       /* 細髮線（標題下那一道） */
-  --rule-strong:#857F74;/* 圖裡的刻度、格內分隔線（投影機上 --rule 太淡） */
-  --tint:#F6ECD2;
-  --black:#1B1B1F; --cream:#FFF7E6;   /* 不隨深淺頁翻轉：壓在四色塊上的字一律墨色 */
-  --bw:1.5px;
-  --sh:3px 3px 0 var(--ink);          /* 唯一一種陰影：3px 輕偏移 */
+  --paper:#f7f8fb;       /* 頁底：近白（立霧 --cream／--bg） */
+  --card:#fff;           /* 卡片：白 */
+  --ink:#17243d;         /* 主字色：墨藍 */
+  --mist:#566278;        /* 次要文字（白底 6.6:1） */
+  --line:#dce2ec;        /* 卡片外框、細髮線 */
+  --line-strong:#7c8aa2; /* 圖裡的刻度、格內分隔線（投影機上 --line 太淡） */
+  --blue:#243d70;  --blue-deep:#1c305a;  --blue-soft:#edf1f8;   /* 深藍：標題、步驟號、.ui、AI 做的事；淡藍底：bar、AI 格、表頭 */
+  --coral:#e7785c; --coral-soft:#fbebe5; --coral-deep:#934029;  /* 珊瑚：被改掉的那一格、互評、kicker 短線；淡珊瑚底：bar.gold、你的格子；深字：標籤 */
+  --red:#a23d32;   --red-soft:#fbece9;                          /* 落差圖紅框、紅字代號（白底 7.2:1） */
+  --b1:#c3d3ee; --b2:#e7785c; --b3:#9bb2de; --b4:#6e8fc8;        /* 四塊的四階：淺藍／珊瑚／中藍／藍（壓 --ink 字：10.2／5.3／7.2／4.7） */
+  --sand:#e3e8f0;        /* 中性色塊：議程裡「講／對談」的格子 */
+  --on-blue:#fff;        /* 壓在 --blue 上的字；深底頁 --blue 變淺，這個跟著變深 */
+  --on-coral:#311c15;    /* 壓在 --coral 上的字（珊瑚標籤）；白字只有 2.9:1，不用 */
+  --dark:#15233e; --dark-2:#1c3050; --on-dark:#f4f6fb; --on-dark-dim:#bcc9df;
   --r:6px; --r-sm:4px;
-  --serif:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif;
   --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Noto Sans CJK TC",system-ui,sans-serif;
   --mono:"Cascadia Code","Consolas","JetBrains Mono",Menlo,"Noto Sans TC","Microsoft JhengHei",monospace;
   --zh:var(--sans);   /* 舊名保留 */
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html,body{background:#1B1B1F}
+html,body{background:#101725}
 
 /* ── 畫布 ── */
 .slide{
@@ -43,27 +40,28 @@ html,body{background:#1B1B1F}
   padding:60px 96px 84px; display:flex; flex-direction:column;
 }
 .slide--light{background:var(--paper)}
-/* 深底頁：把代幣整組翻過來，底下所有元件（卡片、SVG、標籤）跟著變色，不用一條條寫 */
+/* 深底頁：把代幣整組換成亮一階，底下所有元件（卡片、標籤、框線）跟著變色，不用一條條寫（色值＝立霧 reference-deck.css 的 .slide--dark） */
 .slide--dark{
-  background:#1B1B1F; color:#FFF7E6;
-  --paper:#1B1B1F; --ink:#FFF7E6; --ink-soft:#CFC9BA; --card:#26262B;
-  --rule:rgba(255,247,230,.28); --rule-strong:rgba(255,247,230,.55); --tint:rgba(255,247,230,.08);
-  --red:#F07F6E;
-  --y:#DDB94C; --c:#DE8664; --a:#62B8AB; --l:#BBAEE3;            /* 四色降一階 */
-  --y-soft:#3A3524; --c-soft:#3C2A24; --a-soft:#203634; --l-soft:#2E2A3C;   /* 淡底在深底頁變「暗一階的色塊」，奶油字壓上去 ≥11:1 */
-  --y-deep:#F0D27A; --c-deep:#F3A98B; --a-deep:#8FD8CC; --l-deep:#D6CCF5;   /* 深色字在深底頁變亮字 */
-  --sand:#4A4640;
-  --sh:3px 3px 0 var(--rule-strong);   /* 深底頁的輕偏移陰影用半透明奶油，別太重 */
+  background:var(--dark); color:var(--on-dark);
+  --paper:var(--dark); --card:var(--dark-2); --ink:var(--on-dark); --mist:var(--on-dark-dim);
+  --line:#34415a; --line-strong:#8695b0;
+  --blue:#aec8ff; --blue-deep:#c9daff; --blue-soft:#243b5d;
+  --coral:#f2a087; --coral-soft:#44302c; --coral-deep:#ffc1ab;
+  --red:#ffac9d; --red-soft:#402825;
+  --b1:#c9daff; --b2:#f2a087; --b3:#aec8ff; --b4:#8fb0ee;
+  --sand:#34415a; --on-blue:#15233e; --on-coral:#15233e;
 }
-.arc{position:absolute; border:1.5px solid rgba(234,198,83,.16); border-radius:50%; pointer-events:none}
+.arc{display:none}   /* v3 深底頁的裝飾弧線：立霧版拿掉，make_slides.py 也不再輸出 */
 
-/* ── 小標、標題、副標（D 的刊頭：紅短線＋小字→展示字→髮線） ── */
-.kicker{display:flex; align-items:center; gap:14px; font-weight:700; font-size:15px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); line-height:1.5}
-.kicker::before{content:""; flex:0 0 40px; height:4px; background:var(--red)}
-.title{font-family:var(--serif); font-weight:900; font-size:40px; line-height:1.22; letter-spacing:-.01em; margin-top:8px; color:var(--ink); font-feature-settings:"palt"}
+/* ── 小標、標題、副標：珊瑚短線＋中文小標 → 深藍大標 → 髮線 ── */
+.kicker{display:flex; align-items:center; gap:12px; font-weight:700; font-size:15px; letter-spacing:.12em; color:var(--blue); line-height:1.5}
+.kicker::before{content:""; flex:0 0 40px; height:4px; background:var(--coral); border-radius:2px}
+.slide--dark .kicker{color:var(--coral)}
+.title{font-weight:900; font-size:40px; line-height:1.22; letter-spacing:-.025em; margin-top:8px; color:var(--blue); font-feature-settings:"palt"}
+.slide--dark .title{color:var(--ink)}
 .title--big{font-size:52px}
-.rule{width:100%; height:1px; background:var(--rule); border:0; margin:14px 0 0}
-.subtitle{font-family:var(--serif); font-weight:500; font-size:21px; color:var(--ink-soft); margin-top:12px; line-height:1.5}
+.rule{width:100%; height:1px; background:var(--line); border:0; margin:14px 0 0}
+.subtitle{font-size:21px; font-weight:500; color:var(--mist); margin-top:12px; line-height:1.5}
 
 /* 主視覺區：只長不縮（flex:1 0 auto）——內容太高就會把底部一行推出框、被 check_overflow 量到，
    不會被 flex 默默壓扁藏起來。 */
@@ -71,104 +69,94 @@ html,body{background:#1B1B1F}
 .vis--top{justify-content:flex-start}
 .spacer{flex:1}
 
-/* 底部一行（檢查點／提醒）：四色淡底＋1.5px 墨框＋3px 輕偏移；標籤＝實心色塊、墨字、1px 墨框 */
+/* 底部一行（檢查點／提醒）：淡藍底、深藍實心標籤白字；.gold＝淡珊瑚底、珊瑚實心標籤深字 */
 .bar{flex:0 0 auto; display:flex; align-items:center; gap:14px; margin-top:12px;
-  padding:9px 18px; border:var(--bw) solid var(--ink); border-radius:var(--r); background:var(--a-soft); box-shadow:var(--sh);
+  padding:10px 18px; border-radius:5px; background:var(--blue-soft);
   font-size:19px; font-weight:700; line-height:1.45}
 .bar>span{flex:1 1 auto; min-width:0}
-.bar .tag{flex:0 0 auto; padding:2px 12px; border:1px solid var(--ink); border-radius:var(--r-sm); background:var(--a); color:var(--black); font-size:16px; font-weight:800; letter-spacing:.08em}
-.bar.gold{background:var(--y-soft)}
-.bar.gold .tag{background:var(--y)}
+.bar .tag{flex:0 0 auto; padding:3px 12px; border-radius:3px; background:var(--blue); color:var(--on-blue); font-size:16px; font-weight:800; letter-spacing:.08em}
+.bar.gold{background:var(--coral-soft)}
+.bar.gold .tag{background:var(--coral); color:var(--on-coral)}
+.slide--dark .bar{box-shadow:inset 0 0 0 1px rgba(242,160,135,.38)}   /* 深底頁加一圈細珊瑚框（inset，不佔版面） */
 
 /* 頁尾與團隊徽章 */
-.footer-org{position:absolute; left:96px; bottom:40px; font-size:14px; letter-spacing:.04em; color:var(--ink-soft); line-height:1.3}
+.footer-org{position:absolute; left:96px; bottom:40px; font-size:14px; letter-spacing:.04em; color:var(--mist); line-height:1.3}
 .seal{position:absolute; right:40px; bottom:36px; font-size:12px; font-weight:800; letter-spacing:.14em; line-height:1.4;
-  color:var(--ink); border:var(--bw) solid var(--ink); border-radius:var(--r-sm); padding:3px 12px; background:var(--card)}
+  color:var(--blue-deep); border:1.5px solid var(--blue); border-radius:var(--r-sm); padding:3px 12px; background:var(--card)}
+.slide--dark .seal{color:var(--coral); border-color:var(--coral); background:transparent}
 
-/* ── 封面：照 D 的刊頭——極淡方格紙點、紅短線小字、髮線、大題名（Noto Serif TC 900）、副標襯線、版權頁式資訊；右側一張細線小插圖 ── */
+/* ── 封面：照立霧的做法——整面深藍、白色大題名（不加陰影）、珊瑚副標、細框標籤、不放插圖與漸層 ── */
 .cover{
-  padding:0; color:var(--ink); background-color:var(--paper);
-  background-image:radial-gradient(rgba(27,27,31,.09) 1px,transparent 1.3px); background-size:24px 24px;
+  padding:0; background:var(--dark); color:var(--on-dark);
+  --ink:var(--on-dark); --mist:var(--on-dark-dim); --coral:#f2a087; --coral-deep:#ffc1ab;
 }
-.cover .inner{position:relative; height:100%; padding:72px 96px 100px; display:flex; flex-direction:column}
-.cover .ckicker{font-size:16px; letter-spacing:.18em; color:var(--ink-soft); font-weight:700; padding-bottom:16px; border-bottom:1px solid var(--rule)}
-.cover .ctitle{font-family:var(--serif); font-size:76px; font-weight:900; line-height:1.1; color:var(--ink); margin-top:18px; letter-spacing:-.02em; font-feature-settings:"palt"}
-.cover .csub{font-family:var(--serif); font-size:26px; color:var(--ink); font-weight:500; margin-top:14px}
-.cover .cpromise{font-size:22px; font-weight:700; margin-top:14px; color:var(--ink-soft)}
-.cover .chips{display:flex; gap:10px; margin-top:18px; flex-wrap:wrap}
-.cover .chips span{display:inline-flex; align-items:center; height:34px; padding:0 14px; border:1px solid var(--ink);
-  border-radius:var(--r-sm); background:var(--card); color:var(--ink); font-size:15px; font-weight:700}
-.cover .chips span:nth-child(1){background:var(--y-soft)}
-.cover .chips span:nth-child(2){background:var(--a-soft)}
-.cover .chips span:nth-child(3){background:var(--c-soft)}
-.cover .cmeta{margin-top:auto; max-width:720px; padding:10px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); font-size:17px; color:var(--ink-soft); line-height:1.6}
-.cover .cmeta b{color:var(--ink); font-weight:800}
-.cover .cover-art{position:absolute; right:96px; top:108px; width:300px; height:auto; stroke:var(--ink); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round; fill:none}
-.cover .cover-art .ns{stroke:none}
+.cover .inner{position:relative; height:100%; padding:80px 96px 100px; display:flex; flex-direction:column}
+.cover .ckicker{font-size:16px; letter-spacing:.18em; color:var(--coral); font-weight:800}
+.cover .ctitle{font-size:74px; font-weight:900; line-height:1.1; color:#fff; margin-top:14px; letter-spacing:-.03em; font-feature-settings:"palt"}
+.cover .csub{font-size:25px; color:var(--coral); font-weight:700; margin-top:12px}
+.cover .cpromise{font-size:23px; font-weight:700; margin-top:20px; color:var(--on-dark)}
+.cover .chips{display:flex; gap:10px; margin-top:16px; flex-wrap:wrap}
+.cover .chips span{display:inline-flex; align-items:center; height:34px; padding:0 16px; border:1px solid #6c7b96;
+  border-radius:var(--r-sm); background:transparent; color:#e8eef8; font-size:15px; font-weight:700}
+.cover .cmeta{margin-top:auto; font-size:17px; color:var(--on-dark); line-height:1.6}
+.cover .cmeta b{color:#fff; font-weight:800}
 
-/* ── 卡片與格線：暖白、1.5px 墨框、3px 輕偏移 ── */
+/* ── 卡片與格線：白卡、1px 淺框、6px 圓角、無陰影 ── */
 .cols{display:grid; gap:20px}
 .cols-2{grid-template-columns:1fr 1fr}
 .cols-3{grid-template-columns:repeat(3,1fr)}
-.card{background:var(--card); border:var(--bw) solid var(--ink); border-radius:var(--r); padding:18px 22px; box-shadow:var(--sh)}
-.card .n{font-family:var(--serif); font-size:30px; font-weight:900; color:var(--ink); line-height:1}
-.card .h{font-family:var(--serif); font-size:22px; font-weight:700; color:var(--ink); margin-top:8px; line-height:1.3}
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:18px 22px}
+.card .n{font-size:30px; font-weight:900; color:var(--coral-deep); line-height:1}
+.card .h{font-size:22px; font-weight:900; color:var(--blue-deep); margin-top:8px; line-height:1.3}
 .card .p{font-size:18.5px; color:var(--ink); margin-top:8px; line-height:1.55}
-.card .p.mist{color:var(--ink-soft)}
-.card.accent{background:var(--y-soft)}
+.card .p.mist{color:var(--mist)}
+.card.accent{border-color:var(--coral); background:var(--coral-soft)}
 
-/* 步驟清單（從 WORKSHOP_FLOW.blocks[n].steps 渲染）：墨色圓號、奶油數字 */
+/* 步驟清單（從 WORKSHOP_FLOW.blocks[n].steps 渲染）：深藍號碼牌、白數字（立霧版是 5px 圓角方牌，跟卡片、bar 同一套方角語言） */
 .steps{list-style:none; display:flex; flex-direction:column; gap:11px}
 .steps li{display:flex; gap:16px; align-items:flex-start; font-size:20px; line-height:1.5}
 .steps--lg{gap:18px}
 .steps--lg li{font-size:22px}
-.steps .n{flex:0 0 38px; height:38px; border-radius:50%; background:var(--ink); color:var(--paper); font-family:var(--serif); font-weight:900; font-size:19px;
+.steps .n{flex:0 0 38px; height:38px; border-radius:5px; background:var(--blue); color:var(--on-blue); font-weight:900; font-size:19px;
   display:flex; align-items:center; justify-content:center; margin-top:1px}
 .steps .body{flex:1 1 auto; min-width:0}
 .steps .say{font-weight:700}
-.steps .name{font-weight:900; color:var(--a-deep)}            /* 「AI 做：」＝講義三欄卡的 AI 色 */
-.steps .ai{display:inline-block; font-size:15px; color:var(--ink-soft); margin-left:8px; font-weight:500}
+.steps .name{font-weight:900; color:var(--blue-deep)}            /* 「AI 做：」＝深藍 */
+.steps .ai{display:inline-block; font-size:15px; color:var(--mist); margin-left:8px; font-weight:500}
 .steps .human{font-size:18px; color:var(--ink); margin-top:2px}
-.steps .human::before{content:"你看："; font-weight:900; color:var(--c-deep)}   /* 「你一定要自己看的」＝珊瑚橘深字；2026-10-02：表情符號圖示改文字 */
+.steps .human::before{content:"你看："; font-weight:900; color:var(--coral-deep)}   /* 「你一定要自己看的」＝珊瑚深字；2026-10-02：表情符號圖示改文字 */
 
-/* 工作台按鈕／分頁名稱：讓老師一眼對上工作台上的字——長得跟工作台的主要按鈕一樣：芥末黃實心、墨字、1.5px 墨框
+/* 工作台按鈕／分頁名稱：讓老師一眼對上工作台上的字——長得跟工作台的主要按鈕一樣：深藍實心、白字
    幾何不動（padding／border 寬度同原本），overflow 閘門不受影響 */
-.ui{display:inline-block; padding:0 8px; margin:0 1px; border:1.5px solid var(--ink); border-radius:var(--r-sm); line-height:1.45;
-  font-size:.9em; font-weight:800; color:var(--black); background:var(--y); vertical-align:baseline}
+.ui{display:inline-block; padding:0 8px; margin:0 1px; border:1.5px solid var(--blue); border-radius:5px; line-height:1.45;
+  font-size:.9em; font-weight:800; color:var(--on-blue); background:var(--blue); vertical-align:baseline}
 
 /* 大字陳述頁 */
 .center{justify-content:center}
-.quote{font-family:var(--serif); font-size:38px; font-weight:900; line-height:1.4; color:var(--ink); font-feature-settings:"palt"}
-.quote::before{content:""; display:block; width:56px; height:5px; background:var(--red); margin-bottom:.45em}   /* D 的拉引句：紅短線在上 */
-.big{font-family:var(--serif); font-size:54px; font-weight:900; line-height:1.3; letter-spacing:-.01em}
-.big .em{color:var(--red)}
-.big-sub{font-size:23px; color:var(--ink-soft); margin-top:16px; line-height:1.6}
+.quote{font-size:38px; font-weight:900; line-height:1.4; color:var(--ink); padding-left:24px; border-left:6px solid var(--coral); font-feature-settings:"palt"}
+.big{font-size:54px; font-weight:900; line-height:1.3; letter-spacing:-.01em}
+.big .em{color:var(--coral)}
+.big-sub{font-size:23px; color:var(--mist); margin-top:16px; line-height:1.6}
 .lines{display:flex; flex-direction:column; gap:16px}
-.lines div{font-family:var(--serif); font-size:30px; font-weight:900; line-height:1.4; padding:12px 22px; background:var(--card);
-  border:var(--bw) solid var(--ink); border-left-width:8px; border-radius:var(--r); box-shadow:var(--sh)}
-.lines div:nth-child(1){border-left-color:var(--y)}
-.lines div:nth-child(2){border-left-color:var(--c)}
-.lines div:nth-child(3){border-left-color:var(--a)}
-.lines .em{color:var(--red)}
+.lines div{font-size:30px; font-weight:800; line-height:1.4; padding:12px 22px; background:var(--card);
+  border-left:6px solid var(--coral); border-radius:0 var(--r) var(--r) 0}
+.lines .em{color:var(--coral)}
 .url{font-family:var(--mono); font-size:32px; font-weight:700; color:var(--ink); white-space:nowrap; line-height:1.3}
+.slide--dark .url{color:#fff}
 .statement{font-size:30px; font-weight:700; line-height:1.55}
-.note{font-size:17px; color:var(--ink-soft); line-height:1.55}
+.note{font-size:17px; color:var(--mist); line-height:1.55}
 .lead{font-size:21px; line-height:1.6}
-.lead b{font-family:var(--serif); font-weight:700}
+.lead b{color:var(--blue-deep)}
 
-/* 對照表（接到計畫書哪一章）：左暖白卡、右四色淡底卡（一列一色），都 1.5px 墨框 */
+/* 對照表（接到計畫書哪一章）：左白卡、右淡藍底深藍字 */
 .map{display:grid; grid-template-columns:1fr 56px 1fr; row-gap:12px; column-gap:6px; align-items:center; font-size:21px}
-.map .l{padding:10px 16px; background:var(--card); border:var(--bw) solid var(--ink); border-radius:var(--r); font-weight:700; box-shadow:var(--sh)}
-.map .r{padding:10px 16px; background:var(--a-soft); border:var(--bw) solid var(--ink); border-radius:var(--r); font-weight:800; color:var(--ink); box-shadow:var(--sh)}
-.map .r:nth-child(12n+3){background:var(--y-soft)}
-.map .r:nth-child(12n+6){background:var(--c-soft)}
-.map .r:nth-child(12n+9){background:var(--a-soft)}
-.map .r:nth-child(12n+12){background:var(--l-soft)}
-.map .ar{text-align:center; color:var(--ink); font-weight:900; font-size:26px}
+.map .l{padding:10px 16px; background:var(--card); border:1px solid var(--line); border-radius:var(--r); font-weight:700}
+.map .r{padding:10px 16px; background:var(--blue-soft); border:1px solid var(--blue-soft); border-radius:var(--r); font-weight:800; color:var(--blue-deep)}
+.map .ar{text-align:center; color:var(--coral-deep); font-weight:900; font-size:26px}
 
 /* 你說 → AI 做 → 你看（今天的做法） */
 .three{display:grid; grid-template-columns:1fr 44px 1fr 44px 1fr; align-items:stretch; gap:0}
-.three .ar{display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:30px; font-weight:900}
+.three .ar{display:flex; align-items:center; justify-content:center; color:var(--coral-deep); font-size:30px; font-weight:900}
 .three .card .n{font-size:32px}
 .three .card .p{font-size:20px}
 
@@ -178,16 +166,15 @@ html,body{background:#1B1B1F}
 /* ── SVG 自繪圖：顏色一律走代幣（填色 .f-*、描邊 .s-*） ── */
 svg{display:block; max-width:100%}
 svg text{font-family:var(--sans); fill:var(--ink)}
-.f-y{fill:var(--y)} .f-y-soft{fill:var(--y-soft)} .f-y-deep{fill:var(--y-deep)}
-.f-c{fill:var(--c)} .f-c-soft{fill:var(--c-soft)} .f-c-deep{fill:var(--c-deep)}
-.f-a{fill:var(--a)} .f-a-soft{fill:var(--a-soft)} .f-a-deep{fill:var(--a-deep)}
-.f-l{fill:var(--l)} .f-l-soft{fill:var(--l-soft)} .f-l-deep{fill:var(--l-deep)}
+.f-b1{fill:var(--b1)} .f-b2{fill:var(--b2)} .f-b3{fill:var(--b3)} .f-b4{fill:var(--b4)}                 /* 四塊的四階 */
+.f-blue{fill:var(--blue)} .f-blue-soft{fill:var(--blue-soft)} .f-blue-deep{fill:var(--blue-deep)}
+.f-coral{fill:var(--coral)} .f-coral-soft{fill:var(--coral-soft)} .f-coral-deep{fill:var(--coral-deep)}
 .f-red{fill:var(--red)} .f-sand{fill:var(--sand)}
-.f-ink{fill:var(--ink)} .f-mist{fill:var(--ink-soft)} .f-card{fill:var(--card)} .f-paper{fill:var(--paper)} .f-none{fill:none}
-.s-ink{stroke:var(--ink)} .s-mist{stroke:var(--ink-soft)} .s-line{stroke:var(--rule-strong)} .s-red{stroke:var(--red)}
-.s-y{stroke:var(--y)} .s-c{stroke:var(--c)} .s-a{stroke:var(--a)} .s-l{stroke:var(--l)}
+.f-ink{fill:var(--ink)} .f-mist{fill:var(--mist)} .f-card{fill:var(--card)} .f-paper{fill:var(--paper)} .f-white{fill:#fff} .f-none{fill:none}
+.s-ink{stroke:var(--ink)} .s-mist{stroke:var(--mist)} .s-line{stroke:var(--line)} .s-tick{stroke:var(--line-strong)} .s-red{stroke:var(--red)}
+.s-blue{stroke:var(--blue)} .s-coral{stroke:var(--coral)}
 /* 設計審查 2026-10-02：圖內最小字 15px 起跳（教室後排看得到） */
 .t-xs{font-size:15px} .t-sm{font-size:17px} .t-md{font-size:19px} .t-lg{font-size:21px} .t-xl{font-size:23px}
-.far{stroke:var(--red); stroke-width:2.5}   /* 落差圖「離 0 遠」：保留系列色、加紅框（跟工作台一樣） */
+.far{stroke:var(--red); stroke-width:3}   /* 落差圖「離 0 遠」：保留系列色、加紅框（跟工作台一樣） */
 .t-b{font-weight:800} .t-c{text-anchor:middle} .t-e{text-anchor:end} .t-mono{font-family:var(--mono)}
 .dash{stroke-dasharray:6 6}

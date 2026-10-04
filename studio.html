@@ -5,115 +5,111 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>證據工作台｜從學習證據到教學改進</title>
 <meta name="description" content="10/16 工作坊的互動工作台：Rubric 兩版並列比較、自評／互評／教師三種分數的落差儀表板與抽查紀錄、一頁「評量—回饋—教學調整—研究」設計。純前端、不連 AI、示範資料內嵌，離線也能開。">
-<!-- 字型：Noto Serif TC 900 當展示字、Noto Sans TC 當內文；site.css 用 @import 從 Google Fonts 拿，這兩行只是先握手；離線或沒拿到就退到系統字 -->
+<!-- 字型：Noto Sans TC（site.css 用 @import 從 Google Fonts 拿，這兩行只是先握手）；離線或沒拿到就退到系統字 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <style>
-  /* 工作台專用版式（樣稿 D）；顏色一律用 site.css 的代幣、不硬編色碼。
+  /* 工作台專用版式（v5 立霧風格：白底、深藍、珊瑚橘、淡線卡片、無偏移陰影）；顏色一律用 site.css 的代幣、不硬編色碼。
      刊頭、導覽、版心（.sec > .wrap）、拉引句、分頁、按鈕、表單、提示詞區、差異區、表格、頁尾都是 site.css 的共用元件；
-     這裡只放工作台獨有的：工作面（橫跨兩欄）、兩欄文字框、落差圖、抽查卡、講師答案卡、一頁設計表單＋預覽、清除暫存。 */
+     這裡只放工作台獨有的：工作面、兩欄文字框、落差圖、抽查卡、講師答案卡、一頁設計表單＋預覽、清除暫存。 */
 
-  /* 刊頭：這頁的 .meta 是 JS 用「｜」串起來的一行內文，上下各一道髮線當版權頁式資訊 */
-  header.hero .meta{padding:10px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  /* 頁首那一句：拉引句小一號（入口頁那張 1.35–1.9rem，這裡 1.25–1.6rem）；AI 那一句在淡線下 */
+  .sec.first{padding-top:clamp(24px,3.5vw,40px);padding-bottom:clamp(12px,2vw,24px)}
+  .pullquote.compact{padding:clamp(18px,2.6vw,26px) clamp(18px,3vw,32px)}
+  .pullquote.compact .pull{font-size:clamp(1.25rem,2.4vw,1.6rem)}
+  .pullquote.compact .after{font-size:.98rem;margin-top:.8em;padding-top:12px}
 
-  /* 頁首那一句：拉引句小一號（入口頁那張是 1.9–3.8rem，這裡 1.5–2.6rem），AI 那一句在髮線下 */
-  .sec.first{padding-top:clamp(28px,4vw,48px);padding-bottom:clamp(16px,2.5vw,28px)}
-  .pullquote.compact{padding:clamp(20px,3vw,32px) clamp(18px,3vw,36px) clamp(18px,2.4vw,26px)}
-  .pullquote.compact .pull{font-size:clamp(1.5rem,3.4vw,2.6rem)}
-  .pullquote.compact .pull::before{width:44px;height:4px;margin-bottom:.45em}
-  .pullquote.compact .after{font-size:1rem;font-weight:600;margin-top:.9em;padding-top:12px}
-
-  /* 分頁列：共用 .tabs，自己帶一道墨線；分頁內容是 .sec 版心，但不再疊髮線、上緣留白收小 */
+  /* 分頁列：共用 .tabs（目前分頁深藍字＋珊瑚橘底線）；分頁內容是 .sec 版心，但不再疊淡線、上緣留白收小 */
   .tabsbar{margin-top:8px}
   .tabsbar .tabs{margin:0}
-  .tabpanel.sec{border-top:0;padding-top:clamp(28px,4vw,44px)}
+  .tabpanel.sec{border-top:0;padding-top:clamp(24px,3.5vw,40px)}
 
-  /* 工作面 .bench：桌機橫跨兩欄（文字框、圖表、表格、一頁設計都要寬）；上緣一道髮線，跟右欄的說明文字分開 */
-  .bench{min-width:0;border-top:1px solid var(--rule);padding-top:clamp(20px,3vw,28px)}
+  /* 工作面 .bench：文字框、圖表、表格、一頁設計都在這裡；上緣一道淡線，跟說明文字分開 */
+  .bench{min-width:0;border-top:1px solid var(--line);padding-top:clamp(20px,3vw,28px)}
   .bench>:first-child{margin-top:0}
   .bench>:last-child{margin-bottom:0}
   @media (min-width:900px){ .sec .wrap>.bench{grid-column:1/-1} }
 
-  /* 說明文字：襯線、不做首字放大（工作頁不要太過） */
-  .intro{font-family:var(--serif);font-weight:500;font-size:1.06rem;line-height:1.85;max-width:42em;margin:0 0 1em}
-  .intro strong{font-weight:700}
+  /* 說明文字：次要字色、不做首字放大；粗體處回到主字色 */
+  .intro{line-height:1.85;max-width:44em;margin:0 0 1em;color:var(--ink-soft)}
+  .intro strong{color:var(--ink)}
   .hint{margin:.1em 0 .5em}
   .status{font-size:.88rem;color:var(--ink-soft);margin:.4em 0}
   .msg{margin:.6em 0}
   #dataset{max-width:40em}
 
-  /* 四塊步驟（JS 渲染成 details.card）：摘要列整列可點、左緣配該塊的顏色（第二塊珊瑚橘、第三塊湖水綠、第四塊薰衣草紫） */
+  /* 四塊步驟（JS 渲染成 details.card）：摘要列整列可點、左緣 4px 色條配該塊的顏色（第二塊珊瑚橘、第三塊綠、第四塊靛紫） */
   details.card{padding:0}
-  details.card summary{cursor:pointer;font-family:var(--serif);font-weight:700;padding:12px 20px;min-height:44px}
-  details.card[open] summary{border-bottom:1px solid var(--rule)}
+  details.card summary{cursor:pointer;font-weight:700;padding:12px 20px;min-height:44px}
+  details.card[open] summary{border-bottom:1px solid var(--line)}
   details.card .steps{margin:.8em 20px 0}
   details.card .tip{margin:1em 20px 18px}
-  #stepsB2 details.card{border-left:8px solid var(--c)}
-  #stepsB3 details.card{border-left:8px solid var(--a)}
-  #stepsB4 details.card{border-left:8px solid var(--l)}
+  #stepsB2 details.card{border-left:4px solid var(--gold)}
+  #stepsB3 details.card{border-left:4px solid var(--a)}
+  #stepsB4 details.card{border-left:4px solid var(--l)}
   .steps .human{margin:.4em 0 0}
 
-  /* 提示詞區（JS 渲染舊寫法：.label 標籤列＋右上複製鈕）：複製鈕用次要樣式、底下那一句用虛線髮線隔開 */
-  .prompt .copy{background:var(--card);color:var(--ink)}
-  .prompt .copy:hover{background:var(--tint)}
-  .prompt .rule-foot{display:block;margin-top:12px;padding-top:10px;border-top:1px dashed var(--rule-strong);font-size:.88rem;color:var(--y-deep);font-weight:700}
+  /* 提示詞區（JS 渲染舊寫法：.label 標籤列＋右上複製鈕，長相全交給 site.css）：底下那一句用虛線隔開 */
+  .prompt .rule-foot{display:block;margin-top:12px;padding-top:10px;border-top:1px dashed var(--line-strong);font-size:.88rem;color:var(--teal-deep);font-weight:700}
   .sample pre{white-space:pre-wrap;font-family:var(--sans);font-size:.95rem;border:0;padding:0;background:transparent;box-shadow:none;line-height:1.7}
-  .sample pre+pre{margin-top:1em;padding-top:1em;border-top:1px dashed var(--rule-strong)}
+  .sample pre+pre{margin-top:1em;padding-top:1em;border-top:1px dashed var(--line-strong)}
 
-  /* 兩版並列：兩欄文字框（等寬字），窄螢幕疊成一欄 */
+  /* 兩版並列：兩欄文字框（等寬字），窄螢幕疊成一欄；「必填」標籤＝紅淡底深紅字、沒有框 */
   .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px 24px}
   .two textarea{min-height:280px;font-family:var(--mono);font-size:.92rem}
-  .req{display:inline-block;background:var(--c-soft);color:var(--c-deep);border:1px solid var(--c-deep);border-radius:var(--r-sm);padding:0 8px;font-size:.78rem;font-weight:700;line-height:1.7;margin-left:8px;vertical-align:middle}
+  .req{display:inline-block;background:var(--bad-soft);color:var(--bad);border-radius:3px;padding:0 8px;font-size:.78rem;font-weight:700;line-height:1.7;margin-left:8px;vertical-align:middle}
 
-  /* 差異區：共用 .diff（刪＝珊瑚橘淡底、增＝湖水綠淡底）；−／＋ 記號配同色深字 */
-  .diff{margin:1em 0;box-shadow:var(--sh)}
+  /* 差異區：共用 .diff；刪＝珊瑚橘淡底、增＝綠淡底，−／＋ 記號配同色深字 */
+  .diff{margin:1em 0}
   .diff:empty{display:none}
+  .diff .del{background:var(--c-soft)}
+  .diff .add{background:var(--a-soft)}
   .diff .ln .mk{display:inline-block;width:1.4em;color:var(--ink-soft);font-weight:700;user-select:none}
   .diff .del .mk{color:var(--c-deep)}
   .diff .add .mk{color:var(--a-deep)}
-  .diff .hdr{padding:8px 10px;border-bottom:var(--bw) solid var(--frame)}
+  .diff .hdr{padding:8px 10px;border-bottom:1px solid var(--line)}
 
-  /* 落差圖：卡片框、自評長條湖水綠、互評長條芥末黃（各加一圈深色描邊補非文字對比）、「離 0 遠」紅框＝編輯紅；圖例同色 */
-  .chart-wrap{overflow-x:auto;margin:1em 0;background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);box-shadow:var(--sh);padding:10px}
+  /* 落差圖：淡線卡片；自評長條深藍、互評長條珊瑚橘（加一圈深珊瑚描邊補非文字對比）、「離 0 遠」紅框＝--red；圖例同色 */
+  .chart-wrap{overflow-x:auto;margin:1em 0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px}
   .chart-wrap svg{min-width:720px;display:block;width:100%;height:auto}
-  .chart-wrap .axis{stroke:var(--rule);stroke-width:1}
+  .chart-wrap .axis{stroke:var(--line);stroke-width:1}
   .chart-wrap .zero{stroke:var(--ink-soft);stroke-width:1.5}
   .chart-wrap text{fill:var(--ink);font-family:var(--sans);font-size:13px}
   .chart-wrap text.tick{fill:var(--ink-soft)}
   .chart-wrap text.far{fill:var(--red);font-weight:700}
-  .chart-wrap .bar-self{fill:var(--a);stroke:var(--a-deep);stroke-width:1}
-  .chart-wrap .bar-peer{fill:var(--y);stroke:var(--y-deep);stroke-width:1}
+  .chart-wrap .bar-self{fill:var(--teal)}
+  .chart-wrap .bar-peer{fill:var(--gold);stroke:var(--c-deep);stroke-width:1}
   .chart-wrap .far-bar{stroke:var(--red);stroke-width:2}
   .legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.9rem;color:var(--ink-soft);margin:.2em 0 .8em}
   .legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
-  .legend .l-self{background:var(--a);box-shadow:inset 0 0 0 1px var(--a-deep)}
-  .legend .l-peer{background:var(--y);box-shadow:inset 0 0 0 1px var(--y-deep)}
+  .legend .l-self{background:var(--teal)}
+  .legend .l-peer{background:var(--gold);box-shadow:inset 0 0 0 1px var(--c-deep)}
   .legend .l-far{background:transparent;border:2px solid var(--red)}
   td.far,th.far{color:var(--red);font-weight:700}
   td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
   td.refl{min-width:16em}
 
-  /* 抽查卡：.card 的長相（1.5px 墨框＋3px 偏移）＋左緣色條，三張各一色；少填時整圈變編輯紅（紅框語意保留） */
-  .sample-card{background:var(--card);border:var(--bw) solid var(--frame);border-left-width:8px;border-left-color:var(--y);border-radius:var(--r);box-shadow:var(--sh);padding:18px 20px;margin:1.2em 0}
-  .sample-card:nth-of-type(2){border-left-color:var(--c)}
+  /* 抽查卡：淡線白卡＋左緣 4px 色條，三張各一色（深藍、珊瑚橘、綠）；少填時整圈變紅（紅框語意保留） */
+  .sample-card{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:var(--r);padding:18px 20px;margin:1.2em 0}
+  .sample-card:nth-of-type(2){border-left-color:var(--gold)}
   .sample-card:nth-of-type(3){border-left-color:var(--a)}
-  .sample-card h4{margin:0 0 .3em;font-family:var(--serif);font-weight:700;font-size:1.15rem}
+  .sample-card h4{margin:0 0 .3em;font-weight:700;font-size:1.1rem}
   .sample-card .scores{font-variant-numeric:tabular-nums;color:var(--ink-soft);margin:.1em 0 .6em}
   .sample-card .judge{display:flex;flex-wrap:wrap;gap:6px 18px;margin:.4em 0}
   .sample-card .judge label{display:inline-flex;gap:8px;align-items:center;cursor:pointer;min-height:44px;padding:0 4px;font-weight:600}   /* 單選鈕整個 label 都是觸控目標 */
-  .sample-card.needs{border-color:var(--red);box-shadow:3px 3px 0 var(--red)}   /* 匯出時這張卡少填：紅框＋卡內訊息，頁面也會捲到這裡 */
+  .sample-card.needs{border-color:var(--red);box-shadow:0 0 0 3px var(--bad-soft)}   /* 匯出時這張卡少填：紅框＋卡內訊息，頁面也會捲到這裡 */
   .sample-card .cardmsg{margin:.4em 0 .2em}
   .sample-card textarea{min-height:72px}
   .conclusions textarea{min-height:64px}
 
-  /* 講師模式：按下去＝墨色實心；答案卡用芥末黃淡底 */
+  /* 講師模式：按下去＝墨色實心（同 .btn.accent）；答案卡淡藍底、左緣深藍 */
   .btn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-  .btn[aria-pressed="true"]:hover{background:var(--ink-hover);color:var(--paper)}
-  .answer{background:var(--y-soft);border-left:8px solid var(--y)}
+  .btn[aria-pressed="true"]:hover{background:var(--ink-hover);border-color:var(--ink-hover);color:var(--paper)}
+  .answer{background:var(--teal-soft);border-left:4px solid var(--teal)}
   .answer h3{margin-top:0}
 
-  /* 一頁設計：左欄十一欄表單、右欄即時預覽（桌機黏在導覽列下）；預覽像一張紙（暖白、墨框、3px 偏移） */
+  /* 一頁設計：左欄十一欄表單、右欄即時預覽（桌機黏在導覽列下）；預覽是一張淡線白卡 */
   .design-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px 32px;align-items:start}
   @media (min-width:920px){
     .design-grid{grid-template-columns:1.1fr .9fr}
@@ -121,25 +117,25 @@
   }
   .design-grid textarea{min-height:84px}
   .design-grid label.field{margin-top:1.1em}
-  .design-grid .plan{font-size:.78rem;vertical-align:middle;margin-left:6px;background:var(--l-soft)}
-  .must{display:inline-block;background:var(--y-soft);color:var(--y-deep);border:1px solid var(--y-deep);border-radius:var(--r-sm);padding:0 8px;font-size:.78rem;font-weight:700;line-height:1.7;margin-left:6px;vertical-align:middle}
-  .changed{display:inline-block;background:var(--a-soft);color:var(--a-deep);border:1px solid var(--a-deep);border-radius:var(--r-sm);padding:0 8px;font-size:.78rem;font-weight:700;line-height:1.7;margin-left:6px;vertical-align:middle}
+  .design-grid .plan{font-size:.78rem;vertical-align:middle;margin-left:6px}
+  .must{display:inline-block;background:var(--c-soft);color:var(--c-deep);border-radius:3px;padding:0 8px;font-size:.78rem;font-weight:700;line-height:1.7;margin-left:6px;vertical-align:middle}
+  .changed{display:inline-block;background:var(--a-soft);color:var(--a-deep);border-radius:3px;padding:0 8px;font-size:.78rem;font-weight:700;line-height:1.7;margin-left:6px;vertical-align:middle}
   .preview-col>h3{margin-top:.2em}
-  .md-preview{background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);box-shadow:var(--sh);padding:22px 26px;max-height:70vh;overflow:auto;font-size:.95rem}
-  .md-preview h3{font-size:1.2rem;margin:0 0 .6em;padding-bottom:.4em;border-bottom:2px solid var(--frame)}
-  .md-preview h4{font-family:var(--serif);font-weight:700;font-size:1rem;margin:1.2em 0 .25em}
+  .md-preview{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px 26px;max-height:70vh;overflow:auto;font-size:.95rem}
+  .md-preview h3{font-size:1.2rem;margin:0 0 .6em;padding-bottom:.4em;border-bottom:1px solid var(--line)}
+  .md-preview h4{font-weight:700;font-size:1rem;margin:1.2em 0 .25em;color:var(--teal-deep)}
   .md-preview p{margin:.2em 0 .6em}
   .md-preview ul{margin:.2em 0 .6em}
   .md-raw{margin-top:1em}
   .md-raw summary{font-weight:700;padding:10px 0}
   .md-raw pre{white-space:pre-wrap;font-size:.85rem;margin-top:.5em}
 
-  /* 清除暫存：頁尾前一道髮線 */
-  .danger{border-top:1px solid var(--rule);margin-top:clamp(20px,3vw,36px);padding:20px 0 40px}
+  /* 清除暫存：頁尾前一道淡線 */
+  .danger{border-top:1px solid var(--line);margin-top:clamp(20px,3vw,36px);padding:20px 0 40px}
   .danger .status{margin:0 0 .8em}
 
   @media (max-width:640px){
-    .pullquote.compact{padding:18px 16px 16px}
+    .pullquote.compact{padding:16px 16px}
     .sample-card{padding:14px 14px}
     .md-preview{padding:16px}
     details.card summary{padding:10px 14px}
@@ -152,7 +148,7 @@
 <body>
 <a class="skip" href="#main">跳到主要內容</a>
 
-<!-- 刊頭（樣稿 D）：主辦小字＋紅短線→髮線→大題名→左欄版權頁式資訊、右欄副標。眉標與 meta 由 workflow-data.js 的 meta 填入，靜態文字只是備援 -->
+<!-- 刊頭（v5 立霧風格，長相全在 site.css 的 header.hero）：矮、白底、底下一條淡線；眉標珊瑚橘等寬小字→題名→副標→一行資訊。眉標與 meta 由 workflow-data.js 的 meta 填入，靜態文字只是備援 -->
 <header class="hero"><div class="inner">
   <p class="eyebrow" id="heroEyebrow">從學習證據到教學改進｜AI 協作促進學習評量與教學實踐研究工作坊</p>
   <hr>
@@ -180,7 +176,7 @@
 
 <main id="main" class="editorial">
 
-  <!-- 頁首那一句：拉引句（比入口頁小一號）；AI 那一句在髮線下。id 都留著給 JS 填資料源與捲動用 -->
+  <!-- 頁首那一句：拉引句（比入口頁小一號）；AI 那一句在淡線下。id 都留著給 JS 填資料源與捲動用 -->
   <section class="sec first" aria-label="開場"><div class="wrap">
     <div class="pullquote compact" id="ruleBox">
       <p class="pull" id="ruleText">挑一句不同意的、改掉、寫下為什麼。</p>
@@ -197,7 +193,7 @@
     </div>
   </div>
 
-  <!-- 壹 Rubric 工作台：右欄放說明、步驟、提示詞；工作面（兩版並列、為什麼改、比較、差異）橫跨兩欄 -->
+  <!-- 壹 Rubric 工作台：說明、步驟、提示詞在上；工作面（兩版並列、為什麼改、比較、差異）在淡線下 -->
   <section class="tabpanel sec" id="panel-rubric" role="tabpanel" aria-labelledby="tab-rubric"><div class="wrap">
     <h2><span class="num">壹</span><span class="t">Rubric 工作台</span></h2>
     <div class="body">
@@ -222,7 +218,7 @@
         </div>
       </div>
       <label class="field" for="why">為什麼改<span class="req">必填</span><small>——一句話，講得出「下次學生會怎麼不一樣」</small></label>
-      <p class="hint" id="why-hint">例如：要兩個老師打一樣的分，格子裡得是數得出的事。</p>
+      <p class="hint" id="why-hint">例如：現場看得到，評的是表達、不是背稿；其他等級沿同一規準改寫。</p>
       <textarea id="why" rows="2" style="min-height:64px" aria-label="為什麼改（必填）" aria-describedby="why-hint"></textarea>
       <div class="toolbar">
         <button type="button" class="btn secondary" id="btnCompare" aria-label="比較兩版：逐行列出第 1 版與第 2 版的差異">比較兩版</button>
@@ -233,7 +229,7 @@
     </div>
   </div></section>
 
-  <!-- 貳 證據儀表板：右欄放說明與步驟；工作面（資料集、落差圖、兩張表、抽查卡、三句結論、答案卡）橫跨兩欄 -->
+  <!-- 貳 證據儀表板：說明與步驟在上；工作面（資料集、落差圖、兩張表、抽查卡、三句結論、答案卡）在淡線下 -->
   <section class="tabpanel sec" id="panel-evidence" role="tabpanel" aria-labelledby="tab-evidence" hidden><div class="wrap">
     <h2><span class="num">貳</span><span class="t">證據儀表板</span></h2>
     <div class="body">
@@ -290,7 +286,7 @@
     </div>
   </div></section>
 
-  <!-- 參 一頁設計：右欄放說明與步驟；工作面（帶入示範課、十一欄表單＋即時預覽）橫跨兩欄 -->
+  <!-- 參 一頁設計：說明與步驟在上；工作面（帶入示範課、十一欄表單＋即時預覽）在淡線下 -->
   <section class="tabpanel sec" id="panel-design" role="tabpanel" aria-labelledby="tab-design" hidden><div class="wrap">
     <h2><span class="num">參</span><span class="t">一頁設計</span></h2>
     <div class="body">
@@ -663,30 +659,33 @@ var P1_SAMPLE = RUBRIC_V1 + '\n' +
 '- 結構清楚、表達流暢、回應提問：同上，各一題\n' +
 '\n' +
 '## 我猜老師最可能不同意的三格\n' +
-'1. 表達流暢・4「表現優異、台風穩健」：兩個形容詞，看不見也數不出。\n' +
+'1. 表達流暢・4「表現優異、台風穩健」：兩個形容詞，現場看不見，也沒說對到哪個學習目標。\n' +
 '2. 內容正確・2「內容尚可」：「尚可」的門檻在每位老師心裡都不一樣。\n' +
 '3. 回應提問・4「回答良好」：「良好」沒有說要做到什麼。';
 
 var P2_SAMPLE =
 '審查意見（6 條；每條寫：哪一格／問題是什麼／建議怎麼改）\n' +
 '\n' +
-'1. 表達流暢・4「表現優異、台風穩健」——看不見、數不出，兩位老師會打不一樣。改成：「全程不看稿超過 6 分鐘；停頓不超過 3 次」。\n' +
+'1. 表達流暢・4「表現優異、台風穩健」——現場看不見，也沒對到學習目標：這一格評的是表達，不是背稿；兩位老師會打不一樣。改成：「主要論點依序說完，每點之間有一句轉折；聽眾不必回問就跟得上」。\n' +
 '2. 內容正確・2「內容尚可，部分論點沒有依據」——「尚可」沒有門檻。改成：「主要論點有一半以上沒有資料支持」。\n' +
 '3. 回應提問・4「回答良好，能舉例補充」——「良好」沒有說要做到什麼。改成：「每一題都切題回答，至少一題引用簡報裡的資料補充」。\n' +
-'4. 表達流暢・3「偶爾看稿，語速適中」——「偶爾」「適中」數不出。改成：「看稿不超過 3 次；8 分鐘內講完」。\n' +
+'4. 表達流暢・3「偶爾看稿，語速適中」——「偶爾」「適中」兩位老師對不齊。改成：「看稿不超過 3 次；8 分鐘內講完」。\n' +
 '5. 結構清楚・2「聽眾要自己拼湊」——寫的是聽眾的感受，不是報告者做了什麼。改成：「有開頭與結尾，但段落之間沒有轉折句」。\n' +
 '6. 內容正確・3 與 2 的差距不均——從「1 處小錯誤」跳到「部分沒有依據」太大。建議 3 改成：「主要論點有資料支持，有 1–2 處小錯誤」。';
 
 var RUBRIC_V2 = RUBRIC_V1
   .replace('（第 1 版）', '（第 2 版）')
   .replace('- 2：內容尚可，部分論點沒有依據', '- 2：主要論點有一半以上沒有資料支持')
-  .replace('- 4：表現優異、台風穩健', '- 4：全程不看稿超過 6 分鐘；停頓不超過 3 次')
+  .replace('- 4：表現優異、台風穩健', '- 4：主要論點依序說完，每點之間有一句轉折；聽眾不必回問就跟得上')
+  .replace('- 3：偶爾看稿，語速適中', '- 3：論點依序說完，轉折偶爾跳接，聽眾回問 1 次')
+  .replace('- 2：常常看稿，有明顯停頓', '- 2：順序跳動，聽眾回問 2–3 次')
+  .replace('- 1：大段朗讀投影片，台下聽不清楚', '- 1：聽眾跟不上，回問超過 3 次')
   .replace('- 4：回答良好，能舉例補充', '- 4：每一題都切題回答，至少一題引用簡報裡的資料補充') +
 '\n' +
 '\n' +
 '## 調整紀錄\n' +
-'- 採用審查意見 1、2、3。\n' +
-'- 4 不採：看稿次數現場數不到，先留「偶爾」，下學期錄影再改。\n' +
+'- 採用審查意見 1、2、3；採 1 之後，表達流暢的 3、2、1 級沿同一規準改寫。\n' +
+'- 4 不採：看稿次數、講完時間算得出來，但那評的是背稿、不是這門課要的表達；第 3 級已跟著第 1 條改寫。\n' +
 '- 5 不採：這一格故意留聽眾視角，互評表會用到。\n' +
 '- 6 不採：先用一輪，看實際分數分布再調等級差距。';
 

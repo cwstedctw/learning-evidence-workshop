@@ -8,10 +8,11 @@
 <link rel="stylesheet" href="assets/site.css">
 <style>
 /* ────────────────────────────────────────────────────────────
-   本頁版式（樣稿 D，2026-10-04 全站換裝）。顏色一律用 site.css 的代幣；刊頭、導覽、版心（.sec > .wrap）、卡片（.card＋色條）、
+   本頁版式（v5 立霧參考版風格，2026-10-04 全站換裝）。顏色一律用 site.css 的代幣；刊頭、導覽、版心（.sec > .wrap）、卡片（.card＋色條）、
    按鈕家族、標籤（.badge）、表單、頁尾都是 site.css 的共用元件，這裡只放這一頁獨有的東西：
    進度條（四格圓點＋填充）、第 1 關三欄模擬（聊天框／資料夾／時間線）與手機的黏頂切換列、第 2 關評分格、第 3 關小卡與抽卡、第 4 關表單與預覽、回饋框。
-   四關各一色（跟入口的 .badge.b1–b4、投影片一致）：第 1 關芥末黃、第 2 關珊瑚橘、第 3 關湖水綠、第 4 關薰衣草紫——
+   長相：白底卡片 1px 淡線、沒有偏移陰影、沒有襯線字；左緣色線 4px、圓角 8／5／3；按鈕深藍主要／白底次要。
+   四關各一色（跟入口的 .badge.b1–b4 一致）：第 1 關深藍（--y）、第 2 關珊瑚橘（--c）、第 3 關綠（--a）、第 4 關靛紫（--l）——
    每關的 --sc／--sc-soft／--sc-deep 在 .stage[data-stage] 設一次，關內元件只用這三個代幣，不另開色票、不硬編 hex。
    字不小於 17px、可點的東西不矮於 44px、動畫短而有意義、尊重減少動態的設定。
    ──────────────────────────────────────────────────────────── */
@@ -38,22 +39,19 @@ button,a,[role=button]{cursor:pointer;touch-action:manipulation}
 .stage[data-stage="4"]{--sc:var(--l);--sc-soft:var(--l-soft);--sc-deep:var(--l-deep)}
 .stage[data-stage="5"]{--sc:var(--sand);--sc-soft:var(--tint);--sc-deep:var(--ink)}
 
-/* ── 版心節奏：進度條那節貼著導覽、關卡那節緊接在後（入口頁的章節間距太鬆，這頁換關時要一眼看到關卡標題） ── */
-.sec.first{padding:28px 0 28px}
+/* ── 版心節奏：進度條那節貼著導覽、關卡那節緊接在後（換關時要一眼看到關卡標題）。.sec .wrap 在 v5 是單欄，關卡標籤坐在章節號上面 ── */
+.sec.first{padding:28px 0}
 .sec.stage{padding-top:36px}
-.sec .wrap>.progress,.sec .wrap>.play{grid-column:1/-1;min-width:0}
-.sec .wrap>.stage-tag{margin:0 0 -10px}
+.sec .wrap>.progress,.sec .wrap>.play{min-width:0}
+.sec .wrap>.stage-tag{margin:0 0 -8px}
 .stage-tag .badge{display:inline-flex;align-items:center;gap:.35em;font-size:.88rem;padding:3px 11px;line-height:1.6}
-.sec h2 .num .ic{width:.85em;height:.85em;vertical-align:-.08em;color:var(--a-deep)}   /* 收尾那節：大數字的位置放一顆打勾 */
+.sec h2 .num .ic{width:1.5em;height:1.5em;vertical-align:-.35em;color:var(--a-deep)}   /* 收尾那節：章節號的位置放一顆打勾 */
 .desc{font-size:1.08rem;color:var(--ink-soft);margin:0;max-width:42em}
-@media (min-width:900px){
-  .sec .wrap>.stage-tag{grid-column:2}
-}
 
-/* ── 進度：四格圓點（各關一色）＋一條填充 ── */
-.progress{background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);box-shadow:var(--sh);padding:var(--s2) var(--s3) var(--s3);margin:0}
+/* ── 進度：白卡 1px 淡線，四格圓點（各關一色）＋一條深藍填充 ── */
+.progress{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:var(--s2) var(--s3) var(--s3);margin:0}
 .prog-head{display:flex;align-items:center;gap:var(--s1) var(--s2);flex-wrap:wrap;margin-bottom:var(--s2)}
-.prog-head .where{font-family:var(--serif);font-weight:900;font-size:1.2rem;white-space:nowrap}
+.prog-head .where{font-weight:800;font-size:1.15rem;letter-spacing:-.01em;color:var(--teal-deep);white-space:nowrap}
 .prog-head .where-title{color:var(--ink-soft);flex:1 1 auto;min-width:0}
 .prog-head .replay{margin-left:auto}
 .steps4{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s1)}
@@ -61,173 +59,173 @@ button,a,[role=button]{cursor:pointer;touch-action:manipulation}
 .steps4 .pill{font:inherit;width:100%;min-height:44px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:6px 2px;border:0;background:transparent;color:var(--ink-soft);border-radius:var(--r);
   transition:color var(--dur-fast),background-color var(--dur-fast)}
 .steps4 .pill:hover{background:var(--tint);color:var(--ink)}
-.steps4 .pill[data-go="1"]{--sc:var(--y)} .steps4 .pill[data-go="2"]{--sc:var(--c)} .steps4 .pill[data-go="3"]{--sc:var(--a)} .steps4 .pill[data-go="4"]{--sc:var(--l)}
-.steps4 .dot{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:var(--bw) solid var(--frame);background:var(--card);font-family:var(--serif);font-weight:900;color:var(--ink-soft);
-  transition:background-color var(--dur),color var(--dur),box-shadow var(--dur),transform var(--dur)}
+.steps4 .pill[data-go="1"]{--sc:var(--y);--sc-soft:var(--y-soft)} .steps4 .pill[data-go="2"]{--sc:var(--c);--sc-soft:var(--c-soft)} .steps4 .pill[data-go="3"]{--sc:var(--a);--sc-soft:var(--a-soft)} .steps4 .pill[data-go="4"]{--sc:var(--l);--sc-soft:var(--l-soft)}
+.steps4 .dot{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;border:2px solid var(--line-strong);background:var(--card);font-weight:800;color:var(--ink-soft);
+  transition:background-color var(--dur),border-color var(--dur),color var(--dur),box-shadow var(--dur),transform var(--dur)}
 .steps4 .lab{font-size:1rem;font-weight:700;line-height:1.2;word-break:keep-all;text-align:center}   /* 四字標籤只在 <wbr> 處換行（一頁／設計），不會切成「一頁設／計」 */
 .steps4 .pill[aria-current="step"]{color:var(--ink)}
-.steps4 .pill[aria-current="step"] .dot{background:var(--sc);color:var(--on-chip);box-shadow:var(--sh);transform:scale(1.06)}   /* 現在這關：填色＋3px 偏移影 */
+.steps4 .pill[aria-current="step"] .dot{background:var(--sc);border-color:var(--sc);color:var(--on-chip);box-shadow:0 0 0 3px var(--sc-soft);transform:scale(1.06)}   /* 現在這關：填色＋同色淡環 */
 .steps4 .pill.done{color:var(--ink)}
-.steps4 .pill.done .dot{background:var(--sc);color:var(--on-chip)}   /* 做完的：填色＋打勾（勾由 JS 放進去，不只靠顏色） */
-.track{height:8px;background:var(--rule);border-radius:4px;overflow:hidden;margin-top:var(--s3)}
-.track .fill{height:100%;width:100%;background:var(--ink);border-radius:4px;transform-origin:left center;transform:scaleX(0);transition:transform var(--dur-slow) var(--ease)}
+.steps4 .pill.done .dot{background:var(--sc);border-color:var(--sc);color:var(--on-chip)}   /* 做完的：填色＋打勾（勾由 JS 放進去，不只靠顏色） */
+.track{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:var(--s3)}
+.track .fill{height:100%;width:100%;background:var(--teal);border-radius:4px;transform-origin:left center;transform:scaleX(0);transition:transform var(--dur-slow) var(--ease)}
 
 /* ── 每一關的尾 ── */
 .stage-foot{display:flex;gap:var(--s2);flex-wrap:wrap;align-items:center;margin:var(--s4) 0 0}
-.closing{display:flex;gap:.6em;align-items:flex-start;font-family:var(--serif);font-weight:700;font-size:1.15rem;line-height:1.6;margin:var(--s3) 0 0;padding:16px 20px;background:var(--sc-soft);border:var(--bw) solid var(--frame);border-left:6px solid var(--sc);border-radius:var(--r);box-shadow:var(--sh);animation:rise var(--dur-slow) var(--ease) both}
+.closing{display:flex;gap:.6em;align-items:flex-start;font-weight:700;font-size:1.15rem;line-height:1.6;color:var(--ink);margin:var(--s3) 0 0;padding:14px 18px;background:var(--sc-soft);border-left:4px solid var(--sc);border-radius:0 var(--r) var(--r) 0;animation:rise var(--dur-slow) var(--ease) both}
 .closing .ic{margin-top:.2em;color:var(--sc-deep)}
 
-/* 回饋框：對＝湖水綠淡底、再想想＝珊瑚淡底；都有墨框＋圖示＋文字，不只靠顏色 */
-.fb{display:flex;gap:.55em;align-items:flex-start;margin-top:var(--s2);padding:10px 14px;border:var(--bw) solid var(--frame);border-left-width:6px;border-radius:var(--r);line-height:1.55;animation:rise var(--dur) var(--ease) both}
+/* 回饋框：對＝綠淡底綠左線、再想想／不對＝珊瑚淡底珊瑚左線；都有圖示＋文字，不只靠顏色 */
+.fb{display:flex;gap:.55em;align-items:flex-start;margin-top:var(--s2);padding:10px 14px;border-left:4px solid;border-radius:0 var(--r) var(--r) 0;line-height:1.55;animation:rise var(--dur) var(--ease) both}
 .fb .ic{margin-top:.2em}
 .fb.good{background:var(--a-soft);border-left-color:var(--a)} .fb.good .ic{color:var(--a-deep)}
 .fb.warn{background:var(--c-soft);border-left-color:var(--c-deep)} .fb.warn .ic{color:var(--c-deep)}
-.fb.soft{background:var(--c-soft);border-left-color:var(--c)} .fb.soft .ic{color:var(--c-deep)}
+.fb.soft{background:var(--c-soft);border-left-color:var(--gold)} .fb.soft .ic{color:var(--c-deep)}
 .fb:empty{display:none}
 
-/* ── 第 1 關：三欄模擬。三欄都是 .card（1.5px 墨框＋3px 偏移）；現在該看的那一欄色條全亮、其餘淡色，再加「現在看這裡」標籤與填色的欄號 ── */
+/* ── 第 1 關：三欄模擬。三欄都是 .card（1px 淡線）；現在該看的那一欄整圈變這關的色、外加一圈淡環，再加「現在看這裡」標籤與填色的欄號 ── */
 .sim{display:grid;grid-template-columns:1.15fr 1fr .95fr;gap:var(--s2);align-items:start}
-.sim-col{margin:0;min-width:0;scroll-margin-top:calc(var(--nav-h) + 64px);border-left-color:var(--sc-soft);transition:border-color var(--dur)}
-.sim-col.active{border-left-color:var(--sc)}
+.sim-col{margin:0;min-width:0;scroll-margin-top:calc(var(--nav-h) + 64px);border-left-color:var(--line);transition:border-color var(--dur),box-shadow var(--dur)}
+.sim-col.active{border-color:var(--sc);box-shadow:0 0 0 3px var(--sc-soft)}
 .sim-col h3{font-size:1.1rem;margin:0 0 var(--s2);display:flex;flex-wrap:wrap;align-items:center;gap:.4em .5em}
-.sim-col h3 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--card);border:var(--bw) solid var(--frame);font-size:1rem;flex:0 0 auto;transition:background-color var(--dur)}
-.sim-col.active h3 .n{background:var(--sc);color:var(--on-chip)}
+.sim-col h3 .n{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--card);color:var(--ink-soft);border:2px solid var(--line-strong);font-size:1rem;flex:0 0 auto;transition:background-color var(--dur),border-color var(--dur),color var(--dur)}
+.sim-col.active h3 .n{background:var(--sc);border-color:var(--sc);color:var(--on-chip)}
 .sim-col h3 .ttl{flex:1 1 auto;min-width:0;white-space:nowrap}   /* 標題自己佔一段，不會被右邊的標籤擠成一字一行 */
-.sim-col h3 .here{display:none;margin-left:auto;flex:0 0 auto;font-family:var(--sans);font-weight:700;font-size:.85rem;background:var(--sc-soft);color:var(--ink);border:1px solid var(--frame);border-radius:var(--r-sm);padding:2px 10px;line-height:1.7;white-space:nowrap}
+.sim-col h3 .here{display:none;margin-left:auto;flex:0 0 auto;font-weight:700;font-size:.85rem;background:var(--sc-soft);color:var(--sc-deep);border-radius:3px;padding:2px 10px;line-height:1.7;white-space:nowrap}
 .sim-col.active h3 .here{display:inline-flex;align-items:center;gap:.3em;animation:rise var(--dur) var(--ease) both}
 /* 手機：三欄上下排，頂上黏一條「現在看哪一格」的切換列 */
 .sim-tabs{display:none}
 @media (max-width:900px){
   .sim{grid-template-columns:1fr}
   .sim-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;position:sticky;top:var(--nav-h);z-index:20;background:var(--paper);padding:8px 0;margin:0 0 var(--s1)}
-  .sim-tabs button{font:inherit;min-height:44px;border:var(--bw) solid var(--frame);background:var(--card);color:var(--ink);border-radius:var(--r-sm);font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:.3em;padding:4px 6px;
-    transition:background-color var(--dur-fast),color var(--dur-fast),box-shadow var(--dur-fast)}
+  .sim-tabs button{font:inherit;min-height:44px;border:1px solid var(--line-strong);background:var(--card);color:var(--ink);border-radius:var(--r-sm);font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:.3em;padding:4px 6px;
+    transition:background-color var(--dur-fast),border-color var(--dur-fast),color var(--dur-fast)}
   .sim-tabs button:hover{background:var(--tint)}
-  .sim-tabs button[aria-current="true"]{background:var(--sc);color:var(--on-chip);box-shadow:var(--sh)}
+  .sim-tabs button[aria-current="true"]{background:var(--sc);border-color:var(--sc);color:var(--on-chip)}
 }
 .substep{display:flex;align-items:center;gap:var(--s2);margin:calc(-1 * var(--s1)) 0 var(--s2);color:var(--ink-soft);font-size:.95rem}
 .substep .track{flex:1;margin:0;height:6px}
 .chatlog{max-height:400px;overflow-y:auto;display:flex;flex-direction:column;gap:var(--s2);padding:4px 2px;scroll-behavior:smooth}
 @media (max-width:900px){ .chatlog{max-height:none;overflow:visible} }
 .chatlog:empty::before{content:'（還沒說話。按下面那句開始。）';color:var(--ink-soft);align-self:center;padding:var(--s2)}
-/* 聊天框：你＝芥末黃淡底、AI 助手＝暖白；都是 1.5px 墨框，靠自己那邊的下角收直 */
+/* 聊天框：你＝淡藍底、AI 助手＝白底淡框；靠自己那邊的下角收小 */
 .turn{display:flex;gap:10px;align-items:flex-end;max-width:100%;animation:rise var(--dur) var(--ease) both}
 .turn.me{flex-direction:row-reverse}
-.avatar{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--card);color:var(--ink);border:var(--bw) solid var(--frame)}
-.turn.me .avatar{background:var(--y);color:var(--on-chip)}
-.bub{max-width:calc(100% - 42px);padding:10px 14px;background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere}
-.turn.me .bub{background:var(--y-soft);border-bottom-right-radius:0}
-.turn.ai .bub{border-bottom-left-radius:0}
+.avatar{width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex:0 0 auto;background:var(--card);color:var(--teal-deep);border:1px solid var(--line-strong)}
+.turn.me .avatar{background:var(--teal);color:var(--on-teal);border-color:var(--teal)}
+.bub{max-width:calc(100% - 42px);padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);white-space:pre-wrap;line-height:1.55;overflow-wrap:anywhere}
+.turn.me .bub{background:var(--teal-soft);border-color:var(--teal-soft);border-bottom-right-radius:3px}
+.turn.ai .bub{border-bottom-left-radius:3px}
 .bub .who{display:block;font-size:.85rem;margin-bottom:2px;font-weight:700;letter-spacing:.04em}
-.turn.me .bub .who{color:var(--y-deep)}
+.turn.me .bub .who{color:var(--teal-deep)}
 .turn.ai .bub .who{color:var(--a-deep)}
 .choices{display:flex;flex-direction:column;gap:var(--s2);margin-top:var(--s2)}
 .choices.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.choices .wait{display:flex;gap:.5em;align-items:flex-start;color:var(--ink);background:var(--c-soft);border:var(--bw) solid var(--frame);border-left:6px solid var(--c);border-radius:var(--r);padding:10px 14px;font-weight:700;line-height:1.55;animation:rise var(--dur) var(--ease) both}   /* 「你一定要自己看的」那一刻：珊瑚橘 */
+.choices .wait{display:flex;gap:.5em;align-items:flex-start;color:var(--ink);background:var(--c-soft);border-left:4px solid var(--c);border-radius:0 var(--r) var(--r) 0;padding:10px 14px;font-weight:700;line-height:1.55;animation:rise var(--dur) var(--ease) both}   /* 「你一定要自己看的」那一刻：珊瑚橘 */
 .choices .wait .ic{margin-top:.2em;color:var(--c-deep)}
-/* 「按那句你會說的話」：主要按鈕的芥末黃（芥末黃＝「你說什麼」）；可以換行、按下去沉 2px。進場動畫只填 backwards，動完才按得下去 */
-.say{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;font:inherit;font-weight:600;background:var(--y);color:var(--on-chip);border:var(--bw) solid var(--frame);border-radius:var(--r-sm);box-shadow:var(--sh);padding:10px 14px;min-height:44px;line-height:1.5;overflow-wrap:anywhere;animation:rise var(--dur) var(--ease) backwards;
-  transition:background-color var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
-.say .ic{margin-top:.2em}
-.say:hover{background:var(--y-hover)}
-.say:active{transform:translate(2px,2px);box-shadow:var(--sh-pressed)}
-.say.go{justify-content:center;align-items:center;font-weight:700}
-.say.go .ic{margin-top:0}
-.say.stop{background:var(--card);color:var(--ink);justify-content:center;align-items:center;font-weight:700}
-.say.stop .ic{margin-top:0}
-.say.stop:hover{background:var(--tint)}
+/* 「按那句你會說的話」：白底、2px 深藍框（一句待說的話），「好，做吧」才是深藍實心；可以換行。進場動畫只填 backwards，動完才按得下去 */
+.say{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;font:inherit;font-weight:600;background:var(--card);color:var(--ink);border:2px solid var(--teal);border-radius:var(--r-sm);padding:10px 14px;min-height:44px;line-height:1.5;overflow-wrap:anywhere;animation:rise var(--dur) var(--ease) backwards;
+  transition:background-color var(--dur-fast),border-color var(--dur-fast),color var(--dur-fast),transform var(--dur-fast)}
+.say .ic{margin-top:.2em;color:var(--teal-deep)}
+.say:hover{background:var(--teal-soft)}
+.say:active{transform:scale(.99)}
+.say.go{background:var(--teal);color:var(--on-teal);justify-content:center;align-items:center;font-weight:700}
+.say.go .ic{color:inherit;margin-top:0}
+.say.go:hover{background:var(--teal-deep);border-color:var(--teal-deep)}
+.say.stop{border-color:var(--line-strong);color:var(--ink-soft);justify-content:center;align-items:center;font-weight:700}
+.say.stop .ic{color:inherit;margin-top:0}
+.say.stop:hover{background:var(--tint);color:var(--ink)}
 .tree{min-height:56px}
-.tree .empty,.tl-empty{color:var(--ink-soft);border:2px dashed var(--rule-strong);border-radius:var(--r);padding:var(--s2);text-align:center}
-.tree .fold{display:flex;align-items:center;gap:.4em;font-weight:700;animation:rise var(--dur) var(--ease) both}
-.tree .file{display:inline-flex;align-items:center;gap:.5em;font:inherit;font-weight:700;background:var(--card);color:var(--ink);border:var(--bw) solid var(--frame);border-radius:var(--r-sm);box-shadow:var(--sh);padding:8px 14px;min-height:44px;margin:var(--s1) 0 0 26px;animation:rise var(--dur) var(--ease) 80ms backwards;
-  transition:background-color var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
-.tree .file:hover{background:var(--tint)}
-.tree .file:active{transform:translate(2px,2px);box-shadow:var(--sh-pressed)}
-.tree .file .badge{font-size:.8rem;background:var(--y-soft)}
+.tree .empty,.tl-empty{color:var(--ink-soft);border:2px dashed var(--line-strong);border-radius:var(--r);padding:var(--s2);text-align:center}
+.tree .fold{display:flex;align-items:center;gap:.4em;font-weight:700;color:var(--teal-deep);animation:rise var(--dur) var(--ease) both}
+.tree .file{display:inline-flex;align-items:center;gap:.5em;font:inherit;font-weight:700;background:var(--card);color:var(--ink);border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:8px 14px;min-height:44px;margin:var(--s1) 0 0 26px;animation:rise var(--dur) var(--ease) 80ms backwards;
+  transition:background-color var(--dur-fast),border-color var(--dur-fast)}
+.tree .file:hover{background:var(--teal-soft);border-color:var(--teal)}
+.tree .file .badge{font-size:.8rem}
 .tree .file.ping{animation:ping 1.1s var(--ease) 3}
-@keyframes ping{0%,100%{box-shadow:var(--sh)}50%{box-shadow:var(--sh),0 0 0 6px var(--y-soft),0 0 0 8px var(--y)}}
-/* 檔案內容：頁底色的紙、墨框、左緣這一關的色條；前後對照舊行珊瑚淡底劃掉、新行湖水綠淡底 */
-.paper{background:var(--paper);border:var(--bw) solid var(--frame);border-left:6px solid var(--sc);border-radius:var(--r);padding:12px 14px;margin-top:var(--s2);line-height:1.65;overflow-wrap:anywhere}
-.paper .title{display:flex;align-items:center;gap:.4em;font-family:var(--serif);font-weight:700;margin-bottom:6px}
+@keyframes ping{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 6px var(--teal-soft),0 0 0 8px var(--teal)}}
+/* 檔案內容：頁底色的紙、左緣這一關的色線；前後對照舊行珊瑚淡底劃掉、新行綠淡底 */
+.paper{background:var(--paper);border:1px solid var(--line);border-left:4px solid var(--sc);border-radius:0 var(--r) var(--r) 0;padding:12px 14px;margin-top:var(--s2);line-height:1.65;overflow-wrap:anywhere}
+.paper .title{display:flex;align-items:center;gap:.4em;font-weight:700;color:var(--teal-deep);margin-bottom:6px}
 .paper .ln{display:block;padding:3px 10px;border-radius:var(--r-sm);animation:rise var(--dur) var(--ease) both}
 .paper .ln:nth-child(3){animation-delay:40ms}.paper .ln:nth-child(4){animation-delay:80ms}.paper .ln:nth-child(5){animation-delay:120ms}.paper .ln:nth-child(6){animation-delay:160ms}.paper .ln:nth-child(7){animation-delay:200ms}.paper .ln:nth-child(8){animation-delay:240ms}.paper .ln:nth-child(9){animation-delay:280ms}
 .paper .ln.old{background:var(--c-soft);text-decoration:line-through;text-decoration-color:var(--c-deep);text-decoration-thickness:2px}
 .paper .ln.new{background:var(--a-soft)}
 .paper .ln.mark{color:var(--ink-soft);font-family:var(--mono);font-size:.95rem}
 .paper .tiny{color:var(--ink-soft);margin-top:var(--s1);font-size:.95rem;line-height:1.5}
-/* 提示（這一關的顏色；「咦，還是一行」那種警示改珊瑚橘）與學到的一句（薰衣草紫＝提示） */
-.hint{display:flex;gap:.5em;align-items:flex-start;margin:var(--s2) 0 0;padding:10px 14px;background:var(--sc-soft);border:var(--bw) solid var(--frame);border-left:6px solid var(--sc);border-radius:var(--r);color:var(--ink);font-size:1rem;font-weight:700;line-height:1.55;animation:rise var(--dur) var(--ease) both}
+/* 提示（這一關的顏色；「咦，還是一行」那種警示改珊瑚橘）與學到的一句（靛紫＝提示） */
+.hint{display:flex;gap:.5em;align-items:flex-start;margin:var(--s2) 0 0;padding:10px 14px;background:var(--sc-soft);border-left:4px solid var(--sc);border-radius:0 var(--r) var(--r) 0;color:var(--ink);font-size:1rem;font-weight:700;line-height:1.55;animation:rise var(--dur) var(--ease) both}
 .hint .ic{color:var(--sc-deep);margin-top:.2em}
 .hint:has(use[href="#i-alert"]){background:var(--c-soft);border-left-color:var(--c)}
 .hint:has(use[href="#i-alert"]) .ic{color:var(--c-deep)}
 .hint:empty{display:none}
-.lesson{display:flex;gap:.5em;align-items:flex-start;margin:var(--s2) 0 0;padding:10px 14px;background:var(--l-soft);border:var(--bw) solid var(--frame);border-left:6px solid var(--l);border-radius:var(--r);font-weight:700;line-height:1.55;animation:rise var(--dur) var(--ease) both}
+.lesson{display:flex;gap:.5em;align-items:flex-start;margin:var(--s2) 0 0;padding:10px 14px;background:var(--l-soft);border-left:4px solid var(--l);border-radius:0 var(--r) var(--r) 0;color:var(--ink);font-weight:700;line-height:1.55;animation:rise var(--dur) var(--ease) both}
 .lesson .ic{color:var(--l-deep);margin-top:.2em}
 .lesson:empty{display:none}
-/* 時間線：直線＋每版一個點（墨框圓點；「現在」那版填這一關的色） */
+/* 時間線：直線＋每版一個點（白底中灰圈；「現在」那版填這一關的色） */
 .tl{list-style:none;padding:0;margin:0;position:relative}
 .tl:empty{display:none}
-.tl::before{content:'';position:absolute;left:11px;top:10px;bottom:10px;width:2px;background:var(--rule-strong);border-radius:2px}
+.tl::before{content:'';position:absolute;left:11px;top:10px;bottom:10px;width:2px;background:var(--line-strong);border-radius:2px}
 .tl li{position:relative;padding-left:36px;margin:0 0 var(--s1)}
 .tl li.fresh{animation:rise var(--dur) var(--ease) both}
-.tl li::before{content:'';position:absolute;left:3px;top:13px;width:18px;height:18px;border-radius:50%;background:var(--card);border:var(--bw) solid var(--frame);transition:background-color var(--dur)}
+.tl li::before{content:'';position:absolute;left:3px;top:13px;width:18px;height:18px;border-radius:50%;background:var(--card);border:2px solid var(--line-strong);transition:background-color var(--dur),border-color var(--dur)}
 .tl li.fresh::before{animation:pop var(--dur-slow) var(--ease) both}
-.tl li.cur::before{background:var(--sc)}
-.tl button{font:inherit;text-align:left;width:100%;background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r-sm);padding:10px 12px;min-height:44px;color:var(--ink);line-height:1.5;
-  transition:background-color var(--dur-fast)}
-.tl button:hover{background:var(--tint)}
-.tl .t{font-family:var(--mono);font-weight:700;margin-right:8px;font-variant-numeric:tabular-nums}
-.tl .now{display:inline-block;background:var(--sc-soft);color:var(--ink);border:1px solid var(--frame);border-radius:var(--r-sm);padding:0 8px;margin-right:6px;font-size:.85rem;font-weight:700;line-height:1.7}
+.tl li.cur::before{background:var(--sc);border-color:var(--sc)}
+.tl button{font:inherit;text-align:left;width:100%;background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;min-height:44px;color:var(--ink);line-height:1.5;
+  transition:background-color var(--dur-fast),border-color var(--dur-fast)}
+.tl button:hover{background:var(--teal-soft);border-color:var(--teal)}
+.tl .t{font-family:var(--mono);font-weight:700;color:var(--teal-deep);margin-right:8px;font-variant-numeric:tabular-nums}
+.tl .now{display:inline-block;background:var(--sc-soft);color:var(--sc-deep);border-radius:3px;padding:0 8px;margin-right:6px;font-size:.85rem;font-weight:700;line-height:1.7}
 .tl .m{display:block}
 .tl .x{display:none;color:var(--ink-soft);font-size:.95rem}
 .tl.open .x{display:block}
-/* 閃一下「看這裡」：用 outline 動，不碰卡片自己的 3px 偏移影 */
+/* 閃一下「看這裡」：用 outline 動，不碰卡片本身 */
 .flash{animation:flash .9s var(--ease)}
-@keyframes flash{0%{outline:4px solid var(--sc, var(--y));outline-offset:3px}100%{outline:4px solid transparent;outline-offset:3px}}
+@keyframes flash{0%{outline:4px solid var(--sc,var(--teal));outline-offset:3px}100%{outline:4px solid transparent;outline-offset:3px}}
 .sim-col .back{margin-top:var(--s1);margin-right:var(--s1)}
 
 /* ── 第 2 關：評分表的一格（.card.c-c） ── */
 .cell{margin:0}
-.cell .from{display:inline-flex;align-items:center;gap:.4em;background:var(--card);border:1px solid var(--frame);border-radius:var(--r-sm);padding:2px 12px;font-size:.9rem;font-weight:700;line-height:1.7}
-.cell .big{font-family:var(--serif);font-weight:700;font-size:1.3rem;line-height:1.5;margin:var(--s2) 0;padding:14px 18px;background:var(--paper);border:var(--bw) solid var(--frame);border-left:6px solid var(--sc);border-radius:var(--r);transition:background-color var(--dur),border-color var(--dur)}
+.cell .from{display:inline-flex;align-items:center;gap:.4em;background:var(--c-soft);color:var(--c-deep);border-radius:3px;padding:2px 12px;font-size:.9rem;font-weight:700;line-height:1.7}
+.cell .big{font-weight:700;font-size:1.3rem;line-height:1.5;margin:var(--s2) 0;padding:14px 18px;background:var(--paper);border-left:4px solid var(--sc);border-radius:0 var(--r) var(--r) 0;transition:background-color var(--dur),border-color var(--dur)}
 .cell .big.changed{background:var(--a-soft);border-left-color:var(--a)}
-.cell .q{font-family:var(--serif);font-weight:700;font-size:1.1rem;margin:var(--s3) 0 var(--s1)}
+.cell .q{font-weight:700;font-size:1.1rem;margin:var(--s3) 0 var(--s1)}
 .row{display:flex;gap:var(--s2);flex-wrap:wrap}
-.opt{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;font:inherit;font-weight:600;background:var(--card);color:var(--ink);border:var(--bw) solid var(--frame);border-radius:var(--r-sm);box-shadow:var(--sh);padding:10px 14px;min-height:44px;line-height:1.5;
-  transition:background-color var(--dur-fast),transform var(--dur-fast),box-shadow var(--dur-fast)}
-.opt .ic{margin-top:.2em}
-.opt:hover{background:var(--tint)}
-.opt:active{transform:translate(2px,2px);box-shadow:var(--sh-pressed)}
-.record{margin-top:var(--s2);background:var(--paper);border:var(--bw) solid var(--frame);border-left:6px solid var(--sc);border-radius:var(--r);padding:var(--s2);animation:rise var(--dur) var(--ease) both}
+.opt{display:flex;gap:.6em;align-items:flex-start;width:100%;text-align:left;font:inherit;font-weight:600;background:var(--card);color:var(--ink);border:2px solid var(--teal);border-radius:var(--r-sm);padding:10px 14px;min-height:44px;line-height:1.5;
+  transition:background-color var(--dur-fast),transform var(--dur-fast)}
+.opt .ic{margin-top:.2em;color:var(--teal-deep)}
+.opt:hover{background:var(--teal-soft)}
+.opt:active{transform:scale(.99)}
+.record{margin-top:var(--s2);background:var(--paper);border-left:4px solid var(--sc);border-radius:0 var(--r) var(--r) 0;padding:var(--s2);animation:rise var(--dur) var(--ease) both}
 .record .k{display:inline-block;font-weight:700;color:var(--ink-soft);font-size:.85rem;letter-spacing:.06em;min-width:5em}
-.record .old{background:var(--c-soft);text-decoration:line-through;text-decoration-color:var(--c-deep);text-decoration-thickness:2px;padding:2px 8px;border-radius:var(--r-sm)}
-.record .new{background:var(--a-soft);padding:2px 8px;border-radius:var(--r-sm)}
+.record .old{background:var(--c-soft);text-decoration:line-through;text-decoration-color:var(--c-deep);text-decoration-thickness:2px;padding:2px 8px;border-radius:3px}
+.record .new{background:var(--a-soft);padding:2px 8px;border-radius:3px}
 .record p{margin:.35em 0}
 input[type=text]{min-height:48px;font-size:1.05rem;padding:8px 14px}   /* 邊線、圓角與焦點環沿用 site.css */
 label.field{margin-top:var(--s2)}
 
-/* ── 第 3 關：十張小卡、抽出來的三張（.c-a 色條）；三種分數的顏色跟工作台一樣——自評湖水綠、互評芥末黃、老師墨色 ── */
+/* ── 第 3 關：十張小卡、抽出來的三張（左緣綠線）；三種分數三個色：自評珊瑚橘、互評深藍、老師中性灰（都不只靠顏色，旁邊有字與數字） ── */
 .legend{display:flex;gap:var(--s2);flex-wrap:wrap;margin:0 0 var(--s2);color:var(--ink-soft);font-size:.95rem}
-.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px;border:1px solid var(--frame)}
-.sw-self{background:var(--a)} .sw-peer{background:var(--y)} .sw-teach{background:var(--ink)}
+.legend i{display:inline-block;width:14px;height:14px;border-radius:3px;vertical-align:-2px;margin-right:6px}
+.sw-self{background:var(--c)} .sw-peer{background:var(--teal)} .sw-teach{background:var(--sand)}
 .mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:var(--s2)}
-.mini{background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);padding:12px;min-width:0;transition:background-color var(--dur),box-shadow var(--dur)}
-.mini.picked{background:var(--a-soft);box-shadow:var(--sh)}
+.mini{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:12px;min-width:0;transition:background-color var(--dur),border-color var(--dur)}
+.mini.picked{background:var(--sc-soft);border-color:var(--sc)}
 .mini.picked .tag{background:var(--card)}
-.mini .code{font-family:var(--serif);font-weight:900;margin-bottom:6px}
+.mini .code{font-weight:800;color:var(--teal-deep);margin-bottom:6px}
 .bars{display:grid;grid-template-columns:auto 1fr auto;gap:5px 8px;align-items:center}
 .bars .lab{color:var(--ink-soft);white-space:nowrap;font-size:.95rem}
-.bars .bar{height:12px;background:var(--rule);border-radius:6px;overflow:hidden;min-width:0}
-.bars .bar i{display:block;height:100%;border-radius:6px;box-shadow:inset 0 0 0 1px var(--frame)}
-.bar.self i{background:var(--a)} .bar.peer i{background:var(--y)} .bar.teach i{background:var(--ink)}
+.bars .bar{height:12px;background:var(--line);border-radius:6px;overflow:hidden;min-width:0}
+.bars .bar i{display:block;height:100%;border-radius:6px}
+.bar.self i{background:var(--c)} .bar.peer i{background:var(--teal)} .bar.teach i{background:var(--sand)}
 .bars .v{font-weight:700;text-align:right;min-width:2ch;font-variant-numeric:tabular-nums}
-.tag{display:inline-flex;align-items:center;gap:.35em;margin-top:8px;background:var(--a-soft);color:var(--ink);border:1px solid var(--frame);border-radius:var(--r-sm);padding:1px 10px;font-size:.9rem;font-weight:700;line-height:1.7}
+.tag{display:inline-flex;align-items:center;gap:.35em;margin-top:8px;background:var(--a-soft);color:var(--a-deep);border-radius:3px;padding:1px 10px;font-size:.9rem;font-weight:700;line-height:1.7}
 .draw-bar{margin:var(--s3) 0 var(--s2)}
 .draw{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:var(--s2);margin:0 0 var(--s2)}
-.dcard{background:var(--card);border:var(--bw) solid var(--frame);border-left:8px solid var(--sc);border-radius:var(--r);box-shadow:var(--sh);padding:var(--s2);min-width:0;animation:rise var(--dur-slow) var(--ease) both}
+.dcard{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sc);border-radius:var(--r);padding:var(--s2);min-width:0;animation:rise var(--dur-slow) var(--ease) both}
 .dcard:nth-child(2){animation-delay:70ms}.dcard:nth-child(3){animation-delay:140ms}
-.dcard .code{font-family:var(--serif);font-weight:900;font-size:1.15rem;margin-bottom:6px}
-.dcard .quote{font-family:var(--serif);font-weight:500;font-size:1.05rem;line-height:1.7;background:var(--paper);border:var(--bw) solid var(--frame);border-left:6px solid var(--sc);border-radius:var(--r);padding:10px 14px;margin:var(--s2) 0}
+.dcard .code{font-weight:800;color:var(--teal-deep);font-size:1.15rem;margin-bottom:6px}
+.dcard .quote{font-weight:500;font-size:1.05rem;line-height:1.7;background:var(--paper);border-left:4px solid var(--gold);border-radius:0 var(--r) var(--r) 0;padding:10px 14px;margin:var(--s2) 0}
 .dcard .snote{display:flex;gap:.4em;align-items:flex-start;color:var(--ink-soft);font-size:.95rem;margin:8px 0 0}
 .dcard .snote .ic{margin-top:.2em}
 .judge{display:flex;gap:var(--s1);flex-wrap:wrap;margin-top:var(--s2)}
@@ -238,12 +236,12 @@ label.field{margin-top:var(--s2)}
 .sheet{margin:0;padding:var(--s3)}
 .sheet h3{margin:0 0 var(--s2);font-size:1.2rem;display:flex;gap:.4em;align-items:center}
 .sheet h3 .ic{color:var(--sc-deep)}
-.sheet .r{padding:10px 0;border-bottom:1px solid var(--rule);overflow-wrap:anywhere;animation:rise var(--dur) var(--ease) both}
+.sheet .r{padding:10px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere;animation:rise var(--dur) var(--ease) both}
 .sheet .r:nth-child(3){animation-delay:40ms}.sheet .r:nth-child(4){animation-delay:80ms}.sheet .r:nth-child(5){animation-delay:120ms}.sheet .r:nth-child(6){animation-delay:160ms}.sheet .r:nth-child(7){animation-delay:200ms}
 .sheet .r:last-of-type{border-bottom:0}
 .sheet .k{display:block;font-weight:700;color:var(--ink-soft);font-size:.8rem;letter-spacing:.1em;margin-bottom:2px}
-.sheet .grey{display:inline-block;color:var(--ink-soft);background:var(--paper);border:1px dashed var(--rule-strong);border-radius:var(--r-sm);padding:2px 10px}
-.sheet .empty{display:flex;flex-direction:column;align-items:center;gap:var(--s1);color:var(--ink-soft);text-align:center;padding:var(--s4) var(--s2);border:2px dashed var(--rule-strong);border-radius:var(--r)}
+.sheet .grey{display:inline-block;color:var(--ink-soft);background:var(--paper);border:1px dashed var(--line-strong);border-radius:3px;padding:2px 10px}
+.sheet .empty{display:flex;flex-direction:column;align-items:center;gap:var(--s1);color:var(--ink-soft);text-align:center;padding:var(--s4) var(--s2);border:2px dashed var(--line-strong);border-radius:var(--r)}
 .sheet .empty .ic{width:2em;height:2em;color:var(--sc-deep)}
 .helper{color:var(--ink-soft);font-size:.95rem;margin:4px 0 0}
 
@@ -262,10 +260,10 @@ label.field{margin-top:var(--s2)}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
   .chatlog{scroll-behavior:auto}
-  .say:active,.opt:active,.tree .file:active{transform:none}
+  .say:active,.opt:active{transform:none}
 }
 
-/* ── 手機（≤640px）：卡片內距跟全站一樣縮到 14px，關卡那節上緣再收一點 ── */
+/* ── 手機（≤640px）：卡片內距跟全站一樣縮，關卡那節上緣再收一點 ── */
 @media (max-width:640px){
   .sec.stage{padding-top:28px}
   .sec .wrap>.stage-tag{margin-bottom:-6px}
@@ -306,11 +304,10 @@ label.field{margin-top:var(--s2)}
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
 </svg>
 
-<!-- 刊頭（樣稿 D）：主辦小字＋紅短線→髮線→大題名→左欄版權頁式一句、右欄副標；結構照 index.html，沒有插圖 -->
+<!-- 刊頭（v5 立霧風格）：矮、白底、底下一條淡線；眉標珊瑚橘等寬小字→題名→副標與一句資訊；結構同其他子頁，沒有插圖 -->
 <header class="hero">
   <div class="inner">
     <p class="eyebrow">先玩一遍｜大約 5 分鐘</p>
-    <hr>
     <h1><span>10/16 工作坊</span><span>會做四件事</span></h1>
     <div class="deck">
       <p class="sub">先在這裡各玩一次，當天你只要對 AI 助手說一句話，它替你做。</p>
@@ -336,7 +333,7 @@ label.field{margin-top:var(--s2)}
 </nav>
 
 <main id="top" class="editorial">
-  <!-- 進度：一張卡，四格圓點各帶那一關的顏色（第 1 關黃、第 2 關橘、第 3 關綠、第 4 關紫） -->
+  <!-- 進度：一張卡，四格圓點各帶那一關的顏色（第 1 關深藍、第 2 關珊瑚橘、第 3 關綠、第 4 關靛紫，同 .badge.b1–b4） -->
   <section class="sec first"><div class="wrap">
   <div class="progress" id="progress" aria-label="進度">
     <div class="prog-head">
@@ -354,7 +351,7 @@ label.field{margin-top:var(--s2)}
   </div>
   </div></section>
 
-  <!-- ══════════ 第 1 關 ══════════ 每一關都是 .sec > .wrap：標籤＋大數字＋標題坐版心兩欄，互動區（.play）跨全幅 -->
+  <!-- ══════════ 第 1 關 ══════════ 每一關都是 .sec > .wrap（v5 單欄）：關卡標籤＋章節號＋標題，互動區（.play）接在下面 -->
   <section class="sec stage" id="s1" data-stage="1"><div class="wrap">
     <p class="stage-tag"><span class="badge b1"><svg class="ic" aria-hidden="true"><use href="#i-flag"/></svg>第 1 關</span></p>
     <h2><span class="num">壹</span><span class="t">一個會記住每次修改的資料夾</span></h2>
@@ -421,7 +418,7 @@ label.field{margin-top:var(--s2)}
       <div id="q2" hidden>
         <div class="q">換成哪一句？</div>
         <div class="choices">
-          <button class="opt" type="button" data-q2="a"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg><span>全程不看稿超過 6 分鐘；停頓不超過 3 次</span></button>
+          <button class="opt" type="button" data-q2="a"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg><span>主要論點依序說完，每點之間有一句轉折；聽眾不必回問就跟得上</span></button>
           <button class="opt" type="button" data-q2="b"><svg class="ic" aria-hidden="true"><use href="#i-edit"/></svg><span>請學生自己說</span></button>
         </div>
         <div class="fb" id="fb2" aria-live="polite"></div>
@@ -429,7 +426,7 @@ label.field{margin-top:var(--s2)}
 
       <div id="q3" hidden>
         <label class="field" for="why2">為什麼改 <small>（預設一句，可以改）</small></label>
-        <input type="text" id="why2" value="兩位老師要打一樣的分，格子裡得是數得出的事。">
+        <input type="text" id="why2" value="現場看得到，評的是表達、不是背稿。">
         <div class="row" style="margin-top:16px">
           <button class="btn" type="button" id="keep2"><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>留下這一筆</button>
         </div>
@@ -912,7 +909,7 @@ label.field{margin-top:var(--s2)}
 
   /* ══════════ 第 2 關：挑一句不同意的，改掉 ══════════ */
   var OLD2 = '表達流暢・4 分：表現優異、台風穩健';
-  var NEW2 = '表達流暢・4 分：全程不看稿超過 6 分鐘；停頓不超過 3 次';
+  var NEW2 = '表達流暢・4 分：主要論點依序說完，每點之間有一句轉折；聽眾不必回問就跟得上';
   $$('[data-q1]').forEach(function(b){
     b.addEventListener('click', function(){
       var fb = $('#fb1');
@@ -928,7 +925,7 @@ label.field{margin-top:var(--s2)}
     b.addEventListener('click', function(){
       var fb = $('#fb2');
       if(b.dataset.q2 === 'a'){
-        setFb(fb, 'good', '數得出來的句子，兩位老師會打一樣的分。');
+        setFb(fb, 'good', '現場看得見的句子，兩位老師會打一樣的分。');
         var cell = $('#cellText'); cell.textContent = NEW2; cell.classList.add('changed'); flash($('.cell'));
         $('#q3').hidden = false;
       } else {
