@@ -139,7 +139,17 @@ def main():
         ctx = b.new_context(viewport={'width': 1280, 'height': 720}, device_scale_factor=1)
         page = ctx.new_page()
         errors = []
-        page.on('console', lambda m: errors.append(f'console.{m.type}: {m.text}') if m.type in ('error', 'warning') else None)
+
+        # 字型從 Google Fonts 拿（deck.css 檔頭）：離線時那兩個網域載不到會在 console 報 Failed to load resource，
+        # 字會退到本機／系統字、版不會壞，不算投影片的錯；其他 console error／warning 照算
+        def on_console(m):
+            if m.type not in ('error', 'warning'):
+                return
+            where = (m.location or {}).get('url', '') if isinstance(m.location, dict) else ''
+            if 'fonts.googleapis.com' in (m.text + where) or 'fonts.gstatic.com' in (m.text + where):
+                return
+            errors.append(f'console.{m.type}: {m.text}')
+        page.on('console', on_console)
         page.on('pageerror', lambda e: errors.append(f'pageerror: {e}'))
         for f in files:
             errors.clear()

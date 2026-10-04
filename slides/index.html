@@ -3,42 +3,61 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
 <title>投影片｜從學習證據到教學改進</title>
 <meta name="description" content="2026-10-16 教師工作坊投影片播放殼：iframe 載 01–16 頁、等比縮放、鍵盤翻頁、#n 直達。">
+<!-- 字型跟全站同一組（定稿樣稿 D）：本機有裝就用本機的，沒有就從 Google Fonts 拿，兩邊都沒有時退到系統字 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@700;900&family=Noto+Sans+TC:wght@400;600;700&display=swap">
 <style>
-:root{--bg:#0a1414;--panel:#0B2B2B;--fg:#E6F2F2;--dim:#9FBDBC;--gold:#D9A441;--teal:#3aa6a1;--line:rgba(230,242,242,.14)}
+/* 播放殼的頂欄與說明框照定稿樣稿 D：奶油白底、墨色字、1.5px 墨框、3px 輕偏移；舞台（放投影片的那一塊）用墨色，投影片才會跳出來。
+   深色模式（跟著系統）：底色翻成墨色、字翻成奶油，四色降一階。 */
+:root{--paper:#FFF7E6;--card:#FFFDF7;--ink:#1B1B1F;--ink-soft:#4A4650;--red:#B42318;--y:#EAC653;--tint:#F6ECD2;--rule:#E3D9C1;--rule-strong:#857F74;
+  --stage:#1B1B1F;--on-stage:#CFC9BA;--bw:1.5px;--sh:3px 3px 0 var(--ink);--r:6px;--r-sm:4px;
+  --serif:"Noto Serif TC","Songti TC","PMingLiU",Georgia,serif;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"Cascadia Code","Consolas","SFMono-Regular",Menlo,monospace}
+@media (prefers-color-scheme:dark){
+  :root{--paper:#1B1B1F;--card:#26262B;--ink:#FFF7E6;--ink-soft:#CFC9BA;--red:#F07F6E;--y:#DDB94C;--tint:rgba(255,247,230,.08);--rule:rgba(255,247,230,.28);--rule-strong:rgba(255,247,230,.55);
+    --stage:#111114;--sh:3px 3px 0 rgba(255,247,230,.55)}
+}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);
-  font-family:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;color-scheme:dark}
+html,body{margin:0;height:100%;background:var(--stage);color:var(--ink);font-family:var(--sans)}
 body{display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
-.top{display:flex;align-items:center;gap:8px;padding:4px 16px;font-size:14px;background:rgba(255,255,255,.04);border-bottom:1px solid var(--line);flex-wrap:wrap}
-.top .t{font-weight:800;color:#fff;white-space:nowrap}
-.top .sub{color:var(--dim);white-space:nowrap}
+.top{display:flex;align-items:center;gap:8px;padding:4px 16px;font-size:14px;background:var(--paper);border-bottom:var(--bw) solid var(--ink);flex-wrap:wrap}
+.top .t{font-family:var(--serif);font-weight:900;font-size:17px;color:var(--ink);white-space:nowrap;font-feature-settings:"palt"}
+.top .sub{color:var(--ink-soft);white-space:nowrap}
 .top .sp{flex:1}
-/* 連結與按鈕最矮 44px（觸控目標；2026-10-02 設計審查原本 30px） */
-.top a{color:var(--dim);text-decoration:none;padding:0 8px;min-height:44px;display:inline-flex;align-items:center;border-radius:6px}
-.top a:hover,.top a:focus-visible{color:#fff;background:rgba(255,255,255,.06)}
-.top button{font:inherit;font-size:14px;background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,.25);border-radius:8px;padding:0 12px;min-height:44px;cursor:pointer}
-.top button:hover,.top button:focus-visible{border-color:var(--gold);color:#fff}
-.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px 16px 34px}
-.fit{position:relative;width:1280px;height:720px;box-shadow:0 12px 44px rgba(0,0,0,.5);background:#333;border-radius:4px;overflow:hidden}
+/* 連結與按鈕最矮 44px（觸控目標；2026-10-02 設計審查原本 30px）；連結照 D 的導覽列：墨字、底線用 hover 的灰線 */
+.top a{color:var(--ink);text-decoration:none;padding:0 10px;min-height:44px;display:inline-flex;align-items:center;font-weight:600;border-top:3px solid transparent;border-bottom:3px solid transparent}
+.top a:hover{border-bottom-color:var(--rule-strong)}
+.top button{font:inherit;font-size:14px;font-weight:600;background:var(--card);color:var(--ink);border:var(--bw) solid var(--ink);border-radius:var(--r-sm);padding:0 12px;min-height:44px;min-width:44px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:background-color .15s ease,transform .08s ease}
+.top button:hover{background:var(--tint)}
+.top button:active{transform:translateY(1px)}
+.top a:focus-visible,.top button:focus-visible,.help button:focus-visible,.help a:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.stage{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:12px 16px 34px;background:var(--stage)}
+.fit{position:relative;width:1280px;height:720px;box-shadow:0 12px 44px rgba(0,0,0,.5);background:#1B1B1F;border-radius:4px;overflow:hidden}
 .frame{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:top left}
-.frame iframe{width:1280px;height:720px;border:0;display:block;background:#333}
+.frame iframe{width:1280px;height:720px;border:0;display:block;background:#1B1B1F}
 .hit{position:absolute;inset:0;cursor:pointer}
 .pre{position:absolute;width:1px;height:1px;left:-9999px;top:-9999px;opacity:0;pointer-events:none;border:0}
-.counter{position:absolute;right:20px;bottom:8px;font-size:13px;color:var(--dim);font-variant-numeric:tabular-nums;user-select:none}
-.hint{position:absolute;left:20px;bottom:8px;font-size:12px;color:var(--dim);user-select:none}
-.help{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
+.counter{position:absolute;right:20px;bottom:8px;font-size:13px;color:var(--on-stage);font-variant-numeric:tabular-nums;user-select:none}
+.hint{position:absolute;left:20px;bottom:8px;font-size:12px;color:var(--on-stage);user-select:none}
+.help{position:fixed;inset:0;background:rgba(27,27,31,.72);display:none;align-items:center;justify-content:center;padding:16px;z-index:10}
 .help.on{display:flex}
-.help .box{max-width:600px;width:100%;background:var(--panel);border:1px solid rgba(217,164,65,.45);border-radius:16px;padding:22px 26px;font-size:15px;line-height:1.7;max-height:90vh;overflow:auto}
-.help h2{margin:0 0 8px;font-size:18px;color:#fff}
-.help kbd{font-family:Consolas,"Cascadia Code",Menlo,monospace;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:5px;padding:0 6px;font-size:13px}
-.help .foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--dim)}
-.help .foot a{color:var(--gold)}
-.help .close{margin-top:12px}
+.help .box{max-width:600px;width:100%;background:var(--card);color:var(--ink);border:var(--bw) solid var(--ink);border-radius:var(--r);box-shadow:var(--sh);padding:22px 26px;font-size:15px;line-height:1.7;max-height:90vh;overflow:auto}
+.help h2{margin:0 0 8px;font-family:var(--serif);font-weight:900;font-size:20px;color:var(--ink)}
+.help kbd{font-family:var(--mono);background:var(--tint);border:1px solid var(--ink);border-radius:var(--r-sm);padding:0 6px;font-size:13px}
+.help code{font-family:var(--mono);font-size:.95em}
+.help .foot{margin-top:14px;padding-top:12px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--ink-soft)}
+.help .foot a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--red);text-decoration-thickness:2px;text-underline-offset:3px}
+.help .close{margin-top:12px;font:inherit;font-weight:700;font-size:15px;min-height:44px;padding:0 20px;background:var(--y);color:#1B1B1F;border:var(--bw) solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--sh);cursor:pointer;transition:transform .08s ease,box-shadow .08s ease}
+.help .close:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
 :fullscreen .top{display:none}
 :fullscreen .stage{padding:0}
 @media (max-width:640px){.top{padding:4px 12px;font-size:13px}.top .sub{display:none}.stage{padding:8px 16px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{transition-duration:.01ms !important}.top button:active,.help .close:active{transform:none}}
 </style>
 </head>
 <body>

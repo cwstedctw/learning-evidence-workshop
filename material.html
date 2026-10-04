@@ -5,297 +5,339 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>講義｜從學習證據到教學改進</title>
 <meta name="description" content="2026-10-16 教師工作坊講義：跟 AI 助手一起用版本紀錄留下學習證據、做 Rubric、分析與抽查、寫出一頁研究設計。">
+<!-- 字型由 site.css 用 @import 從 Google Fonts 拿；這兩行只是先握手，離線或沒拿到就退到系統字 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <script>(function(){try{var d=document.documentElement;var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
 <style>
-/* ── 講義頁專用版式（顏色一律用 site.css 的代幣）── */
-/* 頁首高度與字級由 site.css 統一（四頁同一個樣子、手機一屏內）；這裡只多兩行：一句要記的話、一行去處。顏色走 --on-hero 代幣 */
-header.hero .keyline{margin:10px 0 0;font-size:1rem;color:var(--on-hero);line-height:1.6}
-header.hero .keyline strong{color:var(--on-hero-soft)}
-header.hero .links{margin:8px 0 0;font-size:.9rem;line-height:1.7}
-header.hero .links a{color:var(--on-hero-soft);margin-right:14px;display:inline-block;white-space:nowrap}
-h2 .sec-num{font-size:1rem;letter-spacing:.12em;display:block;margin-bottom:2px}
-.lbl{display:block;font-size:.8rem;font-weight:700;color:var(--teal-deep);letter-spacing:.05em;margin:.6em 0 .2em}
-.block{margin-top:2.2em;padding-top:.5em;border-top:3px solid var(--teal-soft)}
-.block h3{font-size:1.35rem;margin-top:.6em}
-.block .mode{font-size:.9rem;color:var(--ink-soft);margin:-.3em 0 .8em}
-.stepgrid{display:grid;grid-template-columns:1.25fr 1fr 1.25fr;gap:10px}
-.stepgrid .cell{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:.96rem}
-.stepgrid .cell p{margin:.2em 0 .4em}
-.stepgrid .cell .lbl{margin-top:0}
-.stepgrid .cell .lbl.sub{margin-top:.6em}
-.stepgrid .cell .ptext{display:block;margin:.2em 0 .4em}
-.stepgrid .cell.c-see{background:var(--gold-soft);border-color:var(--gold)}
-.stepgrid .cell.c-see .lbl{color:var(--warn-text)}
-.stepgrid .cell.c-ai{background:var(--teal-soft)}
-.steps>li{margin:1.3em 0}
-.behind{font-size:.92rem;color:var(--ink-soft);margin:.8em 0}
-.behind code{font-size:.9em}
-.prompt .ptext{display:block}
-.prompt .rule-foot{display:block;margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:.88rem;color:var(--warn-text);font-weight:700}
-.prompt .copy{position:absolute;top:8px;right:8px}
-.prompt{padding-top:16px}
-.prompt .label{padding-right:90px}
-.excard .crit{margin:.3em 0 .6em}
+/* ── 講義頁專用版式（樣稿 D）：顏色一律用 site.css 的代幣。刊頭、導覽、版心（.sec > .wrap）、卡片與色條、提示框、
+   提示詞區塊、三欄步驟卡（.trio）、表格、頁尾全是 site.css 的共用元件；這裡只剩本頁獨有的幾樣：
+   拉引句上方的小標、四塊的區塊骨架、步驟卡裡的「可貼句」小框、幕後指令、例子卡的引文、名詞表、三條限制、四張自繪圖的著色。 ── */
+.pullquote .pre{margin:0 0 .7em;font-size:.82rem;font-weight:700;letter-spacing:.1em;color:var(--ink-soft);line-height:1.5}
+.lbl{display:block;margin:.9em 0 .3em;font-size:.78rem;letter-spacing:.12em;font-weight:700;color:var(--ink-soft);line-height:1.5}
+.cite{font-size:.88rem;color:var(--ink-soft)}
+/* 參：四塊——每塊一道 1.5px 墨線起頭、四塊色標籤、襯線標題 */
+.block{margin-top:3em;padding-top:1.4em;border-top:var(--bw) solid var(--frame)}
+.block .mark{margin:0 0 .5em}
+.block h3{font-size:clamp(1.35rem,2vw,1.6rem);line-height:1.3;margin:.1em 0 .25em}
+.block .mode{margin:0 0 1em;font-size:.92rem;color:var(--ink-soft)}
+.block h4.sub-h{margin-top:1.8em}
+.steps>li{margin:1.6em 0}
+/* 步驟卡裡「可以整句貼給 AI 助手」的那一句：暖白、墨框、3px 偏移，複製鈕放句子底下（欄位窄，不放右上角） */
+.trio .step .say{margin:10px 0 0;padding:12px 12px 10px;background:var(--card);border:var(--bw) solid var(--frame);border-radius:var(--r);box-shadow:var(--sh)}
+.trio .step .say .ptext{display:block;margin:0 0 10px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.95rem;line-height:1.7}
+.trio .step .lbl{margin-top:14px}
+.trio .step p+p{margin-top:.6em}
+.behind{margin:1.4em 0 .4em;font-size:.92rem;color:var(--ink-soft)}
+pre.cmd{margin:0 0 1em;overflow-wrap:anywhere;white-space:pre-wrap}
+.datafiles code{overflow-wrap:anywhere}
+.prompt .rule-foot{display:block;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--rule-strong);font-size:.9rem;font-weight:700;color:var(--ink);white-space:normal}
+/* 肆：例子卡——規準標籤一列、兩段引文用共用的 .warn／.ok 淡底框 */
+.excard .crit{margin:.3em 0 .8em}
 .excard .crit .badge{margin:2px 6px 2px 0}
-.excard blockquote{margin:.6em 0;padding:10px 14px;border-left:4px solid var(--bad);background:var(--bad-soft);border-radius:0 10px 10px 0}
-.excard blockquote.why{border-left-color:var(--good);background:var(--good-soft)}
-.studio-table td:first-child{white-space:nowrap;font-weight:700}
-.glossary{margin:1em 0}
-.glossary div{padding:8px 0;border-bottom:1px solid var(--line)}
-.glossary dt{font-weight:700}
-.glossary dd{margin:2px 0 0;font-size:.94rem;color:var(--ink-soft)}
-.plain{list-style:none;padding-left:0}
-.plain li{margin:.6em 0;padding:10px 14px;background:var(--card);border:1px solid var(--line);border-radius:10px}
+.excard blockquote{margin:.4em 0 .9em}
+/* 玖：名詞表——桌機兩欄（詞｜解釋），髮線分列 */
+.glossary{margin:0}
+.glossary div{padding:12px 0;border-bottom:1px solid var(--rule)}
+.glossary div:first-child{border-top:2px solid var(--frame)}
+.glossary dt{font-family:var(--serif);font-weight:700}
+.glossary dd{margin:2px 0 0;font-size:.95rem;color:var(--ink-soft)}
+/* 拾：三條限制——每條一張珊瑚橘色條的卡 */
+.plain{list-style:none;padding:0;margin:0}
+.plain>li{margin:0 0 14px}
+/* 四張自繪圖：真文字、顏色走代幣（墨色線、四色塊與淡底、編輯紅只標「改在這裡」），深色模式一起變 */
 .fig-scroll{overflow-x:auto}
 figure svg{width:100%;height:auto;display:block}
 figure svg text{font-family:var(--sans)}
-.sv-ink{fill:var(--ink)} .sv-soft{fill:var(--ink-soft)} .sv-teal{fill:var(--teal)} .sv-gold{fill:var(--gold)}
-.sv-bad{fill:var(--bad)} .sv-good{fill:var(--good)} .sv-white{fill:#fff}
-.sv-card{fill:var(--card);stroke:var(--line);stroke-width:1.5}
-.sv-tsoft{fill:var(--teal-soft)} .sv-gsoft{fill:var(--gold-soft)} .sv-bsoft{fill:var(--bad-soft)} .sv-gdsoft{fill:var(--good-soft)}
-.sv-box{fill:var(--teal-soft);stroke:var(--teal);stroke-width:2}
-.sv-axis{stroke:var(--line);stroke-width:4;stroke-linecap:round}
-.sv-zero{stroke:var(--ink-soft);stroke-width:1.5}
-.sv-arrow{stroke:var(--teal);stroke-width:3;fill:none}
-.sv-arrowhead{fill:var(--teal)}
-.sv-b{font-weight:700}
-.sv-ring{fill:none;stroke:var(--gold);stroke-width:4}
-.agenda-total{font-size:.9rem;color:var(--ink-soft)}
-.cite{font-size:.85rem;color:var(--ink-soft)}
+.sv-ink{fill:var(--ink)} .sv-soft{fill:var(--ink-soft)} .sv-b{font-weight:700}
+.sv-red{fill:var(--red)} .sv-bad{fill:var(--c-deep)} .sv-good{fill:var(--a-deep)}
+.sv-dot{fill:var(--a);stroke:var(--frame);stroke-width:1.5}
+.sv-mark{fill:var(--y);stroke:var(--frame);stroke-width:1.5}
+.sv-ring{fill:none;stroke:var(--red);stroke-width:3}
+.sv-bar-a{fill:var(--a)} .sv-bar-y{fill:var(--y)}
+.sv-card{fill:var(--card);stroke:var(--frame);stroke-width:1.5}
+.sv-head{fill:var(--y-soft)}
+.sv-del{fill:var(--c-soft)} .sv-add{fill:var(--a-soft)}
+.sv-box{fill:var(--card);stroke:var(--frame);stroke-width:1.5}
+.sv-box-y{fill:var(--y-soft);stroke:var(--frame);stroke-width:1.5}
+.sv-axis{stroke:var(--frame);stroke-width:2.5;stroke-linecap:round}
+.sv-zero{stroke:var(--rule-strong);stroke-width:1.5}
+.sv-arrow{stroke:var(--frame);stroke-width:2.5;fill:none;stroke-linecap:round}
+.sv-arrowhead{fill:var(--frame)}
+/* 貳的速查表：分頁名不折行；伍的「計畫書對應」欄給標籤一行的寬度 */
+table.studio td.seg{white-space:nowrap}
+#designfields th:nth-child(3){width:170px}
+@media (min-width:640px){
+  .glossary div{display:grid;grid-template-columns:minmax(9em,12em) 1fr;gap:2px 20px;align-items:baseline}
+  .glossary dd{margin:0}
+}
+@media (min-width:900px){
+  /* 步驟三欄：左欄放整句可貼的話＋複製鈕，字最多，分寬一點；中欄「AI 會做什麼」最短 */
+  .steps .trio{grid-template-columns:1.35fr .9fr 1.15fr}
+}
 @media (max-width:760px){
-  .stepgrid{grid-template-columns:1fr}
   .steps>li{padding-left:40px}
 }
 @media (max-width:640px){
   .fig-scroll svg{min-width:600px}
-  header.hero .keyline{font-size:.95rem}
-  /* 導覽列的手機版（單排可滑、黏頂一列）2026-10-02 起搬到 site.css，四頁共用 */
 }
 </style>
 </head>
 <body>
+<a class="skip" href="#main">跳到主要內容</a>
 
-<header class="hero">
-  <div class="inner">
-    <h1 id="hero-title">從學習證據到教學改進</h1>
-    <p class="sub"><span id="hero-sub">AI 協作促進學習評量與教學實踐研究工作坊</span>｜<span id="hero-tag">讓每一次教學調整都留下證據</span></p>
-    <p class="meta"><span id="hero-date">2026-10-16（五）</span> <span id="hero-time">15:00–17:00</span>｜<span id="hero-venue">國立東華大學 環境學院 3F CIRES 會議室</span>｜講師：<span id="hero-speaker">陳文盛（國立東華大學通識教育中心）</span></p>
-    <p class="keyline">今天只記一句：<strong id="rule-text">挑一句不同意的、改掉、寫下為什麼。</strong></p>
-    <p class="links">這一頁是講義：上課跟著「參」走，課後查「柒」。　<a href="index.html">入口</a><a href="start.html">行前準備</a><a href="studio.html">證據工作台</a><a href="slides/index.html">投影片</a></p>
+<!-- 刊頭（樣稿 D，照入口頁）：主辦小字＋紅短線→髮線→大題名→左欄版權頁式資訊、右欄副標。
+     靜態文字只是備援（沒 JS 時與 validate-workshop.mjs 靜態掃描用），頁尾的自檢會逐一對資料源 -->
+<header class="hero"><div class="inner">
+  <p class="eyebrow" id="hero-host">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</p>
+  <hr>
+  <h1 id="hero-title"><span>從學習證據</span><span>到教學改進</span></h1>
+  <div class="deck">
+    <p class="sub"><span id="hero-sub">AI 協作促進學習評量與教學實踐研究工作坊</span>——<span id="hero-tag">讓每一次教學調整都留下證據</span></p>
+    <p class="meta"><span class="m"><span id="hero-date">2026-10-16（五）</span> <span id="hero-time">15:00–17:00</span></span><span class="sep" aria-hidden="true">｜</span><span class="m" id="hero-venue">國立東華大學 環境學院 3F CIRES 會議室</span><span class="sep" aria-hidden="true">｜</span><span class="m">講師：<span id="hero-speaker">陳文盛（國立東華大學通識教育中心）</span></span></p>
   </div>
-</header>
+</div></header>
 
-<!-- 導覽列：四頁同一個結構——左邊「全站六個去處＋本頁錨點」單排可滑（右側淡出＝還有），右邊兩顆鈕固定（圖示是內嵌 SVG，跟著代幣變色） -->
-<nav class="topnav" aria-label="導覽">
-  <div class="inner">
-    <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
-    <div class="links" id="navLinks">
-      <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html" aria-current="page">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a></span>
-      <span class="sep" aria-hidden="true"></span>
-      <span class="anchors"><a href="#sec-why">壹 為什麼</a><a href="#sec-how">貳 怎麼做</a><a href="#sec-blocks">參 四塊</a><a href="#sec-examples">肆 例子</a><a href="#sec-design">伍 一頁設計</a><a href="#sec-ethics">陸 倫理</a><a href="#sec-after">柒 課後</a><a href="#sec-agenda">捌 議程</a><a href="#sec-glossary">玖 名詞</a><a href="#sec-limits">拾 限制</a></span>
-    </div>
-    <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-    <div class="ctl">
-      <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
-      <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
-    </div>
+<!-- 導覽列：五頁同一個結構——左邊「全站六個去處＋本頁十個錨點」單排可滑（右側淡出＝還有、滑鼠有捲動鈕），右邊兩顆鈕固定（圖示是內嵌 SVG，跟著代幣變色） -->
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html" aria-current="page">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#sec-why">壹 為什麼</a><a href="#sec-how">貳 怎麼做</a><a href="#sec-blocks">參 四塊</a><a href="#sec-examples">肆 例子</a><a href="#sec-design">伍 一頁設計</a><a href="#sec-ethics">陸 倫理</a><a href="#sec-after">柒 課後</a><a href="#sec-agenda">捌 議程</a><a href="#sec-glossary">玖 名詞</a><a href="#sec-limits">拾 限制</a></span>
   </div>
-</nav>
+  <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  <div class="ctl">
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+  </div>
+</div></nav>
 
-<main>
+<main id="main" class="editorial">
+
+<!-- 首屏：全場只記的那一句，放進芥末黃淡底的拉引句大卡（照入口頁的「貳」） -->
+<section class="sec first" aria-label="今天只記一句"><div class="wrap">
+  <div class="pullquote">
+    <p class="pre">今天只記一句：</p>
+    <p class="pull" id="rule-text">挑一句不同意的、改掉、寫下為什麼。</p>
+    <p class="after">這一頁是講義：上課跟著「參」走，課後查「柒」。</p>
+  </div>
+</div></section>
 
 <!-- ═══════════ 壹 ═══════════ -->
-<section id="sec-why">
-  <h2><span class="sec-num">壹</span>為什麼是「證據」：研究最難寫的一段</h2>
-  <p>寫教學實踐研究計畫，最難拿出來的一段，不是文獻、不是方法，是「我根據證據調整了教學」。學期中你一定改過東西：規準表改了一格、學習單換了一題、回饋從書面改成當面講。可是到了寫計畫書或成果報告那天，能證明「改過」的，常常只剩記憶。</p>
-  <p>版本紀錄做的就是這件事：一門課一個資料夾，每改一次就存一個版本，順手寫一句為什麼改。學期末打開，改了哪裡、什麼時候改、當時怎麼想的，全都在。這不是資訊工程的事，是研究方法的一部分：審查委員問「你怎麼知道是這個調整有效」，你拿得出一條時間線，而不是一段回憶。</p>
-  <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背指令，指令交給 AI 助手（AI agent）代打；你只看它的計畫、看它改完的前後對照、然後點頭。這就是「監督」，今天四塊的每一步都會回到這三件事。</p>
-  <div class="card">
-    <h3>跟上一場的關係</h3>
-    <p>上一場「跟 AI 一起用 Git」（2026-09-09）教的是方法本身；這一場把方法用在評量上，做三件事：留下證據、做出規準、分析與抽查。沒上過也沒關係，今天需要的那幾招都會重做一次。想複習可以回去翻 <a id="prev-link" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener">上一場的教材</a>。</p>
+<section id="sec-why" class="sec" aria-labelledby="sec-why-h"><div class="wrap">
+  <h2 id="sec-why-h"><span class="num">壹</span><span class="t">為什麼是「證據」：研究最難寫的一段</span></h2>
+  <div class="body prose">
+    <p>寫教學實踐研究計畫，最難拿出來的一段，不是文獻、不是方法，是「我根據證據調整了教學」。學期中你一定改過東西：規準表改了一格、學習單換了一題、回饋從書面改成當面講。可是到了寫計畫書或成果報告那天，能證明「改過」的，常常只剩記憶。</p>
+    <p>版本紀錄做的就是這件事：一門課一個資料夾，每改一次就存一個版本，順手寫一句為什麼改。學期末打開，改了哪裡、什麼時候改、當時怎麼想的，全都在。這不是資訊工程的事，是研究方法的一部分：審查委員問「你怎麼知道是這個調整有效」，你拿得出一條時間線，而不是一段回憶。</p>
+    <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背指令，指令交給 AI 助手（AI agent）代打；你只看它的計畫、看它改完的前後對照、然後點頭。這就是「監督」，今天四塊的每一步都會回到這三件事。</p>
+    <div class="card c-a">
+      <h3>跟上一場的關係</h3>
+      <p>上一場「跟 AI 一起用 Git」（2026-09-09）教的是方法本身；這一場把方法用在評量上，做三件事：留下證據、做出規準、分析與抽查。沒上過也沒關係，今天需要的那幾招都會重做一次。想複習可以回去翻 <a id="prev-link" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener">上一場的教材</a>。</p>
+    </div>
+    <div class="note">今天沒有任何真實學生資料。四塊全部用合成的示範資料（代號 <code>DEMO-S01</code>…），例子一律講「某生」。</div>
   </div>
-  <div class="note">今天沒有任何真實學生資料。四塊全部用合成的示範資料（代號 <code>DEMO-S01</code>…），例子一律講「某生」。</div>
-</section>
+</div></section>
 
 <!-- ═══════════ 貳 ═══════════ -->
-<section id="sec-how">
-  <h2><span class="sec-num">貳</span>今天怎麼做</h2>
+<section id="sec-how" class="sec" aria-labelledby="sec-how-h"><div class="wrap">
+  <h2 id="sec-how-h"><span class="num">貳</span><span class="t">今天怎麼做</span></h2>
+  <div class="body prose">
+    <p id="route-text" data-render></p>
+    <p class="redline"><strong>先講一件事：</strong><span id="redline-text">今天全程只用示範資料（代號 DEMO-S01…），不帶任何學生資料。回去放自己的資料時：專案設不公開、丟給 AI 前先拿掉姓名學號；AI 分出來的結果，自己抽幾筆回頭看。</span></p>
 
-  <p id="route-text" data-render></p>
-  <p>先講一件事：<span id="redline-text">今天全程只用示範資料（代號 DEMO-S01…），不帶任何學生資料。回去放自己的資料時：專案設不公開、丟給 AI 前先拿掉姓名學號；AI 分出來的結果，自己抽幾筆回頭看。</span></p>
+    <p><strong>挑一句不同意的、改掉、寫下為什麼。</strong>這句四塊都用：AI 起草的東西一定有你不同意的句子，那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：<span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></p>
 
-  <p><strong>挑一句不同意的、改掉、寫下為什麼。</strong>這句四塊都用：AI 起草的東西一定有你不同意的句子，那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：<span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></p>
+    <p>AI 助手動手之前、之中、之後，你只看它的計畫、看它改完的前後對照、然後點頭。看不到任何一件，就請它重做。</p>
+    <ol>
+      <li><strong>計畫</strong>：它要動哪個資料夾、改哪個檔、會不會上傳到任何地方。沒先說計畫就動手的，叫它先說。</li>
+      <li><strong>前後對照</strong>：改完以後，哪幾行變了。多出一行你沒要的，就要問。</li>
+      <li><strong>點頭</strong>：存版本之前，版本說明是不是你的話。說明寫得像 AI 的話，改成你的。</li>
+    </ol>
 
-  <p>AI 助手動手之前、之中、之後，你只看它的計畫、看它改完的前後對照、然後點頭。看不到任何一件，就請它重做。</p>
-  <ol>
-    <li><strong>計畫</strong>：它要動哪個資料夾、改哪個檔、會不會上傳到任何地方。沒先說計畫就動手的，叫它先說。</li>
-    <li><strong>前後對照</strong>：改完以後，哪幾行變了。多出一行你沒要的，就要問。</li>
-    <li><strong>點頭</strong>：存版本之前，版本說明是不是你的話。說明寫得像 AI 的話，改成你的。</li>
-  </ol>
-
-  <h3>證據工作台怎麼用</h3>
-  <p>工作台（<a href="studio.html">studio.html</a>）是一個純前端網頁：不連任何 AI、不上傳任何東西；把整個教材資料夾下載下來（或用 git clone），離線也能開——它要跟同一層的 workflow-data.js 放在一起。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
+    <h3>證據工作台怎麼用</h3>
+    <p>工作台（<a href="studio.html">studio.html</a>）是一個純前端網頁：不連任何 AI、不上傳任何東西；把整個教材資料夾下載下來（或用 git clone），離線也能開——它要跟同一層的 workflow-data.js 放在一起。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
+  </div>
   <div class="table-wrap">
-    <table class="studio-table stack">
-      <thead><tr><th>分頁</th><th>按鈕</th><th>必填欄</th><th>用在哪一塊</th></tr></thead>
+    <table class="stack studio">
+      <thead><tr><th scope="col">分頁</th><th scope="col">按鈕</th><th scope="col">必填欄</th><th scope="col">用在哪一塊</th></tr></thead>
       <tbody>
-        <tr><td data-th="分頁">Rubric 工作台</td><td data-th="按鈕">「複製」（提示詞）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td data-th="必填欄">「為什麼改」</td><td data-th="用在哪一塊">第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
-        <tr><td data-th="分頁">證據儀表板</td><td data-th="按鈕">「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td data-th="必填欄">每筆「同意／不同意」與「為什麼」、「三句結論」</td><td data-th="用在哪一塊">第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
-        <tr><td data-th="分頁">一頁設計</td><td data-th="按鈕">「帶入示範課」、「複製」、「匯出 Markdown」</td><td data-th="必填欄">—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td data-th="用在哪一塊">第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
-        <tr><td data-th="分頁">全站</td><td data-th="按鈕">「清除暫存」</td><td data-th="必填欄">—</td><td data-th="用在哪一塊">工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
+        <tr><td class="seg" data-th="分頁"><strong>Rubric 工作台</strong></td><td data-th="按鈕">「複製」（提示詞）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td data-th="必填欄">「為什麼改」</td><td data-th="用在哪一塊">第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
+        <tr><td class="seg" data-th="分頁"><strong>證據儀表板</strong></td><td data-th="按鈕">「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td data-th="必填欄">每筆「同意／不同意」與「為什麼」、「三句結論」</td><td data-th="用在哪一塊">第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
+        <tr><td class="seg" data-th="分頁"><strong>一頁設計</strong></td><td data-th="按鈕">「帶入示範課」、「複製」、「匯出 Markdown」</td><td data-th="必填欄">—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td data-th="用在哪一塊">第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
+        <tr><td class="seg" data-th="分頁"><strong>全站</strong></td><td data-th="按鈕">「清除暫存」</td><td data-th="必填欄">—</td><td data-th="用在哪一塊">工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
       </tbody>
     </table>
   </div>
-</section>
+</div></section>
 
 <!-- ═══════════ 參 ═══════════ -->
-<section id="sec-blocks">
-  <h2><span class="sec-num">參</span>四塊逐步：你說什麼、AI 會做什麼、你一定要自己看的</h2>
-  <p>每一塊的格式都一樣：講師先做一遍，大家跟著做，每步一句話。左欄是你對 AI 助手說的話，中欄是它會做什麼，右欄（金色）是你一定要自己看的那件事。要 AI 助手動手的步驟，左欄底下多一句「貼給 AI 助手的話」，整句複製貼上就行。還沒裝好 AI 助手的人：先看鄰座或講師機做，每一句都可以複製，自己的資料夾回家補建。</p>
-  <div id="blocks" data-render></div>
-</section>
+<section id="sec-blocks" class="sec" aria-labelledby="sec-blocks-h"><div class="wrap">
+  <h2 id="sec-blocks-h"><span class="num">參</span><span class="t">四塊逐步：你說什麼、AI 會做什麼、你一定要自己看的</span></h2>
+  <div class="body">
+    <p class="prose">每一塊的格式都一樣：講師先做一遍，大家跟著做，每步一句話。左欄是你對 AI 助手說的話，中欄是它會做什麼，右欄（珊瑚橘）是你一定要自己看的那件事。要 AI 助手動手的步驟，左欄底下多一句「貼給 AI 助手的話」，整句複製貼上就行。還沒裝好 AI 助手的人：先看鄰座或講師機做，每一句都可以複製，自己的資料夾回家補建。</p>
+    <div id="blocks" data-render></div>
+  </div>
+</div></section>
 
 <!-- ═══════════ 肆 ═══════════ -->
-<section id="sec-examples">
-  <h2><span class="sec-num">肆</span>例子：主範例與兩組自選</h2>
-  <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的例子。三個例子的共同點：改掉的都是形容詞，換上數得出的事；你的課找同一種格子。</p>
-  <div id="examples" data-render></div>
-</section>
+<section id="sec-examples" class="sec" aria-labelledby="sec-examples-h"><div class="wrap">
+  <h2 id="sec-examples-h"><span class="num">肆</span><span class="t">例子：主範例與兩組自選</span></h2>
+  <div class="body prose">
+    <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的例子。三個例子的共同點：改掉的都是形容詞，換上數得出的事；你的課找同一種格子。</p>
+    <div id="examples" data-render></div>
+  </div>
+</div></section>
 
 <!-- ═══════════ 伍 ═══════════ -->
-<section id="sec-design">
-  <h2><span class="sec-num">伍</span>一頁設計：十一欄怎麼填</h2>
-  <p>第四塊填的這一頁，欄位名稱直接對應教學實踐研究計畫書的章節（表裡「計畫書對應」那一欄），之後長成計畫書不用重寫。工作台「一頁設計」分頁的十一欄跟這張表一樣，右側會即時預覽成 Markdown，標題用計畫書的詞。</p>
-  <div class="tip">填法只有一個訣竅：每一欄都要「下學期做得到」。研究問題要能被你下學期蒐到的資料回答；信效度只選一件做得到的事；介入作為寫具體動作，不寫「加強引導」。</div>
+<section id="sec-design" class="sec" aria-labelledby="sec-design-h"><div class="wrap">
+  <h2 id="sec-design-h"><span class="num">伍</span><span class="t">一頁設計：十一欄怎麼填</span></h2>
+  <div class="body prose">
+    <p>第四塊填的這一頁，欄位名稱直接對應教學實踐研究計畫書的章節（表裡「計畫書對應」那一欄），之後長成計畫書不用重寫。工作台「一頁設計」分頁的十一欄跟這張表一樣，右側會即時預覽成 Markdown，標題用計畫書的詞。</p>
+    <div class="tip">填法只有一個訣竅：每一欄都要「下學期做得到」。研究問題要能被你下學期蒐到的資料回答；信效度只選一件做得到的事；介入作為寫具體動作，不寫「加強引導」。</div>
+  </div>
   <div class="table-wrap" id="designfields" data-render></div>
-</section>
+</div></section>
 
 <!-- ═══════════ 陸 ═══════════ -->
-<section id="sec-ethics">
-  <h2><span class="sec-num">陸</span>資料倫理：回去用自己的資料之前</h2>
-  <p>今天全程用合成資料，所以沒有倫理問題。回去換成自己課的資料，開頭那句話就開始算數：專案設不公開、丟給 AI 前先拿掉姓名學號。下面三件事做完，再開始。</p>
-  <div class="grid2">
-    <div class="card">
-      <h3>去識別化怎麼做</h3>
-      <ol>
-        <li>先做一張「姓名 ↔ 代號」對照表，放在學校帳號的雲端或紙本，不放進課程資料夾。</li>
-        <li>試算表裡的姓名欄整欄換成代號；學號、信箱、電話、座號整欄刪掉。</li>
-        <li>反思文字裡提到的人名換成「某同學」，提到的特殊事件（請假原因、家裡的事）刪掉。</li>
-        <li>影像類證據（錄影、照片）不留檔，只留評分與觀察文字。</li>
-        <li>檔名也不要有姓名或班級；用任務名與日期就夠了。</li>
-      </ol>
+<section id="sec-ethics" class="sec" aria-labelledby="sec-ethics-h"><div class="wrap">
+  <h2 id="sec-ethics-h"><span class="num">陸</span><span class="t">資料倫理：回去用自己的資料之前</span></h2>
+  <div class="body prose">
+    <p>今天全程用合成資料，所以沒有倫理問題。回去換成自己課的資料，開頭那句話就開始算數：專案設不公開、丟給 AI 前先拿掉姓名學號。下面三件事做完，再開始。</p>
+    <div class="grid2">
+      <div class="card c-c">
+        <h3>去識別化怎麼做</h3>
+        <ol>
+          <li>先做一張「姓名 ↔ 代號」對照表，放在學校帳號的雲端或紙本，不放進課程資料夾。</li>
+          <li>試算表裡的姓名欄整欄換成代號；學號、信箱、電話、座號整欄刪掉。</li>
+          <li>反思文字裡提到的人名換成「某同學」，提到的特殊事件（請假原因、家裡的事）刪掉。</li>
+          <li>影像類證據（錄影、照片）不留檔，只留評分與觀察文字。</li>
+          <li>檔名也不要有姓名或班級；用任務名與日期就夠了。</li>
+        </ol>
+      </div>
+      <div class="card c-l">
+        <h3>私人 repo（不公開的版本庫）</h3>
+        <ul>
+          <li>請 AI 助手建遠端版本庫時，明講「設成不公開（private）」；建完自己到 GitHub 網頁看一次設定。</li>
+          <li>課後若改用 GitHub 網頁版上傳，建 repo 時勾「Private」，上傳前再看一眼頁面上有沒有鎖頭圖示。</li>
+          <li>共同研究者用「邀請協作者」加進來，不要把 repo 改成公開來共享。</li>
+          <li>研究結束要公開教材時，另開一個只有教材、沒有資料的公開 repo。</li>
+        </ul>
+      </div>
     </div>
-    <div class="card">
-      <h3>私人 repo（不公開的版本庫）</h3>
-      <ul>
-        <li>請 AI 助手建遠端版本庫時，明講「設成不公開（private）」；建完自己到 GitHub 網頁看一次設定。</li>
-        <li>課後若改用 GitHub 網頁版上傳，建 repo 時勾「Private」，上傳前再看一眼頁面上有沒有鎖頭圖示。</li>
-        <li>共同研究者用「邀請協作者」加進來，不要把 repo 改成公開來共享。</li>
-        <li>研究結束要公開教材時，另開一個只有教材、沒有資料的公開 repo。</li>
-      </ul>
+    <div class="card c-y">
+      <h3>給 AI 之前拿掉什麼</h3>
+      <p>給雲端 AI 的，只有<strong>代號、分數、去掉姓名的反思文字</strong>。不給的：姓名、學號、信箱、電話、班級加座號、任何能認出人的細節、影像。平台匯出的檔多半混了姓名與空白列，先在試算表清一遍，再用課後手冊裡的提示詞 <a href="#prompt-P5">P5</a> 請 AI 整理成固定欄位；AI 整理完先只看前 5 列確認格式。</p>
+      <p class="cite">知情同意與資料保存年限依各校研究倫理規範；一頁設計的「資料倫理」欄請寫你學校的做法。</p>
     </div>
   </div>
-  <div class="card">
-    <h3>給 AI 之前拿掉什麼</h3>
-    <p>給雲端 AI 的，只有<strong>代號、分數、去掉姓名的反思文字</strong>。不給的：姓名、學號、信箱、電話、班級加座號、任何能認出人的細節、影像。平台匯出的檔多半混了姓名與空白列，先在試算表清一遍，再用課後手冊裡的提示詞 <a href="#prompt-P5">P5</a> 請 AI 整理成固定欄位；AI 整理完先只看前 5 列確認格式。</p>
-    <p class="cite">知情同意與資料保存年限依各校研究倫理規範；一頁設計的「資料倫理」欄請寫你學校的做法。</p>
-  </div>
-</section>
+</div></section>
 
 <!-- ═══════════ 柒 ═══════════ -->
-<section id="sec-after">
-  <h2><span class="sec-num">柒</span>課後手冊</h2>
-  <p>工作坊結束之後會用到的事都在這裡。第一節「<span id="ac1-title-ref">兩種紀錄怎麼讀成同一種</span>」先讀，它回答最常被問的一題：課後我若改用 GitHub 網頁版上傳，紀錄跟今天用 AI 助手存的一樣嗎。</p>
-  <div id="aftercourse" data-render></div>
+<section id="sec-after" class="sec" aria-labelledby="sec-after-h"><div class="wrap">
+  <h2 id="sec-after-h"><span class="num">柒</span><span class="t">課後手冊</span></h2>
+  <div class="body prose">
+    <p>工作坊結束之後會用到的事都在這裡。第一節「<span id="ac1-title-ref">兩種紀錄怎麼讀成同一種</span>」先讀，它回答最常被問的一題：課後我若改用 GitHub 網頁版上傳，紀錄跟今天用 AI 助手存的一樣嗎。</p>
+    <div id="aftercourse" data-render></div>
 
-  <div class="card">
-    <h3>抽查紀錄怎麼呈現</h3>
-    <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。例如示範資料裡抽到 DEMO-S03，AI 分成「把原因歸到外部」，你寫「同意：整句都在講時間不夠，沒有提到自己可以改的事」；抽到 DEMO-S08，你寫「部分不同意：歸因外部沒錯，但『沒時間練』也指出了自己的準備流程，下次回饋要接這一句」。表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這還不是正式的信度證據，只是這一輪人工抽查的一致率（3 筆，探索性紀錄）；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
-  </div>
+    <div class="card">
+      <h3>抽查紀錄怎麼呈現</h3>
+      <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。例如示範資料裡抽到 DEMO-S03，AI 分成「把原因歸到外部」，你寫「同意：整句都在講時間不夠，沒有提到自己可以改的事」；抽到 DEMO-S08，你寫「部分不同意：歸因外部沒錯，但『沒時間練』也指出了自己的準備流程，下次回饋要接這一句」。表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這還不是正式的信度證據，只是這一輪人工抽查的一致率（3 筆，探索性紀錄）；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
+    </div>
 
-  <div class="card">
-    <h3>信效度怎麼寫</h3>
-    <p>工作坊兩小時做不出信效度，計畫書也不用假裝有。誠實的寫法是「工具發展過程」：Rubric v1 是 AI 起草、v2 是你改了哪幾格與為什麼、v3 是下學期兩位老師同評之後改的。信度的部分，下學期只做一件事就夠：請一位同領域老師用同一份 Rubric 評 10 份作品，算「同一格打一樣分的比例」，不一致的格子回頭改成 v3；這個比例跟改了哪幾格，寫進計畫書「研究工具信效度」那一節，一頁設計的第九欄就是替這一段先占好位子。</p>
+    <div class="card">
+      <h3>信效度怎麼寫</h3>
+      <p>工作坊兩小時做不出信效度，計畫書也不用假裝有。誠實的寫法是「工具發展過程」：Rubric v1 是 AI 起草、v2 是你改了哪幾格與為什麼、v3 是下學期兩位老師同評之後改的。信度的部分，下學期只做一件事就夠：請一位同領域老師用同一份 Rubric 評 10 份作品，算「同一格打一樣分的比例」，不一致的格子回頭改成 v3；這個比例跟改了哪幾格，寫進計畫書「研究工具信效度」那一節，一頁設計的第九欄就是替這一段先占好位子。</p>
+    </div>
   </div>
-</section>
+</div></section>
 
 <!-- ═══════════ 捌 ═══════════ -->
-<section id="sec-agenda">
-  <h2><span class="sec-num">捌</span>兩小時議程</h2>
-  <p class="cite">主辦：<span id="host-line">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</span></p>
+<section id="sec-agenda" class="sec" aria-labelledby="sec-agenda-h"><div class="wrap">
+  <h2 id="sec-agenda-h"><span class="num">捌</span><span class="t">兩小時議程</span></h2>
+  <div class="body prose">
+    <p class="cite">主辦：<span id="host-line">東華「動手做科學融入教學課程 11」教師社群 × 宜蘭大學東區 ISW 教師社群</span></p>
+  </div>
   <div class="table-wrap" id="agenda" data-render></div>
-</section>
+</div></section>
 
 <!-- ═══════════ 玖 ═══════════ -->
-<section id="sec-glossary">
-  <h2><span class="sec-num">玖</span>名詞表</h2>
-  <p>今天會反覆聽到的英文詞就這八個。看得懂就好，不用背。</p>
-  <dl class="glossary">
-    <div><dt>AI agent</dt><dd>AI 助手：裝在你電腦上、能代你打指令與改檔案的 AI 程式。它說「做完了」不等於做完——看它的計畫、看前後對照、點頭。</dd></div>
-    <div><dt>Git</dt><dd>版本控制工具：幫一個資料夾記住每一次修改。</dd></div>
-    <div><dt>repo（repository）</dt><dd>版本庫：被 Git 管理的那個資料夾。放在 GitHub 上的叫遠端版本庫，可以設成不公開。</dd></div>
-    <div><dt>commit／log</dt><dd>存一版／版本清單：commit 把現在的狀態存成一個版本、附一句說明，今天每塊結束都存一版；log 是所有版本依時間排好的清單，每筆有說明，研究歷程資料的長相。</dd></div>
-    <div><dt>diff</dt><dd>前後對照：兩個版本之間哪幾行變了。你一定要自己看的那件事。</dd></div>
-    <div><dt>Rubric</dt><dd>評分規準表：規準乘以等級的一張表，每格寫看得見、數得出的描述。</dd></div>
-    <div><dt>CSV</dt><dd>逗號分隔的純文字表格：示範資料的格式，任何試算表都能開、AI 也讀得懂。</dd></div>
-    <div><dt>Markdown</dt><dd>純文字的排版格式：工作台匯出的檔都是它，用任何文字編輯器都能開，Git 看得出逐行差異。</dd></div>
-  </dl>
-</section>
+<section id="sec-glossary" class="sec" aria-labelledby="sec-glossary-h"><div class="wrap">
+  <h2 id="sec-glossary-h"><span class="num">玖</span><span class="t">名詞表</span></h2>
+  <div class="body prose">
+    <p>今天會反覆聽到的英文詞就這八個。看得懂就好，不用背。</p>
+    <dl class="glossary">
+      <div><dt>AI agent</dt><dd>AI 助手：裝在你電腦上、能代你打指令與改檔案的 AI 程式。它說「做完了」不等於做完——看它的計畫、看前後對照、點頭。</dd></div>
+      <div><dt>Git</dt><dd>版本控制工具：幫一個資料夾記住每一次修改。</dd></div>
+      <div><dt>repo（repository）</dt><dd>版本庫：被 Git 管理的那個資料夾。放在 GitHub 上的叫遠端版本庫，可以設成不公開。</dd></div>
+      <div><dt>commit／log</dt><dd>存一版／版本清單：commit 把現在的狀態存成一個版本、附一句說明，今天每塊結束都存一版；log 是所有版本依時間排好的清單，每筆有說明，研究歷程資料的長相。</dd></div>
+      <div><dt>diff</dt><dd>前後對照：兩個版本之間哪幾行變了。你一定要自己看的那件事。</dd></div>
+      <div><dt>Rubric</dt><dd>評分規準表：規準乘以等級的一張表，每格寫看得見、數得出的描述。</dd></div>
+      <div><dt>CSV</dt><dd>逗號分隔的純文字表格：示範資料的格式，任何試算表都能開、AI 也讀得懂。</dd></div>
+      <div><dt>Markdown</dt><dd>純文字的排版格式：工作台匯出的檔都是它，用任何文字編輯器都能開，Git 看得出逐行差異。</dd></div>
+    </dl>
+  </div>
+</div></section>
 
 <!-- ═══════════ 拾 ═══════════ -->
-<section id="sec-limits">
-  <h2><span class="sec-num">拾</span>三條誠實限制</h2>
-  <div id="limits" data-render></div>
-</section>
+<section id="sec-limits" class="sec" aria-labelledby="sec-limits-h"><div class="wrap">
+  <h2 id="sec-limits-h"><span class="num">拾</span><span class="t">三條誠實限制</span></h2>
+  <div class="body prose">
+    <div id="limits" data-render></div>
+  </div>
+</div></section>
+
+<div class="wrap">
+  <noscript><p class="warn">這一頁的四塊、例子、一頁設計欄位、課後手冊、議程與三條限制是從 <code>workflow-data.js</code> 即時產生的，需要開啟 JavaScript。</p></noscript>
+</div>
 
 </main>
 
-<footer class="site">
-  <div class="inner">
-    從學習證據到教學改進｜2026-10-16 教師工作坊講義<br>
-    工具費用與方案會變動，開始前請以各官方頁面現況為準。<br>
-    © 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。
-  </div>
-</footer>
+<footer class="site"><div class="inner">
+  <p>從學習證據到教學改進｜2026-10-16 教師工作坊講義</p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+</div></footer>
 
 <!-- ═══════════ 四張自繪圖（真文字、顏色用代幣；由 JS 放進對應的那一塊）═══════════ -->
 <template id="tpl-F-timeline">
 <!-- 五個點的字對應 workflow-data.js 的 blocks：B1 步 2「第 0 版：先放一個空殼」、B1 步 4「第 1 版：四個規準」、B2 步 5（版本說明＝你那句「為什麼改」）、B3 步 5「第三塊：AI 分析＋人工抽查 3 筆」、B4 步 4「一頁設計 v1：工作坊版」。
-     圖上點下方只放冒號後半句，冒號前的版本名放點上方（第 0 版／第 1 版／Rubric v2／抽查紀錄／一頁設計 v1）。blocks 的版本說明改字時，這裡要跟著改。 -->
+     圖上點下方只放冒號後半句，冒號前的版本名放點上方（第 0 版／第 1 版／Rubric v2／抽查紀錄／一頁設計 v1）。blocks 的版本說明改字時，這裡要跟著改。
+     著色：墨色軸線、湖水綠版本點（同入口頁刊頭插圖）、芥末黃＋編輯紅圈＝你改的那一版。 -->
 <svg viewBox="0 0 860 240" width="100%" role="img" aria-labelledby="ft-title">
   <title id="ft-title">版本紀錄時間軸：今天會留下的五個版本，每個點旁一句為什麼改</title>
   <text x="20" y="30" class="sv-ink sv-b" font-size="17">版本清單（git log）長這樣：一個點＝存了一版＋一句「為什麼改」</text>
   <line x1="40" y1="130" x2="826" y2="130" class="sv-axis"/>
-  <polygon points="826,122 842,130 826,138" class="sv-arrowhead" style="fill:var(--line)"/>
+  <polygon points="826,122 842,130 826,138" class="sv-arrowhead"/>
   <g>
-    <circle cx="80" cy="130" r="13" class="sv-teal"/>
+    <circle cx="80" cy="130" r="13" class="sv-dot"/>
     <text x="80" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">第 0 版</text>
     <text x="80" y="104" text-anchor="middle" class="sv-soft" font-size="13">第一塊</text>
     <text x="80" y="168" text-anchor="middle" class="sv-ink" font-size="14">「先放一個空殼」</text>
   </g>
   <g>
-    <circle cx="260" cy="130" r="13" class="sv-teal"/>
+    <circle cx="260" cy="130" r="13" class="sv-dot"/>
     <text x="260" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">第 1 版</text>
     <text x="260" y="104" text-anchor="middle" class="sv-soft" font-size="13">第一塊</text>
     <text x="260" y="168" text-anchor="middle" class="sv-ink" font-size="14">「四個規準」</text>
   </g>
   <g>
-    <circle cx="440" cy="130" r="13" class="sv-gold"/>
-    <circle cx="440" cy="130" r="19" class="sv-ring"/>
+    <circle cx="440" cy="130" r="13" class="sv-mark"/>
+    <circle cx="440" cy="130" r="20" class="sv-ring"/>
     <text x="440" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">Rubric v2</text>
     <text x="440" y="104" text-anchor="middle" class="sv-soft" font-size="13">第二塊</text>
     <text x="440" y="168" text-anchor="middle" class="sv-ink" font-size="14">「要兩個老師打一樣的分」</text>
-    <text x="440" y="188" text-anchor="middle" class="sv-bad" font-size="12">你不同意的那一句，改在這裡</text>
+    <text x="440" y="188" text-anchor="middle" class="sv-red sv-b" font-size="12">你不同意的那一句，改在這裡</text>
   </g>
   <g>
-    <circle cx="620" cy="130" r="13" class="sv-teal"/>
+    <circle cx="620" cy="130" r="13" class="sv-dot"/>
     <text x="620" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">抽查紀錄</text>
     <text x="620" y="104" text-anchor="middle" class="sv-soft" font-size="13">第三塊</text>
     <text x="620" y="168" text-anchor="middle" class="sv-ink" font-size="14">「AI 分析＋人工抽查 3 筆」</text>
   </g>
   <g>
-    <circle cx="790" cy="130" r="13" class="sv-teal"/>
+    <circle cx="790" cy="130" r="13" class="sv-dot"/>
     <text x="790" y="82" text-anchor="middle" class="sv-ink sv-b" font-size="16">一頁設計 v1</text>
     <text x="790" y="104" text-anchor="middle" class="sv-soft" font-size="13">第四塊</text>
     <text x="790" y="168" text-anchor="middle" class="sv-ink" font-size="14">「工作坊版」</text>
@@ -306,15 +348,16 @@ figure svg text{font-family:var(--sans)}
 
 <template id="tpl-F-rubric-diff">
 <!-- 左右兩欄「表達流暢」四級的字，逐字對 studio.html「看範例輸出」的 RUBRIC_V1／RUBRIC_V2：4 級＝examples.presentation.disagreeExample 那格（唯一改的）；
-     3／2／1 級兩版相同，因為示範的調整紀錄寫「4 不採：看稿次數現場數不到，先留『偶爾』」。studio 改範例時，這裡要跟著改。 -->
+     3／2／1 級兩版相同，因為示範的調整紀錄寫「4 不採：看稿次數現場數不到，先留『偶爾』」。studio 改範例時，這裡要跟著改。
+     著色：兩張暖白墨框卡、芥末黃淡底標題列；刪＝珊瑚橘淡底、加＝湖水綠淡底（同 site.css 的 .diff）。 -->
 <svg viewBox="0 0 860 310" width="100%" role="img" aria-labelledby="fr-title">
   <title id="fr-title">Rubric 前後並列：左邊第 1 版有形容詞，右邊第 2 版數得出，差異處上色</title>
   <text x="20" y="28" class="sv-ink sv-b" font-size="17">同一格「表達流暢」：左邊 AI 起草的第 1 版，右邊你改過的第 2 版</text>
-  <rect x="20" y="45" width="390" height="208" rx="10" class="sv-card"/>
-  <rect x="20" y="45" width="390" height="34" rx="10" class="sv-tsoft"/>
-  <rect x="20" y="69" width="390" height="10" class="sv-tsoft"/>
+  <rect x="20" y="45" width="390" height="208" rx="8" class="sv-card"/>
+  <rect x="20.75" y="45.75" width="388.5" height="33" rx="7" class="sv-head"/>
+  <rect x="20.75" y="69" width="388.5" height="10" class="sv-head"/>
   <text x="36" y="68" class="sv-ink sv-b" font-size="15">第 1 版（AI 起草）</text>
-  <rect x="28" y="88" width="374" height="30" rx="6" class="sv-bsoft"/>
+  <rect x="28" y="88" width="374" height="30" rx="6" class="sv-del"/>
   <text x="38" y="109" class="sv-bad sv-b" font-size="15">−</text>
   <text x="58" y="109" class="sv-ink" font-size="14">4 級　表現優異、台風穩健</text>
   <text x="58" y="147" class="sv-soft" font-size="14">3 級　偶爾看稿，語速適中</text>
@@ -323,11 +366,11 @@ figure svg text{font-family:var(--sans)}
   <text x="300" y="109" class="sv-bad" font-size="12">看不見、數不出</text>
   <line x1="414" y1="150" x2="440" y2="150" class="sv-arrow"/>
   <polygon points="438,142 452,150 438,158" class="sv-arrowhead"/>
-  <rect x="450" y="45" width="390" height="208" rx="10" class="sv-card"/>
-  <rect x="450" y="45" width="390" height="34" rx="10" class="sv-tsoft"/>
-  <rect x="450" y="69" width="390" height="10" class="sv-tsoft"/>
+  <rect x="450" y="45" width="390" height="208" rx="8" class="sv-card"/>
+  <rect x="450.75" y="45.75" width="388.5" height="33" rx="7" class="sv-head"/>
+  <rect x="450.75" y="69" width="388.5" height="10" class="sv-head"/>
   <text x="466" y="68" class="sv-ink sv-b" font-size="15">第 2 版（你改過）</text>
-  <rect x="458" y="88" width="374" height="30" rx="6" class="sv-gdsoft"/>
+  <rect x="458" y="88" width="374" height="30" rx="6" class="sv-add"/>
   <text x="468" y="109" class="sv-good sv-b" font-size="15">＋</text>
   <text x="488" y="109" class="sv-ink" font-size="14">4 級　全程不看稿超過 6 分鐘；停頓不超過 3 次</text>
   <text x="488" y="147" class="sv-soft" font-size="14">3 級　偶爾看稿，語速適中</text>
@@ -340,13 +383,14 @@ figure svg text{font-family:var(--sans)}
 
 <template id="tpl-F-gap">
 <!-- 16 個數字手打自 data/project-presentation-scores.csv（自評−教師／互評−教師），8 筆＝S01、S03、S07、S11、S14、S18、S22、S24；長條寬度＝|差|×26px。
-     make_demo_data.py 重跑或 CSV 改動後，沒有任何腳本會抓到這裡，要人工回查這 16 個數字（validate-workshop.mjs 已有 csvRows 可以接）。 -->
+     make_demo_data.py 重跑或 CSV 改動後，沒有任何腳本會抓到這裡，要人工回查這 16 個數字（validate-workshop.mjs 已有 csvRows 可以接）。
+     著色：自評−教師＝湖水綠、互評−教師＝芥末黃；離 0 遠的代號與「可能的解讀」用珊瑚橘深色（語意＝要人回頭看，不是結論）。 -->
 <svg viewBox="0 0 860 420" width="100%" role="img" aria-labelledby="fg-title">
   <title id="fg-title">評分落差圖：自評減教師分、互評減教師分，離 0 遠的代號浮出來</title>
   <text x="20" y="26" class="sv-ink sv-b" font-size="16">自評、互評、教師評分的落差（示範資料「課堂專題簡報」，取 8 筆）</text>
-  <rect x="560" y="14" width="14" height="14" rx="3" class="sv-teal"/>
+  <rect x="560" y="14" width="14" height="14" rx="3" class="sv-bar-a"/>
   <text x="580" y="26" class="sv-soft" font-size="13">自評 − 教師</text>
-  <rect x="680" y="14" width="14" height="14" rx="3" class="sv-gold"/>
+  <rect x="680" y="14" width="14" height="14" rx="3" class="sv-bar-y"/>
   <text x="700" y="26" class="sv-soft" font-size="13">互評 − 教師</text>
   <line x1="460" y1="48" x2="460" y2="384" class="sv-zero"/>
   <!-- DEMO-S01: 0 / 0 -->
@@ -355,47 +399,47 @@ figure svg text{font-family:var(--sans)}
   <text x="466" y="90" class="sv-soft" font-size="12">0</text>
   <!-- DEMO-S03: +2 / +6 -->
   <text x="60" y="120" class="sv-bad sv-b" font-size="13">DEMO-S03</text>
-  <rect x="460" y="104" width="52" height="12" rx="3" class="sv-teal"/>
+  <rect x="460" y="104" width="52" height="12" rx="3" class="sv-bar-a"/>
   <text x="518" y="115" class="sv-soft" font-size="12">+2</text>
-  <rect x="460" y="118" width="156" height="12" rx="3" class="sv-gold"/>
+  <rect x="460" y="118" width="156" height="12" rx="3" class="sv-bar-y"/>
   <text x="622" y="129" class="sv-soft" font-size="12">+6</text>
   <text x="690" y="120" class="sv-bad" font-size="12">互評過寬？</text>
   <!-- DEMO-S07: +8 / +1 -->
   <text x="60" y="160" class="sv-bad sv-b" font-size="13">DEMO-S07</text>
-  <rect x="460" y="144" width="208" height="12" rx="3" class="sv-teal"/>
+  <rect x="460" y="144" width="208" height="12" rx="3" class="sv-bar-a"/>
   <text x="674" y="155" class="sv-soft" font-size="12">+8</text>
-  <rect x="460" y="158" width="26" height="12" rx="3" class="sv-gold"/>
+  <rect x="460" y="158" width="26" height="12" rx="3" class="sv-bar-y"/>
   <text x="492" y="169" class="sv-soft" font-size="12">+1</text>
   <text x="690" y="166" class="sv-bad" font-size="12">自評虛高？</text>
   <!-- DEMO-S11: +1 / 0 -->
   <text x="60" y="200" class="sv-soft" font-size="13">DEMO-S11</text>
-  <rect x="460" y="184" width="26" height="12" rx="3" class="sv-teal"/>
+  <rect x="460" y="184" width="26" height="12" rx="3" class="sv-bar-a"/>
   <text x="492" y="195" class="sv-soft" font-size="12">+1</text>
   <text x="466" y="209" class="sv-soft" font-size="12">0</text>
   <text x="690" y="200" class="sv-soft" font-size="12">分數看不出來，文字才看得出來</text>
   <!-- DEMO-S14: 0 / -8 -->
   <text x="60" y="240" class="sv-bad sv-b" font-size="13">DEMO-S14</text>
   <text x="466" y="236" class="sv-soft" font-size="12">0</text>
-  <rect x="252" y="238" width="208" height="12" rx="3" class="sv-gold"/>
+  <rect x="252" y="238" width="208" height="12" rx="3" class="sv-bar-y"/>
   <text x="222" y="249" class="sv-soft" font-size="12">−8</text>
   <text x="690" y="240" class="sv-bad" font-size="12">互評極低→回查互評表</text>
   <!-- DEMO-S18: -7 / -1 -->
   <text x="60" y="280" class="sv-bad sv-b" font-size="13">DEMO-S18</text>
-  <rect x="278" y="264" width="182" height="12" rx="3" class="sv-teal"/>
+  <rect x="278" y="264" width="182" height="12" rx="3" class="sv-bar-a"/>
   <text x="248" y="275" class="sv-soft" font-size="12">−7</text>
-  <rect x="434" y="278" width="26" height="12" rx="3" class="sv-gold"/>
+  <rect x="434" y="278" width="26" height="12" rx="3" class="sv-bar-y"/>
   <text x="404" y="289" class="sv-soft" font-size="12">−1</text>
   <text x="690" y="280" class="sv-bad" font-size="12">表現好、自評低</text>
   <!-- DEMO-S22: -1 / 0 -->
   <text x="60" y="320" class="sv-soft" font-size="13">DEMO-S22</text>
-  <rect x="434" y="304" width="26" height="12" rx="3" class="sv-teal"/>
+  <rect x="434" y="304" width="26" height="12" rx="3" class="sv-bar-a"/>
   <text x="404" y="315" class="sv-soft" font-size="12">−1</text>
   <text x="466" y="329" class="sv-soft" font-size="12">0</text>
   <text x="690" y="320" class="sv-soft" font-size="12">分數中等，要讀反思</text>
   <!-- DEMO-S24: 0 / +1 -->
   <text x="60" y="360" class="sv-soft" font-size="13">DEMO-S24</text>
   <text x="466" y="356" class="sv-soft" font-size="12">0</text>
-  <rect x="460" y="358" width="26" height="12" rx="3" class="sv-gold"/>
+  <rect x="460" y="358" width="26" height="12" rx="3" class="sv-bar-y"/>
   <text x="492" y="369" class="sv-soft" font-size="12">+1</text>
   <!-- 刻度 -->
   <text x="252" y="404" text-anchor="middle" class="sv-soft" font-size="12">−8</text>
@@ -408,28 +452,29 @@ figure svg text{font-family:var(--sans)}
 </template>
 
 <template id="tpl-F-check">
+<!-- 著色：五個步驟是暖白墨框卡，最後「存一版」換芥末黃淡底；箭頭墨色；開頭那句提醒用珊瑚橘深色（警示）。 -->
 <svg viewBox="0 0 860 220" width="100%" role="img" aria-labelledby="fc-title">
   <title id="fc-title">AI 分析加人工抽查的流程：AI 分類、抽 3 筆、同意或不同意、三句結論、存一版</title>
   <text x="20" y="26" class="sv-ink sv-b" font-size="16">第三塊的流程：AI 先整理，人再抽查，兩樣一起留下來才是證據</text>
   <circle cx="30" cy="50" r="5" class="sv-bad"/>
   <text x="42" y="54" class="sv-bad" font-size="12">預先跑好的那份有一筆故意分錯，抽到就會發現；沒抽到，講師最後點出來。</text>
-  <rect x="20" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <rect x="20" y="72" width="146" height="70" rx="8" class="sv-box"/>
   <text x="93" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">AI 分類＋落差</text>
   <text x="93" y="166" text-anchor="middle" class="sv-soft" font-size="12">自己請 AI 跑／工作台預跑</text>
   <line x1="168" y1="107" x2="180" y2="107" class="sv-arrow"/><polygon points="178,100 188,107 178,114" class="sv-arrowhead"/>
-  <rect x="190" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <rect x="190" y="72" width="146" height="70" rx="8" class="sv-box"/>
   <text x="263" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">抽 3 筆回查</text>
   <text x="263" y="166" text-anchor="middle" class="sv-soft" font-size="12">可重抽</text>
   <line x1="338" y1="107" x2="350" y2="107" class="sv-arrow"/><polygon points="348,100 358,107 348,114" class="sv-arrowhead"/>
-  <rect x="360" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <rect x="360" y="72" width="146" height="70" rx="8" class="sv-box"/>
   <text x="433" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="13">同意／不同意／為什麼</text>
   <text x="433" y="166" text-anchor="middle" class="sv-soft" font-size="12">每筆一行</text>
   <line x1="508" y1="107" x2="520" y2="107" class="sv-arrow"/><polygon points="518,100 528,107 518,114" class="sv-arrowhead"/>
-  <rect x="530" y="72" width="146" height="70" rx="10" class="sv-box"/>
+  <rect x="530" y="72" width="146" height="70" rx="8" class="sv-box"/>
   <text x="603" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">三句結論</text>
   <text x="603" y="166" text-anchor="middle" class="sv-soft" font-size="12">證據是／下次改／再蒐集</text>
   <line x1="678" y1="107" x2="690" y2="107" class="sv-arrow"/><polygon points="688,100 698,107 688,114" class="sv-arrowhead"/>
-  <rect x="700" y="72" width="140" height="70" rx="10" class="sv-gsoft" style="stroke:var(--gold);stroke-width:2"/>
+  <rect x="700" y="72" width="140" height="70" rx="8" class="sv-box-y"/>
   <text x="770" y="113" text-anchor="middle" class="sv-ink sv-b" font-size="14">存一版</text>
   <text x="770" y="166" text-anchor="middle" class="sv-soft" font-size="12">版本說明寫清楚</text>
   <text x="20" y="206" class="sv-soft" font-size="13">抽查一致率與不同意的理由，是計畫書裡「資料分析」那一段的素材（正式信度要靠下學期累積）。</text>
@@ -444,7 +489,7 @@ figure svg text{font-family:var(--sans)}
   var esc = function(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
   var $ = function(sel){ return document.querySelector(sel); };
 
-  /* ── 主題與投影模式（做法同上一場；按鈕只換文字節點與圖示，SVG 留著）── */
+  /* ── 主題與投影模式（做法同入口頁；按鈕只換文字節點與圖示，SVG 留著）── */
   var root = document.documentElement;
   var themeBtn = $('#themeToggle');
   var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
@@ -471,7 +516,7 @@ figure svg text{font-family:var(--sans)}
     paintProj(on);
     try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
   });
-  /* 導覽列單排可滑：只有真的溢出、而且還沒捲到底時，才在右側加淡出提示 */
+  /* 導覽列單排可滑：只有真的溢出、而且還沒捲到底時，才在右側加淡出提示；滑鼠用的兩顆捲動鈕也只在那時出現 */
   var navLinks = $('#navLinks');
   if(navLinks){
     var navPrev = document.getElementById('navPrev'), navNext = document.getElementById('navNext');
@@ -487,17 +532,18 @@ figure svg text{font-family:var(--sans)}
     navLinks.addEventListener('scroll', navFade, {passive:true}); navLinks.addEventListener('scrollend', navFade); window.addEventListener('resize', navFade); navFade();
   }
 
-  /* ── 複製（含舊瀏覽器與 file:// 的備援）── */
+  /* ── 複製（含舊瀏覽器與 file:// 的備援）：鈕裡有圖示＋文字，只換文字那一段 ── */
   function copyText(text, btn){
-    var orig = btn.textContent;
-    var done = function(){ btn.textContent = '已複製 ✓'; setTimeout(function(){ btn.textContent = orig; }, 1400); };
+    var label = btn.querySelector('.txt') || btn;
+    var orig = label.textContent;
+    var done = function(){ label.textContent = '已複製 ✓'; setTimeout(function(){ label.textContent = orig; }, 1400); };
     var fallback = function(){
       var ta = document.createElement('textarea');
       ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
       document.body.appendChild(ta); ta.select();
       var ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
       document.body.removeChild(ta);
-      if(ok) done(); else btn.textContent = '請手動選取複製';
+      if(ok) done(); else label.textContent = '請手動選取複製';
     };
     if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
   }
@@ -508,6 +554,11 @@ figure svg text{font-family:var(--sans)}
     var el = src ? src.querySelector('.ptext') : null;
     if(el) copyText(el.textContent, btn);
   });
+  var COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  /* 複製鈕：次要按鈕＋圖示＋可見字「複製」；data-copy-from＝往上找哪個容器、再取裡面的 .ptext */
+  var copyBtn = function(from, label){
+    return '<button class="btn secondary small copy" type="button" data-copy-from="' + esc(from) + '" aria-label="' + esc(label) + '">' + COPY_ICON + '<span class="txt">複製</span></button>';
+  };
 
   if(!F){
     document.querySelectorAll('[data-render]').forEach(function(el){
@@ -533,12 +584,12 @@ figure svg text{font-family:var(--sans)}
     return '<figure data-figure="' + esc(id) + '"><div class="fig-scroll">' + t.innerHTML + '</div>' +
       '<figcaption>圖｜' + esc(meta ? meta.title : id) + '</figcaption></figure>';
   };
+  /* 提示詞區塊（site.css 的新寫法）：薰衣草淡底標籤列＋右側複製鈕、<pre> 放純文字、底下一行那句硬規矩 */
   var promptCard = function(p){
     return '<div class="prompt" id="prompt-' + esc(p.id) + '">' +
-      '<span class="label">提示詞 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' +
-      '<button class="btn small copy" type="button" data-copy-from=".prompt" aria-label="複製提示詞 ' + esc(p.id) + '">複製</button>' +
-      '<span class="ptext">' + esc(p.text) + '</span>' +
-      '<span class="rule-foot">' + esc(F.meta.rule) + '</span></div>';
+      '<div class="prompt-head"><span class="label">提示詞 ' + esc(p.id) + '｜' + esc(p.title) + '</span>' + copyBtn('.prompt', '複製提示詞 ' + p.id) + '</div>' +
+      '<pre class="ptext">' + esc(p.text) + '</pre>' +
+      '<p class="rule-foot">' + esc(F.meta.rule) + '</p></div>';
   };
   /* 顯示層把資料源裡的「提示詞卡」統一叫「提示詞」（簡化工單：名稱叫提示詞就好），並把 P1…P6 連到那段提示詞 */
   var plain = function(s){ return esc(s).replace(/提示詞卡/g, '提示詞'); };
@@ -546,7 +597,7 @@ figure svg text{font-family:var(--sans)}
   var dataBase = (F.meta.siteUrl || '').replace(/\/?$/, '/') + 'data/';
   var blockExtras = {
     B1: '',
-    B3: '<div class="note">示範資料的網址（請 AI 助手下載這一份）：<br><code>' + esc(dataBase) + 'project-presentation-scores.csv</code><br>' +
+    B3: '<div class="card datafiles">示範資料的網址（請 AI 助手下載這一份）：<br><code>' + esc(dataBase) + 'project-presentation-scores.csv</code><br>' +
         '體育與實驗報告的自選資料在同一層：<code>pe-squat-scores.csv</code>、<code>lab-report-scores.csv</code>；預先跑好的分析是 <code>sample-analysis.json</code>。三份都是合成資料，第一行寫明了。</div>'
   };
   var blockFigs = { B1:['F-timeline'], B2:['F-rubric-diff'], B3:['F-gap','F-check'], B4:[] };
@@ -560,54 +611,58 @@ figure svg text{font-family:var(--sans)}
     'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-。請把它從下載資料夾搬進 my-course-evidence，連同你剛才寫的兩個分析檔一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
     'B4-4': '我剛從瀏覽器下載了一個檔，檔名開頭是 one-page-design-。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫「一頁設計 v1：工作坊版」。'
   };
-  var copyBtnHtml = '<button class="btn small copy" type="button" data-copy-from=".cell" aria-label="複製這一句">複製</button>';
+  /* 可貼句的小框：.ptext 放整句、複製鈕在句子底下（三欄裡欄位窄，不放右上角） */
+  var sayBox = function(text){ return '<div class="say"><span class="ptext">' + esc(text) + '</span>' + copyBtn('.say', '複製這一句') + '</div>'; };
 
   $('#blocks').innerHTML = F.blocks.map(function(b){
+    var n = String(b.id).replace(/^B/, '');
     var steps = b.steps.map(function(s, i){
       var paste = (b.id === 'B1') ? null : (pasteSay[b.id + '-' + (i + 1)] || null);
       var sayHtml = (b.id === 'B1')
-        ? '<span class="ptext">' + esc(s.say) + '</span>' + copyBtnHtml
-        : '<p>' + linkPrompts(s.say) + '</p>' + (paste ? '<span class="lbl sub">貼給 AI 助手的話</span><span class="ptext">' + esc(paste) + '</span>' + copyBtnHtml : '');
-      return '<li><div class="stepgrid">' +
-        '<div class="cell c-say" style="position:relative"><span class="lbl">你說什麼</span>' + sayHtml + '</div>' +
-        '<div class="cell c-ai"><span class="lbl">AI 會做什麼</span><p>' + esc(s.ai) + '</p></div>' +
-        '<div class="cell c-see"><span class="lbl">你一定要自己看的</span><p>' + esc(s.human) + '</p></div>' +
+        ? sayBox(s.say)
+        : '<p>' + linkPrompts(s.say) + '</p>' + (paste ? '<span class="lbl">貼給 AI 助手的話</span>' + sayBox(paste) : '');
+      /* 三欄步驟卡（site.css .trio）：你說什麼＝芥末黃線、AI 會做什麼＝湖水綠線（.ai）、你一定要自己看的＝珊瑚橘線（.see） */
+      return '<li><div class="trio">' +
+        '<div class="step"><h4>你說什麼</h4>' + sayHtml + '</div>' +
+        '<div class="step ai"><h4>AI 會做什麼</h4><p>' + esc(s.ai) + '</p></div>' +
+        '<div class="step see"><h4>你一定要自己看的</h4><p>' + esc(s.human) + '</p></div>' +
         '</div></li>';
     }).join('');
     var prompts = F.prompts.filter(function(p){ return p.block === b.id; }).map(promptCard).join('');
     var figs = (blockFigs[b.id] || []).map(figHtml).join('');
     return '<article class="block" id="block-' + esc(b.id) + '">' +
-      '<span class="kicker">第' + esc(b.num) + '塊</span>' +
+      '<p class="mark"><span class="badge b' + esc(n) + '">第' + esc(b.num) + '塊</span></p>' +
       '<h3>' + esc(b.title) + '</h3>' +
       '<p class="mode">' + esc(b.mode) + '</p>' +
-      '<p>' + esc(b.why) + '</p>' +
+      '<p class="prose">' + esc(b.why) + '</p>' +
       '<div class="tip">' + esc(b.concept) + '</div>' +
       (blockExtras[b.id] && b.id === 'B3' ? blockExtras[b.id] : '') +
       '<ol class="steps">' + steps + '</ol>' +
-      '<p class="behind">幕後 AI 代打的指令（看得懂就好，不用背）：<code>' + esc(b.behind) + '</code></p>' +
-      '<div class="warn"><strong>卡住時：</strong>' + esc(b.rescue) + '</div>' +
+      '<p class="behind">幕後 AI 代打的指令（看得懂就好，不用背）：</p><pre class="cmd">' + esc(b.behind) + '</pre>' +
+      '<div class="note"><strong>卡住時：</strong>' + esc(b.rescue) + '</div>' +
       (blockExtras[b.id] && b.id === 'B1' ? blockExtras[b.id] : '') +
-      (prompts ? '<h4>這一塊的提示詞</h4>' + prompts : '') +
+      (prompts ? '<h4 class="sub-h">這一塊的提示詞</h4>' + prompts : '') +
       figs +
       '</article>';
   }).join('');
 
-  /* ── 肆：例子（主範例＋兩組自選，三個是不同內容，所以還是三張）── */
+  /* ── 肆：例子（主範例＋兩組自選，三個是不同內容，所以還是三張；一張一色條，直排）── */
   var exList = [F.examples.presentation, F.examples.pe, F.examples.lab].filter(Boolean);
-  $('#examples').innerHTML = '<div class="grid2">' + exList.map(function(e){
-    return '<article class="card excard"><h3>' + esc(e.label) + '</h3>' +
+  var exBar = ['c-y', 'c-c', 'c-a'];
+  $('#examples').innerHTML = exList.map(function(e, i){
+    return '<article class="card excard ' + exBar[i % exBar.length] + '"><h3>' + esc(e.label) + '</h3>' +
       '<p><strong>任務：</strong>' + esc(e.task) + '</p>' +
       '<div class="crit">' + e.criteria.map(function(c){ return '<span class="badge">' + esc(c) + '</span>'; }).join('') + '</div>' +
       '<p><strong>證據從哪來：</strong>' + esc(e.medium) + '</p>' +
-      '<span class="lbl">不同意的那一句（示範）</span><blockquote>' + esc(e.disagreeExample) + '</blockquote>' +
-      '<span class="lbl">為什麼改</span><blockquote class="why">' + esc(e.whyChanged) + '</blockquote></article>';
-  }).join('') + '</div>';
+      '<span class="lbl">不同意的那一句（示範）</span><blockquote class="warn">' + esc(e.disagreeExample) + '</blockquote>' +
+      '<span class="lbl">為什麼改</span><blockquote class="ok">' + esc(e.whyChanged) + '</blockquote></article>';
+  }).join('');
 
   /* ── 伍：一頁設計欄位 ── */
-  /* data-th＝欄名：手機（≤640px）表格改成每列一張卡時，每格前面印這個 */
-  $('#designfields').innerHTML = '<table class="stack"><thead><tr><th>#</th><th>欄位</th><th>計畫書對應</th><th>怎麼填</th><th>示範課的填法（「帶入示範課」會填進去的）</th></tr></thead><tbody>' +
+  /* data-th＝欄名：手機（≤720px）表格改成每列一塊時，每格前面印這個 */
+  $('#designfields').innerHTML = '<table class="stack"><thead><tr><th scope="col">#</th><th scope="col">欄位</th><th scope="col">計畫書對應</th><th scope="col">怎麼填</th><th scope="col">示範課的填法（「帶入示範課」會填進去的）</th></tr></thead><tbody>' +
     F.designFields.map(function(d, i){
-      return '<tr><td data-th="#">' + (i + 1) + '</td><td data-th="欄位"><strong>' + esc(d.label) + '</strong></td><td data-th="計畫書對應"><span class="badge gold">' + esc(d.planLabel) + '</span></td><td data-th="怎麼填">' + esc(d.hint) + '</td><td data-th="示範課的填法">' + esc(d.demo) + '</td></tr>';
+      return '<tr><td class="num" data-th="#">' + (i + 1) + '</td><td class="seg" data-th="欄位"><strong>' + esc(d.label) + '</strong></td><td data-th="計畫書對應"><span class="badge gold">' + esc(d.planLabel) + '</span></td><td data-th="怎麼填">' + esc(d.hint) + '</td><td data-th="示範課的填法">' + esc(d.demo) + '</td></tr>';
     }).join('') + '</tbody></table>';
 
   /* ── 柒：課後手冊（前四節；第五節「三條誠實限制」放在拾）── */
@@ -618,23 +673,32 @@ figure svg text{font-family:var(--sans)}
       (a.id === 'AC3' ? afterPrompts : '') + '</div>';
   }).join('');
 
-  /* ── 捌：議程 ── */
+  /* ── 捌：議程（照入口頁的表：時間＋分鐘、段＋形式標籤、做什麼、帶走什麼；四塊的「動手」標籤照 blockId 配四色淡底 b1–b4）── */
   var total = F.totalMinutes ? F.totalMinutes() : F.agenda.reduce(function(s, a){ return s + a.minutes; }, 0);
-  $('#agenda').innerHTML = '<table class="stack"><thead><tr><th>時間</th><th>段</th><th>形式</th><th>做什麼</th><th>老師帶走什麼</th></tr></thead><tbody>' +
+  $('#agenda').innerHTML = '<table class="stack">' +
+    '<caption>合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉手，鄰座或講師先看。</caption>' +
+    '<thead><tr><th scope="col">時間</th><th scope="col">段</th><th scope="col">做什麼</th><th scope="col">老師帶走什麼</th></tr></thead><tbody>' +
     F.agenda.map(function(a){
-      return '<tr><td data-th="時間" style="white-space:nowrap">' + esc(a.start) + '–' + esc(a.end) + '<br><span class="agenda-total">' + a.minutes + ' 分</span></td><td data-th="段"><strong>' + esc(a.title) + '</strong></td><td data-th="形式" style="white-space:nowrap">' + esc(a.mode) + '</td><td data-th="做什麼">' + esc(a.summary) + '</td><td data-th="老師帶走什麼">' + esc(a.takeaway) + '</td></tr>';
-    }).join('') + '</tbody></table><p class="agenda-total">合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉手，鄰座或講師先看。</p>';
+      var cls = a.blockId ? ' b' + String(a.blockId).replace(/^B/, '') : '';
+      return '<tr>' +
+        '<td class="time" data-th="時間">' + esc(a.start) + '–' + esc(a.end) + '<span class="mins">' + esc(a.minutes) + ' 分</span></td>' +
+        '<td class="seg" data-th="段"><strong>' + esc(a.title) + '</strong><br><span class="badge' + cls + '">' + esc(a.mode) + '</span></td>' +
+        '<td data-th="做什麼">' + esc(a.summary) + '</td>' +
+        '<td data-th="老師帶走什麼">' + esc(a.takeaway) + '</td>' +
+        '</tr>';
+    }).join('') + '</tbody></table>';
 
-  /* ── 拾：三條誠實限制（afterCourse 第五節）── */
+  /* ── 拾：三條誠實限制（afterCourse 第五節；一條一張珊瑚橘色條的卡）── */
   var ac5 = F.afterCourse[4];
   var items = ac5 ? ac5.text.split(/(?=[一二三]、)/).filter(function(s){ return s.trim(); }) : [];
-  $('#limits').innerHTML = '<ul class="plain">' + items.map(function(s){ return '<li>' + esc(s.trim()) + '</li>'; }).join('') + '</ul>';
+  $('#limits').innerHTML = '<ul class="plain">' + items.map(function(s){ return '<li class="card c-c">' + esc(s.trim()) + '</li>'; }).join('') + '</ul>';
 
   /* ── 自檢：講義裡靜態寫死的錨點句，必須跟資料源一字不差（驗證腳本用靜態掃描，所以這些句子不能只靠 JS 渲染）── */
   var checks = [
     ['#rule-text', F.meta.rule], ['#airule-text', F.meta.aiRule],
     ['#hero-title', F.meta.title], ['#hero-sub', F.meta.subtitle], ['#hero-tag', F.meta.tagline],
-    ['#hero-date', F.meta.date], ['#hero-time', F.meta.time], ['#hero-venue', F.meta.venue], ['#hero-speaker', F.meta.speaker], ['#host-line', F.meta.host],
+    ['#hero-date', F.meta.date], ['#hero-time', F.meta.time], ['#hero-venue', F.meta.venue], ['#hero-speaker', F.meta.speaker],
+    ['#hero-host', F.meta.host], ['#host-line', F.meta.host],
     ['#ac1-title-ref', F.afterCourse[0].title],
     ['#redline-text', F.redlines[0].text]   // 只剩一句，講義直接寫那句（不渲染 title，標籤不出現）
   ];
