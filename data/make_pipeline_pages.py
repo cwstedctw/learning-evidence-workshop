@@ -146,6 +146,15 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
     grading_line = E(soften(inst[0]["grading_text"]) if inst else mode)
     if t["id"] == "completion":
         grading_line = "完成度：準時 100、遲交 70、沒交 0（2026-10-09 起的規則；第 1 場當時遲交算 80）。不評內容好壞。"
+    if t["mode"] in ("completion", "program"):
+        origin_html = "這種作業照作業要求定規則，不需要先讀全班材料：完成度只看有沒有交，程式判定照電路與程式的規格寫。"
+    else:
+        origin_html = "評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。"
+    small = [a for a in inst if a["judged"] and a["judged"] < 5 and a["mode"] == "three_aligned"]
+    if small:
+        origin_html += " 其中 " + "、".join(f'{a["course"]}{(" " + a["cls"]) if a["cls"] else ""}' for a in small) + " 的作答不到 5 份，母體太小沒做對齊、直接用原始分。"
+    if any(a["roster_from_grades"] for a in inst):
+        origin_html += " 課堂＋回家合併的作業沒有單獨的名冊統計，名冊與已繳用批改結果的人數代替、遲交數不計。"
     if len(t["versions"]) > 1:
         vers = "".join(f'<li><strong>第 {i + 1} 版（{E(v["version"])}）</strong>：{E(v["title"])}<br><span class="vnote">{E(v["note"]) or "—"}</span></li>' for i, v in enumerate(t["versions"]))
         versions_html = f'<p>這份評分表改過版，每一版的備註就是「為什麼改」：</p><ol class="versions">{vers}</ol>'
@@ -169,7 +178,7 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
     <p><strong>怎麼檢查（不只比對文字）：</strong>{E(CHECK_HOW.get(t["id"], "評分者讀全部材料後依評分表打分。"))}</p>
     {grp}
     {note_html}
-    <p class="note">評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。</p>
+    <p class="note"><strong>評分表怎麼來的：</strong>{origin_html}</p>
   </div>
 </div></section>
 <section id="rubric" class="sec" aria-labelledby="rubric-h"><div class="wrap">

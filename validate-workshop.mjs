@@ -401,6 +401,7 @@ section('產線實況頁（pipeline.html）：只准有計數、導覽列全站�
   }
   const typeIds = [...data.matchAll(/"id": "([a-z0-9_]+)",\s*"title"/g)].map(m => m[1]);
   const typePages = fs.readdirSync(P('.')).filter(f => /^pipeline-[a-z0-9_]+\.html$/.test(f));
+  if (!typeIds.length) fail('統計檔抓不到任何作業類型（types[].id）——格式變了就等於沒驗');
   if (typeIds.length && typePages.length !== typeIds.length) fail(`一種作業一頁：統計檔有 ${typeIds.length} 種作業、頁面有 ${typePages.length} 張（重跑 data/make_pipeline_pages.py）`);
   for (const id of typeIds) if (!typePages.includes(`pipeline-${id}.html`)) fail(`缺 pipeline-${id}.html`);
   for (const f of typePages) {
@@ -408,7 +409,9 @@ section('產線實況頁（pipeline.html）：只准有計數、導覽列全站�
     if (!s.includes('沒有任何學號、姓名或個別分數')) fail(`${f} 缺「沒有任何學號、姓名或個別分數」`);
     if (new RegExp('[0-9]{6,}').test(s)) fail(`${f} 出現 6 位以上連續數字（像學號或平台編號）`);
     if (!s.includes('href="pipeline.html"')) fail(`${f} 缺回總覽的連結`);
-    if (!s.includes('評分表不是先寫好再收作業')) fail(`${f} 缺「評分表是讀完全班材料後才定」那一句`);
+    if (!s.includes('評分表怎麼來的')) fail(`${f} 缺「評分表怎麼來的」那一段`);
+    const asOf = (data.match(/"as_of": "([0-9-]+)"/) || [])[1];
+    if (asOf && !s.includes('資料截至 ' + asOf)) fail(`${f} 的「資料截至」跟統計檔的 as_of（${asOf}）不一致——重跑 data/make_pipeline_pages.py`);
   }
   // 三種公開輸出一起掃：email、ID 字樣、本機路徑、內部檔名、像學號或平台 ID 的長英數字串
   const PII_PATTERNS = [
