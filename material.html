@@ -87,6 +87,16 @@ table.studio td.seg{white-space:nowrap}
 @media (max-width:640px){
   .fig-scroll svg{min-width:600px}
 }
+
+/* 肆 講師自己的例子：五區清單＋空白學習單縮圖並排；≤720px 直排 */
+.excard.teacher .sheetrow{display:flex;gap:18px;align-items:flex-start;margin:8px 0 4px}
+.excard.teacher .sections{margin:0;padding-left:1.3em;flex:1 1 0;min-width:0}
+.excard.teacher .sections li{margin:4px 0}
+.excard.teacher .sheetfig{flex:0 0 220px;margin:0}
+.excard.teacher .sheetfig img{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:#fff}
+.excard.teacher .sheetfig figcaption{font-size:.85em;color:var(--ink-soft);margin-top:6px;line-height:1.5}
+.excard.teacher .note{color:var(--ink-soft)}
+@media (max-width:720px){.excard.teacher .sheetrow{flex-direction:column}.excard.teacher .sheetfig{flex:0 0 auto;max-width:260px}}
 </style>
 </head>
 <body>
@@ -170,7 +180,7 @@ table.studio td.seg{white-space:nowrap}
       <tbody>
         <tr><td class="seg" data-th="分頁"><strong>Rubric 工作台</strong></td><td data-th="按鈕">「複製」（提示詞）、「看範例輸出」、「比較兩版」、「匯出這一輪」</td><td data-th="必填欄">「為什麼改」</td><td data-th="用在哪一塊">第二塊：左欄貼 v1、右欄貼 v2，逐行差異刪除紅、新增綠</td></tr>
         <tr><td class="seg" data-th="分頁"><strong>證據儀表板</strong></td><td data-th="按鈕">「抽 3 筆回查」（可重抽）、「匯出抽查紀錄」、「講師模式」</td><td data-th="必填欄">每筆「同意／不同意」與「為什麼」、「三句結論」</td><td data-th="用在哪一塊">第三塊：三份示範資料的落差圖、反思與 AI 分類；「講師模式」只有講師按，會顯示答案卡</td></tr>
-        <tr><td class="seg" data-th="分頁"><strong>一頁設計</strong></td><td data-th="按鈕">「帶入示範課」、「複製」、「匯出 Markdown」</td><td data-th="必填欄">—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td data-th="用在哪一塊">第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
+        <tr><td class="seg" data-th="分頁"><strong>一頁設計</strong></td><td data-th="按鈕">「帶入示範課」「帶入演講課」、「複製」、「匯出 Markdown」</td><td data-th="必填欄">—（沒有必填。「評量任務與 Rubric」「回饋與調整」兩格標「必改」；沒填的欄匯出時會寫「（尚未填）」）</td><td data-th="用在哪一塊">第四塊：右側即時預覽 Markdown，標題用計畫書的章節名</td></tr>
         <tr><td class="seg" data-th="分頁"><strong>全站</strong></td><td data-th="按鈕">「清除暫存」</td><td data-th="必填欄">—</td><td data-th="用在哪一塊">工作台會自動暫存在你這台瀏覽器裡，換電腦就沒了；匯出的檔才是你的紀錄</td></tr>
       </tbody>
     </table>
@@ -188,10 +198,11 @@ table.studio td.seg{white-space:nowrap}
 
 <!-- ═══════════ 肆 ═══════════ -->
 <section id="sec-examples" class="sec" aria-labelledby="sec-examples-h"><div class="wrap">
-  <h2 id="sec-examples-h"><span class="num">肆</span><span class="t">例子：主範例與兩組自選</span></h2>
+  <h2 id="sec-examples-h"><span class="num">肆</span><span class="t">例子：主範例、兩組自選、講師自己的課</span></h2>
   <div class="body prose">
     <p>現場統一用「課堂專題簡報」當主範例，因為它沒有領域門檻，每個人都評過。你帶來的課如果是體育或實驗課，第二塊起直接換成下面的例子。三個例子的共同點：改掉的都是形容詞，換上現場看得見、而且對得上學習目標的描述；你的課找同一種格子。</p>
     <div id="examples" data-render></div>
+    <div id="teacherExample" data-render></div>
   </div>
 </div></section>
 
@@ -676,6 +687,23 @@ table.studio td.seg{white-space:nowrap}
       '<span class="lbl">不同意的那一句（示範）</span><blockquote class="warn">' + esc(e.disagreeExample) + '</blockquote>' +
       '<span class="lbl">為什麼改</span><blockquote class="ok">' + esc(e.whyChanged) + '</blockquote></article>';
   }).join('');
+
+
+  /* ── 肆（續）：講師自己的例子＝演講課學習單（不是 Rubric 例子，另一套卡；資料在 teacherExample）── */
+  var te = F.teacherExample;
+  if (te) $('#teacherExample').innerHTML =
+    '<article class="card excard c-l teacher"><h3>' + esc(te.label) + '</h3>' +
+    '<p><strong>課：</strong>' + esc(te.course) + '</p>' +
+    '<p><strong>任務：</strong>' + esc(te.task) + '</p>' +
+    '<div class="sheetrow"><ol class="sections">' + te.sections.map(function(x){ return '<li>' + esc(x) + '</li>'; }).join('') + '</ol>' +
+    '<figure class="sheetfig"><img src="assets/worksheet-template.png" alt="第 1 場的空白學習單：五個區塊的 A4 版面" loading="lazy" width="705" height="975">' +
+    '<figcaption>第 1 場的空白學習單（真的模板；學生作答的照片不公開，講義與投影片都不用）。</figcaption></figure></div>' +
+    '<p><strong>怎麼計分：</strong>' + esc(te.scoring) + '</p>' +
+    '<p><strong>證據去哪裡：</strong>' + esc(te.evidence) + '</p>' +
+    '<span class="lbl">第 1 版</span><blockquote>' + esc(te.v1) + '</blockquote>' +
+    '<span class="lbl">第 2 版（草案）</span><blockquote class="warn">' + esc(te.v2) + '</blockquote>' +
+    '<span class="lbl">為什麼改</span><blockquote class="ok">' + esc(te.whyChanged) + '</blockquote>' +
+    '<p class="note">' + esc(te.note) + ' 工作台「一頁設計」按「帶入演講課」，可以看講師把這門課填進十一欄的樣子。</p></article>';
 
   /* ── 伍：一頁設計欄位 ── */
   /* data-th＝欄名：手機（≤720px）表格改成每列一塊時，每格前面印這個 */

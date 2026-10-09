@@ -296,6 +296,7 @@
     <div class="bench">
       <div class="toolbar">
         <button type="button" class="btn" id="btnDemo" aria-label="帶入示範課：把課堂專題簡報的示範內容填進十一欄">帶入示範課</button>
+        <button type="button" class="btn secondary" id="btnDemoTalk" aria-label="帶入演講課：把講師自己的演講課學習單填進十一欄">帶入演講課</button>
         <span class="status" id="changedNote"></span>
       </div>
       <div class="design-grid">
@@ -1165,17 +1166,28 @@ function renderPreview(){
   var changed = 0, filled = 0;
   FLOW.designFields.forEach(function(f){
     var v = (state.design.fields[f.id] || '').trim();
-    var isChanged = !!v && v !== f.demo.trim();
+    var base = state.design.base === 'talk' ? String(f.demoTalk || '') : f.demo;
+    var isChanged = !!v && v !== base.trim();
     if(v) filled++; if(isChanged) changed++;
     var tag = $('chg-' + f.id); if(tag) tag.hidden = !isChanged;
   });
-  $('changedNote').textContent = '已填 ' + filled + '／' + FLOW.designFields.length + ' 欄；跟示範課不一樣的有 ' + changed + ' 欄（起手式：至少改兩格，「評量任務與 Rubric」「回饋與調整」必改）。';
+  $('changedNote').textContent = '已填 ' + filled + '／' + FLOW.designFields.length + ' 欄；跟' + (state.design.base === 'talk' ? '演講課' : '示範課') + '不一樣的有 ' + changed + ' 欄（起手式：至少改兩格，「評量任務與 Rubric」「回饋與調整」必改）。';
 }
 $('btnDemo').addEventListener('click', function(){
   if(!FLOW) return;
   var any = FLOW.designFields.some(function(f){ return (state.design.fields[f.id] || '').trim(); });
   if(any && !confirm('欄位裡已經有字，要用示範課的內容蓋掉全部十一欄嗎？')) return;
   FLOW.designFields.forEach(function(f){ state.design.fields[f.id] = f.demo; $('df-' + f.id).value = f.demo; });
+  state.design.base = 'demo';
+  save(); renderPreview();
+  $('df-' + FLOW.designFields[0].id).focus();
+});
+$('btnDemoTalk').addEventListener('click', function(){
+  if(!FLOW) return;
+  var any = FLOW.designFields.some(function(f){ return (state.design.fields[f.id] || '').trim(); });
+  if(any && !confirm('欄位裡已經有字，要用講師演講課的內容蓋掉全部十一欄嗎？')) return;
+  FLOW.designFields.forEach(function(f){ var t = String(f.demoTalk || ''); state.design.fields[f.id] = t; $('df-' + f.id).value = t; });
+  state.design.base = 'talk';
   save(); renderPreview();
   $('df-' + FLOW.designFields[0].id).focus();
 });

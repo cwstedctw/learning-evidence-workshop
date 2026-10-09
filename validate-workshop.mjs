@@ -369,6 +369,23 @@ section('必要錨點：紅線三句', () => {
   }
 });
 
+section('講師自己的例子（teacherExample）與一頁設計的第二套示範（demoTalk）', () => {
+  if (!flow) return;
+  const t = flow.teacherExample;
+  if (!t) return fail('workflow-data.js 缺 teacherExample（講師自己的例子：演講課學習單）');
+  for (const f of ['label', 'course', 'task', 'scoring', 'evidence', 'v1', 'v2', 'whyChanged', 'note']) if (typeof t[f] !== 'string' || !t[f].trim()) fail(`teacherExample.${f} 空的`);
+  if (!Array.isArray(t.sections) || t.sections.length !== 5) fail('teacherExample.sections 應為 5 區（學習單的五個區）');
+  if (typeof t.v2 === 'string' && !/草案/.test(t.v2)) fail('teacherExample.v2 要寫明是草案（第 2 版還沒換，不寫不實資料）');
+  for (const d of flow.designFields || []) if (typeof d.demoTalk !== 'string' || !d.demoTalk.trim()) fail(`designFields.${d.id} 缺 demoTalk（「帶入演講課」要填的字）`);
+  if (have('studio.html') && !hasVisibleLabel(pageSrc['studio.html'], '帶入演講課')) fail('studio.html 缺「帶入演講課」按鈕（可見文字要一字不差）');
+  if (have('material.html')) {
+    const src = pageSrc['material.html'];
+    if (!hasData(src, 'teacherExample')) fail('material.html 沒有從 teacherExample 渲染講師自己的例子卡');
+    if (!src.includes('帶入演講課')) fail('material.html 工作台按鈕表要列「帶入演講課」');
+  }
+  if (!have('assets/worksheet-template.png')) fail('assets/worksheet-template.png 不在（講師例子卡的空白學習單圖）');
+});
+
 section('必要錨點：工作台分頁與按鈕名稱', () => {
   const names = [...TABS, ...BUTTONS, ...REQUIRED_FIELDS];
   if (have('studio.html')) {

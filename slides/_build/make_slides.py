@@ -46,7 +46,7 @@ FAR_GAP = 4   # 預設值；load_flow() 之後改讀資料源 meta.farGap（工�
 
 # 工作台的分頁與按鈕名稱（講義、投影片、工作台三處一字不差）——跟 deck.js 的 UI 陣列同一份
 UI = ['Rubric 工作台', '證據儀表板', '一頁設計',
-      '複製', '看範例輸出', '比較兩版', '匯出這一輪', '抽 3 筆回查', '匯出抽查紀錄', '帶入示範課', '匯出 Markdown', '講師模式', '清除暫存',
+      '複製', '看範例輸出', '比較兩版', '匯出這一輪', '抽 3 筆回查', '匯出抽查紀錄', '帶入示範課', '帶入演講課', '匯出 Markdown', '講師模式', '清除暫存',
       '為什麼改', '三句結論']
 
 
@@ -665,6 +665,7 @@ def p12():
 <p class="lead" style="margin-top:18px">十一欄，標籤用計畫書的詞——填完直接長成計畫書，不用重寫。</p>
 <p class="lead" style="margin-top:18px">起手式：按<span class="ui">帶入示範課</span>讓每一欄都有字，再改掉至少兩格。</p>
 <p class="lead" style="margin-top:18px">必改：<b>「評量任務與 Rubric」「回饋與調整」</b>。</p>
+<p class="lead" style="margin-top:18px">講師自己的課怎麼填：按<span class="ui">帶入演講課</span>。</p>
 </div></div></div>'''
     return page(12, '第四塊', '第四塊・帶著自己的課，一頁設計', body, figure='F-onepage')
 
