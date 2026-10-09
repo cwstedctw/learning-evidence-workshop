@@ -391,6 +391,11 @@ section('產線實況頁（pipeline.html）：只准有計數、導覽列全站�
   const src = pageSrc['pipeline.html'] || read('pipeline.html');
   if (!src.includes('沒有任何學號、姓名或個別分數')) fail('pipeline.html 要寫明「沒有任何學號、姓名或個別分數」');
   if (!src.includes('data/pipeline-stats.js')) fail('pipeline.html 沒載 data/pipeline-stats.js');
+  // 產線影片（2026-10-09）：頁面引用的三個檔都要在，缺一個線上就是黑框
+  for (const f of ['videos/pipeline-walkthrough.mp4', 'videos/pipeline-walkthrough.vtt', 'videos/pipeline-walkthrough-poster.jpg']) {
+    if (!src.includes(f)) fail(`pipeline.html 沒引用 ${f}`);
+    if (!have(f)) fail(`缺 ${f}（pipeline.html 有引用）`);
+  }
   if (!have('data/pipeline-stats.js')) return fail('缺 data/pipeline-stats.js（計數統計檔）');
   const data = read('data/pipeline-stats.js');
   if (new RegExp('[0-9]{6,}').test(data)) fail('data/pipeline-stats.js 出現 6 位以上連續數字（像學號或 cmid）——統計檔只准有計數');

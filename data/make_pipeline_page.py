@@ -1,14 +1,32 @@
-<!DOCTYPE html>
-<html lang="zh-Hant-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>從學習證據到教學改進｜講師的成績產線實況</title>
-<meta name="description" content="延伸資料：講師自己這學期（115-1）六門課的作業怎麼收、怎麼改、怎麼查、怎麼推成績簿。只有計數與比例，沒有任何學生資料。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="assets/site.css">
-<style>
+# -*- coding: utf-8 -*-
+"""組出 pipeline.html（講師的成績產線實況總覽）：導覽列／頁尾／主題腳本從 index.html 抽來複用，正文與渲染 JS 在這裡。
+用法：python data/make_pipeline_page.py（在 repo 根跑；一種作業一頁另外跑 data/make_pipeline_pages.py）
+資料：data/pipeline-stats.js（由講師本機 skills/assignment-grading/pipeline_stats_public.py 產，只有計數）；影片：videos/pipeline-walkthrough.*"""
+import io, pathlib, re
+ROOT = pathlib.Path(__file__).resolve().parents[1]          # repo 根（本檔在 data/）
+_index = (ROOT / "index.html").read_text(encoding="utf-8")
+
+def _block(pattern, name):
+    m = re.search(pattern, _index, flags=re.S)
+    if not m: raise SystemExit(f"index.html 找不到{name}區塊，先看 index.html 改了什麼")
+    return m.group(0)
+
+# 導覽列／頁尾／主題啟動腳本都從 index.html 抽，入口頁改了這裡就跟著變
+nav = _block(r'<nav class="topnav".*?</nav>', "導覽列")
+foot = _block(r'<footer class="site".*?</footer>', "頁尾")
+boot = _block(r'<script>\(function\(\)\{var d=document\.documentElement.*?</script>', "主題啟動腳本")
+
+# 導覽列：入口不再是本頁；本頁連結加上；錨點換成本頁的
+nav = nav.replace('<a href="index.html" aria-current="page">入口</a>', '<a href="index.html">入口</a>')
+if 'pipeline.html' not in nav:
+    nav = nav.replace('<a href="slides/index.html">投影片</a>', '<a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a>')
+else:
+    nav = nav.replace('<a href="pipeline.html">產線實況</a>', '<a href="pipeline.html" aria-current="page">產線實況</a>')
+nav = re.sub(r'<span class="anchors">.*?</span>',
+             '<span class="anchors"><a href="#video">影片</a><a href="#map">地圖</a><a href="#scale">規模</a><a href="#types">一種作業一頁</a><a href="#modes">怎麼評</a><a href="#check">怎麼檢查</a><a href="#gap">差多少</a><a href="#late">遲交與出席</a><a href="#who">誰做什麼</a><a href="#borrow">帶回去</a></span>', nav, count=1, flags=re.S)
+foot = foot.replace("從學習證據到教學改進｜工作坊入口｜", "從學習證據到教學改進｜講師的成績產線實況｜")
+
+CSS = """
 /* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
 .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
 .flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
@@ -64,25 +82,9 @@
 @media (max-width:560px){.types{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:900px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modes{grid-template-columns:minmax(0,1fr)}.two{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:560px){.flow{grid-template-columns:minmax(0,1fr)}}
-</style>
-<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
-</head>
-<body>
-<a class="skip" href="#main">跳到主要內容</a>
-<nav class="topnav" aria-label="導覽"><div class="inner">
-  <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
-  <div class="links" id="navLinks">
-    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a></span>
-    <span class="sep" aria-hidden="true"></span>
-    <span class="anchors"><a href="#video">影片</a><a href="#map">地圖</a><a href="#scale">規模</a><a href="#types">一種作業一頁</a><a href="#modes">怎麼評</a><a href="#check">怎麼檢查</a><a href="#gap">差多少</a><a href="#late">遲交與出席</a><a href="#who">誰做什麼</a><a href="#borrow">帶回去</a></span>
-  </div>
-  <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
-  <div class="ctl">
-    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
-    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
-  </div>
-</div></nav>
+"""
 
+BODY = """
 <header class="hero"><div class="inner">
   <span class="eyebrow">延伸資料・講師自己的課</span>
   <h1><span>成績產線實況：</span><span class="accent">一學期六門課怎麼收、怎麼改、怎麼查</span></h1>
@@ -241,13 +243,9 @@
   </div>
 </div></section>
 </main>
+"""
 
-<footer class="site"><div class="inner">
-  <p>從學習證據到教學改進｜講師的成績產線實況｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
-  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
-  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
-</div></footer>
-
+RENDER = """
 <script src="data/pipeline-stats.js"></script>
 <script>
 (function(){
@@ -337,7 +335,9 @@
   $('att-table').querySelector('tbody').innerHTML = Object.keys(att).map(function(k){ return '<tr><td data-th="課">' + esc(k) + '</td><td data-th="已登場次">' + esc(att[k]) + '</td></tr>'; }).join('');
 })();
 </script>
+"""
 
+NAVJS = """
 <script>
 (function(){
   'use strict';
@@ -377,5 +377,25 @@
   links.addEventListener('scroll', fade); window.addEventListener('resize', fade); fade();
 })();
 </script>
-</body>
-</html>
+"""
+
+HEAD = """<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜講師的成績產線實況</title>
+<meta name="description" content="延伸資料：講師自己這學期（115-1）六門課的作業怎麼收、怎麼改、怎麼查、怎麼推成績簿。只有計數與比例，沒有任何學生資料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>""" + CSS + """</style>
+""" + boot + """
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+"""
+
+html = HEAD + nav + "\n" + BODY + "\n" + foot + "\n" + RENDER + NAVJS + "</body>\n</html>\n"
+(ROOT / "pipeline.html").write_text(html, encoding="utf-8", newline="\n")
+print("wrote pipeline.html", len(html), "chars")
