@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜一種作業一頁：W3 回家作業：紅綠燈＋閂鎖去彈跳（交投影片 PDF＋Wokwi 連結）（創客入</title>
+<meta name="description" content="講師的成績產線實況，一種作業一頁：W3 回家作業：紅綠燈＋閂鎖去彈跳（交投影片 PDF＋Wokwi 連結）（創客入門。評分表全文、各班數字、三個評分者差在哪一格。只有計數，沒有任何學生資料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
+.flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
+.flow .st::before{counter-increment:st;content:counter(st);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.8rem;display:grid;place-items:center}
+.flow .st b{display:block;margin:6px 0 4px;font-size:1.02rem}
+.flow .st .who{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);margin-bottom:6px}
+.flow .st .who.ai{color:var(--teal);border-color:var(--teal)}
+.flow .st .who.me{color:var(--gold);border-color:var(--gold)}
+.flow .st p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stats .k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stats .k .n{display:block;font-size:2rem;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--teal)}
+.stats .k .n.gold{color:var(--gold)}
+.stats .k .l{display:block;margin-top:4px;font-size:.9rem;color:var(--ink-soft);line-height:1.5}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.modes .m{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-top:4px solid var(--teal)}
+.modes .m.c2{border-top-color:var(--gold)}
+.modes .m.c3{border-top-color:var(--l)}
+.modes .m b{display:block;font-size:1.05rem;margin-bottom:4px}
+.modes .m .cnt{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)}
+.modes .m p{margin:8px 0 0;font-size:.93rem;line-height:1.6}
+.rubric{margin:8px 0 0;padding-left:1.2em}
+.rubric li{margin:3px 0}
+.chart{width:100%;height:auto;display:block;max-width:760px}
+.chart text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.chart .lbl{fill:var(--ink-soft);font-size:12px}
+.chart .bar{fill:var(--teal)}
+.chart .bar.hot{fill:var(--gold)}
+.chart .axis{stroke:var(--line-strong);stroke-width:1}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.who-table th:first-child{white-space:nowrap}
+.tag{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.tag.ok{border-color:var(--l);color:var(--l)}
+.tag.on{border-color:var(--teal);color:var(--teal)}
+.tag.grp{border-color:var(--gold);color:var(--gold)}
+.pii{border-left:4px solid var(--gold);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.checks .c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.checks .c.hot{border-color:var(--gold);box-shadow:inset 4px 0 0 var(--gold)}
+.checks .c b{display:block;margin-bottom:4px}
+.checks .c p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+@media (max-width:720px){.checks{grid-template-columns:minmax(0,1fr)}}
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.types .tcard{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:inherit}
+.types .tcard:hover{border-color:var(--teal)}
+.types .tcard b{display:block;font-size:1rem;line-height:1.45;margin-bottom:6px;color:var(--teal)}
+.types .tcard .meta{display:block;font-size:.86rem;color:var(--ink-soft);line-height:1.5}
+.types .tcard .meta.hot{color:var(--gold)}
+@media (max-width:900px){.types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.types{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modes{grid-template-columns:minmax(0,1fr)}.two{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.flow{grid-template-columns:minmax(0,1fr)}}
+</style>
+<style>
+.rubric-table td:nth-child(2){white-space:nowrap}
+.chart.wide{max-width:900px}
+.chart text.big{font-size:15px}
+.versions li{margin:8px 0}
+.versions .vnote{color:var(--ink-soft);font-size:.93rem;line-height:1.6}
+</style>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#what">要交什麼</a><a href="#rubric">評分表</a><a href="#numbers">各班數字</a><a href="#judges">評分者</a><a href="#versions">改過什麼</a></span>
+  </div>
+  <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  <div class="ctl">
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+  </div>
+</div></nav>
+<header class="hero"><div class="inner">
+  <span class="eyebrow">一種作業一頁・16／17</span>
+  <h1><span>W3 回家作業：紅綠燈＋閂鎖去彈跳（交投影片 PDF＋Wokwi 連結）（創客入門</span></h1>
+  <div class="deck">
+    <p class="sub">三個 AI 評分者各打一份 → 平均（原始分，不對齊）。用在 創客入門（1 份作業）。評分表代號 wokwi_traffic_latch、版本 1.0.0。</p>
+    <p class="meta"><span class="m">資料截至 2026-10-09</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回產線實況總覽</a></span></p>
+  </div>
+</div></header>
+<main id="main" class="editorial">
+<section id="what" class="sec first" aria-labelledby="what-h"><div class="wrap">
+  <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
+  <div class="body prose">
+    <p><strong>作業例子：</strong>第 3 週回家：紅綠燈專案＋兩顆 NAND 接成的閂鎖去彈跳，交投影片 PDF 與 Wokwi 連結，兩題必答，最後寫遇到的問題。 <a href="https://cwstedctw.github.io/ndhu-ted-course-hub/courses/11501-maker-intro/" target="_blank" rel="noopener">創客入門課程網 ↗</a></p>
+    <p><strong>評分方式：</strong>三個 AI 評分者各打一份（wokwi_traffic_latch 1.0.0：30/40/10/10/10），用原始分、不對齊；遲交不扣</p>
+    <p><strong>怎麼檢查（不只比對文字）：</strong>評分者讀投影片（程式先抽文字，字太少就把頁抽成圖來看），再對照 Wokwi 專案裡程式抓到的零件與接線；「證明擋住了彈跳」要有學生自己跑出來的數字（序列埠或截圖），不是寫一句「有擋住」就算。</p>
+    <p><strong>評分表備註（原文）：</strong>16 份全讀後定（索引單數＝rubric證據_reader2.md；索引雙數＝rubric證據_reader1.md，洄瀾補讀）。四維、每維三級（全有／有做但缺／沒做），對應作業說明的四塊：專案一、專案二、兩題必答、遇到的問題。不用 wokwi_check.py 的 emit_scores：它的零件／接線／程式維度寫死成 W2 一顆 LED 的規格，閂鎖專案沒有 LED、程式用 ticks_ms 不用 sleep，會被誤判成不及格；只交紅綠燈的人反而前四維滿分。wokwi_check 只拿來抓 diagram.json／main.py／updated 當證據。電阻、燈的輪法與秒數、多做的功能都不計分（作業說明沒要求）。</p>
+    
+    <p class="note">評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。</p>
+  </div>
+</div></section>
+<section id="rubric" class="sec" aria-labelledby="rubric-h"><div class="wrap">
+  <h2 id="rubric-h"><span class="num">貳</span><span class="t">評分表：5 格、共 100 分</span></h2>
+  <div class="body prose">
+    <div class="table-wrap"><table class="stack rubric-table"><thead><tr><th scope="col">維度</th><th scope="col">配分</th><th scope="col">怎麼給分</th></tr></thead><tbody><tr><td data-th="維度"><strong>專案一 紅綠燈：Wokwi 專案＋投影片三件事</strong></td><td data-th="配分">30</td><td data-th="怎麼給分">30＝線上文字有紅綠燈的 Wokwi 連結、專案裡紅黃綠三顆燈會輪流亮，而且投影片講了三件事：它做什麼、電路與程式重點、跑起來的截圖（看得出在跑：燈亮著、計時器在走，或序列埠有輸出）。20＝有做但缺：專案在，但投影片三件事少一件以上——含只有「［待填］」這類佔位字、截圖只有靜態電路圖或還沒按播放的編輯畫面、畫出來的時序圖代替模擬截圖、整份沒交投影片。0＝沒交紅綠燈專案。輪法、秒數、一次亮幾顆、有沒有電阻、多加的燈或按鈕都不管。</td></tr><tr><td data-th="維度"><strong>專案二 閂鎖去彈跳：兩顆 NAND 閂鎖＋證明擋住了＋投影片</strong></td><td data-th="配分">40</td><td data-th="怎麼給分">40＝Wokwi 裡有兩顆 NAND 接成的閂鎖，投影片講了做什麼、電路與程式重點，而且有學生自己跑出來的結果：序列埠或截圖上的數字（例：直接接變 3 次、經過閂鎖變 1 次；或閂鎖輸出每撥一次只加 1）。輸入用三腳撥動開關（實驗台起點）＝達標，不因作業標題寫「一顆按鈕」扣分；用兩腳按鈕做、照實寫「還是會抖」並講出原因，也算 40；照實寫「Wokwi 這幾撥沒抖」也行，但要附自己跑的畫面或數字。看的是投影片上的結果，不是程式裡有沒有計數的寫法。25＝閂鎖有接，但證據不足：只有開關兩種狀態的截圖、只有理論說明或自己畫的波形圖、跑起來那頁是佔位字、序列埠只有一行看不出次數，或投影片缺做什麼／電路程式重點。0＝沒有閂鎖專案；交的連結裡沒有兩顆 NAND（例：拿另一個紅綠燈頂替）。用實驗台起點的電路或程式不扣（作業說明寫「實驗台裡有起點」；要不要扣見 open question）。</td></tr><tr><td data-th="維度"><strong>必答一：SR 閂鎖為什麼要接三腳的開關、兩腳的按鈕行不行</strong></td><td data-th="配分">10</td><td data-th="怎麼給分">10＝兩個要點都有：(a) 閂鎖要兩個分開的輸入（S̄、R̄），三腳開關的兩個接點各接一邊、一次只碰一邊；(b) 兩腳按鈕只有一個接點，直接接不行。答「要再加一顆按鈕」「兩顆按鈕可以、一顆不行」「要 ESP32 幫忙給另一邊」都算 (b) 對。5＝只講到其中一點；或結論對但理由錯（例：「按鈕鬆開會懸空」「按鈕斷開就會彈跳所以不行」）；或只有一句沒有理由。0＝沒答、只有題目或佔位字。學生把這題拆成兩小題寫的，合起來看。</td></tr><tr><td data-th="維度"><strong>必答二：閂鎖為什麼不會抖</strong></td><td data-th="配分">10</td><td data-th="怎麼給分">10＝講出「第一次碰到就把狀態設好，之後的彈跳改不了它」，而且理由裡至少有一個：兩邊都是 1 時是保持狀態／彈回來只是重複設定同一個值／碰不到另一邊所以翻不回去。5＝只說「會記住第一次」「輸出維持」，沒講為什麼彈跳改不了它。0＝沒答。把題目當標題、下面答的是別題的，算沒答。</td></tr><tr><td data-th="維度"><strong>遇到的問題</strong></td><td data-th="配分">10</td><td data-th="怎麼給分">10＝寫出具體卡在哪（哪裡接錯、哪個不懂、怎麼解），或誠實寫哪個專案沒做到、哪裡不會。5＝只有一句空泛的話（例：「不熟」「第一次接觸、慢慢來」）。0＝沒有。不一定要在最後一頁，有標出來就算；把「最後一頁寫遇到的問題」連同題目貼成標題、卻沒寫內容＝0。</td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="numbers" class="sec" aria-labelledby="numbers-h"><div class="wrap">
+  <h2 id="numbers-h"><span class="num">參</span><span class="t">這學期的數字</span></h2>
+  <div class="body prose">
+    <div class="stats">
+      <div class="k"><span class="n">1</span><span class="l">份作業用這張評分表</span></div>
+      <div class="k"><span class="n">23</span><span class="l">份該交（名冊加總）</span></div>
+      <div class="k"><span class="n">16</span><span class="l">份收到，遲交 1 份</span></div>
+      <div class="k"><span class="n gold">16</span><span class="l">份作答各有三個評分者的分數</span></div>
+    </div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th scope="col">課</th><th scope="col">班</th><th scope="col">週</th><th scope="col">到期</th><th scope="col">名冊</th><th scope="col">已繳</th><th scope="col">遲交</th><th scope="col">狀態</th></tr></thead><tbody><tr><td data-th="課">創客入門</td><td data-th="班">—</td><td data-th="週">W3</td><td data-th="到期">2026-09-29</td><td data-th="名冊">23</td><td data-th="已繳">16</td><td data-th="遲交">1</td><td data-th="狀態"><span class="tag on">已批</span></td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="judges" class="sec" aria-labelledby="judges-h"><div class="wrap">
+  <h2 id="judges-h"><span class="num">肆</span><span class="t">三個評分者差多少、差在哪一格</span></h2>
+  <div class="body prose"><p>這種作業一共 <strong>16</strong> 份作答，每份有三個評分者的分數（立霧（Codex）、洄瀾（Claude））。最高減最低的差距 15 分以上的有 <strong>5</strong> 份（31%）——這些由老師親自看。</p><p>最常分歧的一格是「<strong>專案二 閂鎖去彈跳：兩顆 NAND 閂鎖＋證明擋住了＋投影片</strong>」（三人平均差 6.2 分）。分歧集中在哪一格，就是下一版評分表要把那一格寫得更「看得見」的地方。</p><figure><svg class="chart" viewBox="0 0 600 210" role="img" aria-label="三個評分者差距的分布"><line class="axis" x1="30" y1="176" x2="590" y2="176"/><rect class="bar" x="38" y="26" width="94" height="150" rx="4"/><text x="85" y="20" text-anchor="middle">7</text><text class="lbl" x="85" y="194" text-anchor="middle">0–4 分</text><rect class="bar" x="148" y="133" width="94" height="43" rx="4"/><text x="195" y="127" text-anchor="middle">2</text><text class="lbl" x="195" y="194" text-anchor="middle">5–9 分</text><rect class="bar" x="258" y="133" width="94" height="43" rx="4"/><text x="305" y="127" text-anchor="middle">2</text><text class="lbl" x="305" y="194" text-anchor="middle">10–14 分</text><rect class="bar hot" x="368" y="112" width="94" height="64" rx="4"/><text x="415" y="106" text-anchor="middle">3</text><text class="lbl" x="415" y="194" text-anchor="middle">15–24 分</text><rect class="bar hot" x="478" y="133" width="94" height="43" rx="4"/><text x="525" y="127" text-anchor="middle">2</text><text class="lbl" x="525" y="194" text-anchor="middle">25+ 分</text></svg><figcaption>差距分布（最高分減最低分，原始分）</figcaption></figure><figure><svg class="chart wide" viewBox="0 0 760 162" role="img" aria-label="各維度的平均分歧"><text class="lbl big" x="370" y="25" text-anchor="end">專案二 閂鎖去彈跳：兩顆 NAND 閂鎖＋證明擋</text><rect class="bar hot" x="380" y="11" width="290" height="18" rx="3"/><text class="big" x="678" y="25">6.2 分</text><text class="lbl big" x="370" y="55" text-anchor="end">專案一 紅綠燈：Wokwi 專案＋投影片三件事</text><rect class="bar" x="380" y="41" width="56" height="18" rx="3"/><text class="big" x="444" y="55">1.2 分</text><text class="lbl big" x="370" y="85" text-anchor="end">必答二：閂鎖為什麼不會抖</text><rect class="bar" x="380" y="71" width="28" height="18" rx="3"/><text class="big" x="416" y="85">0.6 分</text><text class="lbl big" x="370" y="115" text-anchor="end">必答一：SR 閂鎖為什麼要接三腳的開關、兩腳的按</text><rect class="bar" x="380" y="101" width="14" height="18" rx="3"/><text class="big" x="402" y="115">0.3 分</text><text class="lbl big" x="370" y="145" text-anchor="end">遇到的問題</text><rect class="bar" x="380" y="131" width="2" height="18" rx="3"/><text class="big" x="390" y="145">0.0 分</text></svg><figcaption>每一格的平均分歧（三人兩兩相減的平均）</figcaption></figure><p class="note">到 2026-10-09 為止，老師最終分數那一欄還是空的：目前用對齊分推簿，分歧大的個案在關注名單上另外看。</p></div>
+</div></section>
+<section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
+  <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
+  <div class="body prose"><p>這份評分表到目前只有一版。要改的話，改一格、寫一句為什麼、存成下一版——跟今天第二塊練的一樣。</p>
+    <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
+  </div>
+</div></section>
+</main>
+<footer class="site"><div class="inner">
+  <p>從學習證據到教學改進｜講師的成績產線實況・一種作業一頁｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+</div></footer>
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement;
+  var $ = function(id){ return document.getElementById(id); };
+  var themeBtn = $('themeToggle');
+  var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  var paintTheme = function(){
+    var isDark = root.dataset.theme ? root.dataset.theme === 'dark' : darkMq.matches;
+    themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+    themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+  };
+  themeBtn.addEventListener('click', function(){
+    var cur = root.dataset.theme; if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next;
+    try { localStorage.setItem('lew-theme', next); } catch(e) {}
+    paintTheme();
+  });
+  if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+  paintTheme();
+  var projBtn = $('projToggle');
+  var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(root.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = root.classList.toggle('projector'); paintProj(on);
+    try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
+  });
+  /* 導覽列可滑：兩顆鈕只在有東西被遮住時出現 */
+  var links = $('navLinks'), prev = $('navPrev'), next = $('navNext');
+  var fade = function(){
+    var more = links.scrollWidth - links.clientWidth > 2;
+    prev.hidden = !(more && links.scrollLeft > 2);
+    next.hidden = !(more && links.scrollLeft + links.clientWidth < links.scrollWidth - 2);
+  };
+  prev.addEventListener('click', function(){ links.scrollBy({ left: -200, behavior: 'smooth' }); });
+  next.addEventListener('click', function(){ links.scrollBy({ left: 200, behavior: 'smooth' }); });
+  links.addEventListener('scroll', fade); window.addEventListener('resize', fade); fade();
+})();
+</script>
+</body>
+</html>

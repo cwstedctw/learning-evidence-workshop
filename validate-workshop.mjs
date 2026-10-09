@@ -386,6 +386,32 @@ section('講師自己的例子（teacherExample）與一頁設計的第二套示
   if (!have('assets/worksheet-template.png')) fail('assets/worksheet-template.png 不在（講師例子卡的空白學習單圖）');
 });
 
+section('產線實況頁（pipeline.html）：只准有計數、導覽列全站都有它', () => {
+  if (!have('pipeline.html')) return fail('缺 pipeline.html（講師的成績產線實況）');
+  const src = pageSrc['pipeline.html'] || read('pipeline.html');
+  if (!src.includes('沒有任何學號、姓名或個別分數')) fail('pipeline.html 要寫明「沒有任何學號、姓名或個別分數」');
+  if (!src.includes('data/pipeline-stats.js')) fail('pipeline.html 沒載 data/pipeline-stats.js');
+  if (!have('data/pipeline-stats.js')) return fail('缺 data/pipeline-stats.js（計數統計檔）');
+  const data = read('data/pipeline-stats.js');
+  if (new RegExp('[0-9]{6,}').test(data)) fail('data/pipeline-stats.js 出現 6 位以上連續數字（像學號或 cmid）——統計檔只准有計數');
+  for (const bad of ['"學號"', '"姓名"', 'student_id', 'cmid']) if (data.includes(bad)) fail(`data/pipeline-stats.js 出現 ${bad}`);
+  if (!/window\.PIPELINE_STATS\s*=/.test(data)) fail('data/pipeline-stats.js 沒有 window.PIPELINE_STATS');
+  for (const rel of ['index.html', 'learn.html', 'start.html', 'material.html', 'studio.html', 'pipeline.html']) {
+    if (have(rel) && !(pageSrc[rel] || read(rel)).includes('href="pipeline.html"')) fail(`${rel} 導覽列缺「產線實況」（href="pipeline.html"）`);
+  }
+  const typeIds = [...data.matchAll(/"id": "([a-z0-9_]+)",\s*"title"/g)].map(m => m[1]);
+  const typePages = fs.readdirSync(P('.')).filter(f => /^pipeline-[a-z0-9_]+\.html$/.test(f));
+  if (typeIds.length && typePages.length !== typeIds.length) fail(`一種作業一頁：統計檔有 ${typeIds.length} 種作業、頁面有 ${typePages.length} 張（重跑 data/make_pipeline_pages.py）`);
+  for (const id of typeIds) if (!typePages.includes(`pipeline-${id}.html`)) fail(`缺 pipeline-${id}.html`);
+  for (const f of typePages) {
+    const s = read(f);
+    if (!s.includes('沒有任何學號、姓名或個別分數')) fail(`${f} 缺「沒有任何學號、姓名或個別分數」`);
+    if (new RegExp('[0-9]{6,}').test(s)) fail(`${f} 出現 6 位以上連續數字（像學號或平台編號）`);
+    if (!s.includes('href="pipeline.html"')) fail(`${f} 缺回總覽的連結`);
+    if (!s.includes('評分表不是先寫好再收作業')) fail(`${f} 缺「評分表是讀完全班材料後才定」那一句`);
+  }
+});
+
 section('必要錨點：工作台分頁與按鈕名稱', () => {
   const names = [...TABS, ...BUTTONS, ...REQUIRED_FIELDS];
   if (have('studio.html')) {

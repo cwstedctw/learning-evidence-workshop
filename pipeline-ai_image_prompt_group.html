@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜一種作業一頁：W2 AI 生圖與小組討論：你的圖、你的提示、組裡討論出什麼（資訊科技與應用 A</title>
+<meta name="description" content="講師的成績產線實況，一種作業一頁：W2 AI 生圖與小組討論：你的圖、你的提示、組裡討論出什麼（資訊科技與應用 AA）。評分表全文、各班數字、三個評分者差在哪一格。只有計數，沒有任何學生資料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
+.flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
+.flow .st::before{counter-increment:st;content:counter(st);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.8rem;display:grid;place-items:center}
+.flow .st b{display:block;margin:6px 0 4px;font-size:1.02rem}
+.flow .st .who{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);margin-bottom:6px}
+.flow .st .who.ai{color:var(--teal);border-color:var(--teal)}
+.flow .st .who.me{color:var(--gold);border-color:var(--gold)}
+.flow .st p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stats .k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stats .k .n{display:block;font-size:2rem;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--teal)}
+.stats .k .n.gold{color:var(--gold)}
+.stats .k .l{display:block;margin-top:4px;font-size:.9rem;color:var(--ink-soft);line-height:1.5}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.modes .m{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-top:4px solid var(--teal)}
+.modes .m.c2{border-top-color:var(--gold)}
+.modes .m.c3{border-top-color:var(--l)}
+.modes .m b{display:block;font-size:1.05rem;margin-bottom:4px}
+.modes .m .cnt{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)}
+.modes .m p{margin:8px 0 0;font-size:.93rem;line-height:1.6}
+.rubric{margin:8px 0 0;padding-left:1.2em}
+.rubric li{margin:3px 0}
+.chart{width:100%;height:auto;display:block;max-width:760px}
+.chart text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.chart .lbl{fill:var(--ink-soft);font-size:12px}
+.chart .bar{fill:var(--teal)}
+.chart .bar.hot{fill:var(--gold)}
+.chart .axis{stroke:var(--line-strong);stroke-width:1}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.who-table th:first-child{white-space:nowrap}
+.tag{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.tag.ok{border-color:var(--l);color:var(--l)}
+.tag.on{border-color:var(--teal);color:var(--teal)}
+.tag.grp{border-color:var(--gold);color:var(--gold)}
+.pii{border-left:4px solid var(--gold);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.checks .c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.checks .c.hot{border-color:var(--gold);box-shadow:inset 4px 0 0 var(--gold)}
+.checks .c b{display:block;margin-bottom:4px}
+.checks .c p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+@media (max-width:720px){.checks{grid-template-columns:minmax(0,1fr)}}
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.types .tcard{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:inherit}
+.types .tcard:hover{border-color:var(--teal)}
+.types .tcard b{display:block;font-size:1rem;line-height:1.45;margin-bottom:6px;color:var(--teal)}
+.types .tcard .meta{display:block;font-size:.86rem;color:var(--ink-soft);line-height:1.5}
+.types .tcard .meta.hot{color:var(--gold)}
+@media (max-width:900px){.types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.types{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modes{grid-template-columns:minmax(0,1fr)}.two{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.flow{grid-template-columns:minmax(0,1fr)}}
+</style>
+<style>
+.rubric-table td:nth-child(2){white-space:nowrap}
+.chart.wide{max-width:900px}
+.chart text.big{font-size:15px}
+.versions li{margin:8px 0}
+.versions .vnote{color:var(--ink-soft);font-size:.93rem;line-height:1.6}
+</style>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#what">要交什麼</a><a href="#rubric">評分表</a><a href="#numbers">各班數字</a><a href="#judges">評分者</a><a href="#versions">改過什麼</a></span>
+  </div>
+  <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  <div class="ctl">
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+  </div>
+</div></nav>
+<header class="hero"><div class="inner">
+  <span class="eyebrow">一種作業一頁・4／17</span>
+  <h1><span>W2 AI 生圖與小組討論：你的圖、你的提示、組裡討論出什麼（資訊科技與應用 AA）</span></h1>
+  <div class="deck">
+    <p class="sub">三個 AI 評分者各打一份 → 平均 → 對齊到 80–100。用在 資訊科技與應用（1 份作業）。評分表代號 ai_image_prompt_group、版本 1.0.0。</p>
+    <p class="meta"><span class="m">資料截至 2026-10-09</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回產線實況總覽</a></span></p>
+  </div>
+</div></header>
+<main id="main" class="editorial">
+<section id="what" class="sec first" aria-labelledby="what-h"><div class="wrap">
+  <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
+  <div class="body prose">
+    <p><strong>作業例子：</strong>第 2 週：小組各自生一張圖、照貼提示原文、寫組裡討論出什麼；一組交一份。</p>
+    <p><strong>評分方式：</strong>三個 AI 評分者各打一份（ai_image_prompt_group）→ 平均後對齊到 80–100 分；同組同分（分組來源：定版分組表／HackMD）</p>
+    <p><strong>怎麼檢查（不只比對文字）：</strong>評分者看圖、提示原文（整段照貼才算）、組裡討論的結論；同組同分，分組來源是定版分組表或共筆。</p>
+    <p><strong>評分表備註（原文）：</strong>2026-09-16 洄瀾讀完 8 份材料後定；作業說明＝主題自訂產一張圖→帶到組裡每人講一次→交圖＋提示原文＋組裡討論結果；重點是「你寫了什麼、它就給你什麼」。評分者各自打分取平均，再對齊 80–100 常態分布。 2026-09-16 老師 加地板：raw&lt;40 不對齊、按 raw 線性落在 60–79，且不算進對齊母體的平均／標準差。</p>
+    <p class="note">這是分組作業：一組交一份，所以「已繳」是組數不是人數；同組同分。</p>
+    <p class="note">評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。</p>
+  </div>
+</div></section>
+<section id="rubric" class="sec" aria-labelledby="rubric-h"><div class="wrap">
+  <h2 id="rubric-h"><span class="num">貳</span><span class="t">評分表：5 格、共 100 分</span></h2>
+  <div class="body prose">
+    <div class="table-wrap"><table class="stack rubric-table"><thead><tr><th scope="col">維度</th><th scope="col">配分</th><th scope="col">怎麼給分</th></tr></thead><tbody><tr><td data-th="維度"><strong>自己產生的圖</strong></td><td data-th="配分">20</td><td data-th="怎麼給分">20＝交了自己產的圖（若有前後版更好）；12＝圖來源不明或只有別人的原圖；0＝沒有圖。</td></tr><tr><td data-th="維度"><strong>提示原文（整段照貼）</strong></td><td data-th="配分">25</td><td data-th="怎麼給分">25＝整段提示照貼，看得出主體／風格／構圖等具體要求；18＝有提示但是濃縮成一兩句；10＝只描述圖、不是提示；0＝沒有。⚠️貼的是 AI 對圖的描述而不是自己下的提示，最多 12。</td></tr><tr><td data-th="維度"><strong>改了什麼、為什麼（提示→結果的對應）</strong></td><td data-th="配分">20</td><td data-th="怎麼給分">20＝寫出 v0→v1 改了哪句提示、畫面跟著怎麼變；14＝有改動但沒說對應；8＝只說「改了」；0＝沒有。</td></tr><tr><td data-th="維度"><strong>組別與組裡討論結果</strong></td><td data-th="配分">20</td><td data-th="怎麼給分">20＝寫組別＋討論出什麼（選了誰的圖、為什麼、共同結論）；14＝有組別＋一句結論；8＝只寫組別；0＝沒有。</td></tr><tr><td data-th="維度"><strong>反思：下次要改哪一句</strong></td><td data-th="配分">15</td><td data-th="怎麼給分">15＝說得出結果哪裡不如預期、下次提示要怎麼改；10＝有感想但不具體；5＝一句帶過；0＝沒有。</td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="numbers" class="sec" aria-labelledby="numbers-h"><div class="wrap">
+  <h2 id="numbers-h"><span class="num">參</span><span class="t">這學期的數字</span></h2>
+  <div class="body prose">
+    <div class="stats">
+      <div class="k"><span class="n">1</span><span class="l">份作業用這張評分表</span></div>
+      <div class="k"><span class="n">40</span><span class="l">份該交（名冊加總）</span></div>
+      <div class="k"><span class="n">8</span><span class="l">份收到，遲交 0 份</span></div>
+      <div class="k"><span class="n gold">8</span><span class="l">份作答各有三個評分者的分數</span></div>
+    </div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th scope="col">課</th><th scope="col">班</th><th scope="col">週</th><th scope="col">到期</th><th scope="col">名冊</th><th scope="col">已繳</th><th scope="col">遲交</th><th scope="col">狀態</th></tr></thead><tbody><tr><td data-th="課">資訊科技與應用</td><td data-th="班">AA</td><td data-th="週">W2</td><td data-th="到期">2026-09-14</td><td data-th="名冊">40</td><td data-th="已繳">8</td><td data-th="遲交">0</td><td data-th="狀態"><span class="tag ok">已推簿</span></td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="judges" class="sec" aria-labelledby="judges-h"><div class="wrap">
+  <h2 id="judges-h"><span class="num">肆</span><span class="t">三個評分者差多少、差在哪一格</span></h2>
+  <div class="body prose"><p>這種作業一共 <strong>8</strong> 份作答，每份有三個評分者的分數（立霧（Codex）、洄瀾（Claude）、秀姑巒（Gemini））。最高減最低的差距 15 分以上的有 <strong>1</strong> 份（12%）——這些由老師親自看。</p><p>最常分歧的一格是「<strong>提示原文（整段照貼）</strong>」（三人平均差 1.8 分）。分歧集中在哪一格，就是下一版評分表要把那一格寫得更「看得見」的地方。</p><figure><svg class="chart" viewBox="0 0 600 210" role="img" aria-label="三個評分者差距的分布"><line class="axis" x1="30" y1="176" x2="590" y2="176"/><rect class="bar" x="38" y="26" width="94" height="150" rx="4"/><text x="85" y="20" text-anchor="middle">4</text><text class="lbl" x="85" y="194" text-anchor="middle">0–4 分</text><rect class="bar" x="148" y="101" width="94" height="75" rx="4"/><text x="195" y="95" text-anchor="middle">2</text><text class="lbl" x="195" y="194" text-anchor="middle">5–9 分</text><rect class="bar" x="258" y="138" width="94" height="38" rx="4"/><text x="305" y="132" text-anchor="middle">1</text><text class="lbl" x="305" y="194" text-anchor="middle">10–14 分</text><rect class="bar hot" x="368" y="138" width="94" height="38" rx="4"/><text x="415" y="132" text-anchor="middle">1</text><text class="lbl" x="415" y="194" text-anchor="middle">15–24 分</text><rect class="bar hot" x="478" y="176" width="94" height="0" rx="4"/><text x="525" y="170" text-anchor="middle">0</text><text class="lbl" x="525" y="194" text-anchor="middle">25+ 分</text></svg><figcaption>差距分布（最高分減最低分，原始分）</figcaption></figure><figure><svg class="chart wide" viewBox="0 0 760 162" role="img" aria-label="各維度的平均分歧"><text class="lbl big" x="370" y="25" text-anchor="end">提示原文（整段照貼）</text><rect class="bar" x="380" y="11" width="290" height="18" rx="3"/><text class="big" x="678" y="25">1.8 分</text><text class="lbl big" x="370" y="55" text-anchor="end">反思：下次要改哪一句</text><rect class="bar" x="380" y="41" width="274" height="18" rx="3"/><text class="big" x="662" y="55">1.7 分</text><text class="lbl big" x="370" y="85" text-anchor="end">改了什麼、為什麼（提示→結果的對應）</text><rect class="bar" x="380" y="71" width="161" height="18" rx="3"/><text class="big" x="549" y="85">1.0 分</text><text class="lbl big" x="370" y="115" text-anchor="end">組別與組裡討論結果</text><rect class="bar" x="380" y="101" width="2" height="18" rx="3"/><text class="big" x="390" y="115">0.0 分</text><text class="lbl big" x="370" y="145" text-anchor="end">自己產生的圖</text><rect class="bar" x="380" y="131" width="2" height="18" rx="3"/><text class="big" x="390" y="145">0.0 分</text></svg><figcaption>每一格的平均分歧（三人兩兩相減的平均）</figcaption></figure><p class="note">到 2026-10-09 為止，老師最終分數那一欄還是空的：目前用對齊分推簿，分歧大的個案在關注名單上另外看。</p></div>
+</div></section>
+<section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
+  <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
+  <div class="body prose"><p>這份評分表到目前只有一版。要改的話，改一格、寫一句為什麼、存成下一版——跟今天第二塊練的一樣。</p>
+    <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
+  </div>
+</div></section>
+</main>
+<footer class="site"><div class="inner">
+  <p>從學習證據到教學改進｜講師的成績產線實況・一種作業一頁｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+</div></footer>
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement;
+  var $ = function(id){ return document.getElementById(id); };
+  var themeBtn = $('themeToggle');
+  var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  var paintTheme = function(){
+    var isDark = root.dataset.theme ? root.dataset.theme === 'dark' : darkMq.matches;
+    themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+    themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+  };
+  themeBtn.addEventListener('click', function(){
+    var cur = root.dataset.theme; if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next;
+    try { localStorage.setItem('lew-theme', next); } catch(e) {}
+    paintTheme();
+  });
+  if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+  paintTheme();
+  var projBtn = $('projToggle');
+  var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(root.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = root.classList.toggle('projector'); paintProj(on);
+    try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
+  });
+  /* 導覽列可滑：兩顆鈕只在有東西被遮住時出現 */
+  var links = $('navLinks'), prev = $('navPrev'), next = $('navNext');
+  var fade = function(){
+    var more = links.scrollWidth - links.clientWidth > 2;
+    prev.hidden = !(more && links.scrollLeft > 2);
+    next.hidden = !(more && links.scrollLeft + links.clientWidth < links.scrollWidth - 2);
+  };
+  prev.addEventListener('click', function(){ links.scrollBy({ left: -200, behavior: 'smooth' }); });
+  next.addEventListener('click', function(){ links.scrollBy({ left: 200, behavior: 'smooth' }); });
+  links.addEventListener('scroll', fade); window.addEventListener('resize', fade); fade();
+})();
+</script>
+</body>
+</html>

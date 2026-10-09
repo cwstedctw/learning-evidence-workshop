@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜一種作業一頁：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）</title>
+<meta name="description" content="講師的成績產線實況，一種作業一頁：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）。評分表全文、各班數字、三個評分者差在哪一格。只有計數，沒有任何學生資料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
+.flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
+.flow .st::before{counter-increment:st;content:counter(st);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.8rem;display:grid;place-items:center}
+.flow .st b{display:block;margin:6px 0 4px;font-size:1.02rem}
+.flow .st .who{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);margin-bottom:6px}
+.flow .st .who.ai{color:var(--teal);border-color:var(--teal)}
+.flow .st .who.me{color:var(--gold);border-color:var(--gold)}
+.flow .st p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stats .k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stats .k .n{display:block;font-size:2rem;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--teal)}
+.stats .k .n.gold{color:var(--gold)}
+.stats .k .l{display:block;margin-top:4px;font-size:.9rem;color:var(--ink-soft);line-height:1.5}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.modes .m{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-top:4px solid var(--teal)}
+.modes .m.c2{border-top-color:var(--gold)}
+.modes .m.c3{border-top-color:var(--l)}
+.modes .m b{display:block;font-size:1.05rem;margin-bottom:4px}
+.modes .m .cnt{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)}
+.modes .m p{margin:8px 0 0;font-size:.93rem;line-height:1.6}
+.rubric{margin:8px 0 0;padding-left:1.2em}
+.rubric li{margin:3px 0}
+.chart{width:100%;height:auto;display:block;max-width:760px}
+.chart text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.chart .lbl{fill:var(--ink-soft);font-size:12px}
+.chart .bar{fill:var(--teal)}
+.chart .bar.hot{fill:var(--gold)}
+.chart .axis{stroke:var(--line-strong);stroke-width:1}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.who-table th:first-child{white-space:nowrap}
+.tag{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.tag.ok{border-color:var(--l);color:var(--l)}
+.tag.on{border-color:var(--teal);color:var(--teal)}
+.tag.grp{border-color:var(--gold);color:var(--gold)}
+.pii{border-left:4px solid var(--gold);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.checks .c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.checks .c.hot{border-color:var(--gold);box-shadow:inset 4px 0 0 var(--gold)}
+.checks .c b{display:block;margin-bottom:4px}
+.checks .c p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+@media (max-width:720px){.checks{grid-template-columns:minmax(0,1fr)}}
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.types .tcard{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:inherit}
+.types .tcard:hover{border-color:var(--teal)}
+.types .tcard b{display:block;font-size:1rem;line-height:1.45;margin-bottom:6px;color:var(--teal)}
+.types .tcard .meta{display:block;font-size:.86rem;color:var(--ink-soft);line-height:1.5}
+.types .tcard .meta.hot{color:var(--gold)}
+@media (max-width:900px){.types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.types{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modes{grid-template-columns:minmax(0,1fr)}.two{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.flow{grid-template-columns:minmax(0,1fr)}}
+</style>
+<style>
+.rubric-table td:nth-child(2){white-space:nowrap}
+.chart.wide{max-width:900px}
+.chart text.big{font-size:15px}
+.versions li{margin:8px 0}
+.versions .vnote{color:var(--ink-soft);font-size:.93rem;line-height:1.6}
+</style>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#what">要交什麼</a><a href="#rubric">評分表</a><a href="#numbers">各班數字</a><a href="#judges">評分者</a><a href="#versions">改過什麼</a></span>
+  </div>
+  <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  <div class="ctl">
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+  </div>
+</div></nav>
+<header class="hero"><div class="inner">
+  <span class="eyebrow">一種作業一頁・9／17</span>
+  <h1><span>交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）</span></h1>
+  <div class="deck">
+    <p class="sub">程式判定。用在 和AI一起寫程式（1 份作業）。評分表代號 links_required、版本 1.1.0。</p>
+    <p class="meta"><span class="m">資料截至 2026-10-09</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回產線實況總覽</a></span></p>
+  </div>
+</div></header>
+<main id="main" class="editorial">
+<section id="what" class="sec first" aria-labelledby="what-h"><div class="wrap">
+  <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
+  <div class="body prose">
+    <p><strong>作業例子：</strong>第 3 週：把自己做出來的第一個網頁的網址貼在線上文字。 <a href="https://cwstedctw.github.io/ndhu-ted-course-hub/courses/11501-ai-coding/" target="_blank" rel="noopener">和AI一起寫程式課程網 ↗</a></p>
+    <p><strong>評分方式：</strong>真的開連結：活著 ≥1 條＝100、全死 50、沒網址 0（links_required 1.1.0，老師 9/25「chk link」）</p>
+    <p><strong>怎麼檢查（不只比對文字）：</strong>不是看有沒有貼網址：程式真的去開每一條（先 HEAD 再 GET、跟著轉址、15 秒逾時），回 2xx／3xx 才算活著；活著至少一條＝100、有網址但全打不開＝50、沒網址＝0。</p>
+    <p><strong>評分表備註（原文）：</strong>2026-09-25 老師拍板「yes chk link to give score」：不再看條數，實際開每條網址（HEAD→GET、跟隨轉址、15 秒逾時），2xx／3xx＝活著；活著 ≥1 條＝100，有網址但全死＝50，沒網址＝0。理由那句只記進「主要問題」欄、不扣分。確定性、不靠 LLM；每條活／死寫進主要問題欄，老師可逐條核。</p>
+    
+    <p class="note">評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。</p>
+  </div>
+</div></section>
+<section id="rubric" class="sec" aria-labelledby="rubric-h"><div class="wrap">
+  <h2 id="rubric-h"><span class="num">貳</span><span class="t">評分表：1 格、共 100 分</span></h2>
+  <div class="body prose">
+    <div class="table-wrap"><table class="stack rubric-table"><thead><tr><th scope="col">維度</th><th scope="col">配分</th><th scope="col">怎麼給分</th></tr></thead><tbody><tr><td data-th="維度"><strong>活著的網址</strong></td><td data-th="配分">100</td><td data-th="怎麼給分">活著 ≥1 條＝100；有網址但全打不開＝50；沒網址＝0</td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="numbers" class="sec" aria-labelledby="numbers-h"><div class="wrap">
+  <h2 id="numbers-h"><span class="num">參</span><span class="t">這學期的數字</span></h2>
+  <div class="body prose">
+    <div class="stats">
+      <div class="k"><span class="n">1</span><span class="l">份作業用這張評分表</span></div>
+      <div class="k"><span class="n">39</span><span class="l">份該交（名冊加總）</span></div>
+      <div class="k"><span class="n">19</span><span class="l">份收到，遲交 0 份</span></div>
+      <div class="k"><span class="n gold">—</span><span class="l">份作答各有三個評分者的分數</span></div>
+    </div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th scope="col">課</th><th scope="col">班</th><th scope="col">週</th><th scope="col">到期</th><th scope="col">名冊</th><th scope="col">已繳</th><th scope="col">遲交</th><th scope="col">狀態</th></tr></thead><tbody><tr><td data-th="課">和AI一起寫程式</td><td data-th="班">—</td><td data-th="週">W3</td><td data-th="到期">2026-09-21</td><td data-th="名冊">39</td><td data-th="已繳">19</td><td data-th="遲交">0</td><td data-th="狀態"><span class="tag ok">已推簿</span></td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="judges" class="sec" aria-labelledby="judges-h"><div class="wrap">
+  <h2 id="judges-h"><span class="num">肆</span><span class="t">三個評分者差多少、差在哪一格</span></h2>
+  <div class="body prose"><p>這種作業不用評分者：分數由程式判定（開連結看活不活、檢查電路與程式有沒有照規格），同一份檔跑幾次都一樣。</p></div>
+</div></section>
+<section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
+  <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
+  <div class="body prose"><p>這份評分表改過版，每一版的備註就是「為什麼改」：</p><ol class="versions"><li><strong>第 1 版（1.0.0）</strong>：交網址型作業（線上文字貼 N 條網址即滿分）<br><span class="vnote">2026-09-25 建。用於「交兩行網址（網站＋倉庫）＋一句理由」這類作業：線上文字裡不同的 http(s) 網址 ≥ required 條＝滿分；只有 1 條＝partial_score；0 條＝0。理由那句只記進「主要問題」欄、不扣分（老師 2026-09-20：前兩行有了就滿分）。確定性、不靠 LLM。</span></li><li><strong>第 2 版（1.1.0）</strong>：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）<br><span class="vnote">2026-09-25 老師拍板「yes chk link to give score」：不再看條數，實際開每條網址（HEAD→GET、跟隨轉址、15 秒逾時），2xx／3xx＝活著；活著 ≥1 條＝100，有網址但全死＝50，沒網址＝0。理由那句只記進「主要問題」欄、不扣分。確定性、不靠 LLM；每條活／死寫進主要問題欄，老師可逐條核。</span></li></ol>
+    <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
+  </div>
+</div></section>
+</main>
+<footer class="site"><div class="inner">
+  <p>從學習證據到教學改進｜講師的成績產線實況・一種作業一頁｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+</div></footer>
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement;
+  var $ = function(id){ return document.getElementById(id); };
+  var themeBtn = $('themeToggle');
+  var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  var paintTheme = function(){
+    var isDark = root.dataset.theme ? root.dataset.theme === 'dark' : darkMq.matches;
+    themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+    themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+  };
+  themeBtn.addEventListener('click', function(){
+    var cur = root.dataset.theme; if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next;
+    try { localStorage.setItem('lew-theme', next); } catch(e) {}
+    paintTheme();
+  });
+  if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+  paintTheme();
+  var projBtn = $('projToggle');
+  var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(root.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = root.classList.toggle('projector'); paintProj(on);
+    try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
+  });
+  /* 導覽列可滑：兩顆鈕只在有東西被遮住時出現 */
+  var links = $('navLinks'), prev = $('navPrev'), next = $('navNext');
+  var fade = function(){
+    var more = links.scrollWidth - links.clientWidth > 2;
+    prev.hidden = !(more && links.scrollLeft > 2);
+    next.hidden = !(more && links.scrollLeft + links.clientWidth < links.scrollWidth - 2);
+  };
+  prev.addEventListener('click', function(){ links.scrollBy({ left: -200, behavior: 'smooth' }); });
+  next.addEventListener('click', function(){ links.scrollBy({ left: 200, behavior: 'smooth' }); });
+  links.addEventListener('scroll', fade); window.addEventListener('resize', fade); fade();
+})();
+</script>
+</body>
+</html>

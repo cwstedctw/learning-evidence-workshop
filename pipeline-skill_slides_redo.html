@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜一種作業一頁：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂</title>
+<meta name="description" content="講師的成績產線實況，一種作業一頁：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）。評分表全文、各班數字、三個評分者差在哪一格。只有計數，沒有任何學生資料。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
+.flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
+.flow .st::before{counter-increment:st;content:counter(st);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.8rem;display:grid;place-items:center}
+.flow .st b{display:block;margin:6px 0 4px;font-size:1.02rem}
+.flow .st .who{display:inline-block;font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);margin-bottom:6px}
+.flow .st .who.ai{color:var(--teal);border-color:var(--teal)}
+.flow .st .who.me{color:var(--gold);border-color:var(--gold)}
+.flow .st p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stats .k{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.stats .k .n{display:block;font-size:2rem;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--teal)}
+.stats .k .n.gold{color:var(--gold)}
+.stats .k .l{display:block;margin-top:4px;font-size:.9rem;color:var(--ink-soft);line-height:1.5}
+.modes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.modes .m{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;border-top:4px solid var(--teal)}
+.modes .m.c2{border-top-color:var(--gold)}
+.modes .m.c3{border-top-color:var(--l)}
+.modes .m b{display:block;font-size:1.05rem;margin-bottom:4px}
+.modes .m .cnt{font-family:var(--mono);font-size:.8rem;color:var(--ink-soft)}
+.modes .m p{margin:8px 0 0;font-size:.93rem;line-height:1.6}
+.rubric{margin:8px 0 0;padding-left:1.2em}
+.rubric li{margin:3px 0}
+.chart{width:100%;height:auto;display:block;max-width:760px}
+.chart text{font-family:var(--sans);font-size:13px;fill:var(--ink)}
+.chart .lbl{fill:var(--ink-soft);font-size:12px}
+.chart .bar{fill:var(--teal)}
+.chart .bar.hot{fill:var(--gold)}
+.chart .axis{stroke:var(--line-strong);stroke-width:1}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;align-items:start}
+.who-table th:first-child{white-space:nowrap}
+.tag{display:inline-block;font-size:.78rem;padding:1px 8px;border-radius:999px;border:1px solid var(--line);color:var(--ink-soft);white-space:nowrap}
+.tag.ok{border-color:var(--l);color:var(--l)}
+.tag.on{border-color:var(--teal);color:var(--teal)}
+.tag.grp{border-color:var(--gold);color:var(--gold)}
+.pii{border-left:4px solid var(--gold);padding:10px 14px;background:var(--card);border-radius:0 10px 10px 0}
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.checks .c{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.checks .c.hot{border-color:var(--gold);box-shadow:inset 4px 0 0 var(--gold)}
+.checks .c b{display:block;margin-bottom:4px}
+.checks .c p{margin:0;font-size:.93rem;line-height:1.6;color:var(--ink-soft)}
+@media (max-width:720px){.checks{grid-template-columns:minmax(0,1fr)}}
+.types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.types .tcard{display:block;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;text-decoration:none;color:inherit}
+.types .tcard:hover{border-color:var(--teal)}
+.types .tcard b{display:block;font-size:1rem;line-height:1.45;margin-bottom:6px;color:var(--teal)}
+.types .tcard .meta{display:block;font-size:.86rem;color:var(--ink-soft);line-height:1.5}
+.types .tcard .meta.hot{color:var(--gold)}
+@media (max-width:900px){.types{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.types{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.flow{grid-template-columns:repeat(2,minmax(0,1fr))}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.modes{grid-template-columns:minmax(0,1fr)}.two{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:560px){.flow{grid-template-columns:minmax(0,1fr)}}
+</style>
+<style>
+.rubric-table td:nth-child(2){white-space:nowrap}
+.chart.wide{max-width:900px}
+.chart text.big{font-size:15px}
+.versions li{margin:8px 0}
+.versions .vnote{color:var(--ink-soft);font-size:.93rem;line-height:1.6}
+</style>
+<script>(function(){var d=document.documentElement;try{var t=localStorage.getItem('lew-theme');if(t)d.dataset.theme=t;if(localStorage.getItem('lew-proj')==='1')d.classList.add('projector');}catch(e){}})();</script>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#what">要交什麼</a><a href="#rubric">評分表</a><a href="#numbers">各班數字</a><a href="#judges">評分者</a><a href="#versions">改過什麼</a></span>
+  </div>
+  <button class="navbtn navnext" id="navNext" type="button" aria-label="導覽往右看更多" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+  <div class="ctl">
+    <button id="projToggle" type="button" aria-pressed="false" title="投影模式：放大字級，上課投影用"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg><span class="txt">投影</span></button>
+    <button id="themeToggle" type="button" aria-label="切換深色或淺色模式"><svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span class="txt">深色</span></button>
+  </div>
+</div></nav>
+<header class="hero"><div class="inner">
+  <span class="eyebrow">一種作業一頁・12／17</span>
+  <h1><span>W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）</span></h1>
+  <div class="deck">
+    <p class="sub">三個 AI 評分者各打一份 → 平均 → 對齊到 80–100。用在 資訊科技與應用（1 份作業）。評分表代號 skill_slides_redo、版本 1.0.0。</p>
+    <p class="meta"><span class="m">資料截至 2026-10-09</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回產線實況總覽</a></span></p>
+  </div>
+</div></header>
+<main id="main" class="editorial">
+<section id="what" class="sec first" aria-labelledby="what-h"><div class="wrap">
+  <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
+  <div class="body prose">
+    <p><strong>作業例子：</strong>第 4 週：用 skill（UI UX Pro Max）把新聞判斷簡報改版，交新簡報並寫改了哪裡。</p>
+    <p><strong>評分方式：</strong>三個 AI 評分者各打一份（skill_slides_redo 草稿；課堂＋回家合併）→ 平均後對齊到 80–100 分</p>
+    <p><strong>怎麼檢查（不只比對文字）：</strong>同上：抽字、字少抽圖；再對照線上文字寫的「改了哪裡」是不是真的在新簡報上看得到。課堂交的與回家交的合併看。</p>
+    <p><strong>評分表備註（原文）：</strong>2026-10-09 洄瀾依 26 份實際繳交擬（草擬後由老師確認）。課堂（上傳改版後的新簡報）與回家（改到滿意再交＋線上文字一兩句：用了哪句提示詞、改了哪裡）合併成一份分數：**課堂／回家兩份取較好的那份評**，兩份一樣好取回家（最後交的版本）；回家交同一份、或回家只貼連結指向課堂那份檔，都算「課堂那份已滿意、再交一次」，不扣。設計要點：①改版不比誰漂亮，比有沒有真的改、有沒有交代怎麼改——簡報本身占 70（交了 40＋改版成形 30），作業說明要的線上文字兩項各 15。②簡報內容（新聞四步拆解）W2／W3 已評過，這次不評；換了別則新聞、改成推演情境都不扣。③改版前的原稿不在材料裡，「跟原本差多少」無從比對，不扣；有沒有交代改了什麼由 prompt、changes 兩維評。④不看用了哪個工具、不比美醜。地板照 9/16 定的 raw&lt;40→60–79；交了完整改版簡報的人最低 70，落不到地板。遲交不在本表扣，推簿時照課程既有規則處理。</p>
+    
+    <p class="note">評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。</p>
+  </div>
+</div></section>
+<section id="rubric" class="sec" aria-labelledby="rubric-h"><div class="wrap">
+  <h2 id="rubric-h"><span class="num">貳</span><span class="t">評分表：4 格、共 100 分</span></h2>
+  <div class="body prose">
+    <div class="table-wrap"><table class="stack rubric-table"><thead><tr><th scope="col">維度</th><th scope="col">配分</th><th scope="col">怎麼給分</th></tr></thead><tbody><tr><td data-th="維度"><strong>交了改版後的簡報</strong></td><td data-th="配分">40</td><td data-th="怎麼給分">40＝交了改版後的簡報：5 頁以上、每頁有標題有內容、打得開；HTML、PDF、PPTX、截圖都算。少一兩頁、破一張圖、一頁標題重複這類小瑕疵不扣。25＝只有 2–4 頁，或多頁只有標題沒內容。15＝只交一頁（例如單張投影片截圖）。0＝沒交簡報，或檔案打不開。課堂、回家兩份取較好的那份評。</td></tr><tr><td data-th="維度"><strong>看得出改版成形（整份套同一套新版面、沒做壞）</strong></td><td data-th="配分">30</td><td data-th="怎麼給分">30＝整份看得出套了同一套版面：有頁圖時，看配色、標題層次、卡片或圖片版位前後一致；沒有頁圖時，看檔案裡一致的版面結構（分區小標、頁碼、卡片標題、風格名稱、做了兩種風格方案等）；而且沒有做壞的頁。20＝有改但沒改完或做壞了：只有部分頁換了風格、多頁跑版／破圖／文字擠出框、留下空白頁或佔位字。10＝只有一頁看得出新版面（例如只交一張截圖）；或整份是沒有任何版面設計的純文字條列。0＝沒交簡報。不比美醜、不比工具；看不出「跟原稿差多少」不扣（原稿不在材料裡）；課堂與回家兩份相同不扣。</td></tr><tr><td data-th="維度"><strong>線上文字①：用了哪句提示詞</strong></td><td data-th="配分">15</td><td data-th="怎麼給分">15＝貼出給 skill／AI 的提示詞原文，一則就夠（作業只要「用了哪句」）；原文看得出叫了 skill，或指定了要改成什麼樣子。8＝沒貼原文，但寫出交代它做了什麼（例：叫它把背景改亮、換成某種風格）。0＝沒寫：線上文字空白、只貼自己檔案的連結，或沒交回家作業。學生自己寫在投影片裡的提示詞也算；AI 自動放在頁首頁尾的風格標示不算學生交代。</td></tr><tr><td data-th="維度"><strong>線上文字②：改了哪裡</strong></td><td data-th="配分">15</td><td data-th="怎麼給分">15＝寫出改了哪裡，至少點名一項具體改變（換成什麼風格、配色或背景、字級、刪字留重點、版面重排、加了什麼）；提示詞已點名風格、另外再寫一句「改了風格」也算。8＝只貼提示詞、沒另外寫改了哪裡；或只有空泛一句（「改好看了」「有改」）。0＝沒寫（線上文字空白、只貼連結、沒交回家作業）。寫在投影片的改版說明頁也算。</td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="numbers" class="sec" aria-labelledby="numbers-h"><div class="wrap">
+  <h2 id="numbers-h"><span class="num">參</span><span class="t">這學期的數字</span></h2>
+  <div class="body prose">
+    <div class="stats">
+      <div class="k"><span class="n">1</span><span class="l">份作業用這張評分表</span></div>
+      <div class="k"><span class="n">0</span><span class="l">份該交（名冊加總）</span></div>
+      <div class="k"><span class="n">0</span><span class="l">份收到，遲交 0 份</span></div>
+      <div class="k"><span class="n gold">26</span><span class="l">份作答各有三個評分者的分數</span></div>
+    </div>
+    <div class="table-wrap"><table class="stack"><thead><tr><th scope="col">課</th><th scope="col">班</th><th scope="col">週</th><th scope="col">到期</th><th scope="col">名冊</th><th scope="col">已繳</th><th scope="col">遲交</th><th scope="col">狀態</th></tr></thead><tbody><tr><td data-th="課">資訊科技與應用</td><td data-th="班">AB（課堂＋回家）</td><td data-th="週">W4</td><td data-th="到期">2026-10-06</td><td data-th="名冊">—</td><td data-th="已繳">—</td><td data-th="遲交">—</td><td data-th="狀態"><span class="tag on">已批</span></td></tr></tbody></table></div>
+  </div>
+</div></section>
+<section id="judges" class="sec" aria-labelledby="judges-h"><div class="wrap">
+  <h2 id="judges-h"><span class="num">肆</span><span class="t">三個評分者差多少、差在哪一格</span></h2>
+  <div class="body prose"><p>這種作業一共 <strong>26</strong> 份作答，每份有三個評分者的分數（立霧（Codex）、洄瀾（Claude）、秀姑巒（Gemini））。最高減最低的差距 15 分以上的有 <strong>0</strong> 份（0%）——這些由老師親自看。</p><p>最常分歧的一格是「<strong>線上文字②：改了哪裡</strong>」（三人平均差 0.2 分）。分歧集中在哪一格，就是下一版評分表要把那一格寫得更「看得見」的地方。</p><figure><svg class="chart" viewBox="0 0 600 210" role="img" aria-label="三個評分者差距的分布"><line class="axis" x1="30" y1="176" x2="590" y2="176"/><rect class="bar" x="38" y="26" width="94" height="150" rx="4"/><text x="85" y="20" text-anchor="middle">26</text><text class="lbl" x="85" y="194" text-anchor="middle">0–4 分</text><rect class="bar" x="148" y="176" width="94" height="0" rx="4"/><text x="195" y="170" text-anchor="middle">0</text><text class="lbl" x="195" y="194" text-anchor="middle">5–9 分</text><rect class="bar" x="258" y="176" width="94" height="0" rx="4"/><text x="305" y="170" text-anchor="middle">0</text><text class="lbl" x="305" y="194" text-anchor="middle">10–14 分</text><rect class="bar hot" x="368" y="176" width="94" height="0" rx="4"/><text x="415" y="170" text-anchor="middle">0</text><text class="lbl" x="415" y="194" text-anchor="middle">15–24 分</text><rect class="bar hot" x="478" y="176" width="94" height="0" rx="4"/><text x="525" y="170" text-anchor="middle">0</text><text class="lbl" x="525" y="194" text-anchor="middle">25+ 分</text></svg><figcaption>差距分布（最高分減最低分，原始分）</figcaption></figure><figure><svg class="chart wide" viewBox="0 0 760 132" role="img" aria-label="各維度的平均分歧"><text class="lbl big" x="370" y="25" text-anchor="end">線上文字②：改了哪裡</text><rect class="bar" x="380" y="11" width="58" height="18" rx="3"/><text class="big" x="446" y="25">0.2 分</text><text class="lbl big" x="370" y="55" text-anchor="end">線上文字①：用了哪句提示詞</text><rect class="bar" x="380" y="41" width="58" height="18" rx="3"/><text class="big" x="446" y="55">0.2 分</text><text class="lbl big" x="370" y="85" text-anchor="end">看得出改版成形（整份套同一套新版面、沒做壞）</text><rect class="bar" x="380" y="71" width="2" height="18" rx="3"/><text class="big" x="390" y="85">0.0 分</text><text class="lbl big" x="370" y="115" text-anchor="end">交了改版後的簡報</text><rect class="bar" x="380" y="101" width="2" height="18" rx="3"/><text class="big" x="390" y="115">0.0 分</text></svg><figcaption>每一格的平均分歧（三人兩兩相減的平均）</figcaption></figure><p class="note">到 2026-10-09 為止，老師最終分數那一欄還是空的：目前用對齊分推簿，分歧大的個案在關注名單上另外看。</p></div>
+</div></section>
+<section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
+  <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
+  <div class="body prose"><p>這份評分表到目前只有一版。要改的話，改一格、寫一句為什麼、存成下一版——跟今天第二塊練的一樣。</p>
+    <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
+  </div>
+</div></section>
+</main>
+<footer class="site"><div class="inner">
+  <p>從學習證據到教學改進｜講師的成績產線實況・一種作業一頁｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
+  <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
+  <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
+</div></footer>
+<script>
+(function(){
+  'use strict';
+  var root = document.documentElement;
+  var $ = function(id){ return document.getElementById(id); };
+  var themeBtn = $('themeToggle');
+  var darkMq = window.matchMedia('(prefers-color-scheme: dark)');
+  var paintTheme = function(){
+    var isDark = root.dataset.theme ? root.dataset.theme === 'dark' : darkMq.matches;
+    themeBtn.querySelector('.i-moon').hidden = isDark; themeBtn.querySelector('.i-sun').hidden = !isDark;
+    themeBtn.querySelector('.txt').textContent = isDark ? '淺色' : '深色';
+  };
+  themeBtn.addEventListener('click', function(){
+    var cur = root.dataset.theme; if(!cur){ cur = darkMq.matches ? 'dark' : 'light'; }
+    var next = cur === 'dark' ? 'light' : 'dark'; root.dataset.theme = next;
+    try { localStorage.setItem('lew-theme', next); } catch(e) {}
+    paintTheme();
+  });
+  if(darkMq.addEventListener) darkMq.addEventListener('change', paintTheme);
+  paintTheme();
+  var projBtn = $('projToggle');
+  var paintProj = function(on){ projBtn.querySelector('.txt').textContent = on ? '投影中' : '投影'; projBtn.setAttribute('aria-pressed', on ? 'true' : 'false'); };
+  paintProj(root.classList.contains('projector'));
+  projBtn.addEventListener('click', function(){
+    var on = root.classList.toggle('projector'); paintProj(on);
+    try { localStorage.setItem('lew-proj', on ? '1' : '0'); } catch(e) {}
+  });
+  /* 導覽列可滑：兩顆鈕只在有東西被遮住時出現 */
+  var links = $('navLinks'), prev = $('navPrev'), next = $('navNext');
+  var fade = function(){
+    var more = links.scrollWidth - links.clientWidth > 2;
+    prev.hidden = !(more && links.scrollLeft > 2);
+    next.hidden = !(more && links.scrollLeft + links.clientWidth < links.scrollWidth - 2);
+  };
+  prev.addEventListener('click', function(){ links.scrollBy({ left: -200, behavior: 'smooth' }); });
+  next.addEventListener('click', function(){ links.scrollBy({ left: 200, behavior: 'smooth' }); });
+  links.addEventListener('scroll', fade); window.addEventListener('resize', fade); fade();
+})();
+</script>
+</body>
+</html>
