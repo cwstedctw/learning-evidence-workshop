@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>從學習證據到教學改進｜一種作業一頁：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）</title>
-<meta name="description" content="講師的成績產線實況，一種作業一頁：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）。評分表全文、各班數字、三個評分者差在哪一格。只有計數，沒有任何學生資料。">
+<meta name="description" content="講師的成績產線實況，一種作業一頁：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）。評分表全文、各班數字、評分者差在哪一格。只有計數，沒有任何學生資料。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
@@ -99,7 +99,7 @@
   <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
   <div class="body prose">
     <p><strong>作業例子：</strong>第 3 週：把自己做出來的第一個網頁的網址貼在線上文字。 <a href="https://cwstedctw.github.io/ndhu-ted-course-hub/courses/11501-ai-coding/" target="_blank" rel="noopener">和AI一起寫程式課程網 ↗</a></p>
-    <p><strong>評分方式：</strong>真的開連結：活著 ≥1 條＝100、全死 50、沒網址 0（links_required 1.1.0，老師 9/25「（英文原話略）」）</p>
+    <p><strong>評分方式：</strong>真的開連結：活著 ≥1 條＝100、全死 50、沒網址 0（ 1.1.0，老師 9/25「（英文原話略）」）</p>
     <p><strong>怎麼檢查（不只比對文字）：</strong>不是看有沒有貼網址：程式真的去開每一條（等它回應、跟著轉址、最多等 15 秒），有正常回應才算活著；活著至少一條＝100、有網址但全打不開＝50、沒網址＝0。</p>
     
     <details class="ask"><summary>評分表備註（工作紀錄原文，含內部用語）</summary><div class="prompt"><p>2026-09-25 老師拍板「（英文原話略）」：不再看條數，實際開每條網址（HEAD→GET、跟隨轉址、15 秒逾時），2xx／3xx＝活著；活著 ≥1 條＝100，有網址但全死＝50，沒網址＝0。理由那句只記進「主要問題」欄、不扣分。確定性、不靠 LLM；每條活／死寫進主要問題欄，老師可逐條核。</p></div></details>
@@ -130,7 +130,7 @@
 </div></section>
 <section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
   <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
-  <div class="body prose"><p>這份評分表改過版，每一版的備註就是「為什麼改」：</p><ol class="versions"><li><strong>第 1 版（1.0.0）</strong>：交網址型作業（線上文字貼 N 條網址即滿分）<br><span class="vnote">2026-09-25 建。用於「交兩行網址（網站＋倉庫）＋一句理由」這類作業：線上文字裡不同的 http(s) 網址 ≥ required 條＝滿分；只有 1 條＝partial_score；0 條＝0。理由那句只記進「主要問題」欄、不扣分（老師 2026-09-20：前兩行有了就滿分）。確定性、不靠 LLM。</span></li><li><strong>第 2 版（1.1.0）</strong>：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）<br><span class="vnote">2026-09-25 老師拍板「（英文原話略）」：不再看條數，實際開每條網址（HEAD→GET、跟隨轉址、15 秒逾時），2xx／3xx＝活著；活著 ≥1 條＝100，有網址但全死＝50，沒網址＝0。理由那句只記進「主要問題」欄、不扣分。確定性、不靠 LLM；每條活／死寫進主要問題欄，老師可逐條核。</span></li></ol>
+  <div class="body prose"><p>這份評分表改過版，每一版的備註就是「為什麼改」：</p><ol class="versions"><li><strong>第 1 版（1.0.0）</strong>：交網址型作業（線上文字貼 N 條網址即滿分）<br><span class="vnote">2026-09-25 建。用於「交兩行網址（網站＋倉庫）＋一句理由」這類作業：線上文字裡不同的 http(s) 網址 ≥ required 條＝滿分；只有 1 條＝；0 條＝0。理由那句只記進「主要問題」欄、不扣分（老師 2026-09-20：前兩行有了就滿分）。確定性、不靠 LLM。</span></li><li><strong>第 2 版（1.1.0）</strong>：交網址型作業（真的開連結：活著的網址 ≥1 條即滿分）<br><span class="vnote">2026-09-25 老師拍板「（英文原話略）」：不再看條數，實際開每條網址（HEAD→GET、跟隨轉址、15 秒逾時），2xx／3xx＝活著；活著 ≥1 條＝100，有網址但全死＝50，沒網址＝0。理由那句只記進「主要問題」欄、不扣分。確定性、不靠 LLM；每條活／死寫進主要問題欄，老師可逐條核。</span></li></ol>
     <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
   </div>
 </div></section>

@@ -92,13 +92,22 @@ def bar_hist(bins, w=600, h=210):
         out.append(f'<text class="lbl" x="{x + (bw - 16) / 2:.0f}" y="{h - padB + 18}" text-anchor="middle">{E(k)} 分</text>')
     return f'<svg class="chart" viewBox="0 0 {w} {h}" role="img" aria-label="三個評分者差距的分布">' + "".join(out) + "</svg>"
 
+def short_label(s: str, n: int = 24) -> str:
+    """圖表標籤要短：超過就在詞界切、補「…」，括號不留一半。"""
+    if len(s) <= n: return s
+    cut = s[:n]
+    for sep in ("（", "：", "、", "，", " "):
+        if sep in cut: cut = cut[:cut.rfind(sep)]
+    cut = cut.rstrip("（(：:、，,・ ")
+    return (cut or s[:n]) + "…"
+
 def bar_dims(dim_gap, w=760):
     if not dim_gap: return ""
     rowH, labW = 30, 380; mx = max([1.0] + [d["gap"] for d in dim_gap]); barMax = w - labW - 90
     out = []
     for i, d in enumerate(dim_gap):
         y = 6 + i * rowH; bw = round(barMax * d["gap"] / mx)
-        out.append(f'<text class="lbl big" x="{labW - 10}" y="{y + 19}" text-anchor="end">{E(d["label"][:24])}</text>')
+        out.append(f'<text class="lbl big" x="{labW - 10}" y="{y + 19}" text-anchor="end">{E(short_label(d["label"]))}</text>')
         out.append(f'<rect class="bar{" hot" if d is dim_gap[0] and d["gap"] >= 3 else ""}" x="{labW}" y="{y + 5}" width="{max(bw, 2)}" height="{rowH - 12}" rx="3"/>')
         out.append(f'<text class="big" x="{labW + max(bw, 2) + 8}" y="{y + 19}">{d["gap"]} 分</text>')
     h = len(dim_gap) * rowH + 12
@@ -198,8 +207,8 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>從學習證據到教學改進｜一種作業一頁：{E(rub["title"][:40])}</title>
-<meta name="description" content="講師的成績產線實況，一種作業一頁：{E(rub["title"][:60])}。評分表全文、各班數字、三個評分者差在哪一格。只有計數，沒有任何學生資料。">
+<title>從學習證據到教學改進｜一種作業一頁：{E(rub["title"])}</title>
+<meta name="description" content="講師的成績產線實況，一種作業一頁：{E(rub["title"])}。評分表全文、各班數字、評分者差在哪一格。只有計數，沒有任何學生資料。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">

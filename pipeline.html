@@ -115,12 +115,14 @@
     <div class="stats">
       <div class="k"><span class="n" id="s-courses">—</span><span class="l">門課（<span id="s-gradebooks">—</span> 本線上成績簿，分班的課各一本）</span></div>
       <div class="k"><span class="n" id="s-assign">—</span><span class="l">份作業已登記；<span id="s-graded">—</span> 份批完、<span id="s-pushed">—</span> 份已推進成績簿</span></div>
-      <div class="k"><span class="n" id="s-pairs">—</span><span class="l">個人作業的應繳人次（名冊人數逐份加總，同一學生跨作業重複計）；收到 <span id="s-sub">—</span> 人次，約 <span id="s-rate">—</span>%</span></div>
+      <div class="k"><span class="n" id="s-sub">—</span><span class="l">份個人作答已收到、批完（應繳 <span id="s-pairs">—</span> 人次，補交持續收件中）</span></div>
       <div class="k"><span class="n gold" id="s-judged">—</span><span class="l">份作答各有兩到三個 AI 評分者的分數（<span id="s-3a">—</span> 份作業）</span></div>
     </div>
     <p class="note" id="s-foot"></p>
-    <p>下面是每一份作業的狀況。「已繳」是對得到名冊的人數；標<span class="tag grp">分組</span>的作業一組交一份，所以人數看起來少。</p>
+    <details class="ask"><summary>展開 27 份作業的清單（各課、各班、繳交狀態）</summary>
+    <p>「已繳」是對得到名冊的人數；標<span class="tag grp">分組</span>的作業一組交一份，所以人數看起來少。作業名可以點進「一種作業一頁」。</p>
     <div class="table-wrap"><table class="stack" id="asg-table"><thead><tr><th scope="col">課</th><th scope="col">作業</th><th scope="col">班</th><th scope="col">怎麼評</th><th scope="col">名冊</th><th scope="col">已繳</th><th scope="col">遲交</th><th scope="col">狀態</th></tr></thead><tbody></tbody></table></div>
+    </details>
   </div>
 </div></section>
 
@@ -244,9 +246,9 @@
   var pct = function(a, b){ return b ? Math.round(100 * a / b) : 0; };
   put('s-courses', T.courses); put('s-gradebooks', T.gradebooks); put('s-assign', T.assignments);
   put('s-graded', T.assignments_graded); put('s-pushed', T.assignments_pushed);
-  put('s-pairs', T.individual_roster_sum); put('s-sub', T.individual_submitted_sum); put('s-rate', pct(T.individual_submitted_sum, T.individual_roster_sum));
+  put('s-pairs', T.individual_roster_sum); put('s-sub', T.individual_submitted_sum);
   put('s-judged', T.judged_sum); put('s-3a', T.three_judge_assignments);
-  $('s-foot').textContent = T.assignments + ' 份作業裡，' + (T.group_assignments || 0) + ' 份是分組作業（一組交一份）、' + (T.individual_no_summary || 0) + ' 份是課堂＋回家合併的、沒有單獨名冊統計，所以人次只算 ' + T.individual_assignments + ' 份個人作業。';
+  $('s-foot').textContent = T.assignments + ' 份作業裡，' + (T.group_assignments || 0) + ' 份是分組作業（一組交一份）、' + (T.individual_no_summary || 0) + ' 份是課堂＋回家合併的、沒有單獨名冊統計，所以人次只算 ' + T.individual_assignments + ' 份個人作業；應繳人次是名冊人數逐份加總，同一位學生跨作業會重複計。';
   var M = T.modes || {};
   put('m-completion', (M.completion || 0) + ' 份作業'); put('m-program', (M.program || 0) + ' 份作業'); put('m-three', ((M.three_aligned || 0) + (M.three_raw || 0)) + ' 份作業');
   var modeShort = { three_aligned: '三個 AI → 對齊 80–100', three_raw: '三個 AI，原始分', program: '程式判定', completion: '完成度' };

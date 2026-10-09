@@ -419,6 +419,16 @@ section('產線實況頁（pipeline.html）：只准有計數、導覽列全站�
     [/\b(?=[A-Za-z0-9]*\d)[A-Za-z0-9]{9,}\b/, '9 字以上含數字的英數字串（像學號或平台 ID）'],
   ];
   const publicFiles = ['pipeline.html', 'data/pipeline-stats.js', ...typePages];
+  const JUDGES_OK = new Set(['wailan', 'liwu', 'xiuguluan', 'muguaxi', 'meilunxi']);
+  for (const m of data.matchAll(/"judges": \[([^\]]*)\]/g)) {
+    for (const j of m[1].split(',').map(x => x.trim().replace(/"/g, '')).filter(Boolean)) if (!JUDGES_OK.has(j)) fail(`data/pipeline-stats.js 的 judges 出現非正式評分者「${j}」（備份檔或程式判定不算一位評分者）`);
+  }
+  const BANNED = [/_原始/, /flags_for_/, /待 老師/, /open question/i, /judge_rules/, /own_thought/];
+  for (const f of publicFiles) {
+    if (!have(f)) continue;
+    const s = read(f);
+    for (const re of BANNED) { const m = s.match(re); if (m) fail(`${f} 出現內部碎片：${m[0]}`); }
+  }
   for (const f of publicFiles) {
     if (!have(f)) continue;
     const s = read(f);
