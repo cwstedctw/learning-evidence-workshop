@@ -134,10 +134,10 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
         names = "、".join(JUDGE_NAME.get(j, j) for j in jl); nj = len(jl) if jl else 3
         judges_html = (
             f'<p>這種作業一共 <strong>{judged}</strong> 份作答，每份有 {nj} 個評分者的分數（{E(names) if names else "AI 評分者"}）。最高減最低的差距 15 分以上的有 <strong>{hot}</strong> 份（{pct}%）——這些由老師親自看。</p>'
-            + (f'<p>最常分歧的一格是「<strong>{E(top["label"])}</strong>」（評分者兩兩相減平均差 {top["gap"]} 分）。分歧集中在哪一格，就是下一版評分表要把那一格寫得更「看得見」的地方。</p>' if top else "")
+            + (f'<p>最常分歧的一格是「<strong>{E(top["label"])}</strong>」（評分者兩兩相減平均差 {top["gap"]} 分）。分歧集中在哪一格，多半是那一格還不夠「看得見」（也可能是抽字或照片辨識的問題），回查原件再決定下一版怎麼改。</p>' if top else "")
             + f'<figure>{bar_hist(t["gap_bins"])}<figcaption>差距分布（最高分減最低分，原始分）</figcaption></figure>'
             + f'<figure>{bar_dims(t["dim_gap"])}<figcaption>每一格的平均分歧（評分者兩兩相減的平均）</figcaption></figure>'
-            + (f'<p class="note">到 {E(S["as_of"])} 為止，老師最終分數那一欄還是空的：目前用對齊分推簿，分歧大的個案在關注名單上另外看。</p>' if not t["overrides"] else f'<p class="note">老師改過 {t["overrides"]} 份的最終分數。</p>')
+            + (f'<p class="note">到 {E(S["as_of"])} 為止，老師最終分數那一欄還是空的：目前用{"原始分" if t["mode"] == "three_raw" else "對齊分"}推簿，分歧大的個案在關注名單上另外看。</p>' if not t["overrides"] else f'<p class="note">老師改過 {t["overrides"]} 份的最終分數。</p>')
         )
     else:
         judges_html = '<p>這種作業不用人或 AI 評分：' + ("有交就給分，程式只讀有沒有交、晚了多久。" if t["mode"] == "completion" else "分數由程式判定（開連結看活不活、拆開模擬電路看接線與程式特徵），同一份檔跑幾次都一樣；拿不準的才由老師看。") + '</p>'

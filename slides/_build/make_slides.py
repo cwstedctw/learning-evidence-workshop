@@ -376,7 +376,7 @@ def fig_timeline():
         parts.append(f'<circle cx="{x}" cy="110" r="14" class="{dots[i]}" stroke-width="{3 if last else 4}"/>')
         parts.append(tops[i])
         parts.append(f'<text x="{x}" y="86" class="t-sm f-mist t-c">{times[i]}</text>')
-        parts.append(f'<rect x="{x - 125}" y="146" width="250" height="96" rx="6" class="f-card s-line" stroke-width="1.5"/>')
+        parts.append(f'<rect x="{x - 125}" y="146" width="250" height="112" rx="6" class="f-card s-line" stroke-width="1.5"/>')
         parts.append(f'<text x="{x - 110}" y="172" class="t-xs t-b f-coral-deep">為什麼改</text>')
         if whys[i] is None:
             parts.append(fill('text', 'examples.presentation.whyChanged', 't-sm', attrs=f'x="{x - 110}" y="196"', wrap_=13))   # 卡寬 250、左留 15：17px 一行 13 字（16 字會出框 37px）

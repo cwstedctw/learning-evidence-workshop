@@ -18,7 +18,8 @@
 | [slides/](slides/) | 投影片（`01.html`…逐頁，`index.html` 是播放殼） |
 | [workflow-data.js](workflow-data.js) | 議程、四塊步驟、提示詞、一頁設計欄位、開場先講的那句話、圖清單的唯一資料源；入口、講義、投影片、工作台都從這裡渲染 |
 | [data/](data/) | 三份合成示範資料（各 24 筆、代號 `DEMO-S01…`）＋預先跑好的分析；**答案卡在 `data/README.md`** |
-| [prompts/](prompts/) | 六段提示詞的純文字版，整段複製就能用 |
+| [prompts/](prompts/) | 六段提示詞的純文字版，整段複製就能用；`ai-comparison.md` 是「自己的 AI 跟預跑分類差在哪」的紀錄範本 |
+| [START-HERE.md](START-HERE.md) | 離線用：下載 ZIP 解壓後怎麼開、AI 助手要先選哪個資料夾、探測句 |
 | [validate-workshop.mjs](validate-workshop.mjs) | 內容守門腳本：`node validate-workshop.mjs`（push 到 `main` 時 GitHub Actions 也會跑） |
 
 ## 兩句話說明

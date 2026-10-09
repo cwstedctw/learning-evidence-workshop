@@ -491,6 +491,7 @@ try {
     if(parsed.rubric) state.rubric = Object.assign(state.rubric, parsed.rubric);
     if(parsed.evidence) state.evidence = Object.assign(state.evidence, parsed.evidence);
     if(parsed.design && parsed.design.fields) state.design.fields = parsed.design.fields;
+    if(parsed.design && (parsed.design.base === 'talk' || parsed.design.base === 'demo')) state.design.base = parsed.design.base;
   } }
 } catch(e) {}
 /* 貼上的資料那一份（抽到的代號、判斷、三句結論）只放記憶體，跟畫面上的承諾一致；舊版暫存裡若有，載入時就丟掉 */
@@ -551,15 +552,18 @@ function download(name, text){
 function fallbackCopy(t){
   var ta = document.createElement('textarea'); ta.value = t; ta.setAttribute('readonly','');
   ta.style.position = 'fixed'; ta.style.left = '-9999px'; document.body.appendChild(ta); ta.select();
-  try { document.execCommand('copy'); } catch(e) {}
+  var ok = false;
+  try { ok = document.execCommand('copy') === true; } catch(e) { ok = false; }
   document.body.removeChild(ta);
+  return ok;
 }
 function copyText(t, btn){
   var old = btn.textContent;
   var done = function(){ btn.textContent = '已複製'; setTimeout(function(){ btn.textContent = old; }, 1500); };
+  var failed = function(){ btn.textContent = '複製失敗，請手動選取'; setTimeout(function(){ btn.textContent = old; }, 2500); };
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(t).then(done, function(){ fallbackCopy(t); done(); });
-  } else { fallbackCopy(t); done(); }
+    navigator.clipboard.writeText(t).then(done, function(){ if(fallbackCopy(t)) done(); else failed(); });
+  } else { if(fallbackCopy(t)) done(); else failed(); }
 }
 
 /* ── 分頁：三個分頁、方向鍵可切、網址 # 直達 ── */
@@ -840,9 +844,12 @@ function parseCSV(text){
     else if(c === '\r'){ }
     else field += c;
   }
+  if(inQ) throw new Error('有一個引號（"）沒有關上，請檢查最後幾列。');
   if(field !== '' || row.length){ row.push(field); rows.push(row); }
   return rows.filter(function(r){ return r.length && !(r.length === 1 && r[0].trim() === '') && !/^\s*#/.test(r[0]); });
 }
+/* 分數：空白不是 0、要是有限的數字（立霧 2026-10-09 試用抓到：空白被當 0、Infinity 也收） */
+function numCell(v){ var s = String(v == null ? '' : v).trim(); if(s === '') return NaN; var n = Number(s); return isFinite(n) ? n : NaN; }
 function toRecords(rows){
   if(!rows.length) throw new Error('沒有讀到任何一列。');
   var hdr = rows[0].map(function(h){ return h.trim(); });
@@ -850,23 +857,24 @@ function toRecords(rows){
   var required = ['student_id','self_score','peer_score','teacher_score','reflection_text'];
   var missing = required.filter(function(r){ return idx(r) < 0; });
   if(missing.length) throw new Error('缺少欄位：' + missing.join('、') + '。第一列要是欄位名。');
-  var recs = [], skipped = 0, seen = {};
+  var recs = [], skipped = 0, seen = {}, why = [];
   for(var i = 1; i < rows.length; i++){
     var r = rows[i];
     var rec = {
       id: (r[idx('student_id')] || '').trim(),
-      self: Number(r[idx('self_score')]), peer: Number(r[idx('peer_score')]), teacher: Number(r[idx('teacher_score')]),
+      self: numCell(r[idx('self_score')]), peer: numCell(r[idx('peer_score')]), teacher: numCell(r[idx('teacher_score')]),
       weakest: idx('teacher_weakest_criterion') >= 0 ? (r[idx('teacher_weakest_criterion')] || '').trim() : '',
       reflection: (r[idx('reflection_text')] || '').trim(),
       task: idx('task') >= 0 ? (r[idx('task')] || '').trim() : ''
     };
-    if(!rec.id || seen[rec.id] || isNaN(rec.self) || isNaN(rec.peer) || isNaN(rec.teacher)){ skipped++; continue; }
+    var bad = !rec.id ? '沒有代號' : seen[rec.id] ? '代號重複' : (isNaN(rec.self) || isNaN(rec.peer) || isNaN(rec.teacher)) ? '分數空白或不是數字' : !rec.reflection ? '反思空白' : '';
+    if(bad){ skipped++; if(why.length < 3) why.push('第 ' + (i + 1) + ' 列' + bad); continue; }
     seen[rec.id] = true;
     rec.dSelf = rec.self - rec.teacher; rec.dPeer = rec.peer - rec.teacher;
     rec.far = Math.max(Math.abs(rec.dSelf), Math.abs(rec.dPeer));
     recs.push(rec);
   }
-  return { records: recs, skipped: skipped };
+  return { records: recs, skipped: skipped, why: why };
 }
 function sign(n){ return n > 0 ? '+' + n : String(n); }
 function shortId(id){ var s = String(id).replace(/^DEMO-/, ''); return s.length > 6 ? s.slice(0, 5) + '…' : s; }
@@ -909,10 +917,17 @@ $('btnLoadPaste').addEventListener('click', function(){
   hideMsg('msgPaste');
   try {
     var parsed = toRecords(parseCSV($('pasteCsv').value));
-    if(!parsed.records.length) throw new Error('沒有一列是完整的：代號、三個分數、反思都要有。');
-    pasteRows = parsed;
+    if(!parsed.records.length) throw new Error('沒有一列是完整的：代號、三個分數、反思都要有。' + (parsed.why && parsed.why.length ? '（' + parsed.why.join('；') + '）' : ''));
+    var sig = JSON.stringify(parsed.records.map(function(r){ return [r.id, r.self, r.peer, r.teacher, r.reflection]; }));
+    var prev = state.evidence.per && state.evidence.per.paste;
+    var hadWork = prev && ((prev.ids || []).length || (prev.conclusions || []).some(function(c){ return (c || '').trim(); }));
+    if(pasteRows && pasteRows.sig !== sig && hadWork){
+      if(!confirm('這份貼上的資料跟上一份不一樣：抽到的三筆、判斷和三句結論會重來。要換嗎？')) return;
+      delete state.evidence.per.paste;
+    }
+    parsed.sig = sig; pasteRows = parsed;
     loadDataset('paste');
-    showMsg('msgPaste', '讀到 ' + parsed.records.length + ' 筆。' + (parsed.skipped ? '略過 ' + parsed.skipped + ' 列。' : ''), true);
+    showMsg('msgPaste', '讀到 ' + parsed.records.length + ' 筆。' + (parsed.skipped ? '略過 ' + parsed.skipped + ' 列（' + (parsed.why || []).join('；') + (parsed.skipped > 3 ? '…' : '') + '）。' : ''), true);
   } catch(e){ showMsg('msgPaste', '讀不進去：' + e.message); }
 });
 
@@ -1049,6 +1064,7 @@ $('btnExportSampling').addEventListener('click', function(){
   var p = per(), recsById = {}; current.records.forEach(function(r){ recsById[r.id] = r; });
   var ids = p.ids.filter(function(id){ return recsById[id]; });
   clearCardFlags();
+  if(!current.records.length){ showMsg('msgEvidence', '還沒有資料：先選一份示範資料，或貼上並讀取你自己的，再抽 3 筆。'); return; }
   if(ids.length < Math.min(3, current.records.length)){ showMsg('msgEvidence', '先按「抽 3 筆回查」。'); $('btnDraw').focus(); return; }
   for(var i = 0; i < ids.length; i++){
     var j = p.judge[ids[i]] || {};

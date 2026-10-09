@@ -140,6 +140,8 @@ body{display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
   }
   document.addEventListener('keydown', function(e){
     if (e.altKey || e.ctrlKey || e.metaKey) return;
+    var t = e.target;
+    if (t && t.closest && t.closest('button, a, input, textarea, select, [contenteditable]')) return;   // 焦點在按鈕或輸入框：留給元件本身（立霧 2026-10-09 試用抓到 Enter 被攔成下一頁）
     var k = e.key;
     if (help.classList.contains('on')) { if (k === 'Escape' || k === '?') { toggleHelp(false); e.preventDefault(); } return; }
     if (k === 'ArrowRight' || k === 'ArrowDown' || k === ' ' || k === 'PageDown' || k === 'Enter' || k === 'n' || k === 'j') { next(); e.preventDefault(); }

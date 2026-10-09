@@ -641,7 +641,7 @@ label.field{margin-top:var(--s2)}
       $('.dot', p).innerHTML = done ? ic('check') : String(n);
       if(done) doneCount++;
     });
-    $('#where').textContent = state.stage === 5 ? '四關都玩過了' : ('第 ' + state.stage + '／4 關');
+    $('#where').textContent = state.stage === 5 ? (doneCount === 4 ? '四關都玩過了' : ('已到收尾，做完 ' + doneCount + '／4 關')) : ('第 ' + state.stage + '／4 關');
     $('#whereTitle').textContent = TITLES[state.stage] || '';
     $('#fill').style.transform = 'scaleX(' + (doneCount / 4) + ')';
   };
