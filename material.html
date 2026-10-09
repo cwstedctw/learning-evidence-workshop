@@ -723,7 +723,7 @@ table.studio td.seg{white-space:nowrap}
   /* ── 捌：議程（照入口頁的表：時間＋分鐘、段＋形式標籤、做什麼、帶走什麼；四塊的「動手」標籤照 blockId 配四色淡底 b1–b4）── */
   var total = F.totalMinutes ? F.totalMinutes() : F.agenda.reduce(function(s, a){ return s + a.minutes; }, 0);
   $('#agenda').innerHTML = '<table class="stack">' +
-    '<caption>合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就舉手，鄰座或講師先看。</caption>' +
+    '<caption>合計 ' + total + ' 分鐘。第二塊到第四塊走得緊：講師示範一遍，大家跟著做，每步一句話；卡住就先問 AI 助手，不行再舉手。</caption>' +
     '<thead><tr><th scope="col">時間</th><th scope="col">段</th><th scope="col">做什麼</th><th scope="col">老師帶走什麼</th></tr></thead><tbody>' +
     F.agenda.map(function(a){
       var cls = a.blockId ? ' b' + String(a.blockId).replace(/^B/, '') : '';
