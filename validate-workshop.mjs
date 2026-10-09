@@ -410,6 +410,20 @@ section('產線實況頁（pipeline.html）：只准有計數、導覽列全站�
     if (!s.includes('href="pipeline.html"')) fail(`${f} 缺回總覽的連結`);
     if (!s.includes('評分表不是先寫好再收作業')) fail(`${f} 缺「評分表是讀完全班材料後才定」那一句`);
   }
+  // 三種公開輸出一起掃：email、ID 字樣、本機路徑、內部檔名、像學號或平台 ID 的長英數字串
+  const PII_PATTERNS = [
+    [/[\w.+-]+@[\w-]+\.[\w.-]+/, 'email'],
+    [/\b(cmid|spreadsheetId|student_id|userid|sid)\b/i, 'ID 欄位字樣'],
+    [/[A-Za-z]:\\|\/Users\/|\/home\//, '本機路徑'],
+    [/bundle\.md|證據_reader|emit_|judges_wide|final_grades|scores_[a-z]+\.csv/, '內部檔名或函式名'],
+    [/\b(?=[A-Za-z0-9]*\d)[A-Za-z0-9]{9,}\b/, '9 字以上含數字的英數字串（像學號或平台 ID）'],
+  ];
+  const publicFiles = ['pipeline.html', 'data/pipeline-stats.js', ...typePages];
+  for (const f of publicFiles) {
+    if (!have(f)) continue;
+    const s = read(f);
+    for (const [re, what] of PII_PATTERNS) { const m = s.match(re); if (m) fail(`${f} 出現${what}：${m[0].slice(0, 40)}`); }
+  }
 });
 
 section('必要錨點：工作台分頁與按鈕名稱', () => {

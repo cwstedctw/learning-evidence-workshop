@@ -36,12 +36,12 @@ EXAMPLE = {
 }
 # 怎麼檢查（不只比對文字；照批改工具的實際做法寫）
 CHECK_HOW = {
-    "wokwi_led_blink": "程式直接抓學生交的 Wokwi 公開專案頁裡的 diagram.json 與程式碼，拆開來看：有沒有板子、至少一顆 LED、一顆電阻、有沒有接 GND、LED 是不是接到 GPIO；程式有沒有「設腳位＋切換＋延時＋迴圈」。交老師示範專案的連結不算自己的。這不是比對文字，是把模擬電路本身檢查一遍。",
-    "wokwi_rhythm": "同第 2 週的電路與程式檢查，再多看一格「節奏」：程式有沒有兩種以上的等待時間、或用 for／if 控制、或印出亮滅；跟示範一樣只改數字的給一半。全部由程式判定，同一份專案跑幾次都一樣。",
+    "wokwi_led_blink": "程式直接抓學生交的 Wokwi 公開專案頁裡的 diagram.json 與程式碼，做靜態檢查：有沒有板子、至少一顆 LED、一顆電阻、有沒有接 GND、LED 是不是接到板子的腳位；程式有沒有「設腳位＋切換＋延時＋迴圈」這四件事。它不會真的按播放，所以證明的是「接線與程式長得對」，不是「一定會閃」；交老師示範專案的連結不算自己的。這不是比對文字，是把專案拆開來看。",
+    "wokwi_rhythm": "同第 2 週的靜態檢查，再多看一格「節奏」：程式有沒有兩種以上的等待時間、或用 for／if 控制、或印出亮滅；跟示範一樣只改數字的給一半。全部由程式判定，同一份專案跑幾次都一樣。",
     "wokwi_traffic_latch": "評分者讀投影片（程式先抽文字，字太少就把頁抽成圖來看），再對照 Wokwi 專案裡程式抓到的零件與接線；「證明擋住了彈跳」要有學生自己跑出來的數字（序列埠或截圖），不是寫一句「有擋住」就算。",
     "wokwi_traffic_modes": "評分者讀 Wokwi 專案（零件、接線、程式裡有沒有計時器與中斷）與三句話；「怎麼證明沒有漏按」那一句要能對得上程式的做法。",
-    "links_required": "不是看有沒有貼網址：程式真的去開每一條（先 HEAD 再 GET、跟著轉址、15 秒逾時），回 2xx／3xx 才算活著；活著至少一條＝100、有網址但全打不開＝50、沒網址＝0。",
-    "completion": "目前以有沒有交、準不準時計分（程式讀平台的繳交時間）。照片判讀程式也寫好了：找學習單外框、透視校正到模板，量每一區的墨水密度判有沒有寫、勾選格的黑像素判有沒有勾，拿不準的留給人看；還在用真照片校準。",
+    "links_required": "不是看有沒有貼網址：程式真的去開每一條（等它回應、跟著轉址、最多等 15 秒），有正常回應才算活著；活著至少一條＝100、有網址但全打不開＝50、沒網址＝0。",
+    "completion": "以有沒有交、準不準時計分，程式讀平台記的繳交時間，不看內容。照片判讀程式（找學習單外框、透視校正到模板、量每一區的墨水密度與勾選格的黑像素）寫好了但還在試作，尚未用於正式成績。",
     "board_photo": "只有照片、沒有文字可比對：三個 AI 用視覺看照片——板子上的燈有沒有在動。這類作業三個人最容易看法不同，所以差距大的一律送人看。",
     "matrix_photo": "只有照片：三個 AI 用視覺看點陣有沒有圖樣或文字在亮、有沒有終端機或程式碼畫面證明是自己做的。這是全學期分歧最大的一種作業，正是回頭修評分表的線索。",
     "three_commits": "評分者對照 GitHub 歷史頁截圖裡的 commit 數與訊息、線上文字列的三筆訊息對不對得上、repo 網址是不是自己的公開 repo（帳號名對得上）；三筆訊息都叫 update 最多拿 20。貼給 AI 的原文要看得出一步一步。",
@@ -121,16 +121,22 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
     hub_html = "".join(f' <a href="{E(u)}" target="_blank" rel="noopener">{E(c)}課程網 ↗</a>' for c, u in hubs)
     if judged:
         top = t["dim_gap"][0] if t["dim_gap"] else None
-        names = "、".join(JUDGE_NAME.get(j, j) for j in (inst[0]["judges"] if inst and inst[0]["judges"] else []))
+        jl = sorted({j for a in inst for j in (a["judges"] or [])})
+        names = "、".join(JUDGE_NAME.get(j, j) for j in jl); nj = len(jl) if jl else 3
         judges_html = (
-            f'<p>這種作業一共 <strong>{judged}</strong> 份作答，每份有三個評分者的分數（{E(names) if names else "三位 AI"}）。最高減最低的差距 15 分以上的有 <strong>{hot}</strong> 份（{pct}%）——這些由老師親自看。</p>'
-            + (f'<p>最常分歧的一格是「<strong>{E(top["label"])}</strong>」（三人平均差 {top["gap"]} 分）。分歧集中在哪一格，就是下一版評分表要把那一格寫得更「看得見」的地方。</p>' if top else "")
+            f'<p>這種作業一共 <strong>{judged}</strong> 份作答，每份有 {nj} 個評分者的分數（{E(names) if names else "AI 評分者"}）。最高減最低的差距 15 分以上的有 <strong>{hot}</strong> 份（{pct}%）——這些由老師親自看。</p>'
+            + (f'<p>最常分歧的一格是「<strong>{E(top["label"])}</strong>」（評分者兩兩相減平均差 {top["gap"]} 分）。分歧集中在哪一格，就是下一版評分表要把那一格寫得更「看得見」的地方。</p>' if top else "")
             + f'<figure>{bar_hist(t["gap_bins"])}<figcaption>差距分布（最高分減最低分，原始分）</figcaption></figure>'
-            + f'<figure>{bar_dims(t["dim_gap"])}<figcaption>每一格的平均分歧（三人兩兩相減的平均）</figcaption></figure>'
+            + f'<figure>{bar_dims(t["dim_gap"])}<figcaption>每一格的平均分歧（評分者兩兩相減的平均）</figcaption></figure>'
             + (f'<p class="note">到 {E(S["as_of"])} 為止，老師最終分數那一欄還是空的：目前用對齊分推簿，分歧大的個案在關注名單上另外看。</p>' if not t["overrides"] else f'<p class="note">老師改過 {t["overrides"]} 份的最終分數。</p>')
         )
     else:
-        judges_html = '<p>這種作業不用評分者：' + ("有交就給分，程式只量有沒有交、遲交幾天。" if t["mode"] == "completion" else "分數由程式判定（開連結看活不活、檢查電路與程式有沒有照規格），同一份檔跑幾次都一樣。") + '</p>'
+        judges_html = '<p>這種作業不用人或 AI 評分：' + ("有交就給分，程式只讀有沒有交、晚了多久。" if t["mode"] == "completion" else "分數由程式判定（開連結看活不活、拆開模擬電路看接線與程式特徵），同一份檔跑幾次都一樣；拿不準的才由老師看。") + '</p>'
+    judges_heading = f"{len(sorted({j for a in inst for j in (a['judges'] or [])})) or 3} 個評分者差多少、差在哪一格" if judged else "要不要人工評分"
+    note_html = (f'<details class="ask"><summary>評分表備註（工作紀錄原文，含內部用語）</summary><div class="prompt"><p>{E(rub["note"])}</p></div></details>' if rub["note"] else "")
+    grading_line = E(soften(inst[0]["grading_text"]) if inst else mode)
+    if t["id"] == "completion":
+        grading_line = "完成度：準時 100、遲交 70、沒交 0（2026-10-09 起的規則；第 1 場當時遲交算 80）。不評內容好壞。"
     if len(t["versions"]) > 1:
         vers = "".join(f'<li><strong>第 {i + 1} 版（{E(v["version"])}）</strong>：{E(v["title"])}<br><span class="vnote">{E(v["note"]) or "—"}</span></li>' for i, v in enumerate(t["versions"]))
         versions_html = f'<p>這份評分表改過版，每一版的備註就是「為什麼改」：</p><ol class="versions">{vers}</ol>'
@@ -150,10 +156,10 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
   <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
   <div class="body prose">
     <p><strong>作業例子：</strong>{E(EXAMPLE.get(t["id"], rub["title"]))}{hub_html}</p>
-    <p><strong>評分方式：</strong>{E(soften(inst[0]["grading_text"]) if inst else mode)}</p>
+    <p><strong>評分方式：</strong>{grading_line}</p>
     <p><strong>怎麼檢查（不只比對文字）：</strong>{E(CHECK_HOW.get(t["id"], "評分者讀全部材料後依評分表打分。"))}</p>
-    <p><strong>評分表備註（原文）：</strong>{E(rub["note"]) or "—"}</p>
     {grp}
+    {note_html}
     <p class="note">評分表不是先寫好再收作業：先把全班的繳交一鍵抓回來，AI 讀完全部材料、列出看得見的維度與配分，老師確認後才開批。沿用同一份評分表的作業不必再確認。</p>
   </div>
 </div></section>
@@ -176,7 +182,7 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
   </div>
 </div></section>
 <section id="judges" class="sec" aria-labelledby="judges-h"><div class="wrap">
-  <h2 id="judges-h"><span class="num">肆</span><span class="t">三個評分者差多少、差在哪一格</span></h2>
+  <h2 id="judges-h"><span class="num">肆</span><span class="t">{E(judges_heading)}</span></h2>
   <div class="body prose">{judges_html}</div>
 </div></section>
 <section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">

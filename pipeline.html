@@ -115,9 +115,10 @@
     <div class="stats">
       <div class="k"><span class="n" id="s-courses">—</span><span class="l">門課（<span id="s-gradebooks">—</span> 本線上成績簿，分班的課各一本）</span></div>
       <div class="k"><span class="n" id="s-assign">—</span><span class="l">份作業已登記；<span id="s-graded">—</span> 份批完、<span id="s-pushed">—</span> 份已推進成績簿</span></div>
-      <div class="k"><span class="n" id="s-pairs">—</span><span class="l">份個人作答該交（名冊人數加總）；收到 <span id="s-sub">—</span> 份，繳交率 <span id="s-rate">—</span>%</span></div>
-      <div class="k"><span class="n gold" id="s-judged">—</span><span class="l">份作答各有三個 AI 評分者的分數（<span id="s-3a">—</span> 份作業）</span></div>
+      <div class="k"><span class="n" id="s-pairs">—</span><span class="l">個人作業的應繳人次（名冊人數逐份加總，同一學生跨作業重複計）；收到 <span id="s-sub">—</span> 人次，約 <span id="s-rate">—</span>%</span></div>
+      <div class="k"><span class="n gold" id="s-judged">—</span><span class="l">份作答各有兩到三個 AI 評分者的分數（<span id="s-3a">—</span> 份作業）</span></div>
     </div>
+    <p class="note" id="s-foot"></p>
     <p>下面是每一份作業的狀況。「已繳」是對得到名冊的人數；標<span class="tag grp">分組</span>的作業一組交一份，所以人數看起來少。</p>
     <div class="table-wrap"><table class="stack" id="asg-table"><thead><tr><th scope="col">課</th><th scope="col">作業</th><th scope="col">班</th><th scope="col">怎麼評</th><th scope="col">名冊</th><th scope="col">已繳</th><th scope="col">遲交</th><th scope="col">狀態</th></tr></thead><tbody></tbody></table></div>
   </div>
@@ -137,7 +138,7 @@
     <div class="modes">
       <div class="m"><b>完成度</b><span class="cnt" id="m-completion">—</span><p>有交就給，準時 100、遲交打折、沒交 0；不評內容好壞。用在演講課的手寫學習單——那門課的底線是不對學生個人做評價。</p></div>
       <div class="m c2"><b>程式判定</b><span class="cnt" id="m-program">—</span><p>能用程式確定的就不用人：模擬電路檔有沒有照規格接線與閃爍、交的網址真的打開活不活。同一份檔跑幾次都一樣，可以稽核。</p></div>
-      <div class="m c3"><b>三個 AI 評分者 → 對齊</b><span class="cnt" id="m-three">—</span><p>同一份評分表，三個不同引擎的 AI 各自讀全班、各打一份；平均之後「對齊」到 80–100 的分數帶（作業是練習，分數帶是鼓勵；原始分與差距都留著）。老師可以填「最終分數」蓋過去。</p></div>
+      <div class="m c3"><b>AI 評分者各打一份 → 對齊</b><span class="cnt" id="m-three">—</span><p>同一份評分表，三個不同引擎的 AI（少數作業兩個）各自讀全班、各打一份，再取平均。「對齊」白話說：把全班的平均分換算到 80–100 的分數帶，像把三把不同的尺換成同一把——作業是練習，分數帶是鼓勵；原始分與評分者之間的差距都留著給老師看。老師可以填「最終分數」蓋過去。</p></div>
     </div>
     <p>一份真的評分表長這樣（第 2 週「裝好四樣」，五格各 20 分、辦不成但寫出原因也給分）：</p>
     <ul class="rubric" id="rubric-example"></ul>
@@ -150,16 +151,16 @@
   <div class="body prose">
     <p>學生交的是連結、照片、模擬電路、投影片、手寫紙，光比對文字什麼都查不到。每一種證據都有自己的檢查法，而且盡量讓程式做、讓結果可重跑：</p>
     <div class="checks">
-      <div class="c hot"><b>讀模擬電路（Wokwi）</b><p>直接抓學生交的 Wokwi 公開專案裡的 diagram.json 與程式碼：有沒有板子、LED、電阻，有沒有接 GND、接到哪支 GPIO，程式有沒有「設腳位＋切換＋延時＋迴圈」；節奏那一格再看有沒有兩種等待時間。交老師示範專案的連結不算。這一條不容易，但做到了：電路本身可以被程式檢查。</p></div>
-      <div class="c"><b>真的開連結</b><p>不是看有沒有貼網址：程式去開每一條（先 HEAD 再 GET、跟著轉址、15 秒逾時），2xx／3xx 才算活著。</p></div>
-      <div class="c"><b>看照片</b><p>板子動起來、點陣亮了這類只有照片的作業，三個 AI 用視覺看：燈有沒有在動、有沒有終端機或程式碼畫面證明是自己做的。這類最容易看法不同，差距大的一律送人看。</p></div>
+      <div class="c hot"><b>讀模擬電路（Wokwi）</b><p>直接抓學生交的 Wokwi 公開專案裡的 diagram.json 與程式碼做靜態檢查：有沒有板子、LED、電阻，有沒有接 GND、接到哪支腳位，程式有沒有「設腳位＋切換＋延時＋迴圈」這四件事；節奏那一格再看有沒有兩種等待時間。它不會真的按播放，證明的是「接線與程式長得對」、不是「一定會閃」，但已經比看截圖可靠得多；交老師示範專案的連結不算。這一條做起來不容易，值得特別看。</p></div>
+      <div class="c"><b>真的開連結</b><p>不是看有沒有貼網址：程式去開每一條，等它回應、跟著轉址、最多等 15 秒，有正常回應才算活著。</p></div>
+      <div class="c"><b>看照片</b><p>板子動起來、點陣亮了這類只有照片的作業，AI 評分者用視覺看：燈有沒有在動、有沒有終端機或程式碼畫面證明是自己做的。這類最容易看法不同，差距大的一律送人看。</p></div>
       <div class="c"><b>對 GitHub 歷史</b><p>commit 三次的作業：截圖裡的 commit 數與訊息、線上文字列的三筆、repo 網址是不是自己的公開 repo，三邊要對得上。</p></div>
       <div class="c"><b>抽字，字少就抽圖</b><p>簡報與 PDF 先抽文字；字太少的把每一頁抽成圖讓評分者看，不因抽不到字給低分。</p></div>
-      <div class="c"><b>影片抽幀＋逐字稿</b><p>只交影片的人：程式均勻抽幀、語音轉文字給評分者讀；任何一步失敗一律標「請人工看影片」，不盲改。</p></div>
-      <div class="c"><b>手寫紙量墨水</b><p>手寫學習單的照片：找外框、透視校正到模板，量每一區的墨水密度判有沒有寫、勾選格的黑像素判有沒有勾，拿不準的留給人看。</p></div>
+      <div class="c"><b>影片抽幀＋逐字稿</b><p>只交影片的人：程式均勻抽幀、語音轉文字給評分者讀；任何一步失敗一律標「請人工看影片」，不盲改。（工具是上學期做的，這學期還沒有影片類作業。）</p></div>
+      <div class="c"><b>手寫紙量墨水</b><p>手寫學習單的照片：找外框、透視校正到模板，量每一區的墨水密度判有沒有寫、勾選格的黑像素判有沒有勾，拿不準的留給人看。（試作中，還沒用在正式成績；學習單目前只看有沒有交、準不準時。）</p></div>
       <div class="c"><b>名冊、遲交、分組</b><p>姓名對學號先正規化、同名不猜；遲交時間讀平台匯出的評分工作表；分組作業照定版分組表同組同分。</p></div>
       <div class="c"><b>AI 生成訊號</b><p>一鍵生成的簡報（工具浮水印、整份同一腔調）只對有嫌疑的那幾份做對抗式判定，不全班亂掃。</p></div>
-      <div class="c"><b>三個評分者互相當檢查</b><p>同一份評分表三個不同引擎各打一份，差距 15 分以上就送人看；分歧集中在哪一格，哪一格就是評分表該改的地方。</p></div>
+      <div class="c"><b>評分者互相當檢查</b><p>同一份評分表，三個不同引擎的 AI（少數作業兩個）各打一份，差距 15 分以上就送人看；分歧集中在哪一格，哪一格就是評分表該改的地方。</p></div>
     </div>
   </div>
 </div></section>
@@ -169,7 +170,7 @@
   <div class="body prose">
     <div class="two">
       <div>
-        <p>每一份作答有三個分數，取<strong>最高減最低</strong>當差距。到目前 <strong id="g-n">—</strong> 份作答裡，差距 15 分以上的有 <strong id="g-hot">—</strong> 份（<span id="g-pct">—</span>%）——這些就是老師要親自看的，其他的三位意見一致、老師抽查就好。</p>
+        <p>每一份作答有兩到三個分數，取<strong>最高減最低</strong>當差距。到目前 <strong id="g-n">—</strong> 份作答裡，差距 15 分以上的有 <strong id="g-hot">—</strong> 份（<span id="g-pct">—</span>%）——這些就是老師要親自看的，其他的評分者意見一致、老師抽查就好。</p>
         <p id="g-note"></p>
       </div>
       <figure><svg class="chart" id="gap-hist" viewBox="0 0 600 230" role="img" aria-label="三個評分者差距的分布長條圖"></svg><figcaption>差距分布（最高分減最低分，原始分）</figcaption></figure>
@@ -245,6 +246,7 @@
   put('s-graded', T.assignments_graded); put('s-pushed', T.assignments_pushed);
   put('s-pairs', T.individual_roster_sum); put('s-sub', T.individual_submitted_sum); put('s-rate', pct(T.individual_submitted_sum, T.individual_roster_sum));
   put('s-judged', T.judged_sum); put('s-3a', T.three_judge_assignments);
+  $('s-foot').textContent = T.assignments + ' 份作業裡，' + (T.group_assignments || 0) + ' 份是分組作業（一組交一份）、' + (T.individual_no_summary || 0) + ' 份是課堂＋回家合併的、沒有單獨名冊統計，所以人次只算 ' + T.individual_assignments + ' 份個人作業。';
   var M = T.modes || {};
   put('m-completion', (M.completion || 0) + ' 份作業'); put('m-program', (M.program || 0) + ' 份作業'); put('m-three', ((M.three_aligned || 0) + (M.three_raw || 0)) + ' 份作業');
   var modeShort = { three_aligned: '三個 AI → 對齊 80–100', three_raw: '三個 AI，原始分', program: '程式判定', completion: '完成度' };
