@@ -18,8 +18,8 @@
 
 ## 用完之後你一定要自己看的
 
-打開它寫的檔：前 6 名的代號跟你自己掃一眼 CSV 的印象一不一樣？
+打開它寫的 gap-analysis.md，拿前 6 個代號去工作台「證據儀表板」的落差排序表對前 6 列：同分並列會多於 6 筆、對的是代號不是名次；有出入就看那個代號的落差數字算得對不對。
 
 ---
 
-原文出處：`workflow-data.js` → `prompts` → `P3`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/
+（給維護教材的人）原文出處：`workflow-data.js` → `prompts` → `P3`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/

@@ -8,7 +8,7 @@
 ## 提示詞（整段複製；【】裡換成你的內容）
 
 ```text
-我有一份從教學平台匯出的試算表文字，欄位名稱不一致、有空白列、分數有的寫「四」有的寫 4、有些格子混了姓名。
+我有一份從教學平台匯出的試算表文字，姓名已經換成代號、信箱電話已經刪掉；欄位名稱不一致、有空白列、分數有的寫「四」有的寫 4。
 請幫我整理成固定欄位的 CSV：student_id（用我給的代號、不要用姓名）、task、self_score、peer_score、teacher_score、reflection_text。
 缺值保留空白、分數看不出是幾分就標「待確認」，不要替我補數字。凡是看起來像姓名、學號、電話、信箱的內容一律刪除，最後只列出你刪了幾處、不要把刪掉的內容重貼出來。整理完先只給我前 5 列讓我確認格式，再給全部。
 【把去識別化後的文字貼在這裡】
@@ -20,4 +20,4 @@
 
 ---
 
-原文出處：`workflow-data.js` → `prompts` → `P5`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/
+（給維護教材的人）原文出處：`workflow-data.js` → `prompts` → `P5`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/

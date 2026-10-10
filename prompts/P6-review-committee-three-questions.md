@@ -1,7 +1,7 @@
 # P6｜一頁設計的審查委員三問
 
 - 用在：第四塊・帶著自己的課：一頁「評量—回饋—教學調整—研究」設計
-- 怎麼用：第四塊第 3 步，選做。把工作台「一頁設計」匯出的 Markdown 整份貼在【】裡。
+- 怎麼用：第四塊第 3 步，選做。在工作台「一頁設計」的預覽旁按「複製」，整份貼在【】裡。
 - 記住這一句：**挑一句不同意的、改掉、寫下為什麼。**
 - AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。
 
@@ -18,4 +18,4 @@
 
 ---
 
-原文出處：`workflow-data.js` → `prompts` → `P6`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/
+（給維護教材的人）原文出處：`workflow-data.js` → `prompts` → `P6`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/

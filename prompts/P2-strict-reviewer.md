@@ -1,7 +1,7 @@
 # P2｜請 AI 扮嚴格審查者挑毛病
 
 - 用在：第二塊・跟 AI 一起做 Rubric 與自評／互評表
-- 怎麼用：第二塊第 3 步。先把你改過一格的第 1 版貼在最後一行的【】裡，再送出。
+- 怎麼用：第二塊第 3 步。把右欄目前的版本（你已經先改過至少一格）貼在最後一行的【】裡，再送出。
 - 記住這一句：**挑一句不同意的、改掉、寫下為什麼。**
 - AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。
 
@@ -20,4 +20,4 @@
 
 ---
 
-原文出處：`workflow-data.js` → `prompts` → `P2`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/
+（給維護教材的人）原文出處：`workflow-data.js` → `prompts` → `P2`（改內容請改那裡）。從學習證據到教學改進｜https://cwstedctw.github.io/learning-evidence-workshop/

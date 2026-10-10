@@ -110,7 +110,7 @@ table.studio td.seg{white-space:nowrap}
   <h1 id="hero-title"><span>從學習證據</span><span>到教學改進</span></h1>
   <div class="deck">
     <p class="sub"><span id="hero-sub">AI 協作促進學習評量與教學實踐研究工作坊</span>——<span id="hero-tag">讓每一次教學調整都留下證據</span></p>
-    <p class="meta"><span class="m"><span id="hero-date">2026-10-16（五）</span> <span id="hero-time">15:00–17:00</span></span><span class="sep" aria-hidden="true">｜</span><span class="m" id="hero-venue">國立東華大學 環境學院 3F CIRES 會議室</span><span class="sep" aria-hidden="true">｜</span><span class="m">講師：<span id="hero-speaker">陳文盛（國立東華大學通識教育中心）</span></span></p>
+    <p class="meta"><span class="m"><span id="hero-date">2026-10-16（五）</span> <span id="hero-time">15:00–17:00</span></span><span class="sep" aria-hidden="true">｜</span><span class="m" id="hero-venue">國立東華大學 環境學院 3 樓 CIRES 會議室</span><span class="sep" aria-hidden="true">｜</span><span class="m">講師：<span id="hero-speaker">陳文盛（國立東華大學通識教育中心）</span></span></p>
   </div>
 </div></header>
 
@@ -146,7 +146,7 @@ table.studio td.seg{white-space:nowrap}
   <div class="body prose">
     <p>寫教學實踐研究計畫，最難拿出來的一段，不是文獻、不是方法，是「我根據證據調整了教學」。學期中你一定改過東西：規準表改了一格、學習單換了一題、回饋從書面改成當面講。可是到了寫計畫書或成果報告那天，能證明「改過」的，常常只剩記憶。</p>
     <p>版本紀錄做的就是這件事：一門課一個資料夾，每改一次就存一個版本，順手寫一句為什麼改。學期末打開，改了哪裡、什麼時候改、當時怎麼想的，全都在。這不是資訊工程的事，是研究方法的一部分：審查委員問「你怎麼知道是這個調整有效」，你拿得出一條時間線，而不是一段回憶。</p>
-    <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背指令，指令交給 AI 助手（AI agent）代打；你只看它的計畫、看它改完的前後對照、然後點頭。這就是「監督」，今天四塊的每一步都會回到這三件事。</p>
+    <p>Git（版本控制工具）就是幫一個資料夾記住每一次修改的工具。你不必背任何指令（原本要打給電腦的操作文字），全部交給 AI 助手（AI agent）代打；你只看它的計畫、看它改完的前後對照、然後點頭。這就是「監督」，今天四塊的每一步都會回到這三件事。</p>
     <div class="card c-a">
       <h3>跟上一場的關係</h3>
       <p>上一場「跟 AI 一起用 Git」（2026-09-09）教的是方法本身；這一場把方法用在評量上，做三件事：留下證據、做出規準、分析與抽查。沒上過也沒關係，今天需要的那幾招都會重做一次。想複習可以回去翻 <a id="prev-link" href="https://cwstedctw.github.io/git-ai-workshop/" target="_blank" rel="noopener">上一場的教材</a>。</p>
@@ -162,7 +162,7 @@ table.studio td.seg{white-space:nowrap}
     <p id="route-text" data-render></p>
     <p class="redline"><strong>先講一件事：</strong><span id="redline-text">今天全程只用示範資料（代號 DEMO-S01…），不帶任何學生資料。回去放自己的資料時：專案設不公開、丟給 AI 前先拿掉姓名學號；AI 分出來的結果，自己抽幾筆回頭看。</span></p>
 
-    <p><strong>挑一句不同意的、改掉、寫下為什麼。</strong>這句四塊都用：AI 起草的東西一定有你不同意的句子，那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：<span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></p>
+    <p><strong>挑一句不同意的、改掉、寫下為什麼。</strong>這句四塊都用：AI 起草的東西幾乎一定有你不同意的句子（真的沒有，就照卡住時那三招挑一格），那一句就是你的第一筆調整紀錄。Rubric 這樣、分析這樣、一頁設計也這樣。配套的另一句：<span id="airule-text">AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</span></p>
 
     <p>AI 助手動手之前、之中、之後，你只看它的計畫、看它改完的前後對照、然後點頭。看不到任何一件，就請它重做。</p>
     <ol>
@@ -172,7 +172,7 @@ table.studio td.seg{white-space:nowrap}
     </ol>
 
     <h3>證據工作台怎麼用</h3>
-    <p>工作台（<a href="studio.html">studio.html</a>）是一個純前端網頁：不連任何 AI、不上傳任何東西；把整個教材資料夾下載下來（或用 git clone），離線也能開——它要跟同一層的 workflow-data.js 放在一起。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
+    <p><a href="studio.html">工作台</a>是一個只在你的瀏覽器裡運作的網頁：不連任何 AI、不上傳任何東西。整套教材下載解壓縮後，從入口頁進工作台就能離線用（整個資料夾一起留著，不要只搬工作台那一個檔）。它不是用來取代 AI 助手，是用來「並列看、抽查、產生 Markdown」。三個分頁、按鈕名稱如下，講義與投影片講到的名稱都跟它一字不差。</p>
   </div>
   <div class="table-wrap">
     <table class="stack studio">
@@ -233,9 +233,10 @@ table.studio td.seg{white-space:nowrap}
         </ol>
       </div>
       <div class="card c-l">
-        <h3>私人 repo（不公開的版本庫）</h3>
+        <h3>私人 repo（放在 GitHub 上、設成不公開的課程資料夾）</h3>
         <ul>
-          <li>請 AI 助手建遠端版本庫時，明講「設成不公開（private）」；建完自己到 GitHub 網頁看一次設定。</li>
+          <li>請 AI 助手把課程資料夾放上 GitHub 時，明講「設成不公開（private）」；建完自己到 GitHub 網頁看一次設定。</li>
+          <li>放上去的只有教材、評分規準與去識別化後的整理結果；姓名與代號的對照表、原始作業、影像、個別成績不放。保存位置、年限與誰看得到，依學校研究倫理與資安規定。</li>
           <li>課後若改用 GitHub 網頁版上傳，建 repo 時勾「Private」，上傳前再看一眼頁面上有沒有鎖頭圖示。</li>
           <li>共同研究者用「邀請協作者」加進來，不要把 repo 改成公開來共享。</li>
           <li>研究結束要公開教材時，另開一個只有教材、沒有資料的公開 repo。</li>
@@ -255,11 +256,12 @@ table.studio td.seg{white-space:nowrap}
   <h2 id="sec-after-h"><span class="num">柒</span><span class="t">課後手冊</span></h2>
   <div class="body prose">
     <p>工作坊結束之後會用到的事都在這裡。第一節「<span id="ac1-title-ref">兩種紀錄怎麼讀成同一種</span>」先讀，它回答最常被問的一題：課後我若改用 GitHub 網頁版上傳，紀錄跟今天用 AI 助手存的一樣嗎。</p>
+    <p><strong>回去以後，照這三個動作就能繼續用：</strong>①改評分規準表 → 請 AI 助手存一版、說明寫為什麼改（沒開 AI 助手就用 GitHub 網頁版上傳）。②拿到新一批分數 → 先清資料（提示詞 P5）→ P3 算落差、P4 分類 → 抽 3 筆回查 → 存一版。③寫計畫書 → 把版本清單整理成一張表，對到下面「接到計畫書哪一章」。</p>
     <div id="aftercourse" data-render></div>
 
     <div class="card">
       <h3>抽查紀錄怎麼呈現</h3>
-      <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。例如示範資料裡抽到 DEMO-S03，AI 分成「把原因歸到外部」，你寫「同意：整句都在講時間不夠，沒有提到自己可以改的事」；抽到 DEMO-S08，你寫「部分不同意：歸因外部沒錯，但『沒時間練』也指出了自己的準備流程，下次回饋要接這一句」。表下面接三句結論，再寫一行「同意 2 筆、部分不同意 1 筆」。這還不是正式的信度證據，只是這一輪人工抽查的一致率（3 筆，探索性紀錄）；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
+      <p>計畫書裡不用放整份分析，放一張小表就夠：抽了哪幾筆、AI 怎麼分、你同不同意、為什麼。例如示範資料裡抽到 DEMO-S03，AI 分成「把原因歸到外部」，你寫「同意：整句都在講時間不夠，沒有提到自己可以改的事」；抽到 DEMO-S08，你選「不同意」、理由寫「歸因外部沒錯，但『沒時間練』也指出了自己的準備流程，下次回饋要接這一句」。表下面接三句結論，再寫一行「同意 2 筆、不同意 1 筆（理由裡寫明哪裡對）」。這還不是正式的信度證據，只是這一輪人工抽查的一致率（3 筆，探索性紀錄）；正式研究要事先訂抽樣比例、複核者與判準，下學期每次分析都抽，數字累積起來才站得住。</p>
     </div>
 
     <div class="card">
@@ -286,12 +288,12 @@ table.studio td.seg{white-space:nowrap}
     <dl class="glossary">
       <div><dt>AI agent</dt><dd>AI 助手：裝在你電腦上、能代你打指令與改檔案的 AI 程式。它說「做完了」不等於做完——看它的計畫、看前後對照、點頭。</dd></div>
       <div><dt>Git</dt><dd>版本控制工具：幫一個資料夾記住每一次修改。</dd></div>
-      <div><dt>repo（repository）</dt><dd>版本庫：被 Git 管理的那個資料夾。放在 GitHub 上的叫遠端版本庫，可以設成不公開。</dd></div>
+      <div><dt>repo（repository）</dt><dd>被 Git 記住每一次修改的那個資料夾。放到 GitHub 網站上的那一份也叫 repo，可以設成不公開（private）。</dd></div>
       <div><dt>commit／log</dt><dd>存一版／版本清單：commit 把現在的狀態存成一個版本、附一句說明，今天每塊結束都存一版；log 是所有版本依時間排好的清單，每筆有說明，研究歷程資料的長相。</dd></div>
       <div><dt>diff</dt><dd>前後對照：兩個版本之間哪幾行變了。你一定要自己看的那件事。</dd></div>
       <div><dt>Rubric</dt><dd>評分規準表：規準乘以等級的一張表，每格寫看得見、對應學習目標的描述。</dd></div>
       <div><dt>CSV</dt><dd>逗號分隔的純文字表格：示範資料的格式，任何試算表都能開、AI 也讀得懂。</dd></div>
-      <div><dt>Markdown</dt><dd>純文字的排版格式：工作台匯出的檔都是它，用任何文字編輯器都能開，Git 看得出逐行差異。</dd></div>
+      <div><dt>Markdown</dt><dd>用一般文字寫、加幾個符號就能排版的檔案格式（副檔名 .md）：工作台匯出的檔都是它，記事本就能開、也能整段貼進 Word；Git 看得出哪一行變了。</dd></div>
     </dl>
   </div>
 </div></section>
@@ -668,7 +670,7 @@ table.studio td.seg{white-space:nowrap}
       '<div class="tip">' + esc(b.concept) + '</div>' +
       (blockExtras[b.id] && b.id === 'B3' ? blockExtras[b.id] : '') +
       '<ol class="steps">' + steps + '</ol>' +
-      '<p class="behind">幕後 AI 代打的指令（看得懂就好，不用背）：</p><pre class="cmd">' + esc(b.behind) + '</pre>' +
+      '<details class="behind"><summary>好奇才看：AI 在幕後替你打的指令（完全不用看懂，有興趣再問它每一行是什麼）</summary><pre class="cmd">' + esc(b.behind) + '</pre></details>' +
       '<div class="note"><strong>卡住時：</strong>' + esc(b.rescue) + '</div>' +
       (blockExtras[b.id] && b.id === 'B1' ? blockExtras[b.id] : '') +
       (prompts ? '<h4 class="sub-h">這一塊的提示詞</h4>' + prompts : '') +

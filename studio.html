@@ -503,7 +503,7 @@ function persistable(){
 }
 var saveTimer = null;
 function writeStore(){
-  try { localStorage.setItem(STORE_KEY, persistable()); $('saveNote').textContent = '已自動暫存 ' + clock() + '（只存在這台瀏覽器；貼上的資料那份除外）。'; }
+  try { localStorage.setItem(STORE_KEY, persistable()); $('saveNote').textContent = '已自動暫存 ' + clock() + '（只存在這台電腦的瀏覽器裡，換電腦或按「清除暫存」就不見；你貼上的整份資料不暫存，匯出的檔才是你的紀錄）。'; }
   catch(e) { $('saveNote').textContent = '這個瀏覽器不讓存暫存（無痕或被封鎖），記得隨時匯出。'; }
 }
 function save(){
