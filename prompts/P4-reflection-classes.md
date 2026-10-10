@@ -11,7 +11,7 @@
 下面是去識別化的學生反思。請把每一則分到下面六類之一，並附一句理由：
 具體指出自己的弱點／把原因歸到外部／情緒或退縮訊號／同儕回饋有幫上忙／提到 AI 的使用方式／空泛、沒有具體內容。
 一則可能同時像兩類、或你沒把握時，明寫其他可能的類別與原因；類別是在描述這一則文字，不是在描述這位學生。分完後列出：哪幾則你最沒把握、為什麼。我會抽幾則自己讀一次核對你的分類。
-請直接讀資料夾裡的 project-presentation-scores.csv，只看代號（student_id）與反思（reflection_text）兩欄。結果存成同一個資料夾裡的 reflection-classes.md。
+請直接讀資料夾裡的 project-presentation-scores.csv（第一行是 # 開頭的說明，請跳過），只看代號（student_id）與反思（reflection_text）兩欄。結果存成同一個資料夾裡的 reflection-classes.md。
 ```
 
 ## 用完之後你一定要自己看的

@@ -638,9 +638,9 @@ table.studio td.seg{white-space:nowrap}
      say 是給老師看的指示，這裡補一句可貼的。匯出檔名照工作台 download() 實際的前綴：rubric-round-／sampling-record-／one-page-design-。
      ⚠️ 這四句理想上該進 workflow-data.js 的 steps（例如加 paste 欄）讓工作台也拿得到；資料源這輪不開放改，先放講義這一層。鍵＝區塊 id-步驟序號。 */
   var pasteSay = {
-    'B2-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 rubric-round-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，再把那個檔裡「第 2 版」區塊的內容寫進 rubric.md，然後存一版，版本說明寫：【把你在工作台「為什麼改」寫的那句貼在這裡】。不要上傳到任何地方。',
+    'B2-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 rubric-round-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，再把那個檔裡「第 2 版」區塊（到下一個標題為止）的內容寫進 rubric.md，然後存一版，版本說明寫：【把你在工作台「為什麼改」寫的那句貼在這裡】。不要上傳到任何地方。',
     'B3-1': '請把 ' + dataBase + 'project-presentation-scores.csv 下載到 my-course-evidence 資料夾，下載完告訴我檔案有幾行。接下來我會貼兩段分析要求給你，第一段的結果存成 gap-analysis.md、第二段存成 reflection-classes.md，都放進同一個資料夾。',
-    'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，連同你剛才寫的兩個分析檔（如果有）一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
+    'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，連同下載的 CSV 和你剛才寫的兩個分析檔（如果有）一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
     'B4-4': '我剛從瀏覽器下載了一個檔，檔名開頭是 one-page-design-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫「一頁設計 v1：工作坊版」。'
   };
   /* 可貼句的小框：.ptext 放整句、複製鈕在句子底下（三欄裡欄位窄，不放右上角） */
