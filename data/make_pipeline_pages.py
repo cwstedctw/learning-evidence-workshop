@@ -67,7 +67,7 @@ def blocks():
     nav = re.sub(r'<span class="anchors">.*?</span>',
                  '<span class="anchors"><a href="#what">要交什麼</a><a href="#rubric">評分表</a><a href="#numbers">各班數字</a><a href="#judges">評分者</a><a href="#versions">改過什麼</a></span>', nav, count=1, flags=re.S)
     foot = s[s.find('<footer class="site">'):s.find('</footer>') + 9]
-    foot = foot.replace("講師的成績產線實況｜", "講師的成績產線實況・一種作業一頁｜")
+    foot = foot.replace("講師的成績批改實況｜", "講師的成績批改實況・一種作業一頁｜")
     style = s[s.find("<style>"):s.find("</style>") + 8]
     boot = re.search(r"<script>\(function\(\)\{var d=document\.documentElement.*?</script>", s, re.S).group(0)
     navjs = s[s.rfind("<script>\n(function(){\n  'use strict';\n  var root = document.documentElement;"):s.rfind("</script>") + 9]
@@ -166,7 +166,7 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
   <h1><span>{E(rub["title"])}</span></h1>
   <div class="deck">
     <p class="sub">{E(mode)}。用在 {E("、".join(t["courses"]))}（{t["instances"]} 份作業）。評分表代號 {E(t["id"])}、版本 {E(t["version"])}。</p>
-    <p class="meta"><span class="m">資料截至 {E(S["as_of"])}</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回產線實況總覽</a></span></p>
+    <p class="meta"><span class="m">資料截至 {E(S["as_of"])}</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回批改實況總覽</a></span></p>
   </div>
 </div></header>
 <main id="main" class="editorial">
@@ -206,7 +206,7 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
 <section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
   <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
   <div class="body prose">{versions_html}
-    <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
+    <p><a class="btn secondary" href="pipeline.html">← 回批改實況總覽</a></p>
   </div>
 </div></section>
 </main>
@@ -217,7 +217,7 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>從學習證據到教學改進｜一種作業一頁：{E(rub["title"])}</title>
-<meta name="description" content="講師的成績產線實況，一種作業一頁：{E(rub["title"])}。評分表全文、各班數字、評分者差在哪一格。只有計數，沒有任何學生資料。">
+<meta name="description" content="講師的成績批改實況，一種作業一頁：{E(rub["title"])}。評分表全文、各班數字、評分者差在哪一格。只有計數，沒有任何學生資料。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">

@@ -386,12 +386,12 @@ section('講師自己的例子（teacherExample）與一頁設計的第二套示
   if (!have('assets/worksheet-template.png')) fail('assets/worksheet-template.png 不在（講師例子卡的空白學習單圖）');
 });
 
-section('產線實況頁（pipeline.html）：只准有計數、導覽列全站都有它', () => {
-  if (!have('pipeline.html')) return fail('缺 pipeline.html（講師的成績產線實況）');
+section('批改實況頁（pipeline.html）：只准有計數、導覽列全站都有它', () => {
+  if (!have('pipeline.html')) return fail('缺 pipeline.html（講師的成績批改實況）');
   const src = pageSrc['pipeline.html'] || read('pipeline.html');
   if (!src.includes('沒有任何學號、姓名或個別分數')) fail('pipeline.html 要寫明「沒有任何學號、姓名或個別分數」');
   if (!src.includes('data/pipeline-stats.js')) fail('pipeline.html 沒載 data/pipeline-stats.js');
-  // 產線影片（2026-10-09）：頁面引用的三個檔都要在，缺一個線上就是黑框
+  // 批改實況影片（2026-10-09）：頁面引用的三個檔都要在，缺一個線上就是黑框
   for (const f of ['videos/pipeline-walkthrough.mp4', 'videos/pipeline-walkthrough.vtt', 'videos/pipeline-walkthrough-poster.jpg']) {
     if (!src.includes(f)) fail(`pipeline.html 沒引用 ${f}`);
     if (!have(f)) fail(`缺 ${f}（pipeline.html 有引用）`);
@@ -402,7 +402,7 @@ section('產線實況頁（pipeline.html）：只准有計數、導覽列全站�
   for (const bad of ['"學號"', '"姓名"', 'student_id', 'cmid']) if (data.includes(bad)) fail(`data/pipeline-stats.js 出現 ${bad}`);
   if (!/window\.PIPELINE_STATS\s*=/.test(data)) fail('data/pipeline-stats.js 沒有 window.PIPELINE_STATS');
   for (const rel of ['index.html', 'learn.html', 'start.html', 'material.html', 'studio.html', 'pipeline.html']) {
-    if (have(rel) && !(pageSrc[rel] || read(rel)).includes('href="pipeline.html"')) fail(`${rel} 導覽列缺「產線實況」（href="pipeline.html"）`);
+    if (have(rel) && !(pageSrc[rel] || read(rel)).includes('href="pipeline.html"')) fail(`${rel} 導覽列缺「批改實況」（href="pipeline.html"）`);
   }
   const typeIds = [...data.matchAll(/"id": "([a-z0-9_]+)",\s*"title"/g)].map(m => m[1]);
   const typePages = fs.readdirSync(P('.')).filter(f => /^pipeline-[a-z0-9_]+\.html$/.test(f));

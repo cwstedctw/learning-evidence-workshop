@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""組出 pipeline.html（講師的成績產線實況總覽）：導覽列／頁尾／主題腳本從 index.html 抽來複用，正文與渲染 JS 在這裡。
+"""組出 pipeline.html（講師的成績批改實況總覽）：導覽列／頁尾／主題腳本從 index.html 抽來複用，正文與渲染 JS 在這裡。
 用法：python data/make_pipeline_page.py（在 repo 根跑；一種作業一頁另外跑 data/make_pipeline_pages.py）
 資料：data/pipeline-stats.js（由講師本機 skills/assignment-grading/pipeline_stats_public.py 產，只有計數）；影片：videos/pipeline-walkthrough.*"""
 import io, pathlib, re
@@ -19,15 +19,15 @@ boot = _block(r'<script>\(function\(\)\{var d=document\.documentElement.*?</scri
 # 導覽列：入口不再是本頁；本頁連結加上；錨點換成本頁的
 nav = nav.replace('<a href="index.html" aria-current="page">入口</a>', '<a href="index.html">入口</a>')
 if 'pipeline.html' not in nav:
-    nav = nav.replace('<a href="slides/index.html">投影片</a>', '<a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a>')
+    nav = nav.replace('<a href="slides/index.html">投影片</a>', '<a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">批改實況</a>')
 else:
-    nav = nav.replace('<a href="pipeline.html">產線實況</a>', '<a href="pipeline.html" aria-current="page">產線實況</a>')
+    nav = nav.replace('<a href="pipeline.html">批改實況</a>', '<a href="pipeline.html" aria-current="page">批改實況</a>')
 nav = re.sub(r'<span class="anchors">.*?</span>',
              '<span class="anchors"><a href="#video">影片</a><a href="#map">地圖</a><a href="#scale">規模</a><a href="#types">一種作業一頁</a><a href="#modes">怎麼評</a><a href="#check">怎麼檢查</a><a href="#gap">差多少</a><a href="#late">遲交與出席</a><a href="#who">誰做什麼</a><a href="#borrow">帶回去</a></span>', nav, count=1, flags=re.S)
-foot = foot.replace("從學習證據到教學改進｜工作坊入口｜", "從學習證據到教學改進｜講師的成績產線實況｜")
+foot = foot.replace("從學習證據到教學改進｜工作坊入口｜", "從學習證據到教學改進｜講師的成績批改實況｜")
 
 CSS = """
-/* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
+/* 批改實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
 .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
 .flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
 .flow .st::before{counter-increment:st;content:counter(st);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.8rem;display:grid;place-items:center}
@@ -87,7 +87,7 @@ CSS = """
 BODY = """
 <header class="hero"><div class="inner">
   <span class="eyebrow">延伸資料・講師自己的課</span>
-  <h1><span>成績產線實況：</span><span class="accent">一學期六門課怎麼收、怎麼改、怎麼查</span></h1>
+  <h1><span>成績批改實況：</span><span class="accent">一學期六門課怎麼收、怎麼改、怎麼查</span></h1>
   <div class="deck">
     <p class="sub">這一頁不是今天的練習，是講師把自己這學期正在跑的流程攤開來給你看：作業從教學平台一鍵抓回來、三個 AI 評分者各打一份再對齊、老師只親自看差距大的那幾份、推進成績簿、學生登入只看得到自己的。整頁都是計數與比例，<strong>沒有任何學號、姓名或個別分數</strong>。跟今天練的原則不衝突：AI 打的是第一輪分數，差距大的老師親自看、推進成績簿前老師拍板，AI 不替老師下結論。看不懂的技術名詞可以跳過，先看壹那一句原則就夠。</p>
     <p class="meta"><span class="m">資料截至 <span class="asof">2026-10-09</span></span><span class="m">115-1 學期、六門通識與資工系課</span><span class="m">由講師本機的批改資料彙總；產生程式只會輸出計數</span></p>
@@ -98,7 +98,7 @@ BODY = """
 <p id="nodata" class="note" hidden>統計檔沒載到（data/pipeline-stats.js）。頁面文字仍可讀，數字會是空的。</p>
 
 <section id="video" class="sec first" aria-labelledby="video-h"><div class="wrap">
-  <h2 id="video-h"><span class="t">先看三分半鐘的影片：整條線從頭跑一遍</span></h2>
+  <h2 id="video-h"><span class="t">先看三分半鐘的影片：整個流程從頭跑一遍</span></h2>
   <div class="body prose">
     <figure class="vid">
       <video controls preload="metadata" playsinline poster="videos/pipeline-walkthrough-poster.jpg" width="1280" height="720">
@@ -112,9 +112,9 @@ BODY = """
 </div></section>
 
 <section id="map" class="sec" aria-labelledby="map-h"><div class="wrap">
-  <h2 id="map-h"><span class="num">壹</span><span class="t">產線地圖：八站，從學生交作業到學生看到分數</span></h2>
+  <h2 id="map-h"><span class="num">壹</span><span class="t">批改流程地圖：八站，從學生交作業到學生看到分數</span></h2>
   <div class="body prose">
-    <p>整條線的原則只有一句：<strong>程式做重複的事、AI 做第一輪判斷、老師做決定</strong>。每一站都留下檔案與紀錄，學期末要寫成果報告或教學實踐研究時，證據已經在那裡。</p>
+    <p>這條流程的原則只有一句：<strong>程式做重複的事、AI 做第一輪判斷、老師做決定</strong>。每一站都留下檔案與紀錄，學期末要寫成果報告或教學實踐研究時，證據已經在那裡。</p>
     <div class="flow">
       <div class="st"><span class="who">學生</span><b>交作業</b><p>教學平台（e學苑）的作業節點、課堂簽到、GitHub 上的 commit、LINE Bot、手寫學習單拍照上傳。</p></div>
       <div class="st"><span class="who ai">程式</span><b>一鍵抓回</b><p>瀏覽器批次按「下載所有繳交」，一份作業一份 zip；八個班、21 份作業曾經一次全部抓完。</p></div>
@@ -384,7 +384,7 @@ HEAD = """<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>從學習證據到教學改進｜講師的成績產線實況</title>
+<title>從學習證據到教學改進｜講師的成績批改實況</title>
 <meta name="description" content="延伸資料：講師自己這學期（115-1）六門課的作業怎麼收、怎麼改、怎麼查、怎麼推成績簿。只有計數與比例，沒有任何學生資料。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

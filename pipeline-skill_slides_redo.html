@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>從學習證據到教學改進｜一種作業一頁：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）</title>
-<meta name="description" content="講師的成績產線實況，一種作業一頁：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）。評分表全文、各班數字、評分者差在哪一格。只有計數，沒有任何學生資料。">
+<meta name="description" content="講師的成績批改實況，一種作業一頁：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）。評分表全文、各班數字、評分者差在哪一格。只有計數，沒有任何學生資料。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="assets/site.css">
 <style>
-/* 產線實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
+/* 批改實況頁專用：地圖流程卡、數字卡、長條圖；顏色全用 site.css 代幣 */
 .flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;counter-reset:st}
 .flow .st{position:relative;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 14px 12px}
 .flow .st::before{counter-increment:st;content:counter(st);position:absolute;top:-10px;left:12px;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;font-weight:800;font-size:.8rem;display:grid;place-items:center}
@@ -79,7 +79,7 @@
 <nav class="topnav" aria-label="導覽"><div class="inner">
   <button class="navbtn navprev" id="navPrev" type="button" aria-label="導覽往左看" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 6-6 6 6 6"/></svg></button>
   <div class="links" id="navLinks">
-    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">產線實況</a></span>
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html" aria-current="page">批改實況</a></span>
     <span class="sep" aria-hidden="true"></span>
     <span class="anchors"><a href="#what">要交什麼</a><a href="#rubric">評分表</a><a href="#numbers">各班數字</a><a href="#judges">評分者</a><a href="#versions">改過什麼</a></span>
   </div>
@@ -94,7 +94,7 @@
   <h1><span>W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）</span></h1>
   <div class="deck">
     <p class="sub">三個 AI 評分者各打一份 → 平均 → 對齊到 80–100。用在 資訊科技與應用（1 份作業）。評分表代號 skill_slides_redo、版本 1.1.0。</p>
-    <p class="meta"><span class="m">資料截至 2026-10-10</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回產線實況總覽</a></span></p>
+    <p class="meta"><span class="m">資料截至 2026-10-10</span><span class="m">只有計數與評分表，沒有任何學號、姓名或個別分數</span><span class="m"><a href="pipeline.html">回批改實況總覽</a></span></p>
   </div>
 </div></header>
 <main id="main" class="editorial">
@@ -134,12 +134,12 @@
 <section id="versions" class="sec" aria-labelledby="versions-h"><div class="wrap">
   <h2 id="versions-h"><span class="num">伍</span><span class="t">評分表改過什麼</span></h2>
   <div class="body prose"><p>這份評分表改過版，每一版的備註就是「為什麼改」：</p><ol class="versions"><li><strong>第 1 版（1.0.0）</strong>：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）<br><span class="vnote">2026-10-09 洄瀾依 26 份實際繳交擬（草擬後由老師確認）。課堂（上傳改版後的新簡報）與回家（改到滿意再交＋線上文字一兩句：用了哪句提示詞、改了哪裡）合併成一份分數：**課堂／回家兩份取較好的那份評**，兩份一樣好取回家（最後交的版本）；回家交同一份、或回家只貼連結指向課堂那份檔，都算「課堂那份已滿意、再交一次」，不扣。設計要點：①改版不比誰漂亮，比有沒有真的改、有沒有交代怎麼改——簡報本身占 70（交了 40＋改版成形 30），作業說明要的線上文字兩項各 15。②簡報內容（新聞四步拆解）W2／W3 已評過，這次不評；換了別則新聞、改成推演情境都不扣。③改版前的原稿不在材料裡，「跟原本差多少」無從比對，不扣；有沒有交代改了什麼由 prompt、changes 兩維評。④不看用了哪個工具、不比美醜。地板照 9/16 定的 原始分低於 40→60–79；交了完整改版簡報的人最低 70，落不到地板。遲交不在本表扣，推簿時照課程既有規則處理。</span></li><li><strong>第 2 版（1.1.0）</strong>：W4 作業：用 skill（UI UX Pro Max）把新聞判斷簡報改版（課堂＋回家合併）（資訊科技與應用 AB）<br><span class="vnote">2026-10-09 洄瀾依 26 份實際繳交擬（草擬後由老師確認）。課堂（上傳改版後的新簡報）與回家（改到滿意再交＋線上文字一兩句：用了哪句提示詞、改了哪裡）合併成一份分數：**課堂／回家兩份取較好的那份評**，兩份一樣好取回家（最後交的版本）；回家交同一份、或回家只貼連結指向課堂那份檔，都算「課堂那份已滿意、再交一次」，不扣。設計要點：①改版不比誰漂亮，比有沒有真的改、有沒有交代怎麼改——簡報本身占 70（交了 40＋改版成形 30），作業說明要的線上文字兩項各 15。②簡報內容（新聞四步拆解）W2／W3 已評過，這次不評；換了別則新聞、改成推演情境都不扣。③改版前的原稿不在材料裡，「跟原本差多少」無從比對，不扣；有沒有交代改了什麼由 prompt、changes 兩維評。④不看用了哪個工具、不比美醜。地板照 9/16 定的 原始分低於 40→60–79；交了完整改版簡報的人最低 70，落不到地板。遲交不在本表扣，推簿時照課程既有規則處理。｜2026-10-09 老師 定案（1.1.0）：上限 99（「（英文原話略）」完美不可能）；其餘照 1.0.0（只交課堂那份的人缺兩句說明維持、HTML 簡報 10/09 渲染確認皆為真投影片）。</span></li></ol>
-    <p><a class="btn secondary" href="pipeline.html">← 回產線實況總覽</a></p>
+    <p><a class="btn secondary" href="pipeline.html">← 回批改實況總覽</a></p>
   </div>
 </div></section>
 </main>
 <footer class="site"><div class="inner">
-  <p>從學習證據到教學改進｜講師的成績產線實況・一種作業一頁｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
+  <p>從學習證據到教學改進｜講師的成績批改實況・一種作業一頁｜<a href="https://cwstedctw.github.io/learning-evidence-workshop/">cwstedctw.github.io/learning-evidence-workshop/</a></p>
   <p>工具費用與方案會變動，開始前請以各官方頁面現況為準。</p>
   <p>© 2026 陳文盛（國立東華大學通識教育中心）× AI 協作團隊——洄瀾（組長・Claude）、立霧（Codex）、秀姑巒（Gemini）、木瓜溪（OpenCode）、美崙溪（Grok）｜本教材以 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hant" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 授權——歡迎教學與自學使用；改作請同樣開放，請勿商用。</p>
 </div></footer>
