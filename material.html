@@ -210,7 +210,7 @@ table.studio td.seg{white-space:nowrap}
 <section id="sec-design" class="sec" aria-labelledby="sec-design-h"><div class="wrap">
   <h2 id="sec-design-h"><span class="num">伍</span><span class="t">一頁設計：十一欄怎麼填</span></h2>
   <div class="body prose">
-    <p>第四塊填的這一頁，欄位名稱直接對應教學實踐研究計畫書的章節（表裡「計畫書對應」那一欄），之後長成計畫書不用重寫。工作台「一頁設計」分頁的十一欄跟這張表一樣，右側會即時預覽成 Markdown，標題用計畫書的詞。</p>
+    <p>第四塊填的這一頁，欄位名稱直接對應教學實踐研究計畫書的章節（表裡「計畫書對應」那一欄），之後長成計畫書時章節不用重排；沿用示範文字的欄位，課後要逐欄換成自己的課。工作台「一頁設計」分頁的十一欄跟這張表一樣，右側會即時預覽成 Markdown，標題用計畫書的詞。</p>
     <div class="tip">填法只有一個訣竅：每一欄都要「下學期做得到」。研究問題要能被你下學期蒐到的資料回答；信效度只選一件做得到的事；介入作為寫具體動作，不寫「加強引導」。</div>
   </div>
   <div class="table-wrap" id="designfields" data-render></div>
@@ -603,7 +603,7 @@ table.studio td.seg{white-space:nowrap}
   $('#route-text').innerHTML = '行前把 AI 助手裝好，當天每一步它代打。' + esc(rt.promise) +
     '你需要先有：' + rt.needs.map(esc).join('；') + '。' +
     '今天四塊都這樣走：' + rt.how.map(esc).join('；') + '。' +
-    '真的裝不起來（或筆電是學校統一控管），提早 20 分鐘（14:40）到會議室，講師現場陪你裝好，也可以先寄信給講師遠端看。' +
+    '真的裝不起來（或筆電是學校統一控管），提早 20 分鐘（14:40）到會議室，講師現場陪你裝好，也可以先寄信給講師（wschen@gms.ndhu.edu.tw）遠端看。' +
     '進場不點名；還沒裝好的人坐講師這一側，提早到的現場先裝。';
 
   /* ── 參：四塊（步驟、幕後指令、卡住時、提示詞、圖）── */
@@ -638,8 +638,8 @@ table.studio td.seg{white-space:nowrap}
   var pasteSay = {
     'B2-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 rubric-round-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，再把那個檔裡「第 2 版」區塊的內容寫進 rubric.md，然後存一版，版本說明寫：【把你在工作台「為什麼改」寫的那句貼在這裡】。不要上傳到任何地方。',
     'B3-1': '請把 ' + dataBase + 'project-presentation-scores.csv 下載到 my-course-evidence 資料夾，下載完告訴我檔案有幾行。接下來我會貼兩段分析要求給你，第一段的結果存成 gap-analysis.md、第二段存成 reflection-classes.md，都放進同一個資料夾。',
-    'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-。請把它從下載資料夾搬進 my-course-evidence，連同你剛才寫的兩個分析檔一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
-    'B4-4': '我剛從瀏覽器下載了一個檔，檔名開頭是 one-page-design-。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫「一頁設計 v1：工作坊版」。'
+    'B3-5': '我剛從瀏覽器下載了一個檔，檔名開頭是 sampling-record-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，連同你剛才寫的兩個分析檔（如果有）一起存一版，版本說明寫「第三塊：AI 分析＋人工抽查 3 筆」。',
+    'B4-4': '我剛從瀏覽器下載了一個檔，檔名開頭是 one-page-design-（有好幾個就拿最新的）。請把它從下載資料夾搬進 my-course-evidence，存一版，版本說明寫「一頁設計 v1：工作坊版」。'
   };
   /* 可貼句的小框：.ptext 放整句、複製鈕在句子底下（三欄裡欄位窄，不放右上角） */
   var sayBox = function(text){ return '<div class="say"><span class="ptext">' + esc(text) + '</span>' + copyBtn('.say', '複製這一句') + '</div>'; };

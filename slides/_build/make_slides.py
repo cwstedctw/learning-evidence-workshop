@@ -630,7 +630,7 @@ def p09():
     body = f'''<div class="subtitle">自評、互評、老師評分三種分數的落差，本身就是教學訊號。</div>
 <div class="vis">{fig_gap()}
 <div class="cols cols-2" style="gap:14px">
-<div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">自評遠高於教師分 → 學生多半不知道標準在哪。</div></div>
+<div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">自評遠高於教師分 → 可能不清楚標準在哪，回查作品與反思。</div></div>
 <div class="card" style="padding:12px 18px"><div class="p" style="margin-top:0">互評極低、另兩方一致 → 回查互評表，不是扣分。</div></div>
 </div></div>
 {bar('AI 很會找落差，但它會錯——而且錯得很有說服力。', '提醒', gold=True)}'''
@@ -640,7 +640,7 @@ def p09():
 def p10():
     body = f'''<div class="subtitle">研究裡站得住的，是「AI 分析＋人工抽查」一起呈現。</div>
 <div class="vis">{fig_check()}
-<div class="note">按<span class="ui">匯出抽查紀錄</span>——這份就是「分析信度」那一段的素材。</div></div>
+<div class="note">按<span class="ui">匯出抽查紀錄</span>——這份是「資料分析」那一段的素材；3 筆還不是正式信度。</div></div>
 {bar('沒人抽到那筆分錯的？講師最後會點出來。重點不是抓到，是你知道「要抽」。', '提醒', gold=True)}'''
     return page(10, '第三塊', 'AI 分析＋人工抽查，一起呈現才站得住', body, figure='F-check')
 
@@ -662,7 +662,7 @@ def p12():
     body = f'''<div class="vis"><div class="side">{fig_onepage()}
 <div>
 <p class="lead">前三塊是零件，這一塊把零件裝回你自己的課。</p>
-<p class="lead" style="margin-top:18px">十一欄，標籤用計畫書的詞——填完直接長成計畫書，不用重寫。</p>
+<p class="lead" style="margin-top:18px">十一欄，標籤用計畫書的詞——填完就是計畫書的骨架，課後逐欄換成自己的課。</p>
 <p class="lead" style="margin-top:18px">起手式：按<span class="ui">帶入示範課</span>讓每一欄都有字，再改掉至少兩格。</p>
 <p class="lead" style="margin-top:18px">必改：<b>「評量任務與 Rubric」「回饋與調整」</b>。</p>
 <p class="lead" style="margin-top:18px">講師自己的課怎麼填：按<span class="ui">帶入演講課</span>。</p>

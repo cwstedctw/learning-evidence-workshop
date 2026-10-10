@@ -263,11 +263,11 @@ textarea.oneline{min-height:70px}
         <label class="head"><input type="checkbox" aria-label="完成第 9 項 小試身手"><span class="num">9</span><span class="ttl">小試身手：讓它真的動手一次<small>約 5 分鐘；一句話驗掉整條安裝鏈，順便先存一版</small></span></label>
         <div class="detail">
           <p>前面都裝好了？先在 AI 助手裡<strong>選定一個工作資料夾</strong>（它的「開啟資料夾／專案」功能；不要桌面、不要 OneDrive 或 iCloud 同步的位置），再貼這句——它只在你選的地方動手，當天第一塊也是這樣開始：</p>
-          <div class="prompt"><div class="prompt-head"><span class="label">貼給 AI 助手</span><button class="btn secondary small copy" type="button" aria-label="複製第 9 項指令"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="txt">複製</span></button></div><pre>請在桌面建一個資料夾 warmup-check，裡面建一個 hello.md，內容寫今天的日期和我的 GitHub 帳號名。然後把這個資料夾交給 Git 存一版，版本說明寫「行前測試」；如果 Git 要名字和信箱，就用我的 GitHub 帳號名和 GitHub 註冊的信箱。做完告訴我：git 的版本、gh 登入的是哪個帳號、存了哪一版。除了這些，只准動這個新資料夾，其他都不要碰。</pre></div>
-          <p>然後<strong>自己去桌面打開 hello.md 看</strong>。裡面真的有日期和你的帳號名，才算數——AI 說做完，不等於做完。這是當天要練的第一件事，行前先體會一次。雙擊時若問你要用哪個程式開，選「記事本」（Mac 選「文字編輯」）。</p>
-          <div class="note"><strong>完成判準四樣</strong>：① 桌面真的出現 warmup-check，裡面的 hello.md 內容正確；② 它回報了 git 版本；③ 它回報的 gh 帳號就是你的；④ 它回報存了一版，版本說明是「行前測試」。四樣都對，整條安裝鏈是通的——當天第一塊的「存版本」，你已經先做過一次。</div>
+          <div class="prompt"><div class="prompt-head"><span class="label">貼給 AI 助手</span><button class="btn secondary small copy" type="button" aria-label="複製第 9 項指令"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="txt">複製</span></button></div><pre>請在你剛選的工作資料夾裡建一個資料夾 warmup-check，裡面建一個 hello.md，內容寫今天的日期和我的 GitHub 帳號名。然後把這個資料夾交給 Git 存一版，版本說明寫「行前測試」；如果 Git 要名字和信箱，就用我的 GitHub 帳號名和 GitHub 註冊的信箱。做完告訴我：warmup-check 的完整路徑、git 的版本、gh 登入的是哪個帳號、存了哪一版。除了這些，只准動這個新資料夾，其他都不要碰。</pre></div>
+          <p>然後<strong>照它印的路徑，自己打開 hello.md 看</strong>。裡面真的有日期和你的帳號名，才算數——AI 說做完，不等於做完。這是當天要練的第一件事，行前先體會一次。雙擊時若問你要用哪個程式開，選「記事本」（Mac 選「文字編輯」）。</p>
+          <div class="note"><strong>完成判準四樣</strong>：① 工作資料夾裡真的出現 warmup-check，裡面的 hello.md 內容正確；② 它回報了 git 版本；③ 它回報的 gh 帳號就是你的；④ 它回報存了一版，版本說明是「行前測試」。四樣都對，整條安裝鏈是通的——當天第一塊的「存版本」，你已經先做過一次。</div>
           <p class="hint">它停下來問名字和信箱：回它你的 GitHub 帳號名與註冊信箱就好，那只是寫進版本紀錄的署名。</p>
-          <details class="ask"><summary>卡住怎麼問 AI</summary><div class="prompt"><button class="btn secondary small copy" type="button" aria-label="複製第 9 項求救句"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="txt">複製</span></button><pre>你說 warmup-check 建好了，但我在桌面＿＿＿（例如：找不到資料夾／hello.md 是空的／帳號名不是我的／沒看到存了一版）。請把你建的檔案完整路徑印出來，說明你實際做了什麼、沒做什麼，然後重做一次。</pre></div></details>
+          <details class="ask"><summary>卡住怎麼問 AI</summary><div class="prompt"><button class="btn secondary small copy" type="button" aria-label="複製第 9 項求救句"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="txt">複製</span></button><pre>你說 warmup-check 建好了，但我在工作資料夾裡＿＿＿（例如：找不到資料夾／hello.md 是空的／帳號名不是我的／沒看到存了一版）。請把你建的檔案完整路徑印出來，說明你實際做了什麼、沒做什麼，然後重做一次。</pre></div></details>
         </div>
       </li>
 
@@ -295,7 +295,7 @@ textarea.oneline{min-height:70px}
     <div class="prompt"><div class="prompt-head"><span class="label">貼給 AI 助手</span><button class="btn secondary small copy" type="button" aria-label="複製資料夾位置確認句"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="txt">複製</span></button></div><pre>請幫我確認：這台電腦的桌面與文件資料夾，有沒有被 OneDrive 或 iCloud 同步？如果有，請幫我找一個不會被同步的位置；只把那個位置的完整路徑印給我看，先不要建任何資料夾。</pre></div>
     <label class="field" for="folderPath">我的課程資料夾要放在 <small>把它印給你的路徑貼進來（只存在你這台電腦的瀏覽器裡）</small></label>
     <textarea id="folderPath" class="oneline" placeholder="例：C:\courses 或 /Users/你的名字/courses"></textarea>
-    <p class="hint">第 9 項的 warmup-check 放桌面沒關係，那只是測試。</p>
+    <p class="hint">第 9 項的 warmup-check 跟著你選的工作資料夾放就好，那只是測試；當天的課程資料夾才要用上面這個路徑。</p>
   </div>
 </div></section>
 
@@ -304,8 +304,8 @@ textarea.oneline{min-height:70px}
   <div class="body prose">
     <div class="card">
       <p><strong>一、提早 20 分鐘到會議室</strong>（14:40），講師現場陪你裝好，課照上。</p>
-      <p><strong>二、先寄信給講師</strong>，把卡住的畫面截圖附上，讓講師在 10/16 前遠端看一眼。</p>
-      <p><strong>三、學校統一控管的筆電裝不了東西</strong>：不用跟它纏鬥，先寄信告訴講師；當天 14:40 到會議室，講師陪你一起裝。</p>
+      <p><strong>二、先寄信給講師</strong>（<a href="mailto:wschen@gms.ndhu.edu.tw">wschen@gms.ndhu.edu.tw</a>），把卡住的畫面截圖附上，讓講師在 10/16 前遠端看一眼。</p>
+      <p><strong>三、學校統一控管的筆電裝不了東西</strong>：不用跟它纏鬥，先寄信告訴講師（同上信箱）；當天 14:40 到會議室，講師陪你一起裝。</p>
     </div>
   </div>
 </div></section>
@@ -333,7 +333,7 @@ textarea.oneline{min-height:70px}
       <h3>四件事都成立才算完成</h3>
       <ul class="final">
         <li>上面十項全部打勾（第 6 項 Mac 免做）。</li>
-        <li>桌面的 <code>warmup-check/hello.md</code> 真的存在、內容正確，而且存了一版。</li>
+        <li>工作資料夾裡的 <code>warmup-check/hello.md</code> 真的存在、內容正確，而且存了一版。</li>
         <li>你說得出 AI 助手回報的 gh 帳號就是你的 GitHub 帳號。</li>
         <li>「資料夾放哪」那一格（上面「肆」那一段）寫好了路徑。</li>
       </ul>

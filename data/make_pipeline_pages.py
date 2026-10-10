@@ -174,7 +174,7 @@ def page(t, S, nav, foot, style, boot, navjs, idx, total):
   <h2 id="what-h"><span class="num">壹</span><span class="t">這份作業要交什麼、怎麼評</span></h2>
   <div class="body prose">
     <p><strong>作業例子：</strong>{E(EXAMPLE.get(t["id"], rub["title"]))}{hub_html}</p>
-    <p><strong>評分方式：</strong>{grading_line}</p>
+    <p><strong>評分方式：</strong>{grading_line.replace('（）→', ' →').replace('（）', '')}</p>
     <p><strong>怎麼檢查（不只比對文字）：</strong>{E(CHECK_HOW.get(t["id"], "評分者讀全部材料後依評分表打分。"))}</p>
     {grp}
     {note_html}
