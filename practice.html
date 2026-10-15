@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>成員練習｜從學習單試評到教師核對</title><meta name="description" content="同一週10份合成學習單，先人工三份，再讓AI試評、程式加總，最後由教師決定。15份選做。">
+<link rel="stylesheet" href="assets/site.css"><style>.practice{max-width:960px;margin:auto;padding:24px}.practice h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.3}.practice p,.practice li{line-height:1.8}.practice nav{display:flex;gap:20px;flex-wrap:wrap}.practice section{margin:32px 0}.practice code{overflow-wrap:anywhere}.practice .notice{padding:16px;border-left:4px solid #e7785c;background:#fbebe5;color:#17243d}.practice .actions{display:flex;flex-wrap:wrap;gap:12px}</style></head>
+<body><a class="skip" href="#main">跳到主要內容</a><div class="practice"><nav aria-label="導覽"><a href="index.html">工作坊入口</a><a href="material.html">講義</a><a href="studio.html#design">一頁設計</a></nav>
+<main id="main"><header><p>10/16 成員練習｜同一週，先做10份</p><h1>拿作業原文，自己評三份，再和 AI 核對。</h1>
+<p>這次提供完整合成學習單、評分規準（Rubric）、空白教師表與計分工具。10份預設，15份選做；15份包含前10份，兩版不合併。</p>
+<div class="actions"><a class="btn" href="downloads/learning-sheet-grading-practice.zip" download>下載成員練習包 ZIP</a><a class="btn secondary" href="https://github.com/cwstedctw/learning-evidence-workshop/tree/main/practice/learning-sheets">在 GitHub 讀說明</a></div></header>
+<section class="notice"><b>合成示範、不是學生作答。</b>五區各0或20分，只算完成度。空泛文字有寫仍算完成，AI揭露「否」也算完成。這是演練百分比，不是演講課正式成績，不含遲交或學期換算。</section>
+<section><h2>解壓後，從 ASSIGNMENT.md 開始</h2><ol>
+<li><b>先人工三份：</b>讀 <code>RUBRIC.md</code>，自己評 S01、S06、S10，填 <code>templates/manual-first.csv</code>；先不看答案或AI結果。</li>
+<li><b>AI先試評：</b>在已登入的AI助手選這個資料夾，貼 <code>PROMPTS.md</code> 第一段。它只讀五區原文，另存試評CSV與逐區證據。</li>
+<li><b>程式加總與比對：</b>貼第二段，請AI代跑 <code>tools/grade.py</code>，讀回每區差異。程式不連網、不需API金鑰，只用Python標準函式庫；沒有Python可人工加總並註明未做程式核對。</li>
+<li><b>教師決定：</b>自己核對原文，填 <code>templates/teacher-review.csv</code> 的採用／改分／待確認及理由；未確認時最終分數留空，不交給AI代填。</li>
+<li><b>存一個版本：</b>保存人工表、AI試評、程式結果與教師決定。接回一頁設計：看到什麼、下次改什麼、還缺什麼證據。</li>
+</ol></section><section><h2>這包和原工作台怎麼配？</h2><p>可作為第三塊的學習單替代路線。它直接從作業原文試評；原工作台的三方分數CSV是另一種分析練習，不能把本包資料直接貼進去，也不必捏造自評、互評、教師分。第四塊仍可用一頁設計。</p><p>單週10／15份只練流程與描述資料，不足以推論跨週進步或介入有效。成員ZIP不含講師答案；公開repo仍可讀到講師參考，這不是正式盲評。</p></section>
+</main><footer><p>從學習證據到教學改進｜CC BY-NC-SA 4.0｜全程只用合成資料</p></footer></div></body></html>

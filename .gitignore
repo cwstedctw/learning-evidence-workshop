@@ -22,3 +22,7 @@ real-data/
 .claude/
 .agents/
 _brief/
+
+# Participant-generated exercise files stay local.
+practice/learning-sheets/participant/output/
+**/__pycache__/

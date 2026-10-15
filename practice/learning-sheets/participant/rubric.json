@@ -1,0 +1,23 @@
+{
+  "id": "synthetic-five-sections-v1",
+  "version": "1.0.0",
+  "synthetic_note": "合成示範、不是學生作答",
+  "points_per_section": 20,
+  "total": 100,
+  "score_fields": [
+    "pre_score",
+    "reflection_score",
+    "facets_score",
+    "ai_score",
+    "message_score"
+  ],
+  "facets": [
+    "AI 倫理與法律素養",
+    "權益尊重（智財／個資／隱私）",
+    "資安辨識與風險管理",
+    "資訊查核與 AI 內容判讀",
+    "社會影響與公平性",
+    "人類判斷與當責"
+  ],
+  "scope": "合成完成度演練；非正式成績，不做常態對齊"
+}

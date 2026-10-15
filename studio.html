@@ -918,7 +918,8 @@ $('btnLoadPaste').addEventListener('click', function(){
   try {
     var parsed = toRecords(parseCSV($('pasteCsv').value));
     if(!parsed.records.length) throw new Error('沒有一列是完整的：代號、三個分數、反思都要有。' + (parsed.why && parsed.why.length ? '（' + parsed.why.join('；') + '）' : ''));
-    var sig = JSON.stringify(parsed.records.map(function(r){ return [r.id, r.self, r.peer, r.teacher, r.reflection]; }));
+    // 比較完整的正規化資料，包含最弱規準與任務，避免新資料沿用舊判斷。
+    var sig = JSON.stringify(parsed.records);
     var prev = state.evidence.per && state.evidence.per.paste;
     var hadWork = prev && ((prev.ids || []).length || (prev.conclusions || []).some(function(c){ return (c || '').trim(); }));
     if(pasteRows && pasteRows.sig !== sig && hadWork){

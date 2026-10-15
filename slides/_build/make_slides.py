@@ -382,7 +382,7 @@ def fig_timeline():
             parts.append(fill('text', 'examples.presentation.whyChanged', 't-sm', attrs=f'x="{x - 110}" y="196"', wrap_=13))   # 卡寬 250、左留 15：17px 一行 13 字（16 字會出框 37px）
         else:
             parts.append(whys[i].format(x=x - 110))
-    return svg(1088, 252, ''.join(parts))
+    return svg(1088, 264, ''.join(parts))
 
 
 def fig_rubric_diff():
