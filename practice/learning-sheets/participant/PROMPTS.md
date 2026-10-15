@@ -2,6 +2,8 @@
 
 **合成示範、不是學生作答**。先請AI印出本包完整路徑，下面【participant完整路徑】填participant資料夾，【成果完整路徑】填自己的可寫成果資料夾。先保存人工三份，再貼第一段。
 
+若只下載「成員練習包ZIP」，【participant完整路徑】就是解壓後看得到 `RUBRIC.md`、`data/`、`tools/` 的根目錄，不要再多加一層 participant。
+
 ## 1. AI依原文先試評
 
 ```text
