@@ -1,17 +1,247 @@
-<!doctype html>
-<html lang="zh-Hant-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>成員練習｜從學習單試評到教師核對</title><meta name="description" content="同一週10份合成學習單，先人工三份，再讓AI試評、程式加總，最後由教師決定。15份選做。">
-<link rel="stylesheet" href="assets/site.css"><style>.practice{max-width:960px;margin:auto;padding:24px}.practice h1{font-size:clamp(1.8rem,4vw,2.7rem);line-height:1.3}.practice p,.practice li{line-height:1.8}.practice nav{display:flex;gap:20px;flex-wrap:wrap}.practice section{margin:32px 0}.practice code{overflow-wrap:anywhere}.practice .notice{padding:16px;border-left:4px solid #e7785c;background:#fbebe5;color:#17243d}.practice .actions{display:flex;flex-wrap:wrap;gap:12px}</style></head>
-<body><a class="skip" href="#main">跳到主要內容</a><div class="practice"><nav aria-label="導覽"><a href="index.html">工作坊入口</a><a href="material.html">講義</a><a href="studio.html#design">一頁設計</a></nav>
-<main id="main"><header><p>10/16 成員練習｜同一週，先做10份</p><h1>拿作業原文，自己評三份，再和 AI 核對。</h1>
-<p>這次提供完整合成學習單、評分規準（Rubric）、空白教師表與計分工具。10份預設，15份選做；15份包含前10份，兩版不合併。</p>
-<div class="actions"><a class="btn" href="downloads/learning-sheet-grading-practice.zip" download>下載成員練習包 ZIP</a><a class="btn secondary" href="https://github.com/cwstedctw/learning-evidence-workshop/tree/main/practice/learning-sheets">在 GitHub 讀說明</a></div></header>
-<section class="notice"><b>合成示範、不是學生作答。</b>五區各0或20分，只算完成度。空泛文字有寫仍算完成，AI揭露「否」也算完成。這是演練百分比，不是演講課正式成績，不含遲交或學期換算。</section>
-<section><h2>解壓後，從 ASSIGNMENT.md 開始</h2><ol>
-<li><b>先人工三份：</b>讀 <code>RUBRIC.md</code>，自己評 S01、S06、S10，填 <code>templates/manual-first.csv</code>；先不看答案或AI結果。</li>
-<li><b>AI先試評：</b>在已登入的AI助手選這個資料夾，貼 <code>PROMPTS.md</code> 第一段。它只讀五區原文，另存試評CSV與逐區證據。</li>
-<li><b>程式加總與比對：</b>貼第二段，請AI代跑 <code>tools/grade.py</code>，讀回每區差異。程式不連網、不需API金鑰，只用Python標準函式庫；沒有Python可人工加總並註明未做程式核對。</li>
-<li><b>教師決定：</b>自己核對原文，填 <code>templates/teacher-review.csv</code> 的採用／改分／待確認及理由；未確認時最終分數留空，不交給AI代填。</li>
-<li><b>存一個版本：</b>保存人工表、AI試評、程式結果與教師決定。接回一頁設計：看到什麼、下次改什麼、還缺什麼證據。</li>
-</ol></section><section><h2>這包和原工作台怎麼配？</h2><p>可作為第三塊的學習單替代路線。它直接從作業原文試評；原工作台的三方分數CSV是另一種分析練習，不能把本包資料直接貼進去，也不必捏造自評、互評、教師分。第四塊仍可用一頁設計。</p><p>單週10／15份只練流程與描述資料，不足以推論跨週進步或介入有效。成員ZIP不含講師答案；公開repo仍可讀到講師參考，這不是正式盲評。</p></section>
-</main><footer><p>從學習證據到教學改進｜CC BY-NC-SA 4.0｜全程只用合成資料</p></footer></div></body></html>
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜學習單試評練習</title>
+<meta name="description" content="同一週 10 份合成學習單：先自己評三份，再讓 AI 試評、程式核對，最後由老師決定。每一步都有可以整句複製貼給 AI 助手的話。15 份選做。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* 跟講義參同一套：三欄步驟卡、可貼句小框（.say）、提示詞卡（.prompt，site.css 已有） */
+.trio .step .say{margin:10px 0 0;padding:12px 12px 10px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:0 var(--r-sm) var(--r-sm) 0}
+.trio .step .say .ptext{display:block;margin:0 0 10px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.95rem;line-height:1.7}
+.trio .step p+p{margin-top:.6em}
+.trio .step ul{margin:.4em 0 0;padding-left:1.2em}
+.trio .step li{margin:.25em 0}
+.prompt .rule-foot{display:block;margin:12px 0 0;padding-top:10px;border-top:1px dashed var(--line-strong);font-size:.9rem;font-weight:700;color:var(--ink);white-space:normal}
+.stephead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px;margin:0 0 .4em}
+.stephead h3{margin:0;font-size:clamp(1.25rem,2vw,1.5rem);font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.stephead .mins{font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.08em;color:var(--teal-deep);background:var(--teal-soft);padding:3px 10px;border-radius:999px}
+.pstep{padding:1.6em 0 .4em;border-top:1px dashed var(--line)}
+.pstep:first-of-type{border-top:0;padding-top:0}
+code{overflow-wrap:anywhere}
+.swap td{vertical-align:top}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 0}
+@media (min-width:860px){.trio{grid-template-columns:1.25fr 1fr 1fr}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html">批改實況</a><a href="practice.html" aria-current="page">試評練習</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#what">這是什麼</a><a href="#steps">七步逐步</a><a href="#fifteen">15 份選做</a><a href="#stuck">卡住時</a><a href="#fit">跟四塊怎麼配</a></span>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="inner">
+  <span class="eyebrow">成員練習｜同一週，先做 10 份</span>
+  <h1>拿作業原文，自己先評三份，再讓 AI 試評、程式核對，最後你決定。</h1>
+  <div class="deck">
+    <p class="sub">這一頁每一步都分三欄：你做什麼、AI 會做什麼、你一定要自己看的。要 AI 動手的步驟，底下都有一句整句複製就能貼的話。全程只用合成示範資料，約 50 分鐘。</p>
+    <p class="meta"><span class="m">10 份預設、15 份選做</span><span class="m">只算完成度：五區各 0 或 20 分</span><span class="m">AI 不替你填最終分數</span></p>
+  </div>
+  <p class="hero-actions"><a class="btn" href="downloads/learning-sheet-grading-practice.zip" download>下載練習包 ZIP（不含講師答案）</a><a class="btn secondary" href="https://github.com/cwstedctw/learning-evidence-workshop/tree/main/practice/learning-sheets">在 GitHub 看原始檔</a></p>
+</div></header>
+
+<main id="main">
+
+<section id="what" class="sec first" aria-labelledby="what-h"><div class="wrap">
+  <h2 id="what-h"><span class="num">〇</span><span class="t">這是什麼：從作業原文開始的評分練習</span></h2>
+  <div class="body">
+    <p class="prose">講義第三塊用的是「已經有分數」的三方資料（自評、互評、老師評）。這一包往前一步：<strong>作業原文</strong>就在你手上，先自己評、再看 AI 怎麼評、再讓程式照同一張規準表（Rubric）硬算一次，三份結果擺在一起，最後由你決定每一筆採用哪個分數。老師帶回去的不是分數，是「AI 跟我哪裡看法不同、為什麼」。</p>
+    <div class="warn"><p><strong>合成示範、不是學生作答。</strong>15 份學習單是為工作坊編的，代號 DEMO-W01-S01…S15。評分規準只看<strong>完成度</strong>：五區各 0 或 20 分，有寫就算完成；「學到很多」這種空泛句照樣給分、AI 揭露填「否」也算完成。這是演練用的百分比，不是演講課正式成績，不含遲交、不做學期換算。</p></div>
+    <div class="card">
+      <h3>練習包裡有什麼（解壓後第一層）</h3>
+      <ul>
+        <li><code>ASSIGNMENT.md</code>：任務說明（跟這一頁同一套，離線時看它）／<code>PROMPTS.md</code>：這一頁所有可貼的句子，純文字版</li>
+        <li><code>RUBRIC.md</code>、<code>rubric.json</code>：五區完成度規準表 v1，人看的跟程式讀的各一份</li>
+        <li><code>submissions/</code>：15 份學習單原文，一份一個檔，人看的／<code>data/submissions-10.csv</code>、<code>submissions-15.csv</code>：同一批原文的表格版，AI 跟程式讀的（第一行就是標頭，不要跳過）</li>
+        <li><code>templates/</code>：空白表三張——<code>manual-first.csv</code>（你先評的三份）、<code>teacher-review.csv</code>（你的最終決定）、<code>ai-scores.csv</code>（AI 試評要交出來的格式）</li>
+        <li><code>tools/grade.py</code>：加總與比對程式。只用 Python 內建功能、不連網、不要金鑰；每次輸出都要新資料夾，不會蓋掉上一輪</li>
+      </ul>
+    </div>
+  </div>
+</div></section>
+
+<section id="steps" class="sec" aria-labelledby="steps-h"><div class="wrap">
+  <h2 id="steps-h"><span class="num">壹</span><span class="t">七步逐步：你說什麼、AI 會做什麼、你一定要自己看的</span></h2>
+  <div class="body">
+    <p class="prose">約定兩件事，後面每一句話都靠它：<strong>工作資料夾＝解壓出來的那個資料夾</strong>（在 AI 助手「開啟資料夾」選它）；<strong>你的成果都放它底下的 <code>my-results</code></strong>（第 1 步會請 AI 建）。這樣每一句都不用改路徑，整句複製就能貼。</p>
+
+    <div class="pstep" id="s0">
+      <div class="stephead"><h3>第 0 步｜解壓、選資料夾、探測一句</h3><span class="mins">5 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>①按上面「下載練習包 ZIP」。②解壓到<strong>不在 OneDrive／iCloud 同步</strong>、你有權寫入的位置（例如跟第一塊的 <code>my-course-evidence</code> 放同一層），資料夾名可以叫 <code>learning-sheet-practice</code>。③在 AI 助手（ChatGPT 桌面版的 Codex）用「開啟資料夾」選到它。④貼下面這句探測。</p>
+          <div class="say"><span class="ptext">請印出目前工作資料夾的完整路徑，確認是我選的那一個；再列出這個資料夾第一層的檔案與子資料夾。然後只在這裡新建 write-test.md，內容寫「工作坊寫入測試」；不要改其他檔、不安裝軟體、不上傳到任何地方。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製第 0 步這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>印出一條完整路徑、列出第一層（應該看到 <code>RUBRIC.md</code>、<code>data</code>、<code>submissions</code>、<code>templates</code>、<code>tools</code>），然後建一個小檔。可能跳一次「要不要允許寫入」→按允許。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①它印的路徑跟你解壓的位置一樣，第一層<strong>直接</strong>看得到 <code>RUBRIC.md</code>（不是再多一層資料夾）。②自己打開 <code>write-test.md</code> 看到那行字。看不到＝它在別的地方動手，回到「開啟資料夾」重選。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" id="s1">
+      <div class="stephead"><h3>第 1 步｜建成果資料夾，自己先評三份</h3><span class="mins">10 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>①先貼第一句，請 AI 把空白表複製到 <code>my-results</code>。②然後<strong>不要用 AI</strong>：打開 <code>RUBRIC.md</code> 讀一遍，再打開 <code>submissions/</code> 裡的 <strong>S01、S06、S10</strong> 三份，照五區各 0 或 20 分評。③評好的分數用第二句請 AI 寫進表格（把【】換成你的數字跟話）。先不要開 AI 試評、不要跑程式。</p>
+          <div class="say"><span class="ptext">請在目前工作資料夾裡新建子資料夾 my-results，把 templates/manual-first.csv 和 templates/teacher-review.csv 複製進去（內容一個字都不要改），然後印出 my-results 裡的檔案清單。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製第 1 步第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">我自己評完三份了。請把下面的分數寫進 my-results/manual-first.csv 對應的列，其他列與欄位名稱都不要動，理由照我的原話、不要潤飾：
+DEMO-W01-S01：課前【】、收穫【】、六面向【】、AI 揭露【】、給講者的話【】、總分【】、判斷【】、理由【】
+DEMO-W01-S06：課前【】、收穫【】、六面向【】、AI 揭露【】、給講者的話【】、總分【】、判斷【】、理由【】
+DEMO-W01-S10：課前【】、收穫【】、六面向【】、AI 揭露【】、給講者的話【】、總分【】、判斷【】、理由【】
+寫完請把這個檔的內容原樣印給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製第 1 步第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>第一句：建資料夾、複製兩張空白表。第二句：把你的數字填進 CSV 的對應欄位（欄位順序是代號、五區分數、總分、判斷、理由），然後印出來。</p><p>為什麼請 AI 寫而不是自己用 Excel 開：Excel 存 CSV 常把中文編碼改掉，第 3 步的程式會拒收。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①三列都填滿、總分＝五區相加。②理由是你的原話。③<strong>S01、S06、S10 不是隨機抽的</strong>，是刻意挑來校準的三份；評完先別對答案，第 3 步程式會告訴你。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" id="s2">
+      <div class="stephead"><h3>第 2 步｜讓 AI 依原文試評 10 份</h3><span class="mins">10 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>整段複製提示詞 A 貼給 AI。它可能停下來問你某一筆「算不算有寫」。這是對的，你回答它，別讓它猜。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>只讀規準表跟 <code>data/submissions-10.csv</code>，逐份列五區有沒有完成、各引一段原文，再給分數；最後存兩個檔：<code>my-results/ai-scores.csv</code>（只有數字）跟 <code>my-results/ai-evidence.md</code>（逐區證據與它拿不準的地方）。輸出會長，讀的時間比它做的時間久。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①打開 <code>ai-scores.csv</code>：10 列、每格只有 0 或 20、總分欄是五區相加，<strong>沒有任何文字或公式</strong>（有的話第 3 步會被程式擋）。②<code>ai-evidence.md</code> 每份都引了原文，不是只給結論。③它對「空泛但有寫」那幾筆（例如 S02、S08）怎麼判。這正是等一下跟程式比對會出現差異的地方。</p></div>
+      </div>
+      <div class="prompt" id="prompt-A">
+        <div class="prompt-head"><span class="label">提示詞 A｜AI 依原文先試評（10 份）</span><button class="btn secondary small copy" type="button" data-copy-from=".prompt" aria-label="複製提示詞 A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+<pre class="ptext">這是合成完成度試評，不是正式成績。只讀目前工作資料夾裡的 RUBRIC.md、rubric.json 和 data/submissions-10.csv；不要讀 tools、instructor、my-results 或任何既有輸出。
+CSV 第一行就是標頭，不要跳過。10 份都是同一週 DEMO-W01，只用五區原文判斷。每區 0 或 20 分：有寫就算完成，不因內容空泛扣分；AI 揭露填「否」算完成；六面向勾多項不加分。不含遲交、不做學期換算、不做 80–99 對齊。
+請先逐份列出五區各自「有寫／留空」，每一區引一小段原文或註明留空；再給五區分數與加總。格式不合法或你沒把握的，先標「待確認」停下來問我，不要猜分，也不要產生含非數字的分數檔。
+全部能判斷之後，把結果存成 my-results/ai-scores.csv，欄位順序固定：record_id,pre_score,reflection_score,facets_score,ai_score,message_score,practice_total100，每格只能是數字，不放公式或文字。逐區證據與不確定處另存 my-results/ai-evidence.md。
+不要替我填教師的 final_score 或決定，不上傳到任何地方。存完請讀回兩個檔，核對代號與筆數。</pre>
+        <p class="rule-foot">AI 提出試評，老師自己決定；它說存好了，你要親自打開看到檔案。</p>
+      </div>
+    </div>
+
+    <div class="pstep" id="s3">
+      <div class="stephead"><h3>第 3 步｜請 AI 代跑程式，三份結果擺在一起</h3><span class="mins">5 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>整段複製提示詞 B 貼給 AI。它會先看這台電腦有沒有 Python；沒有就照它說的改手算，標「未做程式核對」。<strong>不要為了這一步去安裝任何東西</strong>。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>跑 <code>tools/grade.py</code>：照規準表硬算 10 份的五區分數，再跟你第 2 步的 <code>ai-scores.csv</code> 逐格比，把結果寫進新資料夾 <code>my-results/program-round-1</code>（<code>scores.csv</code>、<code>summary.md</code>、<code>differences.csv</code>、<code>run.json</code>），然後用表格列出每一處不同。程式不會用 AI 的分數蓋掉自己的，也不會填你的最終分數。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①<code>summary.md</code>：10 份、演練平均 96.0、完成五區 8 份（這是程式照規準硬算的，拿來對你第 1 步評的 S01、S06、S10）。②<code>differences.csv</code> 有幾列：每一列都是「AI 跟規準表看法不同」的一格；打開 <code>ai-evidence.md</code> 看它當時引的原文，想一下你站哪邊。③沒有差異也是正常結果，記「本輪沒有分歧」就好，不必捏造。</p></div>
+      </div>
+      <div class="prompt" id="prompt-B">
+        <div class="prompt-head"><span class="label">提示詞 B｜請 AI 代跑加總與比對</span><button class="btn secondary small copy" type="button" data-copy-from=".prompt" aria-label="複製提示詞 B"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+<pre class="ptext">人工三份與 AI 試評都保存在 my-results 了。請先檢查這台電腦有沒有可用的 Python（試 python --version 或 python3 --version），不要安裝任何東西。沒有的話就告訴我，我會改用 RUBRIC.md 人工加總，並標「未做程式核對」。
+有 Python 時，在目前工作資料夾執行：
+python tools/grade.py --count 10 --input data/submissions-10.csv --compare my-results/ai-scores.csv --out-dir my-results/program-round-1
+（python 不行就改 python3。）輸出資料夾要用新的，不覆寫上一輪。
+執行失敗就把錯誤訊息原樣給我看，不要改原始資料湊通過，也不要把失敗說成成功。成功時讀回 my-results/program-round-1 裡的 scores.csv、differences.csv 和 run.json，用表格列出每一處差異（代號、欄位、程式值、AI 值）；不要用 AI 試評蓋掉程式結果，也不要幫我填教師決定。</pre>
+        <p class="rule-foot">程式只是第三個意見。它跟 AI 不同的那幾格，才是你今天要帶走的東西。</p>
+      </div>
+    </div>
+
+    <div class="pstep" id="s4">
+      <div class="stephead"><h3>第 4 步｜你決定：採用、改分、還是待確認</h3><span class="mins">10 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>①對著三份結果（你的三份、AI 的十份、程式的十份）回頭看原文，每一筆決定一個：<strong>採用／改分／待確認</strong>，寫一句理由。②把決定用下面這句請 AI 寫進 <code>my-results/teacher-review.csv</code>（把【】換成你的；沒把握的那筆 decision 寫「待確認」、final_score 留空）。</p>
+          <div class="say"><span class="ptext">請把我的決定寫進 my-results/teacher-review.csv，只改我說到的列，欄位名稱與列的順序不要動，理由照我的原話、不要潤飾；我沒說到的列全部留空：
+DEMO-W01-S01：final_score【】、decision【】、reason【】
+DEMO-W01-S02：final_score【】、decision【】、reason【】
+DEMO-W01-S03：final_score【】、decision【】、reason【】
+（其他代號照同一個格式接著寫）
+寫完請把這個檔的內容原樣印給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製第 4 步這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>只填你說的列，印出整個檔。它<strong>不該</strong>替你補沒說到的列，也不該幫你想理由。如果它補了，叫它清掉。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①decision 欄只有「採用／改分／待確認」三種字。②「待確認」那幾列 final_score 是空的。③「採用」的意思是你看過證據後決定用哪個分數，不是預設接受 AI。④理由是你的話。這張表就是你的評分決定紀錄，回去用自己的課時格式照用。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" id="s5">
+      <div class="stephead"><h3>第 5 步｜把這一輪存成一個版本</h3><span class="mins">5 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>整句複製貼給 AI。它問「要不要在這裡建版本庫」→允許；它問名字信箱→用 GitHub 帳號名與註冊信箱（跟第一塊一樣）。</p>
+          <div class="say"><span class="ptext">請把 my-results 這個資料夾的成果存成 Git 版本。如果目前工作資料夾還不是 Git 版本庫，就先在這裡初始化一個（只在這裡，不建立遠端、不上傳到任何地方）。只加入 my-results/ 底下的檔案，不要加入 data/、submissions/、tools/、templates/ 或其他東西。版本說明寫：「學習單試評第 1 輪：人工 3 份＋AI 試評＋程式核對＋教師決定」。做完印出版本清單，並列出這一版包含哪些檔案。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製第 5 步這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>在這個資料夾建版本庫（第一次才需要）、只把 <code>my-results/</code> 加進去、存一版、印出清單。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①版本清單有一筆、說明是上面那句。②這一版的檔案清單<strong>只有 my-results 底下的</strong>（人工表、AI 兩個檔、program-round-1 四個檔、教師決定表）。③沒有任何「推上去／遠端」的字眼。Git 沒裝好就先把檔留著，版本這步標「待補」，不影響前面四步。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" id="s6">
+      <div class="stephead"><h3>第 6 步｜接回一頁設計</h3><span class="mins">5 分</span></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>開<a href="studio.html#design">工作台「一頁設計」</a>，按「帶入演講課」，只改三格：「評量任務與 Rubric」寫這張五區規準表、「回饋與調整」寫 <code>differences.csv</code> 告訴你的那件事、「研究問題」寫「還要蒐什麼證據才能判斷改動有用」。匯出 Markdown、搬進 <code>my-results</code>（搬檔那句在講義第四塊，前綴 <code>one-page-design-</code>）。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>（不用 AI）工作台純前端，你填它即時預覽。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>三格裡沒有「10 份合成資料證明了什麼」這種話。單週 10 份只能練流程、描述資料，不能推論跨週進步或教學介入有效。寫「看到什麼、下次改哪個提示、還缺什麼證據」就夠。</p></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="fifteen" class="sec" aria-labelledby="fifteen-h"><div class="wrap">
+  <h2 id="fifteen-h"><span class="num">貳</span><span class="t">15 份選做：同一條路，換四個地方</span></h2>
+  <div class="body">
+    <p class="prose">15 份<strong>包含</strong>前 10 份（多 S11–S15），兩版不合併成 25 份。做法完全一樣，只把下面四處換掉；人工三份不必重評。</p>
+    <div class="table-wrap"><table class="swap">
+      <thead><tr><th>在哪一步</th><th>10 份寫的</th><th>15 份改成</th></tr></thead>
+      <tbody>
+        <tr><td>提示詞 A</td><td><code>data/submissions-10.csv</code>、「10 份」</td><td><code>data/submissions-15.csv</code>、「15 份」；存成 <code>my-results/ai-scores-15.csv</code>、<code>ai-evidence-15.md</code></td></tr>
+        <tr><td>提示詞 B</td><td><code>--count 10 --input data/submissions-10.csv --compare my-results/ai-scores.csv --out-dir my-results/program-round-1</code></td><td><code>--count 15 --input data/submissions-15.csv --compare my-results/ai-scores-15.csv --out-dir my-results/program-round-15</code></td></tr>
+        <tr><td>第 4 步</td><td><code>teacher-review.csv</code></td><td><code>templates/teacher-review-15.csv</code>（先請 AI 複製到 my-results）</td></tr>
+        <tr><td>第 5 步</td><td>版本說明「第 1 輪」</td><td>「學習單試評第 2 輪：15 份」</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</div></section>
+
+<section id="stuck" class="sec" aria-labelledby="stuck-h"><div class="wrap">
+  <h2 id="stuck-h"><span class="num">參</span><span class="t">卡住時先看這裡</span></h2>
+  <div class="body">
+    <ul class="steps">
+      <li><strong>AI 說「存好了」但資料夾裡沒檔</strong>：叫它「印出你剛寫的檔的完整路徑」。十之八九是它在別的地方動手，回第 0 步重選資料夾。這正是第一塊教的第一件事。</li>
+      <li><strong>程式回「CSV 欄名或順序不符」「只接受 0 或 20」</strong>：AI 的 <code>ai-scores.csv</code> 多了文字、公式或欄位；把錯誤訊息貼回去說「請照提示詞 A 的欄位順序重存，每格只能是數字」。不要自己用 Excel 開 CSV 去修，Excel 一存檔編碼就變。</li>
+      <li><strong>程式回「輸出已存在」</strong>：這是設計，不覆寫上一輪。把 <code>--out-dir</code> 改成 <code>program-round-2</code> 再跑。</li>
+      <li><strong>沒有 Python</strong>：不裝。照 <code>RUBRIC.md</code> 手算（有寫＝20、留空＝0），在第 4 步的 reason 標「未做程式核對」。</li>
+      <li><strong>AI 一直問「要不要允許」</strong>：寫檔、跑程式、初始化版本庫各會問一次，按允許。它問的若是「要不要連網／上傳」→不允許，這一包全程不需要網路。</li>
+      <li><strong>AI 對某一筆拿不準</strong>：它應該停下來問你（提示詞 A 寫了）。你看原文回答它「這一區算有寫」或「留空」，別讓它猜。</li>
+      <li><strong>想看講師怎麼評</strong>：公開 repo 的 <code>practice/learning-sheets/instructor/REFERENCE.md</code> 有講師參考（ZIP 裡刻意不放）。所以這不是正式盲評、也不宣稱信度，它是練習。</li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="fit" class="sec" aria-labelledby="fit-h"><div class="wrap">
+  <h2 id="fit-h"><span class="num">肆</span><span class="t">跟工作坊四塊怎麼配</span></h2>
+  <div class="body">
+    <div class="card"><p><strong>位置</strong>：第三塊的替代路線，或回家的第二個練習。兩小時主線走講義第三塊（已有分數的三方資料＋儀表板抽查）；這一包從作業原文開始，給想試「AI 直接評」的老師。兩包資料不互通：不要把這裡的 CSV 貼進工作台的儀表板，也不必為它捏造自評、互評、老師評三種分數。</p>
+    <p><strong>帶回去</strong>：換成你自己的課，五區規準表改成你的、<code>submissions/</code> 換成你學生的作業原文（先拿掉姓名學號，放不公開的資料夾）。程式只認這版規準表；規準改了要連 <code>rubric.json</code> 跟 <code>tools/grade.py</code> 一起改並驗證，它不會靜靜用改過的規準算。</p>
+    <p><strong>講師自己的例子</strong>：這 15 份的樣子來自講師演講課的課前／課後學習單（講義肆最後一張卡），只看完成度、不評立場與深度，跟你今天練的是同一張規準表。</p></div>
+  </div>
+</div></section>
+
+</main>
+
+<footer class="site"><div class="inner"><p>從學習證據到教學改進｜CC BY-NC-SA 4.0｜全程只用合成資料。<a href="material.html">回講義</a>・<a href="index.html">回入口</a></p></div></footer>
+
+<script>
+(function(){
+  /* 複製（含舊瀏覽器與 file:// 的備援）：跟講義同一段。鈕裡有圖示＋文字，只換文字那一段 */
+  function copyText(text, btn){
+    var label = btn.querySelector('.txt') || btn;
+    var orig = label.textContent;
+    var done = function(){ label.textContent = '已複製 ✓'; setTimeout(function(){ label.textContent = orig; }, 1400); };
+    var fallback = function(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+      if(ok) done(); else label.textContent = '請手動選取複製';
+    };
+    if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+  }
+  document.addEventListener('click', function(ev){
+    var btn = ev.target.closest('button[data-copy-from]');
+    if(!btn) return;
+    var src = btn.closest(btn.getAttribute('data-copy-from'));
+    var el = src ? src.querySelector('.ptext') : null;
+    if(el) copyText(el.textContent, btn);
+  });
+})();
+</script>
+</body>
+</html>
