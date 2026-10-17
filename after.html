@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>從學習證據到教學改進｜課後指南：回去自己做</title>
+<meta name="description" content="10/16 工作坊課後指南：昨天我們做了什麼、回去怎麼自己再做一遍（三次版本、回頭看）、每一句可複製、互動模擬器、深入用的連結、講師指南。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<style>
+.trio .step .say{margin:10px 0 0;padding:12px 12px 10px;background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:0 var(--r-sm) var(--r-sm) 0}
+.trio .step .say .ptext{display:block;margin:0 0 10px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:.95rem;line-height:1.7}
+.trio .step p+p{margin-top:.6em}
+.cardhead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin:0 0 .4em}
+.cardhead h3{margin:0;font-size:clamp(1.2rem,2vw,1.45rem);font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.cardhead .mins{font-family:var(--mono);font-size:.78rem;font-weight:700;letter-spacing:.08em;color:var(--teal-deep);background:var(--teal-soft);padding:3px 10px;border-radius:999px}
+.cardhead label.done-box{margin-left:auto;display:inline-flex;align-items:center;gap:8px;font-size:.9rem;font-weight:700;cursor:pointer;min-height:44px;padding:0 10px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--card)}
+.cardhead label.done-box input{width:18px;height:18px}
+.pstep{padding:1.6em 0 .4em;border-top:1px dashed var(--line)}
+.pstep:first-of-type{border-top:0;padding-top:0}
+.pstep.done .cardhead h3{color:var(--ink-soft);text-decoration:line-through;text-decoration-thickness:2px}
+code{overflow-wrap:anywhere}
+/* 昨天的時間線 */
+.yest{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.yest li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--teal);border-radius:var(--r);padding:14px 18px}
+.yest li b{display:block;margin-bottom:4px}
+.yest li .k{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;color:var(--teal-deep);font-weight:700}
+/* 進度列 */
+.progress{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.progress .bar{flex:1 1 220px;height:10px;background:var(--tint);border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+.progress .bar i{display:block;height:100%;width:0;background:var(--teal);transition:width .3s}
+/* 模擬器 */
+.sim{display:grid;gap:16px}
+.sim .pane{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.sim .pane h4{margin:0 0 10px;font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;font-weight:700;color:var(--teal-deep)}
+.sim pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-family:var(--mono);font-size:.9rem;line-height:1.7;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px}
+.sim .btns{display:flex;flex-wrap:wrap;gap:10px}
+.sim .log{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.sim .log li{display:flex;gap:10px;align-items:baseline;padding:8px 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);font-size:.92rem}
+.sim .log li.cur{border-color:var(--teal);box-shadow:inset 3px 0 0 var(--teal)}
+.sim .log li .h{font-family:var(--mono);font-size:.8rem;color:var(--teal-deep)}
+.sim .log li .t{margin-left:auto;font-family:var(--mono);font-size:.76rem;color:var(--ink-soft);white-space:nowrap}
+.sim .diff div{font-family:var(--mono);font-size:.9rem;line-height:1.7;padding:0 8px;border-radius:4px}
+.sim .diff .del{background:var(--c-soft);color:var(--c-deep)}
+.sim .diff .add{background:var(--a-soft);color:var(--a-deep)}
+.sim .msg{min-height:1.5em;font-size:.95rem}
+.sim .pane.view{border-color:var(--gold);background:var(--gold-soft)}
+@media (min-width:860px){.sim{grid-template-columns:1.1fr 1fr}.sim .full{grid-column:1/-1}.trio{grid-template-columns:1.25fr 1fr 1fr}}
+/* 自測 */
+.quiz .q{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin:12px 0}
+.quiz .q p{margin:0 0 8px;font-weight:700}
+.quiz .q button{margin:4px 8px 4px 0;max-width:100%;text-align:left}
+.quiz .q .ans{margin-top:8px;display:none}
+.quiz .q.show .ans{display:block}
+/* 深入用 */
+.deep{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.deep li{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px 18px}
+.deep li a{font-weight:800}
+.deep li small{display:block;color:var(--ink-soft);margin-top:4px}
+@media (min-width:860px){.deep{grid-template-columns:1fr 1fr}}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin:18px 0 0}
+.sim .btns .btn,#teacher .actions .btn,.hero-actions .btn,.quiz .q .btn{white-space:normal;height:auto;min-height:44px;padding-top:8px;padding-bottom:8px;text-align:center}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳到主要內容</a>
+<nav class="topnav" aria-label="導覽"><div class="inner">
+  <div class="links" id="navLinks">
+    <span class="site"><a href="index.html">入口</a><a href="learn.html">先玩一遍</a><a href="start.html">行前準備</a><a href="material.html">講義</a><a href="studio.html">工作台</a><a href="slides/index.html">投影片</a><a href="pipeline.html">批改實況</a><a href="practice.html">試評練習</a><a href="after.html" aria-current="page">課後指南</a></span>
+    <span class="sep" aria-hidden="true"></span>
+    <span class="anchors"><a href="#yesterday">昨天做了什麼</a><a href="#redo">回去自己做</a><a href="#oneline">一句話版</a><a href="#sim">模擬器</a><a href="#quiz">自測</a><a href="#deep">深入用</a><a href="#teacher">講師指南</a></span>
+  </div>
+</div></nav>
+
+<header class="hero"><div class="inner">
+  <span class="eyebrow">課後指南｜10/16 之後</span>
+  <h1>昨天做過一次，回去自己再做一遍：三次版本，然後回頭看。</h1>
+  <div class="deck">
+    <p class="sub">這一頁是給昨天來的老師的。先回想昨天做了什麼，再照七張卡在自己的電腦上重做：每張卡有「你說什麼、AI 會做什麼、你一定要自己看的」，每一句要貼給 AI 的話都有「複製」鈕，勾掉的卡這台電腦會記住。熟了以後用「一句話版」：只講目的，AI 自己把整件事做完。想先玩，下面有一個不用裝任何東西的模擬器。</p>
+    <p class="meta"><span class="m">約 40 分鐘</span><span class="m">用自己的課，不用示範資料也行</span><span class="m">全程在你電腦裡，不上傳</span></p>
+  </div>
+  <p class="hero-actions"><a class="btn" href="#redo">直接從第 0 張卡開始</a><a class="btn secondary" href="#sim">先玩模擬器</a><a class="btn secondary" href="teacher-guide.html">講師指南</a></p>
+</div></header>
+
+<main id="main">
+
+<section id="yesterday" class="sec first" aria-labelledby="yesterday-h"><div class="wrap">
+  <h2 id="yesterday-h"><span class="num">壹</span><span class="t">昨天我們做了什麼</span></h2>
+  <div class="body">
+    <p class="prose">兩小時真正動手的是這四件。跟我們在人工智慧概論課上給學生的作業是同一套：在自己的電腦裡存三次版本，再回頭看前一版長什麼樣。工具叫 Git，但你不必記它的指令，指令交給 AI 助手（ChatGPT 桌面版的 Codex）代打，你只看它的計畫、看前後對照、然後點頭。</p>
+    <ol class="yest">
+      <li><span class="k">01</span><b>把 AI 助手跟 GitHub 接起來</b>Codex 開在你選的資料夾裡動手；GitHub 帳號登入過（gh），作者名字跟信箱從此寫進每一筆紀錄。沒有上傳任何東西，GitHub 只是身分。</li>
+      <li><span class="k">02</span><b>第 0 版：一個空殼</b>建 <code>my-course-evidence</code>，裡面放一個 <code>rubric.md</code>，只有一行「評分規準（第 0 版）」。請 AI 把資料夾交給 Git 管理，存第一版。重點：AI 說做完了，你要親自打開資料夾看到那個檔。</li>
+      <li><span class="k">03</span><b>第 1 版、第 2 版：改一次存一次</b>把 rubric.md 改成四個規準，先看前後對照（只看 − 跟 ＋ 的行），再存第 1 版；挑一句不同意的改掉、存第 2 版，版本說明寫為什麼改。三筆紀錄，三句你自己的話。</li>
+      <li><span class="k">04</span><b>回頭看</b>印出版本清單，把第 1 版的檔拿出來看、跟第 2 版比差在哪。回頭看不是回到過去改，舊版永遠在，這就是「我根據證據調整了教學」拿得出來的樣子。</li>
+    </ol>
+    <div class="tip"><p>全場只記一句話：<strong>挑一句不同意的、改掉、寫下為什麼。</strong>AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</p></div>
+  </div>
+</div></section>
+
+<section id="redo" class="sec" aria-labelledby="redo-h"><div class="wrap">
+  <h2 id="redo-h"><span class="num">貳</span><span class="t">回去自己做：七張卡</span></h2>
+  <div class="body">
+    <div class="card">
+      <div class="progress"><strong>進度</strong><div class="bar"><i id="pbar"></i></div><span id="ptext">0 / 7</span><button class="btn secondary small" type="button" id="pclear">清除勾選</button></div>
+      <p style="margin:10px 0 0;font-size:.92rem;color:var(--ink-soft)">勾選只存在這台電腦的瀏覽器裡。約定：<strong>工作資料夾＝你在 AI 助手「開啟資料夾」選的那一個</strong>；課程資料夾叫 <code>my-course-evidence</code>（昨天建過的可以沿用，想從零再來就改名）。卡上的【】換成你自己的課。</p>
+    </div>
+
+    <div class="pstep" data-card="c0">
+      <div class="cardhead"><h3>卡 0｜開 AI 助手、選資料夾、探測一句</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>①開 ChatGPT 桌面版，左上角切到 Codex。②「開啟資料夾」選一個不在 OneDrive／iCloud 同步、不需要管理員權限的位置（不要桌面、不要文件）。③輸入框下方的權限選單維持 Ask for approval。④貼這句。</p>
+          <div class="say"><span class="ptext">請印出目前工作資料夾的完整路徑，確認是我選的那一個；再列出這個資料夾第一層的檔案與子資料夾。然後只在這裡新建 write-test.md，內容寫「工作坊寫入測試」；不要改其他檔、不安裝軟體、不上傳到任何地方。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 0 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>印路徑、列清單、建一個小檔。可能問一次「要不要允許寫入」→ 允許。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>自己打開 <code>write-test.md</code> 看到那行字；路徑裡沒有 OneDrive／iCloud 字樣。看不到＝它在別的地方動手，重選資料夾。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" data-card="c1">
+      <div class="cardhead"><h3>卡 1｜第 0 版：一個空殼</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>兩句分開貼，第一句做完再貼第二句。</p>
+          <div class="say"><span class="ptext">請在目前工作資料夾裡建一個資料夾 my-course-evidence，在裡面放一個 rubric.md，內容先寫「【你的課名】【評量任務】評分規準（第 0 版）」一行就好。做完告訴我你做了什麼、沒做什麼，並把完整路徑顯示給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 1 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">請把 my-course-evidence 交給 Git 管理，存成第一個版本，版本說明寫「第 0 版：先放一個空殼」。不要上傳到任何地方。如果需要先設定作者名字和信箱，名字用我的 GitHub 帳號名、信箱用 GitHub 註冊的信箱，設完告訴我你設了什麼。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 1 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>建資料夾、建檔、回報路徑；第二句：初始化 Git（第一次會設作者名字信箱）、存第一版（commit）。它問「要不要初始化」→ 允許。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①照它印的路徑打開資料夾，親眼看到 rubric.md 只有一行。②版本說明是不是「第 0 版：先放一個空殼」。③它設的名字信箱是不是你的，這兩樣會寫進每一筆紀錄。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" data-card="c2">
+      <div class="cardhead"><h3>卡 2｜第 1 版：四個規準</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>把【】換成你課上真的要評的四件事（昨天示範用的是：內容正確、結構清楚、表達流暢、回應提問）。先不存，看完前後對照再存。</p>
+          <div class="say"><span class="ptext">請把 my-course-evidence/rubric.md 改成四個規準各一行：【規準一】、【規準二】、【規準三】、【規準四】。先不要存版本，把改了哪幾行逐行列給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 2 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">可以存版本了，版本說明寫「第 1 版：四個規準」。然後把目前所有版本的清單印給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 2 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>改檔、列出前後對照（diff）；第二句存版本、印歷史（log）。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①前後對照只看前面有 −（刪掉的舊字）和 ＋（新加的字）的行，應該就是那四行加一行；@@、---、+++ 是標位置的，跳過。多出來任何一行都要問。②版本清單兩筆、時間是剛剛。中文變亂碼或出現「Binary files differ」：Windows 請 AI 確認 PowerShell 是 7 開頭（行前第 6 項）。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" data-card="c3">
+      <div class="cardhead"><h3>卡 3｜第 2 版：挑一句不同意的改掉，寫下為什麼</h3><span class="mins">8 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>①想讓 AI 先把四個規準各寫成四個等級的描述，貼講義的<a href="material.html#prompt-P1">提示詞 P1</a>（整段複製、三個【】換成你的課）；它寫完後叫它存進 rubric.md 當第 1 版的擴充，或直接進 ②。②自己挑一格不同意的（模糊形容詞、跟學習目標無關、門檻跟你班對不上）改掉。③貼這句，【】寫你改的那一格跟為什麼。</p>
+          <div class="say"><span class="ptext">請把 my-course-evidence/rubric.md 裡「【原本那一句】」改成「【你改好的那一句】」，其他地方不要動。先列出前後對照給我看，確認只改了這一處；確認後存版本，版本說明寫：「第 2 版：【為什麼改，用你自己的話，一句】」。然後印出版本清單。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 3 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>改那一處、列對照、存版本、印清單。它若順手「幫你潤飾」別的句子，叫它只改你說的那一處。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①對照裡只有一處 − 和 ＋。②版本清單三筆，第三筆的說明是你的話，不是 AI 的話。這一句就是你的第一筆「根據證據調整」紀錄。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" data-card="c4">
+      <div class="cardhead"><h3>卡 4｜回頭看：把第 1 版拿出來看、跟第 2 版比</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>這是昨天最後做的那件事。回頭看有三種，由淺到深，貼第一句就夠，第三句是真的要退回去才用。</p>
+          <div class="say"><span class="ptext">請把 my-course-evidence 裡 rubric.md「第 1 版」那個版本的完整內容印給我看，不要改現在的檔案、不要切換版本。然後列出第 1 版跟目前最新版（第 2 版）之間的前後對照。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">請把 my-course-evidence 每一個版本「改了哪些檔、每個檔加減幾行」列成一張表，從第 0 版到最新版，附上每一版的時間與說明。不要改任何東西。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">我決定退回第 1 版的寫法。請不要刪掉任何歷史、不要用 reset 或 force：把 rubric.md 的內容還原成「第 1 版」那個版本的樣子，當成新的一版存起來，版本說明寫「第 3 版：退回第 1 版，因為【一句理由】」。存完印出版本清單，應該有四筆。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第三句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>第一句：把舊版內容印出來（幕後是 git show）、列兩版差異（git diff），現在的檔一個字都不動。第二句：列每版的檔案與行數變化。第三句：用「新的一版」把內容還原（幕後是 git revert 或重寫檔再 commit），歷史四筆都在。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①印出來的第 1 版是四個規準的原樣，你改的那一句還是舊的。②差異只有你第 2 版改的那一處。③如果做了第三句：版本清單四筆、沒有任何一筆消失；AI 若提議「reset」「強制」「刪掉」，一律說不。<strong>回頭看不是回到過去改，是把舊版拿出來看；真要退回也是往前多存一版。</strong></p></div>
+      </div>
+    </div>
+
+    <div class="pstep" data-card="c5">
+      <div class="cardhead"><h3>卡 5｜（選做）接上 GitHub：三筆一起上去</h3><span class="mins">8 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>①瀏覽器登入 GitHub → 右上角「＋」→ New repository → 名稱 <code>my-course-evidence</code> → 選 <strong>Private</strong>（不公開）→ Create repository。②複製它的網址（像 https://github.com/你的帳號/my-course-evidence）。③貼這句，【】換成網址。</p>
+          <div class="say"><span class="ptext">請把 my-course-evidence 連到這個 GitHub 網址【貼網址】，並把版本紀錄上傳（push）。動手前先告訴我你會連哪個資料夾、上傳哪些檔、哪幾個版本；我看過再允許。不要改任何檔案內容、不要 force。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 5 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        </div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>先列計畫（哪個資料夾、哪些檔、幾個版本）等你允許；然後設定遠端、上傳。瀏覽器可能跳出 GitHub 授權 → 授權。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①repo 頁面有鎖頭（Private）。②點頁面上時鐘圖示的 commits，看到你電腦裡那幾筆版本、時間與說明一樣。這一條時間線就是研究歷程資料：它能證明你改過，不能單獨證明調整有效。不接也可以，電腦裡與網頁上各保留一段。</p></div>
+      </div>
+    </div>
+
+    <div class="pstep" data-card="c6">
+      <div class="cardhead"><h3>卡 6｜日常：平常只用 GitHub 網頁版上傳就夠</h3><span class="mins">3 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="trio">
+        <div class="step"><h4>你做什麼</h4><p>之後改了規準表、拿到新的抽查紀錄，不必開 AI 助手：到 repo 頁面 → Add file → Upload files → 把改好的檔拖進去 → 下方「Commit changes」寫一句為什麼改 → 綠色按鈕。這一個動作就是一筆紀錄，跟昨天用 AI 存的長一樣。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>（不用 AI）</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>上傳後點時鐘圖示的 commits，新的一筆在最上面、說明是你寫的那句。學期末把這條時間線整理成一張表（什麼時候、改了什麼、為什麼），就是計畫書「研究歷程與教學調整」那一段。</p></div>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section id="oneline" class="sec" aria-labelledby="oneline-h"><div class="wrap">
+  <h2 id="oneline-h"><span class="num">貳之二</span><span class="t">一句話版：只講目的，讓 AI 把整件事做完</span></h2>
+  <div class="body">
+    <p class="prose">上面七張卡是「一步一句、每步你看一次」，適合第一次。熟了以後其實不用拆步驟：你用白話講目的，AI 助手自己判斷要裝什麼、設什麼、跑什麼，做完回報。下面每一句都可以整句貼，【】換成你的。每句尾巴那段護欄請留著：它讓 AI 動手前先說計畫、要連網或動帳號先問你、不准刪歷史。</p>
+    <div class="trio" style="grid-template-columns:1fr">
+      <div class="step">
+        <h4>裝工具、登入（第一次用這台電腦）</h4>
+        <div class="say"><span class="ptext">我想在這台電腦用 Git 留課程資料的版本紀錄。請幫我檢查 git、GitHub CLI（gh）裝好了沒，沒有就幫我裝（Windows 另外確認 PowerShell 是 7 開頭，不是就一起裝）；裝好後幫我登入 GitHub（登入畫面跳出來我自己按）。每一步動手前先用一句話告訴我你要做什麼，做完列出你裝了什麼、設了什麼、哪些本來就有。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+      </div>
+      <div class="step">
+        <h4>在這個資料夾用 Git（卡 1 的一句話版）</h4>
+        <div class="say"><span class="ptext">我想在目前這個資料夾用 Git 留紀錄。請把需要的都弄好：交給 Git 管理、作者名字用我的 GitHub 帳號名、信箱用 GitHub 註冊的信箱、把現在的內容存成第一版，版本說明寫「第 0 版：先放一個空殼」。不要上傳到任何地方。動手前先告訴我你的計畫，做完印出版本清單跟資料夾的完整路徑。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+      </div>
+      <div class="step">
+        <h4>改了東西，存一版（卡 2、卡 3 的一句話版）</h4>
+        <div class="say"><span class="ptext">我改了 rubric.md。請先把前後對照列給我看，等我說可以再存版本，版本說明寫：「【第 N 版：改了哪一格、為什麼，用你自己的話】」。只存這個資料夾裡的改動，不要動其他檔、不要上傳。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第三句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+      </div>
+      <div class="step">
+        <h4>回頭看（卡 4 的一句話版）</h4>
+        <div class="say"><span class="ptext">幫我看看這個資料夾到目前為止改過哪些版本：每一版什麼時候、改了什麼、我當時寫的理由，用白話整理給我，再把最早那版跟最新版的差異列出來。不要改任何東西、不要切換版本。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第四句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="say"><span class="ptext">我想退回【第 1 版】的寫法，但不要弄丟任何紀錄：不准 reset、不准強制覆蓋。把內容還原成那一版，當成新的一版存起來，說明寫「退回第 1 版，因為【理由】」，存完印出版本清單給我確認沒有少任何一筆。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第五句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+      </div>
+      <div class="step">
+        <h4>接到 GitHub（卡 5 的一句話版）</h4>
+        <div class="say"><span class="ptext">我想把目前這個資料夾接到我的 GitHub，用不公開（Private）的 repo，名稱 my-course-evidence；還沒有這個 repo 就幫我建，然後把所有版本紀錄上傳。做之前先告訴我：你會建什麼、上傳哪些檔、幾個版本，我看過再允許；要登入或授權的畫面我自己按。做完給我 repo 網址，並確認頁面上是鎖頭（不公開）。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第六句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+      </div>
+      <div class="step">
+        <h4>把紀錄整理成計畫書用的表</h4>
+        <div class="say"><span class="ptext">請把這個資料夾的版本紀錄整理成一張表，欄位：日期、版本說明、改了哪個檔、加減幾行；存成 history.md 放在資料夾裡，然後存一版，說明寫「整理版本時間線」。這張表我要放進教學實踐研究計畫的「研究歷程」那一段，請用白話、不要有指令或代碼。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第七句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+      </div>
+    </div>
+    <div class="warn"><p><strong>一句話版的三條護欄</strong>（每句尾巴已經寫進去了）：①動手前先說計畫，要連網、要動帳號、要裝東西先問你；②AI 說做完了，你要親自看到檔案或版本清單；③不准 reset、不准強制覆蓋、不准刪歷史。AI 提議這三件事，一律說不。</p></div>
+  </div>
+</div></section>
+
+<section id="sim" class="sec" aria-labelledby="sim-h"><div class="wrap">
+  <h2 id="sim-h"><span class="num">參</span><span class="t">模擬器：三次版本，然後回頭看（不用裝任何東西）</span></h2>
+  <div class="body">
+    <p class="prose">按鈕的順序就是卡 1 到卡 4。左邊是你資料夾裡 rubric.md 現在的樣子，右邊是版本清單。按「看第 1 版」會把舊版拿出來看，左邊的檔案不會變；按「退回第 1 版」會多一筆、不會少一筆。</p>
+    <div class="sim" id="simRoot">
+      <div class="pane"><h4>資料夾 my-course-evidence／rubric.md（工作中的檔）</h4><pre id="simFile">（還沒有這個資料夾）</pre>
+        <div class="btns" style="margin-top:12px" id="simBtns">
+          <button class="btn small" type="button" data-act="v0">① 建空殼，存第 0 版</button>
+          <button class="btn small" type="button" data-act="edit1">② 改成四個規準</button>
+          <button class="btn small" type="button" data-act="v1">③ 存第 1 版</button>
+          <button class="btn small" type="button" data-act="edit2">④ 改一句不同意的</button>
+          <button class="btn small" type="button" data-act="v2">⑤ 存第 2 版</button>
+          <button class="btn secondary small" type="button" data-act="show1">⑥ 看第 1 版</button>
+          <button class="btn secondary small" type="button" data-act="back">回到工作中的檔</button>
+          <button class="btn secondary small" type="button" data-act="revert">⑦ 退回第 1 版（存第 3 版）</button>
+          <button class="btn secondary small" type="button" data-act="reset">重來</button>
+        </div>
+        <p class="msg" id="simMsg" style="margin-top:10px"></p>
+      </div>
+      <div class="pane"><h4>版本清單（git log）</h4><ul class="log" id="simLog"><li>（還沒有版本）</li></ul></div>
+      <div class="pane full" id="simDiffPane" hidden><h4 id="simDiffTitle">前後對照（diff）</h4><div class="diff" id="simDiff"></div></div>
+      <div class="pane full view" id="simViewPane" hidden><h4>第 1 版的內容（只是拿出來看，工作中的檔沒動）</h4><pre id="simView"></pre></div>
+    </div>
+  </div>
+</div></section>
+
+<section id="quiz" class="sec" aria-labelledby="quiz-h"><div class="wrap">
+  <h2 id="quiz-h"><span class="num">肆</span><span class="t">三題自測</span></h2>
+  <div class="body quiz">
+    <div class="q" data-ans="b"><p>1. AI 說「已經存好第 1 版了」，你下一步是？</p><button class="btn secondary small" type="button" data-pick="a">相信它，貼下一句</button><button class="btn secondary small" type="button" data-pick="b">自己打開資料夾看檔、請它印版本清單</button><button class="btn secondary small" type="button" data-pick="c">叫它再存一次保險</button><div class="ans"></div></div>
+    <div class="q" data-ans="c"><p>2. 前後對照（diff）畫面裡，你要看的是哪些行？</p><button class="btn secondary small" type="button" data-pick="a">全部都要讀</button><button class="btn secondary small" type="button" data-pick="b">@@ 和 --- 開頭的行</button><button class="btn secondary small" type="button" data-pick="c">只看 − 和 ＋ 開頭的行，多出來的要問</button><div class="ans"></div></div>
+    <div class="q" data-ans="b"><p>3. 你想退回第 1 版的寫法。哪個做法對？</p><button class="btn secondary small" type="button" data-pick="a">叫 AI 把第 2 版刪掉</button><button class="btn secondary small" type="button" data-pick="b">把內容還原成第 1 版，當成新的一版存起來、寫理由</button><button class="btn secondary small" type="button" data-pick="c">重建一個新資料夾從頭來</button><div class="ans"></div></div>
+  </div>
+</div></section>
+
+<section id="deep" class="sec" aria-labelledby="deep-h"><div class="wrap">
+  <h2 id="deep-h"><span class="num">伍</span><span class="t">想做深一點：昨天的教材都還在</span></h2>
+  <div class="body">
+    <ul class="deep">
+      <li><a href="material.html#sec-blocks">講義參：四塊逐步</a><small>昨天只走到第一塊的紀錄；第二塊（AI 起草 Rubric、你改一格、AI 扮審查者）、第三塊（分析＋抽 3 筆）、第四塊（一頁設計）每步都有複製鈕，自己走得完。</small></li>
+      <li><a href="material.html#sec-blocks">講義的六張提示詞</a><small>P1 起草 Rubric、P2 嚴格審查者、P3 三方分數落差、P4 反思分類、P5 清髒資料、P6 審查委員三問。純文字版在 <a href="prompts/">prompts/</a>。</small></li>
+      <li><a href="studio.html#rubric">工作台：Rubric 工作台</a><small>左欄貼第 1 版、右欄改、「比較兩版」看紅綠行、「匯出這一輪」。純網頁、離線能開、不呼叫 AI。</small></li>
+      <li><a href="studio.html#evidence">工作台：證據儀表板</a><small>示範資料的三方分數落差圖、AI 分類、「抽 3 筆回查」、三句結論、匯出抽查紀錄。講師模式可以看那筆故意分錯的。</small></li>
+      <li><a href="studio.html#design">工作台：一頁設計</a><small>「帶入示範課」「帶入演講課」，改兩格、匯出 Markdown，十一欄對應計畫書章節。</small></li>
+      <li><a href="practice.html">試評練習：同一週 10 份學習單</a><small>從作業原文開始：自己評三份、AI 試評、程式核對、你決定。七步每句可複製，約 50 分鐘。</small></li>
+      <li><a href="material.html#sec-after">講義柒：課後手冊</a><small>兩種紀錄怎麼讀成同一種、髒資料先清、接到計畫書哪一章、三條誠實限制。</small></li>
+      <li><a href="pipeline.html">講師的成績批改實況</a><small>講師自己這學期六門課怎麼收作業、三個 AI 評分者對齊、只看差距大的；有 3 分半的影片。</small></li>
+      <li><a href="learn.html">先玩一遍</a><small>5 分鐘互動導覽，給還沒裝任何東西的同事看。</small></li>
+      <li><a href="https://cwstedctw.github.io/git-ai-workshop/sim.html">上一場 Git×AI 工作坊的練習台</a><small>工作區、暫存區、版本庫的互動模擬，想弄懂 Git 幕後在做什麼再去。</small></li>
+    </ul>
+  </div>
+</div></section>
+
+<section id="teacher" class="sec" aria-labelledby="teacher-h"><div class="wrap">
+  <h2 id="teacher-h"><span class="num">陸</span><span class="t">講師指南：想自己帶一場的老師</span></h2>
+  <div class="body">
+    <div class="card">
+      <p>昨天講師手上那份逐步講稿公開在這裡：每一段「你做什麼、你要講什麼、老師看什麼、會卡在哪」，加上開場四句、16:25 講師模式的台詞、老師最常問的六題、時間落後的逃生門。拿去帶自己系上的同事，改掉課名就能用。</p>
+      <p class="actions"><a class="btn" href="teacher-guide.html">打開講師逐步講稿（網頁）</a><a class="btn secondary" href="downloads/20261016-工作坊講師逐步參考指南.docx" download>講師參考指南 Word（13 頁）</a><a class="btn secondary" href="slides/index.html">投影片 16 頁</a></p>
+      <p style="margin:12px 0 0;font-size:.92rem;color:var(--ink-soft)">教材授權 CC BY-NC-SA 4.0：可以改、可以拿去教，註明出處、不商用、改作同樣授權。</p>
+    </div>
+  </div>
+</div></section>
+
+</main>
+
+<footer class="site"><div class="inner"><p>從學習證據到教學改進｜CC BY-NC-SA 4.0｜全程只用合成資料。<a href="index.html">回入口</a>・<a href="material.html">講義</a>・<a href="practice.html">試評練習</a></p></div></footer>
+
+<script>
+(function(){
+  /* ── 複製（跟講義同一段） ── */
+  function copyText(text, btn){
+    var label = btn.querySelector('.txt') || btn;
+    var orig = label.textContent;
+    var done = function(){ label.textContent = '已複製 ✓'; setTimeout(function(){ label.textContent = orig; }, 1400); };
+    var fallback = function(){
+      var ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+      if(ok) done(); else label.textContent = '請手動選取複製';
+    };
+    if(navigator.clipboard && window.isSecureContext){ navigator.clipboard.writeText(text).then(done, fallback); } else { fallback(); }
+  }
+  document.addEventListener('click', function(ev){
+    var btn = ev.target.closest('button[data-copy-from]');
+    if(!btn) return;
+    var src = btn.closest(btn.getAttribute('data-copy-from'));
+    var el = src ? src.querySelector('.ptext') : null;
+    if(el) copyText(el.textContent, btn);
+  });
+
+  /* ── 七張卡的勾選：只存這台瀏覽器 ── */
+  var KEY = 'lew-after-';
+  var get = function(k){ try { return localStorage.getItem(KEY + k); } catch(e){ return null; } };
+  var set = function(k, v){ try { if(v === null) localStorage.removeItem(KEY + k); else localStorage.setItem(KEY + k, v); } catch(e){} };
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.pstep[data-card]'));
+  var render = function(){
+    var n = 0;
+    cards.forEach(function(c){
+      var id = c.getAttribute('data-card'), on = get(id) === '1';
+      c.classList.toggle('done', on); c.querySelector('input').checked = on; if(on) n++;
+    });
+    document.getElementById('pbar').style.width = Math.round(n / cards.length * 100) + '%';
+    document.getElementById('ptext').textContent = n + ' / ' + cards.length;
+  };
+  cards.forEach(function(c){ c.querySelector('input').addEventListener('change', function(){ set(c.getAttribute('data-card'), this.checked ? '1' : null); render(); }); });
+  document.getElementById('pclear').addEventListener('click', function(){ cards.forEach(function(c){ set(c.getAttribute('data-card'), null); }); render(); });
+  render();
+
+  /* ── 模擬器：三次版本然後回頭看 ── */
+  var V0 = '課堂專題簡報評分規準（第 0 版）';
+  var V1 = '內容正確\n結構清楚\n表達流暢\n回應提問';
+  var V2 = '內容正確\n結構清楚\n表達流暢：用自己的話講，不照稿念，被問到能接\n回應提問';
+  var S = { exists:false, file:'', commits:[], viewing:null, step:0 };
+  var fileEl = document.getElementById('simFile'), logEl = document.getElementById('simLog'), msgEl = document.getElementById('simMsg');
+  var diffPane = document.getElementById('simDiffPane'), diffEl = document.getElementById('simDiff'), diffTitle = document.getElementById('simDiffTitle');
+  var viewPane = document.getElementById('simViewPane'), viewEl = document.getElementById('simView');
+  var pad = function(n){ return (n < 10 ? '0' : '') + n; };
+  var now = function(){ var d = new Date(); return pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds()); };
+  var hash = function(){ return Math.floor(Math.random() * 0xfffff).toString(16).padStart(5, '0') + Math.floor(Math.random() * 16).toString(16); };
+  var diffLines = function(a, b){
+    var A = a.split('\n'), B = b.split('\n'), out = [];
+    A.forEach(function(l){ if(B.indexOf(l) < 0) out.push({t:'del', l:l}); });
+    B.forEach(function(l){ if(A.indexOf(l) < 0) out.push({t:'add', l:l}); });
+    return out;
+  };
+  var showDiff = function(title, a, b){
+    var d = diffLines(a, b); diffTitle.textContent = title;
+    diffEl.innerHTML = d.length ? d.map(function(x){ return '<div class="' + x.t + '">' + (x.t === 'del' ? '− ' : '＋ ') + esc(x.l) + '</div>'; }).join('') : '<div>（沒有差異）</div>';
+    diffPane.hidden = false;
+  };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
+  var say = function(m){ msgEl.textContent = m; };
+  var draw = function(){
+    fileEl.textContent = S.exists ? (S.file || '（空檔）') : '（還沒有這個資料夾）';
+    logEl.innerHTML = S.commits.length ? S.commits.slice().reverse().map(function(c, i){
+      return '<li' + (i === 0 ? ' class="cur"' : '') + '><span class="h">' + c.h + '</span><span>' + esc(c.m) + '</span><span class="t">' + c.t + '</span></li>';
+    }).join('') : '<li>（還沒有版本）</li>';
+    viewPane.hidden = S.viewing === null;
+    if(S.viewing !== null) viewEl.textContent = S.viewing;
+  };
+  var commit = function(m){ S.commits.push({ h: hash(), m: m, t: now(), c: S.file }); };
+  var acts = {
+    v0: function(){ if(S.step !== 0) return say('已經做過了。想重來按「重來」。'); S.exists = true; S.file = V0; commit('第 0 版：先放一個空殼'); S.step = 1; diffPane.hidden = true; say('資料夾建好、檔裡只有一行，存了第 0 版。真實做法：你要親自打開資料夾看到它。'); },
+    edit1: function(){ if(S.step !== 1) return say(S.step < 1 ? '先按 ①。' : '這一步做過了。'); var old = S.file; S.file = V1; S.step = 2; showDiff('前後對照：第 0 版 → 工作中的檔（還沒存）', old, S.file); say('檔改好了但還沒存版本。只看 − 跟 ＋ 的行：一行刪、四行加。'); },
+    v1: function(){ if(S.step !== 2) return say(S.step < 2 ? '先按 ②。' : '這一步做過了。'); commit('第 1 版：四個規準'); S.step = 3; diffPane.hidden = true; say('存了第 1 版。版本清單兩筆，時間是剛剛。'); },
+    edit2: function(){ if(S.step !== 3) return say(S.step < 3 ? '先按 ③。' : '這一步做過了。'); var old = S.file; S.file = V2; S.step = 4; showDiff('前後對照：第 1 版 → 工作中的檔（還沒存）', old, S.file); say('「表達流暢」那一句改成現場看得見的描述。對照裡只有一處 − 和 ＋。'); },
+    v2: function(){ if(S.step !== 4) return say(S.step < 4 ? '先按 ④。' : '這一步做過了。'); commit('第 2 版：「表達流暢」原本只是形容詞，改成看得見的行為'); S.step = 5; diffPane.hidden = true; say('存了第 2 版，說明是你的話。三筆紀錄，三句你自己的話。'); },
+    show1: function(){ if(S.step < 5) return say('先把 ①～⑤ 走完。'); var v1 = S.commits[1]; S.viewing = v1.c; showDiff('第 1 版 → 目前最新版', v1.c, S.commits[S.commits.length - 1].c); say('第 1 版拿出來看了。注意左邊工作中的檔一個字都沒動，這就是「回頭看」。'); },
+    back: function(){ S.viewing = null; diffPane.hidden = true; say('回到工作中的檔。'); },
+    revert: function(){ if(S.step < 5) return say('先把 ①～⑤ 走完。'); if(S.step === 6) return say('已經退回過了。'); var v1 = S.commits[1]; S.file = v1.c; commit('第 3 版：退回第 1 版，因為下學期先用原本的寫法試一輪'); S.step = 6; S.viewing = null; showDiff('前後對照：第 2 版 → 第 3 版', S.commits[S.commits.length - 2].c, S.file); say('退回了，但是用「多存一版」的方式：版本清單四筆，第 2 版還在。沒有任何一筆消失。'); },
+    reset: function(){ S = { exists:false, file:'', commits:[], viewing:null, step:0 }; diffPane.hidden = true; say('重來。'); }
+  };
+  document.getElementById('simBtns').addEventListener('click', function(ev){
+    var b = ev.target.closest('button[data-act]'); if(!b) return;
+    acts[b.getAttribute('data-act')](); draw();
+  });
+  draw();
+
+  /* ── 三題自測 ── */
+  var ANS = {
+    a1: { b: '對。AI 說做完不等於做完。自己打開資料夾看到檔、版本清單多一筆，才算。', a: '這正是今天要學的第一件事：AI 說做完不等於做完。', c: '再存一次只會多一筆空的紀錄，還是沒驗證。' },
+    a2: { c: '對。− 是刪掉的舊字、＋ 是新加的字；@@、---、+++ 只是標位置。多出來的行要問 AI 為什麼。', a: '不用。標位置的符號行跳過，只看 − 和 ＋。', b: '那些是標位置用的，不是改動內容。' },
+    a3: { b: '對。歷史不刪，往前多存一版、寫理由；第 2 版還在，之後想比對都比得到。', a: '刪掉歷史就沒有「我改過又改回來」的證據了；AI 提議 reset 或強制一律說不。', c: '重建資料夾會把三筆紀錄全丟掉。' }
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('.quiz .q'), function(q, i){
+    var key = 'a' + (i + 1), right = q.getAttribute('data-ans');
+    q.addEventListener('click', function(ev){
+      var b = ev.target.closest('button[data-pick]'); if(!b) return;
+      var p = b.getAttribute('data-pick');
+      q.querySelector('.ans').innerHTML = '<p class="' + (p === right ? 'ok' : 'warn') + '">' + (p === right ? '✓ ' : '✗ ') + esc(ANS[key][p]) + '</p>';
+      q.classList.add('show');
+    });
+  });
+})();
+</script>
+</body>
+</html>
