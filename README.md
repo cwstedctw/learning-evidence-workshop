@@ -25,6 +25,7 @@
 | [start.html](start.html) | 行前準備頁（10/6 寄出、10/14 前做完）：十項清單，每項有完成判準與卡住怎麼問 AI；裝不起來的提早 20 分鐘到現場一起裝 |
 | [material.html](material.html) | 詳細講義：四塊逐步（你說什麼、AI 會做什麼、你一定要自己看的）、提示詞、領域範例、資料倫理、課後手冊 |
 | [studio.html](studio.html) | 證據工作台：Rubric 兩版並列、自評／互評／老師評分的落差圖與抽查紀錄、一頁設計產生器。純前端、離線能開、不呼叫任何 AI |
+| [auth.html](auth.html) | 授權畫面對照：ChatGPT 桌面版 Codex 真拍的 12 張圖（切到 Codex、建立專案、權限選單、允許視窗、允許之後、gh 登入）＋ `videos/auth-walkthrough.mp4` 2 分鐘影片 |
 | [after.html](after.html) | 課後指南：昨天做了什麼、七張卡回去自己做（三次版本、回頭看）、一句話版提示詞、模擬器、三題自測、深入用、講師指南 |
 | [teacher-guide.html](teacher-guide.html) | 講師逐步講稿（網頁版；Word 版在 `downloads/`）：每段你做什麼、你要講什麼、老師看什麼、會卡在哪 |
 | [practice.html](practice.html) | 學習單試評練習：七步三欄、每句提示詞可複製、15 份選做、卡住時 |
