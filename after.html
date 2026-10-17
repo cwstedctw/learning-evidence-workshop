@@ -88,12 +88,12 @@ code{overflow-wrap:anywhere}
 <section id="yesterday" class="sec first" aria-labelledby="yesterday-h"><div class="wrap">
   <h2 id="yesterday-h"><span class="num">壹</span><span class="t">昨天我們做了什麼</span></h2>
   <div class="body">
-    <p class="prose">兩小時真正動手的是這四件。跟我們在人工智慧概論課上給學生的作業是同一套：在自己的電腦裡存三次版本，再回頭看前一版長什麼樣。工具叫 Git，但你不必記它的指令，指令交給 AI 助手（ChatGPT 桌面版的 Codex）代打，你只看它的計畫、看前後對照、然後點頭。</p>
+    <p class="prose">兩小時真正動手的是這四件。例子故意挑最小的：一個算 BMI 的小程式，三個版本。跟我們在人工智慧概論課上給學生的作業是同一套：在自己的電腦裡存三次版本，再回頭看前一版長什麼樣。工具叫 Git，但你不必記它的指令，指令交給 AI 助手（ChatGPT 桌面版的 Codex）代打，你只看它的計畫、看前後對照、然後點頭。</p>
     <ol class="yest">
-      <li><span class="k">01</span><b>把 AI 助手跟 GitHub 接起來</b>Codex 開在你選的資料夾裡動手；GitHub 帳號登入過（gh），作者名字跟信箱從此寫進每一筆紀錄。沒有上傳任何東西，GitHub 只是身分。</li>
-      <li><span class="k">02</span><b>第 0 版：一個空殼</b>建 <code>my-course-evidence</code>，裡面放一個 <code>rubric.md</code>，只有一行「評分規準（第 0 版）」。請 AI 把資料夾交給 Git 管理，存第一版。重點：AI 說做完了，你要親自打開資料夾看到那個檔。</li>
-      <li><span class="k">03</span><b>第 1 版、第 2 版：改一次存一次</b>把 rubric.md 改成四個規準，先看前後對照（只看 − 跟 ＋ 的行），再存第 1 版；挑一句不同意的改掉、存第 2 版，版本說明寫為什麼改。三筆紀錄，三句你自己的話。</li>
-      <li><span class="k">04</span><b>回頭看</b>印出版本清單，把第 1 版的檔拿出來看、跟第 2 版比差在哪。回頭看不是回到過去改，舊版永遠在，這就是「我根據證據調整了教學」拿得出來的樣子。</li>
+      <li><span class="k">01</span><b>把 AI 助手跟 GitHub 接起來</b>Codex 開在你選的資料夾裡動手；GitHub 帳號登入過（gh），作者名字跟信箱從此寫進每一筆紀錄。這一步只是身分，還沒上傳任何東西。</li>
+      <li><span class="k">02</span><b>第 1 版：BMI 腳本</b>用一句話請 AI 寫一支 <code>bmi.py</code>（輸入身高公分、體重公斤，算 BMI 和分級），跑一次看 170 公分、65 公斤約 22.5；把資料夾交給 Git 管理、存第 1 版。重點：AI 說做完了，你要親自打開資料夾看到那個檔、自己跑一次。</li>
+      <li><span class="k">03</span><b>第 2 版、第 3 版：改一次存一次</b>同一個功能改成網頁版 <code>index.html</code>（雙擊就能算），存第 2 版；再加一個切換鈕做成中英雙語版，存第 3 版。每次都先看前後對照（只看 − 跟 ＋ 的行），版本說明是你自己的話。</li>
+      <li><span class="k">04</span><b>回頭看</b>印出版本清單，把第 1 版的腳本拿出來看、跟第 3 版比差在哪。回頭看不是回到過去改，舊版永遠在；真要退回也是「再加一筆」，不刪歷史。這就是「我改過、什麼時候改、為什麼改」拿得出來的樣子。</li>
     </ol>
     <div class="tip"><p>全場只記一句話：<strong>挑一句不同意的、改掉、寫下為什麼。</strong>AI 只整理既有的分數與文字，不替老師打分數、不替老師下結論。</p></div>
   </div>
@@ -104,7 +104,7 @@ code{overflow-wrap:anywhere}
   <div class="body">
     <div class="card">
       <div class="progress"><strong>進度</strong><div class="bar"><i id="pbar"></i></div><span id="ptext">0 / 7</span><button class="btn secondary small" type="button" id="pclear">清除勾選</button></div>
-      <p style="margin:10px 0 0;font-size:.92rem;color:var(--ink-soft)">勾選只存在這台電腦的瀏覽器裡。約定：<strong>工作資料夾＝你在 AI 助手「開啟資料夾」選的那一個</strong>；課程資料夾叫 <code>my-course-evidence</code>（昨天建過的可以沿用，想從零再來就改名）。卡上的【】換成你自己的課。</p>
+      <p style="margin:10px 0 0;font-size:.92rem;color:var(--ink-soft)">勾選只存在這台電腦的瀏覽器裡。約定：<strong>工作資料夾＝你在 AI 助手「開啟資料夾」選的那一個</strong>；練習資料夾叫 <code>bmi</code>（昨天建過的可以沿用，想從零再來就改名）。做熟了把 bmi 換成你的課程資料夾，同一套。</p>
     </div>
 
     <div class="pstep" data-card="c0">
@@ -119,68 +119,67 @@ code{overflow-wrap:anywhere}
     </div>
 
     <div class="pstep" data-card="c1">
-      <div class="cardhead"><h3>卡 1｜第 0 版：一個空殼</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="cardhead"><h3>卡 1｜第 1 版：BMI 腳本，交給 Git</h3><span class="mins">8 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
       <div class="trio">
-        <div class="step"><h4>你做什麼</h4><p>兩句分開貼，第一句做完再貼第二句。</p>
-          <div class="say"><span class="ptext">請在目前工作資料夾裡建一個資料夾 my-course-evidence，在裡面放一個 rubric.md，內容先寫「【你的課名】【評量任務】評分規準（第 0 版）」一行就好。做完告訴我你做了什麼、沒做什麼，並把完整路徑顯示給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 1 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
-          <div class="say"><span class="ptext">請把 my-course-evidence 交給 Git 管理，存成第一個版本，版本說明寫「第 0 版：先放一個空殼」。不要上傳到任何地方。如果需要先設定作者名字和信箱，名字用我的 GitHub 帳號名、信箱用 GitHub 註冊的信箱，設完告訴我你設了什麼。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 1 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="step"><h4>你做什麼</h4><p>兩句分開貼，第一句做完、自己跑過一次，再貼第二句。</p>
+          <div class="say"><span class="ptext">請在目前工作資料夾裡建一個資料夾 bmi，在裡面寫一支 Python 程式 bmi.py：執行後問身高（公分）和體重（公斤），印出 BMI（小數一位）和分級（過輕／正常／過重／肥胖，用台灣常見的 18.5、24、27 門檻）。寫好請你自己用 170 和 65 跑一次，把結果印給我看，並顯示 bmi.py 的完整路徑。不要安裝任何套件、不要上傳到任何地方。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 1 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">請把 bmi 資料夾交給 Git 管理，存成第一個版本，版本說明寫「v1 BMI 腳本」。不要上傳到任何地方。如果需要先設定作者名字和信箱，名字用我的 GitHub 帳號名、信箱用 GitHub 註冊的信箱，設完告訴我你設了什麼。存完把版本清單印給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 1 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
         </div>
-        <div class="step ai"><h4>AI 會做什麼</h4><p>建資料夾、建檔、回報路徑；第二句：初始化 Git（第一次會設作者名字信箱）、存第一版（commit）。它問「要不要初始化」→ 允許。</p></div>
-        <div class="step see"><h4>你一定要自己看的</h4><p>①照它印的路徑打開資料夾，親眼看到 rubric.md 只有一行。②版本說明是不是「第 0 版：先放一個空殼」。③它設的名字信箱是不是你的，這兩樣會寫進每一筆紀錄。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>第一句：建資料夾、寫 bmi.py、自己跑一次給你看結果、印路徑。第二句：初始化 Git（第一次會設作者名字信箱）、存第 1 版（commit）、印版本清單。它問「要不要允許」→ 允許。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①照它印的路徑打開資料夾，親眼看到 bmi.py。②自己跑一次（Windows 在資料夾空白處按右鍵「在終端機開啟」，打 <code>python bmi.py</code>）：170、65 → 約 22.5、分級「正常」。③版本清單一筆、說明是「v1 BMI 腳本」。④它設的名字信箱是你的。</p></div>
       </div>
     </div>
 
     <div class="pstep" data-card="c2">
-      <div class="cardhead"><h3>卡 2｜第 1 版：四個規準</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="cardhead"><h3>卡 2｜第 2 版：同一個功能改成網頁版</h3><span class="mins">6 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
       <div class="trio">
-        <div class="step"><h4>你做什麼</h4><p>把【】換成你課上真的要評的四件事（昨天示範用的是：內容正確、結構清楚、表達流暢、回應提問）。先不存，看完前後對照再存。</p>
-          <div class="say"><span class="ptext">請把 my-course-evidence/rubric.md 改成四個規準各一行：【規準一】、【規準二】、【規準三】、【規準四】。先不要存版本，把改了哪幾行逐行列給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 2 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
-          <div class="say"><span class="ptext">可以存版本了，版本說明寫「第 1 版：四個規準」。然後把目前所有版本的清單印給我看。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 2 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="step"><h4>你做什麼</h4><p>貼這句。它改完先列前後對照，你看過再說「可以存」。</p>
+          <div class="say"><span class="ptext">請在 bmi 資料夾裡新增 index.html：跟 bmi.py 同一個功能的網頁版，一個檔就能在瀏覽器打開，輸入身高公分、體重公斤，按鈕算出 BMI 和分級，全中文。不要動 bmi.py、不要另外建資料夾、不要用任何外部套件。做完先把新增了哪些行列給我看，等我說「可以存」再存版本，版本說明寫「v2 網頁版」，存完印版本清單。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 2 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
         </div>
-        <div class="step ai"><h4>AI 會做什麼</h4><p>改檔、列出前後對照（diff）；第二句存版本、印歷史（log）。</p></div>
-        <div class="step see"><h4>你一定要自己看的</h4><p>①前後對照只看前面有 −（刪掉的舊字）和 ＋（新加的字）的行，應該就是那四行加一行；@@、---、+++ 是標位置的，跳過。多出來任何一行都要問。②版本清單兩筆、時間是剛剛。中文變亂碼或出現「Binary files differ」：Windows 請 AI 確認 PowerShell 是 7 開頭（行前第 6 項）。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>新增 index.html（HTML＋一點 JavaScript，單檔、離線能開），列出新增了哪些行；等你說可以，存第 2 版、印清單。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①資料夾裡多了 index.html，bmi.py 還在。②自己雙擊 index.html，輸 170、65，看到約 22.5 和分級。③版本清單兩筆。AI 若另存成 bmi-v2.html 之類：版本靠紀錄留、不靠檔名，叫它改成 index.html。</p></div>
       </div>
     </div>
 
     <div class="pstep" data-card="c3">
-      <div class="cardhead"><h3>卡 3｜第 2 版：挑一句不同意的改掉，寫下為什麼</h3><span class="mins">8 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="cardhead"><h3>卡 3｜第 3 版：中英雙語版</h3><span class="mins">6 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
       <div class="trio">
-        <div class="step"><h4>你做什麼</h4><p>①想讓 AI 先把四個規準各寫成四個等級的描述，貼講義的<a href="material.html#prompt-P1">提示詞 P1</a>（整段複製、三個【】換成你的課）；它寫完後叫它存進 rubric.md 當第 1 版的擴充，或直接進 ②。②自己挑一格不同意的（模糊形容詞、跟學習目標無關、門檻跟你班對不上）改掉。③貼這句，【】寫你改的那一格跟為什麼。</p>
-          <div class="say"><span class="ptext">請把 my-course-evidence/rubric.md 裡「【原本那一句】」改成「【你改好的那一句】」，其他地方不要動。先列出前後對照給我看，確認只改了這一處；確認後存版本，版本說明寫：「第 2 版：【為什麼改，用你自己的話，一句】」。然後印出版本清單。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 3 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="step"><h4>你做什麼</h4><p>同一個 index.html 改，不另存；版本靠紀錄留、不靠檔名。</p>
+          <div class="say"><span class="ptext">請把 bmi/index.html 改成中英雙語版：加一個語言切換鈕，可以換中文和 English，兩套文字都放在同一個檔裡，數字算法不變。先把前後對照列給我看，確認只改了 index.html；等我說「可以存」再存版本，版本說明寫「v3 中英雙語」，存完印版本清單。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 3 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
         </div>
-        <div class="step ai"><h4>AI 會做什麼</h4><p>改那一處、列對照、存版本、印清單。它若順手「幫你潤飾」別的句子，叫它只改你說的那一處。</p></div>
-        <div class="step see"><h4>你一定要自己看的</h4><p>①對照裡只有一處 − 和 ＋。②版本清單三筆，第三筆的說明是你的話，不是 AI 的話。這一句就是你的第一筆「根據證據調整」紀錄。</p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>在同一個 index.html 加語言切換鈕與兩套文字，列前後對照；等你說可以，存第 3 版、印清單。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①重新整理網頁，多一個切換鈕：按了變 English、再按回中文，數字算得一樣。②對照裡只有 index.html 的改動，bmi.py 沒被碰。③版本清單三筆：v1 腳本、v2 網頁版、v3 中英雙語，三句都是你的話。</p></div>
       </div>
     </div>
 
     <div class="pstep" data-card="c4">
-      <div class="cardhead"><h3>卡 4｜回頭看：把第 1 版拿出來看、跟第 2 版比</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
+      <div class="cardhead"><h3>卡 4｜回頭看：把第 1 版拿出來看、跟第 3 版比</h3><span class="mins">5 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
       <div class="trio">
-        <div class="step"><h4>你做什麼</h4><p>這是昨天最後做的那件事。回頭看有三種，由淺到深，貼第一句就夠，第三句是真的要退回去才用。</p>
-          <div class="say"><span class="ptext">請把 my-course-evidence 裡 rubric.md「第 1 版」那個版本的完整內容印給我看，不要改現在的檔案、不要切換版本。然後列出第 1 版跟目前最新版（第 2 版）之間的前後對照。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
-          <div class="say"><span class="ptext">請把 my-course-evidence 每一個版本「改了哪些檔、每個檔加減幾行」列成一張表，從第 0 版到最新版，附上每一版的時間與說明。不要改任何東西。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
-          <div class="say"><span class="ptext">我決定退回第 1 版的寫法。請不要刪掉任何歷史、不要用 reset 或 force：把 rubric.md 的內容還原成「第 1 版」那個版本的樣子，當成新的一版存起來，版本說明寫「第 3 版：退回第 1 版，因為【一句理由】」。存完印出版本清單，應該有四筆。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第三句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="step"><h4>你做什麼</h4><p>這是昨天最後做的那件事。三句由淺到深，貼第一句就夠；第三句是真的要退回才用。</p>
+          <div class="say"><span class="ptext">請把 bmi 資料夾裡「v1 BMI 腳本」那個版本的 bmi.py 完整內容印給我看，不要改現在的檔案、不要切換版本。然後列出第 1 版跟目前最新版（第 3 版）之間的前後對照：哪些檔新增、哪些檔改了。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">請把 bmi 每一個版本「改了哪些檔、每個檔加減幾行」列成一張表，從第 1 版到最新版，附上每一版的時間與說明。不要改任何東西。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+          <div class="say"><span class="ptext">我決定撤銷第 3 版（中英雙語版），回到第 2 版的樣子。請不要刪掉任何歷史、不要用 reset 或強制：用 git revert 把第 3 版撤銷，當成新的一版存起來，版本說明照 git 預設的 Revert 寫法再加一句「因為【一句理由】」。存完印出版本清單，應該有四筆，第 3 版那筆還在。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 4 第三句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
         </div>
-        <div class="step ai"><h4>AI 會做什麼</h4><p>第一句：把舊版內容印出來（幕後是 git show）、列兩版差異（git diff），現在的檔一個字都不動。第二句：列每版的檔案與行數變化。第三句：用「新的一版」把內容還原（幕後是 git revert 或重寫檔再 commit），歷史四筆都在。</p></div>
-        <div class="step see"><h4>你一定要自己看的</h4><p>①印出來的第 1 版是四個規準的原樣，你改的那一句還是舊的。②差異只有你第 2 版改的那一處。③如果做了第三句：版本清單四筆、沒有任何一筆消失；AI 若提議「reset」「強制」「刪掉」，一律說不。<strong>回頭看不是回到過去改，是把舊版拿出來看；真要退回也是往前多存一版。</strong></p></div>
+        <div class="step ai"><h4>AI 會做什麼</h4><p>第一句：把第 1 版的 bmi.py 印出來（幕後是 git show）、列第 1 版到第 3 版的差異（git diff），現在的檔一個字都不動。第二句：列每版改了哪些檔、加減幾行。第三句：用「新的一版」撤銷第 3 版（幕後是 git revert），歷史四筆都在。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①印出來的是第 1 版的腳本原樣。②差異裡 index.html 是新增的、bmi.py 沒動。③做了第三句的話：版本清單四筆、沒有任何一筆消失，重新整理網頁切換鈕不見了、回到第 2 版的樣子；AI 若提議「reset」「強制」「刪掉」，一律說不。<strong>回頭看不是回到過去改，是把舊版拿出來看；真要退回也是往前多存一版。</strong></p></div>
       </div>
     </div>
 
     <div class="pstep" data-card="c5">
       <div class="cardhead"><h3>卡 5｜（選做）接上 GitHub：三筆一起上去</h3><span class="mins">8 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
       <div class="trio">
-        <div class="step"><h4>你做什麼</h4><p>①瀏覽器登入 GitHub → 右上角「＋」→ New repository → 名稱 <code>my-course-evidence</code> → 選 <strong>Private</strong>（不公開）→ Create repository。②複製它的網址（像 https://github.com/你的帳號/my-course-evidence）。③貼這句，【】換成網址。</p>
-          <div class="say"><span class="ptext">請把 my-course-evidence 連到這個 GitHub 網址【貼網址】，並把版本紀錄上傳（push）。動手前先告訴我你會連哪個資料夾、上傳哪些檔、哪幾個版本；我看過再允許。不要改任何檔案內容、不要 force。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 5 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="step"><h4>你做什麼</h4><p>①瀏覽器登入 GitHub → 右上角「＋」→ New repository → 名稱 <code>bmi</code>（練習用公開或不公開都行；<strong>課程資料一律 Private</strong>）→ Create repository，README 不用勾。②複製它的網址（像 https://github.com/你的帳號/bmi）。③貼這句，【】換成網址。</p>
+          <div class="say"><span class="ptext">請把 bmi 資料夾連到這個 GitHub 網址【貼網址】，並把版本紀錄上傳（push）。動手前先告訴我你會連哪個資料夾、上傳哪些檔、哪幾個版本；我看過再允許。不要改任何檔案內容、不要 force。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製卡 5 這一句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
         </div>
         <div class="step ai"><h4>AI 會做什麼</h4><p>先列計畫（哪個資料夾、哪些檔、幾個版本）等你允許；然後設定遠端、上傳。瀏覽器可能跳出 GitHub 授權 → 授權。</p></div>
-        <div class="step see"><h4>你一定要自己看的</h4><p>①repo 頁面有鎖頭（Private）。②點頁面上時鐘圖示的 commits，看到你電腦裡那幾筆版本、時間與說明一樣。這一條時間線就是研究歷程資料：它能證明你改過，不能單獨證明調整有效。不接也可以，電腦裡與網頁上各保留一段。</p></div>
+        <div class="step see"><h4>你一定要自己看的</h4><p>①repo 頁面打開看得到 bmi.py 和 index.html。②點頁面上時鐘圖示的 commits，看到你電腦裡那幾筆版本、時間與說明一樣（三筆或四筆）。這一條時間線就是研究歷程資料：它能證明你改過，不能單獨證明調整有效。不接也可以，電腦裡與網頁上各保留一段。</p></div>
       </div>
     </div>
 
     <div class="pstep" data-card="c6">
       <div class="cardhead"><h3>卡 6｜日常：平常只用 GitHub 網頁版上傳就夠</h3><span class="mins">3 分</span><label class="done-box"><input type="checkbox"> 做完了</label></div>
       <div class="trio">
-        <div class="step"><h4>你做什麼</h4><p>之後改了規準表、拿到新的抽查紀錄，不必開 AI 助手：到 repo 頁面 → Add file → Upload files → 把改好的檔拖進去 → 下方「Commit changes」寫一句為什麼改 → 綠色按鈕。這一個動作就是一筆紀錄，跟昨天用 AI 存的長一樣。</p></div>
+        <div class="step"><h4>你做什麼</h4><p>之後換成你的課程資料夾（評分規準表、抽查紀錄）也是同一套。改了檔不必開 AI 助手：到 repo 頁面 → Add file → Upload files → 把改好的檔拖進去 → 下方「Commit changes」寫一句為什麼改 → 綠色按鈕。這一個動作就是一筆紀錄，跟昨天用 AI 存的長一樣。</p></div>
         <div class="step ai"><h4>AI 會做什麼</h4><p>（不用 AI）</p></div>
         <div class="step see"><h4>你一定要自己看的</h4><p>上傳後點時鐘圖示的 commits，新的一筆在最上面、說明是你寫的那句。學期末把這條時間線整理成一張表（什麼時候、改了什麼、為什麼），就是計畫書「研究歷程與教學調整」那一段。</p></div>
       </div>
@@ -199,11 +198,11 @@ code{overflow-wrap:anywhere}
       </div>
       <div class="step">
         <h4>在這個資料夾用 Git（卡 1 的一句話版）</h4>
-        <div class="say"><span class="ptext">我想在目前這個資料夾用 Git 留紀錄。請把需要的都弄好：交給 Git 管理、作者名字用我的 GitHub 帳號名、信箱用 GitHub 註冊的信箱、把現在的內容存成第一版，版本說明寫「第 0 版：先放一個空殼」。不要上傳到任何地方。動手前先告訴我你的計畫，做完印出版本清單跟資料夾的完整路徑。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="say"><span class="ptext">我想在目前這個資料夾用 Git 留紀錄。請把需要的都弄好：交給 Git 管理、作者名字用我的 GitHub 帳號名、信箱用 GitHub 註冊的信箱、把現在的內容存成第一版，版本說明寫「【這一版做了什麼，一句】」。不要上傳到任何地方。動手前先告訴我你的計畫，做完印出版本清單跟資料夾的完整路徑。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第二句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
       </div>
       <div class="step">
         <h4>改了東西，存一版（卡 2、卡 3 的一句話版）</h4>
-        <div class="say"><span class="ptext">我改了 rubric.md。請先把前後對照列給我看，等我說可以再存版本，版本說明寫：「【第 N 版：改了哪一格、為什麼，用你自己的話】」。只存這個資料夾裡的改動，不要動其他檔、不要上傳。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第三句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="say"><span class="ptext">我改了【檔名】。請先把前後對照列給我看，等我說可以再存版本，版本說明寫：「【第 N 版：改了哪一格、為什麼，用你自己的話】」。只存這個資料夾裡的改動，不要動其他檔、不要上傳。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第三句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
       </div>
       <div class="step">
         <h4>回頭看（卡 4 的一句話版）</h4>
@@ -212,7 +211,7 @@ code{overflow-wrap:anywhere}
       </div>
       <div class="step">
         <h4>接到 GitHub（卡 5 的一句話版）</h4>
-        <div class="say"><span class="ptext">我想把目前這個資料夾接到我的 GitHub，用不公開（Private）的 repo，名稱 my-course-evidence；還沒有這個 repo 就幫我建，然後把所有版本紀錄上傳。做之前先告訴我：你會建什麼、上傳哪些檔、幾個版本，我看過再允許；要登入或授權的畫面我自己按。做完給我 repo 網址，並確認頁面上是鎖頭（不公開）。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第六句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
+        <div class="say"><span class="ptext">我想把目前這個資料夾接到我的 GitHub，用不公開（Private）的 repo，名稱【資料夾名】；還沒有這個 repo 就幫我建，然後把所有版本紀錄上傳。做之前先告訴我：你會建什麼、上傳哪些檔、幾個版本，我看過再允許；要登入或授權的畫面我自己按。做完給我 repo 網址，並確認頁面上是鎖頭（不公開）。</span><button class="btn secondary small copy" type="button" data-copy-from=".say" aria-label="複製一句話版第六句"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span class="txt">複製</span></button></div>
       </div>
       <div class="step">
         <h4>把紀錄整理成計畫書用的表</h4>
@@ -226,18 +225,18 @@ code{overflow-wrap:anywhere}
 <section id="sim" class="sec" aria-labelledby="sim-h"><div class="wrap">
   <h2 id="sim-h"><span class="num">參</span><span class="t">模擬器：三次版本，然後回頭看（不用裝任何東西）</span></h2>
   <div class="body">
-    <p class="prose">按鈕的順序就是卡 1 到卡 4。左邊是你資料夾裡 rubric.md 現在的樣子，右邊是版本清單。按「看第 1 版」會把舊版拿出來看，左邊的檔案不會變；按「退回第 1 版」會多一筆、不會少一筆。</p>
+    <p class="prose">按鈕的順序就是卡 1 到卡 4。左邊是資料夾裡現在的檔，右邊是版本清單。按「看第 1 版」會把舊版拿出來看，左邊的檔不會變；按「撤銷第 3 版」會多一筆、不會少一筆。</p>
     <div class="sim" id="simRoot">
-      <div class="pane"><h4>資料夾 my-course-evidence／rubric.md（工作中的檔）</h4><pre id="simFile">（還沒有這個資料夾）</pre>
+      <div class="pane"><h4>資料夾 bmi／（工作中的檔）</h4><pre id="simFile">（還沒有這個資料夾）</pre>
         <div class="btns" style="margin-top:12px" id="simBtns">
-          <button class="btn small" type="button" data-act="v0">① 建空殼，存第 0 版</button>
-          <button class="btn small" type="button" data-act="edit1">② 改成四個規準</button>
-          <button class="btn small" type="button" data-act="v1">③ 存第 1 版</button>
-          <button class="btn small" type="button" data-act="edit2">④ 改一句不同意的</button>
-          <button class="btn small" type="button" data-act="v2">⑤ 存第 2 版</button>
+          <button class="btn small" type="button" data-act="v1">① 寫 bmi.py，存第 1 版</button>
+          <button class="btn small" type="button" data-act="edit2">② 加網頁版 index.html</button>
+          <button class="btn small" type="button" data-act="v2">③ 存第 2 版</button>
+          <button class="btn small" type="button" data-act="edit3">④ 改成中英雙語</button>
+          <button class="btn small" type="button" data-act="v3">⑤ 存第 3 版</button>
           <button class="btn secondary small" type="button" data-act="show1">⑥ 看第 1 版</button>
           <button class="btn secondary small" type="button" data-act="back">回到工作中的檔</button>
-          <button class="btn secondary small" type="button" data-act="revert">⑦ 退回第 1 版（存第 3 版）</button>
+          <button class="btn secondary small" type="button" data-act="revert">⑦ 撤銷第 3 版（存第 4 筆）</button>
           <button class="btn secondary small" type="button" data-act="reset">重來</button>
         </div>
         <p class="msg" id="simMsg" style="margin-top:10px"></p>
@@ -254,7 +253,7 @@ code{overflow-wrap:anywhere}
   <div class="body quiz">
     <div class="q" data-ans="b"><p>1. AI 說「已經存好第 1 版了」，你下一步是？</p><button class="btn secondary small" type="button" data-pick="a">相信它，貼下一句</button><button class="btn secondary small" type="button" data-pick="b">自己打開資料夾看檔、請它印版本清單</button><button class="btn secondary small" type="button" data-pick="c">叫它再存一次保險</button><div class="ans"></div></div>
     <div class="q" data-ans="c"><p>2. 前後對照（diff）畫面裡，你要看的是哪些行？</p><button class="btn secondary small" type="button" data-pick="a">全部都要讀</button><button class="btn secondary small" type="button" data-pick="b">@@ 和 --- 開頭的行</button><button class="btn secondary small" type="button" data-pick="c">只看 − 和 ＋ 開頭的行，多出來的要問</button><div class="ans"></div></div>
-    <div class="q" data-ans="b"><p>3. 你想退回第 1 版的寫法。哪個做法對？</p><button class="btn secondary small" type="button" data-pick="a">叫 AI 把第 2 版刪掉</button><button class="btn secondary small" type="button" data-pick="b">把內容還原成第 1 版，當成新的一版存起來、寫理由</button><button class="btn secondary small" type="button" data-pick="c">重建一個新資料夾從頭來</button><div class="ans"></div></div>
+    <div class="q" data-ans="b"><p>3. 你想撤銷第 3 版（中英雙語版），回到第 2 版的樣子。哪個做法對？</p><button class="btn secondary small" type="button" data-pick="a">叫 AI 把第 3 版刪掉</button><button class="btn secondary small" type="button" data-pick="b">用 revert 當成新的一版存起來、寫理由，第 3 版留在歷史裡</button><button class="btn secondary small" type="button" data-pick="c">重建一個新資料夾從頭來</button><div class="ans"></div></div>
   </div>
 </div></section>
 
@@ -262,7 +261,7 @@ code{overflow-wrap:anywhere}
   <h2 id="deep-h"><span class="num">伍</span><span class="t">想做深一點：昨天的教材都還在</span></h2>
   <div class="body">
     <ul class="deep">
-      <li><a href="material.html#sec-blocks">講義參：四塊逐步</a><small>昨天只走到第一塊的紀錄；第二塊（AI 起草 Rubric、你改一格、AI 扮審查者）、第三塊（分析＋抽 3 筆）、第四塊（一頁設計）每步都有複製鈕，自己走得完。</small></li>
+      <li><a href="material.html#sec-blocks">講義參：四塊逐步</a><small>昨天走的是 BMI 三版，講義的四塊沒走到；第一塊是課程資料夾版的同一套，第二塊（AI 起草 Rubric、你改一格、AI 扮審查者）、第三塊（分析＋抽 3 筆）、第四塊（一頁設計）每步都有複製鈕，自己走得完。</small></li>
       <li><a href="material.html#sec-blocks">講義的六張提示詞</a><small>P1 起草 Rubric、P2 嚴格審查者、P3 三方分數落差、P4 反思分類、P5 清髒資料、P6 審查委員三問。純文字版在 <a href="prompts/">prompts/</a>。</small></li>
       <li><a href="studio.html#rubric">工作台：Rubric 工作台</a><small>左欄貼第 1 版、右欄改、「比較兩版」看紅綠行、「匯出這一輪」。純網頁、離線能開、不呼叫 AI。</small></li>
       <li><a href="studio.html#evidence">工作台：證據儀表板</a><small>示範資料的三方分數落差圖、AI 分類、「抽 3 筆回查」、三句結論、匯出抽查紀錄。講師模式可以看那筆故意分錯的。</small></li>
@@ -334,10 +333,10 @@ code{overflow-wrap:anywhere}
   document.getElementById('pclear').addEventListener('click', function(){ cards.forEach(function(c){ set(c.getAttribute('data-card'), null); }); render(); });
   render();
 
-  /* ── 模擬器：三次版本然後回頭看 ── */
-  var V0 = '課堂專題簡報評分規準（第 0 版）';
-  var V1 = '內容正確\n結構清楚\n表達流暢\n回應提問';
-  var V2 = '內容正確\n結構清楚\n表達流暢：用自己的話講，不照稿念，被問到能接\n回應提問';
+  /* ── 模擬器：三次版本然後回頭看（BMI 三版） ── */
+  var F1 = '── bmi.py ──\nh = float(input("身高（公分）："))/100\nw = float(input("體重（公斤）："))\nbmi = w / (h*h)\nprint(f"BMI {bmi:.1f}", "正常" if 18.5 <= bmi < 24 else "請看分級表")';
+  var F2 = F1 + '\n\n── index.html ──\n<h1>BMI 計算</h1>\n<input id="h" placeholder="身高（公分）">\n<input id="w" placeholder="體重（公斤）">\n<button onclick="calc()">算</button>\n<p id="out"></p>';
+  var F3 = F1 + '\n\n── index.html ──\n<div><button>中文</button><button>English</button></div>\n<h1 data-i18n="title">BMI 計算</h1>\n<input id="h" data-i18n="h" placeholder="身高（公分）">\n<input id="w" data-i18n="w" placeholder="體重（公斤）">\n<button onclick="calc()" data-i18n="go">算</button>\n<p id="out"></p>';
   var S = { exists:false, file:'', commits:[], viewing:null, step:0 };
   var fileEl = document.getElementById('simFile'), logEl = document.getElementById('simLog'), msgEl = document.getElementById('simMsg');
   var diffPane = document.getElementById('simDiffPane'), diffEl = document.getElementById('simDiff'), diffTitle = document.getElementById('simDiffTitle');
@@ -351,15 +350,15 @@ code{overflow-wrap:anywhere}
     B.forEach(function(l){ if(A.indexOf(l) < 0) out.push({t:'add', l:l}); });
     return out;
   };
+  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
   var showDiff = function(title, a, b){
     var d = diffLines(a, b); diffTitle.textContent = title;
     diffEl.innerHTML = d.length ? d.map(function(x){ return '<div class="' + x.t + '">' + (x.t === 'del' ? '− ' : '＋ ') + esc(x.l) + '</div>'; }).join('') : '<div>（沒有差異）</div>';
     diffPane.hidden = false;
   };
-  var esc = function(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); };
   var say = function(m){ msgEl.textContent = m; };
   var draw = function(){
-    fileEl.textContent = S.exists ? (S.file || '（空檔）') : '（還沒有這個資料夾）';
+    fileEl.textContent = S.exists ? (S.file || '（空資料夾）') : '（還沒有這個資料夾）';
     logEl.innerHTML = S.commits.length ? S.commits.slice().reverse().map(function(c, i){
       return '<li' + (i === 0 ? ' class="cur"' : '') + '><span class="h">' + c.h + '</span><span>' + esc(c.m) + '</span><span class="t">' + c.t + '</span></li>';
     }).join('') : '<li>（還沒有版本）</li>';
@@ -368,14 +367,14 @@ code{overflow-wrap:anywhere}
   };
   var commit = function(m){ S.commits.push({ h: hash(), m: m, t: now(), c: S.file }); };
   var acts = {
-    v0: function(){ if(S.step !== 0) return say('已經做過了。想重來按「重來」。'); S.exists = true; S.file = V0; commit('第 0 版：先放一個空殼'); S.step = 1; diffPane.hidden = true; say('資料夾建好、檔裡只有一行，存了第 0 版。真實做法：你要親自打開資料夾看到它。'); },
-    edit1: function(){ if(S.step !== 1) return say(S.step < 1 ? '先按 ①。' : '這一步做過了。'); var old = S.file; S.file = V1; S.step = 2; showDiff('前後對照：第 0 版 → 工作中的檔（還沒存）', old, S.file); say('檔改好了但還沒存版本。只看 − 跟 ＋ 的行：一行刪、四行加。'); },
-    v1: function(){ if(S.step !== 2) return say(S.step < 2 ? '先按 ②。' : '這一步做過了。'); commit('第 1 版：四個規準'); S.step = 3; diffPane.hidden = true; say('存了第 1 版。版本清單兩筆，時間是剛剛。'); },
-    edit2: function(){ if(S.step !== 3) return say(S.step < 3 ? '先按 ③。' : '這一步做過了。'); var old = S.file; S.file = V2; S.step = 4; showDiff('前後對照：第 1 版 → 工作中的檔（還沒存）', old, S.file); say('「表達流暢」那一句改成現場看得見的描述。對照裡只有一處 − 和 ＋。'); },
-    v2: function(){ if(S.step !== 4) return say(S.step < 4 ? '先按 ④。' : '這一步做過了。'); commit('第 2 版：「表達流暢」原本只是形容詞，改成看得見的行為'); S.step = 5; diffPane.hidden = true; say('存了第 2 版，說明是你的話。三筆紀錄，三句你自己的話。'); },
-    show1: function(){ if(S.step < 5) return say('先把 ①～⑤ 走完。'); var v1 = S.commits[1]; S.viewing = v1.c; showDiff('第 1 版 → 目前最新版', v1.c, S.commits[S.commits.length - 1].c); say('第 1 版拿出來看了。注意左邊工作中的檔一個字都沒動，這就是「回頭看」。'); },
+    v1: function(){ if(S.step !== 0) return say('已經做過了。想重來按「重來」。'); S.exists = true; S.file = F1; commit('v1 BMI 腳本'); S.step = 1; diffPane.hidden = true; say('資料夾建好、bmi.py 寫好、存了第 1 版。真實做法：你要親自打開資料夾、自己跑一次 170／65 看到 22.5。'); },
+    edit2: function(){ if(S.step !== 1) return say(S.step < 1 ? '先按 ①。' : '這一步做過了。'); var old = S.file; S.file = F2; S.step = 2; showDiff('前後對照：第 1 版 → 工作中的檔（還沒存）', old, S.file); say('多了 index.html，bmi.py 一行都沒動。對照裡全是 ＋。'); },
+    v2: function(){ if(S.step !== 2) return say(S.step < 2 ? '先按 ②。' : '這一步做過了。'); commit('v2 網頁版'); S.step = 3; diffPane.hidden = true; say('存了第 2 版。版本清單兩筆，時間是剛剛。'); },
+    edit3: function(){ if(S.step !== 3) return say(S.step < 3 ? '先按 ③。' : '這一步做過了。'); var old = S.file; S.file = F3; S.step = 4; showDiff('前後對照：第 2 版 → 工作中的檔（還沒存）', old, S.file); say('同一個 index.html 加了語言切換，算法沒變。− 是舊的那幾行、＋ 是新的。'); },
+    v3: function(){ if(S.step !== 4) return say(S.step < 4 ? '先按 ④。' : '這一步做過了。'); commit('v3 中英雙語'); S.step = 5; diffPane.hidden = true; say('存了第 3 版。三筆紀錄，三句你自己的話。'); },
+    show1: function(){ if(S.step < 5) return say('先把 ①～⑤ 走完。'); var v1 = S.commits[0]; S.viewing = v1.c; showDiff('第 1 版 → 目前最新版', v1.c, S.commits[S.commits.length - 1].c); say('第 1 版拿出來看了。注意左邊工作中的檔一個字都沒動，這就是「回頭看」。'); },
     back: function(){ S.viewing = null; diffPane.hidden = true; say('回到工作中的檔。'); },
-    revert: function(){ if(S.step < 5) return say('先把 ①～⑤ 走完。'); if(S.step === 6) return say('已經退回過了。'); var v1 = S.commits[1]; S.file = v1.c; commit('第 3 版：退回第 1 版，因為下學期先用原本的寫法試一輪'); S.step = 6; S.viewing = null; showDiff('前後對照：第 2 版 → 第 3 版', S.commits[S.commits.length - 2].c, S.file); say('退回了，但是用「多存一版」的方式：版本清單四筆，第 2 版還在。沒有任何一筆消失。'); },
+    revert: function(){ if(S.step < 5) return say('先把 ①～⑤ 走完。'); if(S.step === 6) return say('已經撤銷過了。'); var v2 = S.commits[1]; S.file = v2.c; commit('Revert "v3 中英雙語"：因為先把中文版給學生用一輪'); S.step = 6; S.viewing = null; showDiff('前後對照：第 3 版 → 第 4 筆', S.commits[S.commits.length - 2].c, S.file); say('撤銷了，但是用「多存一筆」的方式：版本清單四筆，第 3 版還在，網頁回到第 2 版的樣子。沒有任何一筆消失。'); },
     reset: function(){ S = { exists:false, file:'', commits:[], viewing:null, step:0 }; diffPane.hidden = true; say('重來。'); }
   };
   document.getElementById('simBtns').addEventListener('click', function(ev){
@@ -386,9 +385,9 @@ code{overflow-wrap:anywhere}
 
   /* ── 三題自測 ── */
   var ANS = {
-    a1: { b: '對。AI 說做完不等於做完。自己打開資料夾看到檔、版本清單多一筆，才算。', a: '這正是今天要學的第一件事：AI 說做完不等於做完。', c: '再存一次只會多一筆空的紀錄，還是沒驗證。' },
+    a1: { b: '對。AI 說做完不等於做完。自己打開資料夾看到檔、自己跑一次、版本清單多一筆，才算。', a: '這正是今天要學的第一件事：AI 說做完不等於做完。', c: '再存一次只會多一筆空的紀錄，還是沒驗證。' },
     a2: { c: '對。− 是刪掉的舊字、＋ 是新加的字；@@、---、+++ 只是標位置。多出來的行要問 AI 為什麼。', a: '不用。標位置的符號行跳過，只看 − 和 ＋。', b: '那些是標位置用的，不是改動內容。' },
-    a3: { b: '對。歷史不刪，往前多存一版、寫理由；第 2 版還在，之後想比對都比得到。', a: '刪掉歷史就沒有「我改過又改回來」的證據了；AI 提議 reset 或強制一律說不。', c: '重建資料夾會把三筆紀錄全丟掉。' }
+    a3: { b: '對。歷史不刪，往前多存一版、寫理由；第 3 版還在，之後想比對都比得到。', a: '刪掉歷史就沒有「我改過又改回來」的證據了；AI 提議 reset 或強制一律說不。', c: '重建資料夾會把三筆紀錄全丟掉。' }
   };
   Array.prototype.forEach.call(document.querySelectorAll('.quiz .q'), function(q, i){
     var key = 'a' + (i + 1), right = q.getAttribute('data-ans');
